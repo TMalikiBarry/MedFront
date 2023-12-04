@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthentificationComponent } from './authentification/authentification.component';
+import { AuthentificationComponent } from './Common/authentification/authentification.component';
 
 @NgModule({
   declarations: [
