@@ -1,1 +1,74 @@
-<p>authentification works!</p>
+<!-- authentification.component.html -->
+
+    <div class="container-fluid">
+    <header class="header">
+      <!-- Logo Section -->
+      <div class="logo-section">
+        <img
+          loading="lazy"
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/fef9c134fd917fa28447b947e1cb2496eade18a46dd8656dab7c3217c9e66910?apiKey=b65b7a4d43fb4d99813fe35a0ff64600&"
+          class="logo"
+          alt="Logo"
+        />
+      </div>
+      <div class="app-title">CONNEXION</div>
+  
+      <!-- Form Section -->
+      <form class="login-form">
+        <div class="form-group">
+          <label for="identifiant" class="label">Identifiant</label>
+          <div class="input-container">
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/c94136453b6fc3eb3844ed2938d20605831b633bca0febbb0845e5d61f738931?apiKey=b65b7a4d43fb4d99813fe35a0ff64600&"
+              class="input-icon"
+              alt="Identifiant Icon"
+            />
+            <input
+              type="text"
+              id="identifiant"
+              placeholder="Saisissez votre identifiant"
+            />
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="password" class="label">Mot de passe</label>
+          <div class="input-container">
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/388ffb3f74dfbc204bd46f9cba0170eeda687a869c7c7988dc1d8f5d40849c81?apiKey=b65b7a4d43fb4d99813fe35a0ff64600&"
+              class="input-icon"
+              alt="Password Icon"
+            />
+            <input
+              type="password"
+              id="password"
+              placeholder="Saisissez votre mot de passe"
+            />
+          </div>
+        </div>
+  
+        <button class="login-button" type="submit" (click)="handleClick()">
+          Connexion
+        </button>
+      </form>
+    </header>
+    <div class="cercle-container">
+        <div class="cercle1 bounce1" >
+          <svg xmlns="http://www.w3.org/2000/svg" width="134" height="134" viewBox="0 0 134 134" fill="none">
+            <circle cx="67" cy="67" r="55.5" stroke="#925028" stroke-width="23"/>
+          </svg>
+        </div>
+    
+        <div class="cercle2 bounce2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="135" height="135" viewBox="0 0 135 135" fill="none">
+            <circle cx="67.5" cy="67.5" r="67.5" fill="#FDCD51"/>
+          </svg>
+        </div>
+      </div>
+  </div>
+  
+
+
+  

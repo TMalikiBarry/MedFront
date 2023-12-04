@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthentificationComponent } from './Common/authentification/authentification.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: 'login', component: AuthentificationComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
