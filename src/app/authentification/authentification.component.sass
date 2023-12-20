@@ -1,0 +1,365 @@
+
+.login-body
+  background-color: whitesmoke
+  //position: relative
+  width: 100%
+  height: 100%
+  //background-image: url("~src/assets/from_figma/Login_Background.svg")
+  //background-repeat: no-repeat
+
+  #img-bg
+    width: 100%
+    height: auto
+    //position: absolute
+    top: 0
+    left: 0
+    //z-index: -1
+
+
+.center-container
+  margin-top: -10rem
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: space-around
+  height: 50vh
+  //position: absolute
+  //top: 50%
+  //left: 50%
+  //transform: translate(-50%, -50%)
+
+
+.login-form
+  background-color: whitesmoke
+  border-radius: 1rem
+  margin-top: 5rem
+  padding: 1.5rem 2rem
+  box-sizing: border-box
+  //aspect-ratio: 8 / 8
+  box-shadow: 6px 6px 65px rgba(65, 66, 68, 0.1)
+
+  .connect-phrase
+    font-size: 1.25rem
+    font-weight: 700
+
+.input-label
+  align-self: flex-start
+  font-size: 0.875rem
+  font-weight: 500
+  margin-bottom: 0
+
+
+.login-form-margin
+  display: flex
+  flex-direction: column
+
+  .login-form-forgot
+    text-decoration: underline
+    align-self: flex-end
+    margin-bottom: .5rem
+    color: darkgreen
+
+  .login-form-button
+    background-color: #266141
+    color: #ECF2FF
+
+// Code from builder
+
+//
+//.container-fluid
+//    display: flex
+//    justify-content: center
+//    align-items: center
+//    height: 100vh
+//    background: #F6F8FB
+//    position: relative
+//    overflow: hidden
+//
+//.bounce1
+//    animation: bounce1 2.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite
+//
+//.bounce2
+//    animation: bounce2 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite
+//
+//@keyframes bounce1
+//    0%, 20%, 50%, 80%, 100%
+//        transform: translateY(0)
+//
+//    40%
+//        transform: translateY(-15px)
+//
+//    60%
+//        transform: translateY(-7px)
+//
+//@keyframes bounce2
+//    0%, 20%, 50%, 80%, 100%
+//        transform: translateY(0)
+//
+//    40%
+//        transform: translateY(-10px)
+//
+//    60%
+//        transform: translateY(-5px)
+//
+//.logo-section
+//    display: flex
+//    flex-direction: column
+//    align-items: center
+//    justify-content: center
+//    margin-bottom: 20px
+//
+//.logo
+//    width: 50px
+//    height: 50px
+//    margin-bottom: 16px
+//
+//.app-title
+//    color: #252525
+//    text-align: center
+//    font-variant-numeric: stacked-fractions
+//    font-feature-settings: 'cv09' on, 'cv04' on, 'ss01' on, 'cv03' on, 'ss03' on, 'cv06' on
+//    font-family: Lato
+//    font-size: 18px
+//    font-style: normal
+//    font-weight: 800
+//    line-height: 24px
+//    margin-bottom: 20px
+//
+//.login-form
+//    display: flex
+//    flex-direction: column
+//    width: 100%
+//
+//.form-group
+//    margin-bottom: 16px
+//
+//.label
+//    color: var(--Couleur-texte, #252525)
+//    font-variant-numeric: stacked-fractions
+//    font-feature-settings: 'cv09' on, 'cv04' on, 'ss01' on, 'cv03' on, 'ss03' on, 'cv06' on
+//    font-family: Lato
+//    font-size: 14px
+//    font-style: normal
+//    font-weight: 500
+//    line-height: 24px /* 171.429% */
+//    letter-spacing: -0.09px
+//
+//.input-container
+//    display: flex
+//    align-items: center
+//    border-radius: 4px
+//    border: 0.75px solid #CBCED9
+//    font-variant-numeric: stacked-fractions
+//    font-feature-settings: 'cv09' on, 'cv04' on, 'ss01' on, 'cv03' on, 'ss03' on, 'cv06' on
+//    font-family: Lato
+//    font-size: 14px
+//    font-style: normal
+//
+//.header
+//    width: 90%
+//    max-width: 390px
+//    height: 400px
+//    border-radius: 12px
+//    border: 0.75px solid #EAECF0
+//    background: var(--Primary, #FFF)
+//    margin: auto
+//    padding: 16px
+//    box-sizing: border-box
+//    display: flex
+//    flex-direction: column
+//    align-items: center
+//    justify-content: center
+//    position: relative
+//    z-index: 1
+//    overflow: hidden
+//
+//.cercle-container
+//    position: absolute
+//    top: 0
+//    left: 0
+//    width: 100%
+//    height: 100%
+//    display: flex
+//
+//.cercle1
+//    flex: 1
+//    display: flex
+//    align-items: flex-start
+//    justify-content: flex-start
+//    overflow: hidden
+//    position: relative
+//    left: 30%
+//    svg
+//        position: absolute
+//        width: 134px
+//        height: 134px
+//
+//.cercle2
+//    flex: 1
+//    display: flex
+//    align-items: flex-end
+//    justify-content: flex-end
+//    overflow: hidden
+//    position: relative
+//    right: 30%
+//    svg
+//        position: absolute
+//        width: 134px
+//        height: 134px
+//
+//
+//
+//
+//.bounce1
+//  animation: bounce1 2.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite
+//
+//.bounce2
+//  animation: bounce2 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite
+//
+//@keyframes bounce1
+//  0%, 20%, 50%, 80%, 100%
+//    transform: translateY(0)
+//
+//  40%
+//    transform: translateY(-15px)
+//
+//  60%
+//    transform: translateY(-7px)
+//
+//@keyframes bounce2
+//  0%, 20%, 50%, 80%, 100%
+//    transform: translateY(0)
+//
+//  40%
+//    transform: translateY(-10px)
+//
+//  60%
+//    transform: translateY(-5px)
+//
+//
+//
+//
+//
+//
+//
+//  // Centrer les éléments verticalement
+//.logo-section
+//  display: flex
+//  flex-direction: column
+//  align-items: center
+//  justify-content: center
+//  margin-bottom: 20px
+//
+//.logo
+//  width: 50px
+//  height: 50px
+//  margin-bottom: 16px
+//
+//.app-title
+//  color: #252525
+//  text-align: center
+//  font-variant-numeric: stacked-fractions
+//  font-feature-settings: 'cv09' on, 'cv04' on, 'ss01' on, 'cv03' on, 'ss03' on, 'cv06' on
+//  font-family: Lato
+//  font-size: 18px
+//  font-style: normal
+//  font-weight: 800
+//  line-height: 24px
+//  margin-bottom: 20px
+//
+//.login-form
+//  display: flex
+//  flex-direction: column
+//  width: 100%
+//
+//.form-group
+//  margin-bottom: 16px
+//
+//.label
+//
+//  color: var(--Couleur-texte, #252525)
+//  font-variant-numeric: stacked-fractions
+//  font-feature-settings: 'cv09' on, 'cv04' on, 'ss01' on, 'cv03' on, 'ss03' on, 'cv06' on
+//  font-family: Lato
+//  font-size: 14px
+//  font-style: normal
+//  font-weight: 500
+//  line-height: 24px /* 171.429% */
+//  letter-spacing: -0.09px
+//
+//.input-container
+//  display: flex
+//  align-items: center
+//  border-radius: 4px
+//  border: 0.75px solid #CBCED9
+//  font-variant-numeric: stacked-fractions
+//  font-feature-settings: 'cv09' on, 'cv04' on, 'ss01' on, 'cv03' on, 'ss03' on, 'cv06' on
+//  font-family: Lato
+//  font-size: 14px
+//  font-style: normal
+//  font-weight: 400
+//  line-height: 24px /* 171.429% */
+//  letter-spacing: -0.09px
+//
+//
+//
+//
+//.input-icon
+//  display: flex
+//  width: 20px
+//  height: 20px
+//  justify-content: center
+//  align-items: center
+//  margin: 8px
+//
+//input
+//  flex: 1
+//  border: none
+//  padding: 8px
+//  color: #CBCED9
+//  font-variant-numeric: stacked-fractions
+//  font-feature-settings: 'cv09' on, 'cv04' on, 'ss01' on, 'cv03' on, 'ss03' on, 'cv06' on
+//  font-family: Lato
+//  font-size: 14px
+//  font-style: normal
+//  font-weight: 400
+//  line-height: 24px /* 171.429% */
+//  letter-spacing: -0.09px
+//
+//.login-button
+//  border-radius: 4px
+//  border: 0px solid var(--neutral-0, #FFF)
+//  background: var(--Primaire, #266141)
+//  padding: 12px
+//  border: none
+//  border-radius: 4px
+//  cursor: pointer
+//  font-size: 1em
+//  color: var(--neutral-0, var(--Primary, #FFF))
+//  font-variant-numeric: stacked-fractions
+//  font-feature-settings: 'cv09' on, 'cv04' on, 'ss01' on, 'cv03' on, 'ss03' on, 'cv06' on
+//  font-family: Lato
+//  font-size: 14px
+//  font-style: normal
+//  font-weight: 500
+//  line-height: 24px /* 171.429% */
+//  letter-spacing: -0.09px
+//
+//// Styles mobile-friendly
+//@media (max-width: 768px)
+//  .logo-section
+//    flex-direction: column
+//    text-align: center
+//
+//  .app-title
+//    text-align: center
+//
+//  .login-form
+//    width: 100%
+//    max-width: none
+//  .cercle2
+//    right: 0%
+//    bottom: 10%
+//  .cercle1
+//    left: 0%
+//    top: 10%

@@ -1,8 +1,54 @@
 <!-- authentification.component.html -->
 
+<div class="login-body">
+  <img src="assets/from_figma/Login_Background.svg" alt="Login-Bg" loading="lazy" id="img-bg">
+
+  <div class="center-container">
+    <img src="assets/from_figma/Touchmed_Logo.svg" alt="Logo TouchMed" class="bg-img">
+    <form nz-form [formGroup]="loginForm" class="login-form" >
+      <p class="connect-phrase">Connectez vous à votre compte</p>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
+          <p class="input-label">Identifiant</p>
+          <nz-input-group [nzAddOnBefore]="addPrefixUserIcon">
+            <input type="text" nz-input formControlName="username" placeholder="Renseignez votre identifiant" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseignez votre mot de passe!">
+          <p class="input-label">Mot de passe</p>
+          <nz-input-group [nzAddOnBefore]="addPrefixLockIcon">
+            <input type="password" nz-input formControlName="password" placeholder="Renseignez votre mot de passe" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <div nz-col class="login-form-margin">
+        <!--<div nz-col [nzSpan]="12">
+          <label nz-checkbox formControlName="remember">
+            <span>Remember me</span>
+          </label>
+        </div>-->
+        <a class="login-form-forgot">Mot de passe oublié ? </a>
+        <button [disabled]="loginForm.invalid" nz-button class="login-form-button">Connexion</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<ng-template #addPrefixUserIcon>
+  <img src="assets/from_figma/Identifiant.svg" alt="Identifiant" class="svg-icon">
+</ng-template>
+
+<ng-template #addPrefixLockIcon>
+  <img src="assets/from_figma/Lock.svg" alt="Identifiant" class="svg-icon">
+</ng-template>
+
+<!--
     <div class="container-fluid">
     <header class="header">
-      <!-- Logo Section -->
+      &lt;!&ndash; Logo Section &ndash;&gt;
       <div class="logo-section">
         <img
           loading="lazy"
@@ -12,8 +58,8 @@
         />
       </div>
       <div class="app-title">CONNEXION</div>
-  
-      <!-- Form Section -->
+
+      &lt;!&ndash; Form Section &ndash;&gt;
       <form class="login-form">
         <div class="form-group">
           <label for="identifiant" class="label">Identifiant</label>
@@ -31,7 +77,7 @@
             />
           </div>
         </div>
-  
+
         <div class="form-group">
           <label for="password" class="label">Mot de passe</label>
           <div class="input-container">
@@ -48,7 +94,7 @@
             />
           </div>
         </div>
-  
+
         <button class="login-button" type="submit" (click)="handleClick()">
           Connexion
         </button>
@@ -60,7 +106,7 @@
             <circle cx="67" cy="67" r="55.5" stroke="#925028" stroke-width="23"/>
           </svg>
         </div>
-    
+
         <div class="cercle2 bounce2">
           <svg xmlns="http://www.w3.org/2000/svg" width="135" height="135" viewBox="0 0 135 135" fill="none">
             <circle cx="67.5" cy="67.5" r="67.5" fill="#FDCD51"/>
@@ -68,7 +114,7 @@
         </div>
       </div>
   </div>
-  
+-->
 
 
-  
+

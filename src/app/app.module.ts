@@ -4,7 +4,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthentificationComponent } from './Common/authentification/authentification.component';
+import { AuthentificationComponent } from './authentification/authentification.component';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { fr_FR } from 'ng-zorro-antd/i18n';
+import { registerLocaleData } from '@angular/common';
+import fr from '@angular/common/locales/fr';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import {NzFormModule} from "ng-zorro-antd/form";
+import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
+import {NzInputModule} from "ng-zorro-antd/input";
+import {NzButtonModule} from "ng-zorro-antd/button";
+
+registerLocaleData(fr);
 
 
 @NgModule({
@@ -15,9 +27,18 @@ import { AuthentificationComponent } from './Common/authentification/authentific
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    HttpClientModule,
+    NzFormModule,
+    NzCheckboxModule,
+    NzInputModule,
+    ReactiveFormsModule,
+    NzButtonModule
   ],
-  providers: [],
+  providers: [
+    { provide: NZ_I18N, useValue: fr_FR }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
