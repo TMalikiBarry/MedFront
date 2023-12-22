@@ -21,4 +21,5 @@ export interface LogAction {
 
 export enum EAction {
   // Définissez vos valeurs enum ici
+  CREATION, UPDATE, SUPPRESSION, RECUPERATION, INCONNU
 }

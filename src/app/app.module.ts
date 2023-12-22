@@ -10,11 +10,12 @@ import { fr_FR } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import fr from '@angular/common/locales/fr';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {NzButtonModule} from "ng-zorro-antd/button";
+import {GeneralHttpInterceptor} from "./interceptors/general-http.interceptor";
 
 registerLocaleData(fr);
 
@@ -37,7 +38,8 @@ registerLocaleData(fr);
     NzButtonModule
   ],
   providers: [
-    { provide: NZ_I18N, useValue: fr_FR }
+    { provide: NZ_I18N, useValue: fr_FR },
+    {provide: HTTP_INTERCEPTORS, useClass: GeneralHttpInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })
