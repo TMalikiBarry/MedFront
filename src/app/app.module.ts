@@ -16,6 +16,7 @@ import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {GeneralHttpInterceptor} from "./interceptors/general-http.interceptor";
+import { AdminLayoutModule } from './Common/admin-layout/admin-layout.module';
 
 registerLocaleData(fr);
 
@@ -23,7 +24,7 @@ registerLocaleData(fr);
 @NgModule({
   declarations: [
     AppComponent,
-    AuthentificationComponent
+    AuthentificationComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +36,8 @@ registerLocaleData(fr);
     NzCheckboxModule,
     NzInputModule,
     ReactiveFormsModule,
-    NzButtonModule
+    NzButtonModule,
+    AdminLayoutModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: fr_FR },
