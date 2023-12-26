@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import { trigger, style, animate, transition } from '@angular/animations';
 import {FormBuilder, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {NotifService} from "../services/notification/notif.service";
@@ -45,6 +45,7 @@ export class AuthentificationComponent {
       this.authService.login(username, password)
         .subscribe({
           next: (user) => {
+            console.log("SEE USER ", user)
             if (user){
               /*if (user.firstLogin == 0) {
                 this.router.navigateByUrl('/reset-pw');
@@ -66,14 +67,14 @@ export class AuthentificationComponent {
               })
             }
           },
-          error: (err) => {
-            console.error(err);
-            if (err.status === 0 || err === 'Something bad happened; please try again later.') {
-              // this.notif.snackMessage("Problème de connexion au serveur", 4000, "danger");
-            } else {
-              // this.notif.snackMessage("Identifiant ou mot de passe incorrect", 4000, "danger");
-            }
-          }
+          // error: (err) => {
+          //   console.error(err);
+          //   if (err.status === 0 || err === 'Something bad happened; please try again later.') {
+          //     // this.notif.snackMessage("Problème de connexion au serveur", 4000, "danger");
+          //   } else {
+          //     // this.notif.snackMessage("Identifiant ou mot de passe incorrect", 4000, "danger");
+          //   }
+          // }
         })
     }
   }

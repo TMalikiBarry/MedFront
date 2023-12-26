@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, map, Observable, of, tap} from "rxjs";
+import {BehaviorSubject, Observable, of, tap} from "rxjs";
 import {AuthInterface} from "../../models/auth.interface";
 import {HttpClient} from "@angular/common/http";
-import {ApiResponseInterface} from "../../models/api-response.interface";
 import {Router} from "@angular/router";
 import {NotifService} from "../notification/notif.service";
 import {environment} from "../../../environments/environment.prod";
@@ -14,7 +13,6 @@ export class AuthService {
   isAuth: boolean = false;
   roleAs !: string | null;
   public currentUser!: Observable<AuthInterface>;
-  private token!: string;
   private currentUserSubject!: BehaviorSubject<AuthInterface>;
 
   constructor(private http: HttpClient, private router: Router, private notify: NotifService) {
@@ -26,17 +24,18 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  public login(login: string, password: string) {
-    return this.http.post<ApiResponseInterface>(`${environment.apiURL}/login`, {login, password})
+  public login(username: string, password: string) {
+    return this.http.post<AuthInterface>(`${environment.apiURL}/auth/login`, {username, password})
       .pipe(
-        map(res => res.reponse),
+        // map(res => res.reponse),
         tap(user => {
+          console.log("DISPLAY USER ", user)
           // login successful if there's a jwt token in the response
           if (user && user.token) {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             sessionStorage.setItem('TOUCHMED_currentUser', JSON.stringify(user));
             sessionStorage.setItem('TOUCHMED_STATE', 'false');
-            sessionStorage.setItem('TOUCHMED_ROLE', user.fonction);
+            // sessionStorage.setItem('TOUCHMED_ROLE', user.per);
             sessionStorage.setItem('TOUCHMED_TOKEN', user.token);
             this.currentUserSubject.next(user);
           } else {
@@ -47,6 +46,7 @@ export class AuthService {
   }
 
   public authenticateUser(login: AuthInterface): Observable<boolean> {
+    console.log("LOGIN ", login)
     if(login && login.token) {
       this.currentUserSubject.next(login);
       this.isAuth = !!login;

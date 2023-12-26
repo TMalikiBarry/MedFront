@@ -18,8 +18,8 @@
       <nz-form-item>
         <nz-form-control nzErrorTip="Veuillez renseignez votre mot de passe!">
           <p class="input-label">Mot de passe</p>
-          <nz-input-group [nzAddOnBefore]="addPrefixLockIcon">
-            <input type="password" nz-input formControlName="password" placeholder="Renseignez votre mot de passe" />
+          <nz-input-group [nzAddOnBefore]="addPrefixLockIcon" [nzSuffix]="suffixVisibility">
+            <input [type]="showPassword? 'text':'password'" nz-input formControlName="password" placeholder="Renseignez votre mot de passe" />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
@@ -30,7 +30,7 @@
           </label>
         </div>-->
         <a class="login-form-forgot">Mot de passe oublié ? </a>
-        <button [disabled]="loginForm.invalid" nz-button class="login-form-button">Connexion</button>
+        <button (click)="onLogin()" [disabled]="loginForm.invalid" nz-button class="login-form-button">Connexion</button>
       </div>
 
     </form>
@@ -43,6 +43,12 @@
 
 <ng-template #addPrefixLockIcon>
   <img src="assets/from_figma/Lock.svg" alt="Identifiant" class="svg-icon">
+</ng-template>
+<ng-template #suffixVisibility>
+  <img (click)=" showPassword=!showPassword; $event.stopPropagation() "
+       [src]="'assets/from_figma/'+ (showPassword ? 'visibility.svg': 'visibility_off.svg')"
+       alt="Voir ou pas"
+  >
 </ng-template>
 
 <!--
