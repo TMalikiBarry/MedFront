@@ -29,7 +29,6 @@ export class AuthService {
       .pipe(
         // map(res => res.reponse),
         tap(user => {
-          console.log("DISPLAY USER ", user)
           // login successful if there's a jwt token in the response
           if (user && user.token) {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -46,7 +45,6 @@ export class AuthService {
   }
 
   public authenticateUser(login: AuthInterface): Observable<boolean> {
-    console.log("LOGIN ", login)
     if(login && login.token) {
       this.currentUserSubject.next(login);
       this.isAuth = !!login;

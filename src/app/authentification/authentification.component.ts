@@ -45,7 +45,6 @@ export class AuthentificationComponent {
       this.authService.login(username, password)
         .subscribe({
           next: (user) => {
-            console.log("SEE USER ", user)
             if (user){
               /*if (user.firstLogin == 0) {
                 this.router.navigateByUrl('/reset-pw');

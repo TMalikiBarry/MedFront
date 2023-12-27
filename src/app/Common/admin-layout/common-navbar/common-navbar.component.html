@@ -1,26 +1,88 @@
 <nz-layout>
-  <nz-sider nzCollapsible nzWidth="200px">
-    <div class="logo"></div>
-    <ul nz-menu nzTheme="dark" nzMode="inline">
+  <nz-sider nzCollapsible nzTheme="light">
+    <div id="firstIMG">
+      <img width="100" src="assets/from_figma/logo_dark.svg" alt="Logo TouchMed" class="bg-img">
+    </div>
+    <ul nz-menu nzMode="inline">
       <li nz-menu-item>
-        <span nz-icon nzType="pie-chart"></span>
-        <span>Option 1</span>
+        <a routerLink="/admin/dashboard">
+          <span nz-icon nzType="pie-chart"></span>
+          <span>Dashboard</span>
+        </a>
       </li>
-      <li nz-menu-item>
+      <!--<li nz-menu-item>
         <span nz-icon nzType="desktop"></span>
         <span>Option 2</span>
-      </li>
-      <li nz-submenu nzTitle="User" nzIcon="user">
+      </li>-->
+      <li nz-submenu nzTitle="Organisation" nzIcon="user">
         <ul>
-          <li nz-menu-item>Tom</li>
-          <li nz-menu-item>Bill</li>
-          <li nz-menu-item>Alex</li>
+          <li nz-menu-item>
+            <a>
+              <span>Cliniques</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a>
+              <span>Pôles</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a>
+              <span>Services</span>
+            </a>
+          </li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="Team" nzIcon="team">
+      <li nz-submenu nzTitle="Personnes" nzIcon="team">
         <ul>
-          <li nz-menu-item>Team 1</li>
-          <li nz-menu-item>Team 2</li>
+          <li nz-menu-item>
+            <a>
+              <span>Personnels</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a>
+              <span>Patients</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="Dossiers" nzIcon="folder">
+        <ul>
+          <li nz-menu-item>
+            <a routerLink="/admin/dossiers/rendez-vous">
+              <span>Rendez-vous</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/dossiers/prestation">
+              <span>Prestations</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/dossiers/fiche-medicale">
+              <span>Fiches Médicales</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/dossiers/dossiers-medicaux">
+              <span>Dossiers Médicaux</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="Securité" nzIcon="team">
+        <ul>
+          <li nz-menu-item>
+            <a routerLink="/admin/securite/profil">
+              <span>Profil</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/securite/acces">
+              <span>Accès</span>
+            </a>
+          </li>
         </ul>
       </li>
       <li nz-menu-item>
@@ -39,6 +101,6 @@
 <!--      <div class="inner-content">Bill is a cat.</div>-->
       <router-outlet></router-outlet>
     </nz-content>
-    <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
+<!--    <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>-->
   </nz-layout>
 </nz-layout>
