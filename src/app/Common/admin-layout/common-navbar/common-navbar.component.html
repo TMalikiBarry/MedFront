@@ -1,12 +1,15 @@
 <nz-layout>
-  <nz-sider nzCollapsible nzTheme="light">
+  <nz-sider nzTheme="light" nzWidth="15,5%">
     <div id="firstIMG">
       <img width="100" src="assets/from_figma/logo_dark.svg" alt="Logo TouchMed" class="bg-img">
     </div>
-    <ul nz-menu nzMode="inline">
-      <li nz-menu-item>
-        <a routerLink="/admin/dashboard">
-          <span nz-icon nzType="pie-chart"></span>
+    <ul nz-menu nzMode="inline" >
+      <li nz-menu-item [ngClass]="{'firstNav': router.url =='/admin/dashboard'}">
+        <a routerLink="/admin/dashboard" class="selectedLink" >
+<!--          <span nz-icon nzType="pie-chart" ></span>-->
+          <img width="16"
+               [src]="'assets/from_figma/'+  (router.url=='/admin/dashboard'?'Dashboard_full_white.svg':'Dashboard.svg' )"
+               alt="Dashboard">
           <span>Dashboard</span>
         </a>
       </li>
@@ -14,7 +17,10 @@
         <span nz-icon nzType="desktop"></span>
         <span>Option 2</span>
       </li>-->
-      <li nz-submenu nzTitle="Organisation" nzIcon="user">
+      <li nz-submenu
+          [(nzOpen)]="openMap['organisation']"
+          (nzOpenChange)="openHandler('organisation')"
+          [nzTitle]="titleOrganisation">
         <ul>
           <li nz-menu-item>
             <a>
@@ -33,7 +39,7 @@
           </li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="Personnes" nzIcon="team">
+      <li nz-submenu nzTitle="Personnes" nzIcon="user">
         <ul>
           <li nz-menu-item>
             <a>
@@ -47,39 +53,52 @@
           </li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="Dossiers" nzIcon="folder">
+      <li nz-submenu
+          [(nzOpen)]="openMap['dossiers']"
+          (nzOpenChange)="openHandler('dossiers')"
+          [nzTitle]="titleDossiers">
         <ul>
           <li nz-menu-item>
-            <a routerLink="/admin/dossiers/rendez-vous">
+            <a routerLink="/admin/dossiers/rendez-vous" class="selectedLink">
+              <img src="assets/from_figma/rdv.svg" alt="Rendez-Vous">
               <span>Rendez-vous</span>
             </a>
           </li>
           <li nz-menu-item>
-            <a routerLink="/admin/dossiers/prestation">
+            <a routerLink="/admin/dossiers/prestation" class="selectedLink">
+              <img src="assets/from_figma/Prestation.svg" alt="Rendez-Vous">
               <span>Prestations</span>
             </a>
           </li>
           <li nz-menu-item>
-            <a routerLink="/admin/dossiers/fiche-medicale">
+            <a routerLink="/admin/dossiers/fiche-medicale" class="selectedLink">
+              <img src="assets/from_figma/fiche_medicale.svg" alt="Rendez-Vous">
               <span>Fiches Médicales</span>
             </a>
           </li>
           <li nz-menu-item>
-            <a routerLink="/admin/dossiers/dossiers-medicaux">
+            <a routerLink="/admin/dossiers/dossiers-medicaux" class="selectedLink">
+              <img src="assets/from_figma/Dossier.svg" alt="Rendez-Vous">
               <span>Dossiers Médicaux</span>
             </a>
           </li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="Securité" nzIcon="team">
+      <li nz-submenu
+          [(nzOpen)]="openMap['securite']"
+          (nzOpenChange)="openHandler('securite')"
+          nzTitle="Securité"
+          nzIcon="safety-certificate">
         <ul>
           <li nz-menu-item>
-            <a routerLink="/admin/securite/profil">
+            <a routerLink="/admin/securite/profil" class="selectedLink">
+              <img src="assets/from_figma/profil.svg" alt="Rendez-Vous">
               <span>Profil</span>
             </a>
           </li>
           <li nz-menu-item>
-            <a routerLink="/admin/securite/acces">
+            <a routerLink="/admin/securite/acces" class="selectedLink">
+              <img src="assets/from_figma/acces.svg" alt="Rendez-Vous">
               <span>Accès</span>
             </a>
           </li>
@@ -94,13 +113,49 @@
   <nz-layout>
     <nz-header></nz-header>
     <nz-content>
-      <nz-breadcrumb>
-        <nz-breadcrumb-item>User</nz-breadcrumb-item>
-        <nz-breadcrumb-item>Bill</nz-breadcrumb-item>
-      </nz-breadcrumb>
+<!--      <nz-breadcrumb>-->
+<!--        <nz-breadcrumb-item>User</nz-breadcrumb-item>-->
+<!--        <nz-breadcrumb-item>Bill</nz-breadcrumb-item>-->
+<!--      </nz-breadcrumb>-->
 <!--      <div class="inner-content">Bill is a cat.</div>-->
       <router-outlet></router-outlet>
     </nz-content>
 <!--    <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>-->
   </nz-layout>
 </nz-layout>
+
+
+<ng-template #titleOrganisation>
+<!--  <span nz-icon nzType="team" [nzTheme]="router.url.includes('/organisation/') ? 'fill': 'outline'"></span>-->
+  <img
+    [src]="'assets/from_figma/' + (router.url.includes('/organisation/') ? 'Organisation_full_white.svg' : 'Organisation.svg')"
+    alt="Dossiers" class="module_logo" width="16.5">
+  <span>Organisation</span>
+</ng-template>
+
+<ng-template #titlePersonnes>
+<!--  <span nz-icon nzType="user" [nzTheme]="router.url.includes('/personnes/') ? 'fill': 'outline'"></span>-->
+
+  <span>Personnes</span>
+</ng-template>
+
+<ng-template #titleSecurite>
+  <span nz-icon nzType="team" [nzTheme]="router.url.includes('/securite/') ? 'fill': 'outline'"></span>
+  <span>Securite</span>
+</ng-template>
+
+<ng-template #titleDossiers>
+<!--  <span nz-icon nzType="folder" [nzTheme]="router.url.includes('/dossiers/') ? 'fill': 'outline'"></span>-->
+  <img
+    [src]="'assets/from_figma/' + (router.url.includes('/dossiers/') ? 'Dossier_full_white.svg' : 'Dossier.svg')"
+    alt="Dossiers" class="module_logo" width="16.5">
+  <span>Dossiers</span>
+</ng-template>
+
+<ng-template #titleParametre>
+<!--  <span nz-icon nzType="team" [nzTheme]="router.url.includes('/parametre/') ? 'fill': 'outline'"></span>-->
+  <img
+    [src]="'assets/from_figma/' + (router.url.includes('/parametre/') ? 'Dossier_full_white.svg' : 'Dossier.svg')"
+    alt="Dossiers" class="module_logo" width="16.5">
+  <span>Parametre</span>
+</ng-template>

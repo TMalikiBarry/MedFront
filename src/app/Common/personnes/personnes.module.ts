@@ -1,13 +1,18 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
 
-import { PersonnesRoutingModule } from './personnes-routing.module';
+import {PersonnesRoutingModule} from './personnes-routing.module';
+import {SharedModule} from "../shared/shared.module";
+import {PersonnelComponent} from './personnel/personnel.component';
+import {PatientComponent} from './patient/patient.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    PersonnelComponent,
+    PatientComponent
+  ],
   imports: [
-    CommonModule,
+    SharedModule,
     PersonnesRoutingModule
   ]
 })

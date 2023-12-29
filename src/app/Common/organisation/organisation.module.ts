@@ -1,13 +1,20 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
 
-import { OrganisationRoutingModule } from './organisation-routing.module';
+import {OrganisationRoutingModule} from './organisation-routing.module';
+import {SharedModule} from "../shared/shared.module";
+import {CliniqueComponent} from './clinique/clinique.component';
+import {PoleComponent} from './pole/pole.component';
+import {ServiceComponent} from './service/service.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    CliniqueComponent,
+    PoleComponent,
+    ServiceComponent
+  ],
   imports: [
-    CommonModule,
+    SharedModule,
     OrganisationRoutingModule
   ]
 })
