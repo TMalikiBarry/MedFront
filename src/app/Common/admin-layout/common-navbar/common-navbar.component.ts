@@ -10,7 +10,8 @@ export class CommonNavbarComponent implements OnInit {
 
   openMap: { [name: string]: boolean } = {
     securite: false,
-    personnes: true,
+    finance: false,
+    personnes: false,
     organisation: false,
     parametre: false,
     dossiers: false,

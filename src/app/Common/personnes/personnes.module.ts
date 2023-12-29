@@ -2,8 +2,8 @@ import {NgModule} from '@angular/core';
 
 import {PersonnesRoutingModule} from './personnes-routing.module';
 import {SharedModule} from "../shared/shared.module";
-import {PersonnelComponent} from './personnel/personnel.component';
-import {PatientComponent} from './patient/patient.component';
+import {PersonnelComponent} from './components/personnel/personnel.component';
+import {PatientComponent} from './components/patient/patient.component';
 
 
 @NgModule({

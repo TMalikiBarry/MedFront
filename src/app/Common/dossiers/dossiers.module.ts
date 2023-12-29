@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
 
-import {DossiersRoutingModule} from './dossiers-routing.module';
-import {PrestationComponent} from './prestation/prestation.component';
-import {FicheMedicaleComponent} from './fiche-medicale/fiche-medicale.component';
-import {DossiersMedicauxComponent} from './dossiers-medicaux/dossiers-medicaux.component';
-import {RendezVousComponent} from "./rendez-vous/rendez-vous.component";
+
 import {SharedModule} from "../shared/shared.module";
+import {PrestationComponent} from "./components/prestation/prestation.component";
+import {RendezVousComponent} from "./components/rendez-vous/rendez-vous.component";
+import {FicheMedicaleComponent} from "./components/fiche-medicale/fiche-medicale.component";
+import {DossiersMedicauxComponent} from "./components/dossiers-medicaux/dossiers-medicaux.component";
+import {DossiersRoutingModule} from "./dossiers-routing.module";
 
 
 @NgModule({
