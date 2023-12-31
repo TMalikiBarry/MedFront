@@ -30,6 +30,11 @@ export class CommonNavbarComponent implements OnInit {
       this.router.navigateByUrl('/admin/dashboard');
   }
 
+  logOut() {
+    sessionStorage.clear();
+    this.router.navigateByUrl('/login');
+  }
+
   getUserFullNameInitials(): string {
     if (this.currentUser && this.currentUser.fullName) {
       const fullNameWords = this.currentUser.fullName.split(' ');

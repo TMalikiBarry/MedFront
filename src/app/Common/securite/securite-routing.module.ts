@@ -5,14 +5,15 @@ import {AccesComponent} from "./components/acces/acces.component";
 import {ActionComponent} from "./components/action/action.component";
 import {FonctionnaliteComponent} from "./components/fonctionnalite/fonctionnalite.component";
 import {ModuleComponent} from "./components/module/module.component";
+import {authGuard} from "../../guards/auth.guard";
 
 
 const routes: Routes = [
-  { path: 'acces', component: AccesComponent},
-  { path: 'profil', component: ProfilComponent},
-  { path: 'actions', component: ActionComponent},
-  { path: 'fonctionnalites', component: FonctionnaliteComponent},
-  { path: 'modules', component: ModuleComponent},
+  { path: 'acces', component: AccesComponent, canActivate: [authGuard] },
+  { path: 'profil', component: ProfilComponent, canActivate: [authGuard] },
+  { path: 'actions', component: ActionComponent, canActivate: [authGuard] },
+  { path: 'fonctionnalites', component: FonctionnaliteComponent, canActivate: [authGuard] },
+  { path: 'modules', component: ModuleComponent, canActivate: [authGuard] },
 ];
 
 @NgModule({

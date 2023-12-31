@@ -5,6 +5,7 @@ import {NzMenuModule} from "ng-zorro-antd/menu";
 import {NzIconModule} from "ng-zorro-antd/icon";
 import {NzBreadCrumbModule} from "ng-zorro-antd/breadcrumb";
 import {NzAvatarModule} from "ng-zorro-antd/avatar";
+import {NzDropDownModule} from "ng-zorro-antd/dropdown";
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import {NzAvatarModule} from "ng-zorro-antd/avatar";
     NzLayoutModule,
     NzMenuModule,
     NzIconModule,
+    NzDropDownModule,
     NzAvatarModule,
     NzBreadCrumbModule,
   ],

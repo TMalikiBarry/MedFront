@@ -19,15 +19,14 @@ nz-layout:first-of-type
     position: fixed
     left: 0
     padding-left: 1rem
+    box-shadow: 10.347px 11.497px 72.431px 0 rgba(0, 0, 0, 0.10)
 
   nz-layout
     margin-left: 16%
+    background-color: #F6F8FB
+    padding: 1rem 2rem
     overflow: auto
 
-
-nz-header
-  background: #fff
-  padding: 0
 
 
 .selectedLink
@@ -73,6 +72,7 @@ nz-header
 
 
 .parent
+  max-width: 15rem
   display: grid
   grid-template-columns: repeat(8, 1fr)
   grid-template-rows: repeat(2, 1.5rem)
@@ -92,7 +92,8 @@ nz-header
 .fullName
   grid-area: 1 / 3 / 2 / 7
   font-weight: 600
-  text-align: center
+  text-align: left
+  line-height: 100%
 
 .role
   grid-area: 2 / 3 / 3 / 9

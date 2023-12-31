@@ -227,11 +227,15 @@
       <div class="role">
         {{currentUser.role}}
       </div>
-      <div class="actions"> </div>
+      <div class="actions">
+        <a nz-dropdown [nzDropdownMenu]="menu">
+          <img src="assets/from_figma/arrow-down.svg" alt="Hover me">
+        </a>
+      </div>
     </div>
   </nz-sider>
   <nz-layout>
-    <nz-header></nz-header>
+<!--    <nz-header></nz-header>-->
     <nz-content>
 <!--      <nz-breadcrumb>-->
 <!--        <nz-breadcrumb-item>User</nz-breadcrumb-item>-->
@@ -244,6 +248,22 @@
   </nz-layout>
 </nz-layout>
 
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <li nz-menu-item class="selectedLink">
+      <img width="20" src="assets/from_figma/personnels.svg" alt="identity">
+      <span>Mon Profil</span>
+    </li>
+    <li nz-menu-item class="selectedLink">
+      <img width="20" src="assets/from_figma/change_pw.svg" alt="Modifier MP">
+      <span>Modifier mon mot de passe</span>
+    </li>
+    <li nz-menu-item class="selectedLink" (click)="logOut()">
+      <img width="20" src="assets/from_figma/logout.svg" alt="Modifier MP">
+      <span>Se déconnecter</span>
+    </li>
+  </ul>
+</nz-dropdown-menu>
 
 <ng-template #titleOrganisation>
 <!--  <span nz-icon nzType="team" [nzTheme]="router.url.includes('/organisation/') ? 'fill': 'outline'"></span>-->
