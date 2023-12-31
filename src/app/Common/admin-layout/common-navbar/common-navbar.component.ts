@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {AuthInterface} from "../../../models/auth.interface";
 
 @Component({
   selector: 'app-common-navbar',
@@ -17,12 +18,31 @@ export class CommonNavbarComponent implements OnInit {
     dossiers: false,
   };
 
+  currentUser ?: AuthInterface;
+
   constructor(public router: Router) {}
 
   ngOnInit(): void {
-    console.log(this.router.url)
-    if (this.router.url === '/')
-      this.router.navigateByUrl('/dashboard');
+    const storedUser = sessionStorage.getItem('TOUCHMED_currentUser');
+    this.currentUser = storedUser ? JSON.parse(storedUser) as AuthInterface : undefined;
+    console.log("USER ", this.currentUser);
+    if (['/', '/admin'].some(url => url === this.router.url))
+      this.router.navigateByUrl('/admin/dashboard');
+  }
+
+  getUserFullNameInitials(): string {
+    if (this.currentUser && this.currentUser.fullName) {
+      const fullNameWords = this.currentUser.fullName.split(' ');
+
+      const firstLetter = this.currentUser.fullName.charAt(0);
+
+      const lastWord = fullNameWords[fullNameWords.length - 1];
+      const lastWordFirstLetter = lastWord.charAt(0);
+
+      return `${firstLetter} ${lastWordFirstLetter}`;
+    }
+
+    return 'U';
   }
 
   openHandler(value: string): void {

@@ -12,9 +12,9 @@ import {SharedModule} from '../shared/shared.module';
     CommonNavbarComponent,
     DashboardComponent
   ],
-  imports: [
-    AdminLayoutRoutingModule,
-    SharedModule,
-  ]
+    imports: [
+        AdminLayoutRoutingModule,
+        SharedModule,
+    ]
 })
 export class AdminLayoutModule { }

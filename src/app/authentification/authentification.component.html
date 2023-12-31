@@ -45,7 +45,7 @@
   <img src="assets/from_figma/Lock.svg" alt="Identifiant" class="svg-icon">
 </ng-template>
 <ng-template #suffixVisibility>
-  <img (click)=" showPassword=!showPassword; $event.stopPropagation() "
+  <img (click)=" showPassword=!showPassword; $event.stopPropagation() " width="20"
        [src]="'assets/from_figma/'+ (showPassword ? 'visibility.svg': 'visibility_off.svg')"
        alt="Voir ou pas"
   >

@@ -19,6 +19,10 @@ export class GeneralHttpInterceptor implements HttpInterceptor {
 
     let currentUser = this.authService.currentUserValue;
 
+    if (request.url.includes('/auth/login')) {
+      return next.handle(request);
+    }
+
     if (currentUser && currentUser.token) {
       request = request.clone({
         setHeaders: {

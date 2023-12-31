@@ -1,5 +1,5 @@
 <nz-layout>
-  <nz-sider nzTheme="light" nzWidth="15,5%">
+  <nz-sider nzTheme="light" nzWidth="16%">
     <div id="firstIMG">
       <img width="100" src="assets/from_figma/logo_dark.svg" alt="Logo TouchMed" class="bg-img">
     </div>
@@ -25,7 +25,7 @@
           [nzTitle]="titleOrganisation">
         <ul>
           <li nz-menu-item>
-            <a routerLink="/admin/organisation/rendez-vous" class="selectedLink">
+            <a routerLink="/admin/organisation/cliniques" class="selectedLink">
               <img
                 [src]="'assets/from_figma/'+(router.url.endsWith('/organisation/cliniques')? 'clinique_green.svg': 'clinique.svg')"
                 alt="Cliniques">
@@ -33,7 +33,7 @@
             </a>
           </li>
           <li nz-menu-item>
-            <a routerLink="/admin/organisation/prestation" class="selectedLink">
+            <a routerLink="/admin/organisation/poles" class="selectedLink">
               <img
                 [src]="'assets/from_figma/'+(router.url.endsWith('/organisation/poles')? 'poles_green.svg': 'poles.svg')"
                 alt="Poles">
@@ -214,6 +214,21 @@
         <span>File</span>
       </li>-->
     </ul>
+    <div class="parent" *ngIf="currentUser">
+      <div class="avatar">
+        <nz-avatar [nzText]="getUserFullNameInitials()" nzSize="large"
+                   style="color: #266141; background-color:#d9f5b5;">
+
+        </nz-avatar>
+      </div>
+      <div class="fullName">
+        <p>{{currentUser.fullName}}</p>
+      </div>
+      <div class="role">
+        {{currentUser.role}}
+      </div>
+      <div class="actions"> </div>
+    </div>
   </nz-sider>
   <nz-layout>
     <nz-header></nz-header>
