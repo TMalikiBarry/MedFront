@@ -34,7 +34,7 @@ export class AuthService {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             sessionStorage.setItem('TOUCHMED_currentUser', JSON.stringify(user));
             sessionStorage.setItem('TOUCHMED_STATE', 'false');
-            // sessionStorage.setItem('TOUCHMED_ROLE', user.per);
+            sessionStorage.setItem('TOUCHMED_ROLE', user.role);
             sessionStorage.setItem('TOUCHMED_TOKEN', user.token);
             this.currentUserSubject.next(user);
           } else {

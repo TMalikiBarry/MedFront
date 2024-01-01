@@ -34,6 +34,7 @@ export class AuthentificationComponent {
   }) ;
 
   ngOnInit(): void {
+    this.loginForm.setValue({password: 'Passer@2024', username: 'thierno.barry'});
   }
 
   onLogin() {

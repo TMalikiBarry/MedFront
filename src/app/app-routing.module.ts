@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthentificationComponent } from './authentification/authentification.component';
 import {CommonNavbarComponent} from "./Common/admin-layout/common-navbar/common-navbar.component";
-import {authGuard} from "./guards/auth.guard";
 
 const routes: Routes = [
   { path: 'login', component: AuthentificationComponent },
@@ -10,8 +9,7 @@ const routes: Routes = [
   {
     path: 'admin',
     component: CommonNavbarComponent,
-    loadChildren: () => import('./Common/admin-layout/admin-layout.module').then(m => m.AdminLayoutModule),
-    canActivate: [authGuard]
+    loadChildren: () => import('./Common/admin-layout/admin-layout.module').then(m => m.AdminLayoutModule)
   }
 ];
 
