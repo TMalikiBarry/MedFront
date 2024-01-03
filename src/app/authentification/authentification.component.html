@@ -10,7 +10,7 @@
       <nz-form-item>
         <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
           <p class="input-label">Identifiant</p>
-          <nz-input-group [nzAddOnBefore]="addPrefixUserIcon">
+          <nz-input-group [nzPrefix]="addPrefixUserIcon">
             <input type="text" nz-input formControlName="username" placeholder="Renseignez votre identifiant" />
           </nz-input-group>
         </nz-form-control>
@@ -18,7 +18,7 @@
       <nz-form-item>
         <nz-form-control nzErrorTip="Veuillez renseignez votre mot de passe!">
           <p class="input-label">Mot de passe</p>
-          <nz-input-group [nzAddOnBefore]="addPrefixLockIcon" [nzSuffix]="suffixVisibility">
+          <nz-input-group [nzPrefix]="addPrefixLockIcon" [nzSuffix]="suffixVisibility">
             <input [type]="showPassword? 'text':'password'" nz-input formControlName="password" placeholder="Renseignez votre mot de passe" />
           </nz-input-group>
         </nz-form-control>

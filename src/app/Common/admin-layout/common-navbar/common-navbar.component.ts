@@ -26,6 +26,9 @@ export class CommonNavbarComponent implements OnInit {
     const storedUser = sessionStorage.getItem('TOUCHMED_currentUser');
     this.currentUser = storedUser ? JSON.parse(storedUser) as AuthInterface : undefined;
     console.log("USER ", this.currentUser);
+    Object.keys(this.openMap).forEach(key => {
+      this.openMap[key] = this.router.url.includes(key);
+    });
     if (['/', '/admin'].some(url => url === this.router.url))
       this.router.navigateByUrl('/admin/dashboard');
   }
@@ -51,10 +54,16 @@ export class CommonNavbarComponent implements OnInit {
   }
 
   openHandler(value: string): void {
-    for (const key in this.openMap) {
+    Object.keys(this.openMap).forEach(key => {
+      this.openMap[key] = key !== value ? false : this.router.url.includes(key);
+    });
+    /*for (const key in this.openMap) {
       if (key !== value) {
         this.openMap[key] = false;
       }
-    }
+      if (this.router.url.includes(key)) {
+        this.openMap[key] = true;
+      }
+    }*/
   }
 }

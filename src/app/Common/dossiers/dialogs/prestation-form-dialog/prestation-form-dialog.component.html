@@ -1,0 +1,13 @@
+<div *nzModalTitle class="make-spaceBetween">
+  <p>{{titleForm}}</p><img src="assets/from_figma/close_modal.svg" alt="Fermer le form">
+</div>
+
+<div *nzModalContent>
+  Custom Modal Content
+</div>
+
+<div *nzModalFooter>
+  <button nz-button nzType="default" (click)="handleCancel()">Custom Callback</button>
+  <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Custom Submit</button>
+</div>
+

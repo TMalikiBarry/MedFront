@@ -1,12 +1,12 @@
 import {NgModule} from '@angular/core';
 
-
 import {SharedModule} from "../shared/shared.module";
 import {PrestationComponent} from "./components/prestation/prestation.component";
 import {RendezVousComponent} from "./components/rendez-vous/rendez-vous.component";
 import {FicheMedicaleComponent} from "./components/fiche-medicale/fiche-medicale.component";
 import {DossiersMedicauxComponent} from "./components/dossiers-medicaux/dossiers-medicaux.component";
 import {DossiersRoutingModule} from "./dossiers-routing.module";
+import { PrestationFormDialogComponent } from './dialogs/prestation-form-dialog/prestation-form-dialog.component';
 
 
 @NgModule({
@@ -14,11 +14,12 @@ import {DossiersRoutingModule} from "./dossiers-routing.module";
     PrestationComponent,
     RendezVousComponent,
     FicheMedicaleComponent,
-    DossiersMedicauxComponent
+    DossiersMedicauxComponent,
+    PrestationFormDialogComponent
   ],
   imports: [
     SharedModule,
-    DossiersRoutingModule
+    DossiersRoutingModule,
   ]
 })
 export class DossiersModule { }

@@ -6,6 +6,14 @@ import {NzIconModule} from "ng-zorro-antd/icon";
 import {NzBreadCrumbModule} from "ng-zorro-antd/breadcrumb";
 import {NzAvatarModule} from "ng-zorro-antd/avatar";
 import {NzDropDownModule} from "ng-zorro-antd/dropdown";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {NzFormModule} from "ng-zorro-antd/form";
+import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
+import {NzInputModule} from "ng-zorro-antd/input";
+import {NzButtonModule} from "ng-zorro-antd/button";
+import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
+import {NzSelectModule} from "ng-zorro-antd/select";
+import {NzModalModule} from "ng-zorro-antd/modal";
 
 
 @NgModule({
@@ -18,7 +26,17 @@ import {NzDropDownModule} from "ng-zorro-antd/dropdown";
     NzDropDownModule,
     NzAvatarModule,
     NzBreadCrumbModule,
+    NzModalModule,
+    FormsModule,
+    NzDatePickerModule,
+    NzSelectModule,
+    NzFormModule,
+    NzCheckboxModule,
+    NzInputModule,
+    ReactiveFormsModule,
+    NzButtonModule,
   ],
   imports: []
 })
-export class SharedModule { }
+export class SharedModule {
+}

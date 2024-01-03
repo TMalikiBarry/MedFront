@@ -1,1 +1,93 @@
-<p>prestation works!</p>
+<div class="mainbody">
+  <div class="headerLayout">
+    <nz-input-group [nzPrefix]="suffixIconSearch">
+      <input nz-input placeholder="Rechercher par patient, prestation" type="text"/>
+    </nz-input-group>
+    <div class="headerActions">
+      <img alt="notif" src="assets/from_figma/notification_icon.svg" width="17.5">
+      <img alt="email" src="assets/from_figma/email-icon.svg" width="17.5">
+      <img alt="calendar" src="assets/from_figma/calendar-icon.svg" width="17.5">
+      <div class="addActionHeader">
+        <img alt="Ajouter" src="assets/from_figma/addPlus-icon.svg">
+        <span>Ajouter</span>
+        <a nz-dropdown [nzDropdownMenu]="menu">
+          <img alt="Arrow Down" src="assets/from_figma/arrow-down.svg">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="statsLayout">
+    <div class="myCardStats" *ngFor="let stat of numberStats; let i = index">
+      <div class="logoStats"><img alt="stats" src="assets/from_figma/stats-icon.svg" width="35"></div>
+
+      <div class="numberStats"><p>{{stat}}</p></div>
+      <div class="descStats"><p>{{descSats[i]}}</p></div>
+
+    </div>
+<!--    <div class="myCardStats">
+      <div class="logoStats"><img alt="stats" src="assets/from_figma/stats-icon.svg"></div>
+
+      <div class="numberStats"><p>1000</p></div>
+      <div class="descStats"><p>Consultations facturées</p></div>
+
+    </div>
+    <div class="myCardStats">
+      <div class="logoStats"><img alt="stats" src="assets/from_figma/stats-icon.svg"></div>
+
+      <div class="numberStats"><p>400</p></div>
+      <div class="descStats"><p>Consultations non facturées</p></div>
+
+    </div>
+    <div class="myCardStats">
+      <div class="logoStats"><img alt="stats" src="assets/from_figma/stats-icon.svg"></div>
+
+
+      <div class="numberStats"><p>28</p></div>
+      <div class="descStats"><p>Payées partiellement</p></div>
+
+    </div>-->
+  </div>
+  <div class="dataLayout">
+    <p>Listes des prestations</p>
+    <div class="controllers">
+      <div class="searchInput">
+        <nz-input-group [nzPrefix]="suffixIconSearch">
+          <input nz-input placeholder="Rechercher par patient " type="text"/>
+        </nz-input-group>
+      </div>
+      <div class="dateDesc"><p>Date</p> </div>
+      <div class="searchByDate">
+        <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
+      </div>
+      <div class="serviceDesc"> <p>Service</p> </div>
+      <div class="searchByService">
+        <nz-select [(ngModel)]="singleValue" (ngModelChange)="showEvent($event)" nzShowSearch nzPlaceHolder="Choissez un service">
+          <nz-option nzLabel="----"></nz-option>
+          <nz-option
+            *ngFor="let service of listOfService"
+            [nzLabel]="service.nom" [nzValue]="service"></nz-option>
+        </nz-select>
+      </div>
+      <div class="filterButton"> <button nz-button class="filter-form-button">Filtrer</button></div>
+    </div>
+
+  </div>
+</div>
+
+<ng-template #suffixIconSearch>
+  <img alt="Rechercher" src="assets/from_figma/search_icon.svg">
+</ng-template>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <li nz-menu-item class="selectedLink">
+      <span>Nouveau Patient</span>
+    </li>
+    <li nz-menu-item class="selectedLink">
+      <span>Nouveau RDV</span>
+    </li>
+    <li nz-menu-item class="selectedLink">
+      <span>Nouvelle prestation</span>
+    </li>
+  </ul>
+</nz-dropdown-menu>
