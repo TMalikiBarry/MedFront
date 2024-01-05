@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {listService, Service} from "../../../../models/Utils/constants";
+import {NzModalService} from "ng-zorro-antd/modal";
+import {PrestationFormDialogComponent} from "../../dialogs/prestation-form-dialog/prestation-form-dialog.component";
 
 @Component({
   selector: 'app-prestation',
@@ -14,7 +16,7 @@ export class PrestationComponent implements OnInit{
   singleValue!: Service;
   listOfService!: Service[];
 
-  constructor() {
+  constructor(private modalService: NzModalService) {
   }
 
   ngOnInit(): void {
@@ -27,5 +29,13 @@ export class PrestationComponent implements OnInit{
 
   showEvent(event: any) {
     console.log(event)
+  }
+
+  addNewPrestation() {
+    this.modalService.create({
+      nzContent: PrestationFormDialogComponent,
+      nzClosable: false,
+      nzWidth:'50rem'
+    });
   }
 }
