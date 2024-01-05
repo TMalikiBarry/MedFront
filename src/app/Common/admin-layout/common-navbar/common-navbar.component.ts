@@ -55,7 +55,8 @@ export class CommonNavbarComponent implements OnInit {
 
   openHandler(value: string): void {
     Object.keys(this.openMap).forEach(key => {
-      this.openMap[key] = key !== value ? false : this.router.url.includes(key);
+      // this.openMap[key] = key !== value ? false : this.router.url.includes(key);
+      this.openMap[key] = key === value;
     });
     /*for (const key in this.openMap) {
       if (key !== value) {

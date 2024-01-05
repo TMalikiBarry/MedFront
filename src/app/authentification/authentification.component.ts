@@ -29,7 +29,7 @@ export class AuthentificationComponent {
               private router: Router) { }
   // initialize the form
   loginForm = this.fb.group({
-    username : ['' ,Validators.required],
+    username : ['' , Validators.required],
     password : ['', Validators.required]
   }) ;
 
