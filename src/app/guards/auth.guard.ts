@@ -5,25 +5,25 @@ import {AuthService} from "../services/authentication/auth.service";
 export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
-  if (authService.isLoggedIn()) {
-    const userRole = authService.getRole();
-    /*let isABoss = userRole ? ['SUPERADMINISTRATEUR', 'ADMINISTRATEUR'].includes(userRole) : false;
-    if (route.data['roles'] && route.data['roles'].indexOf(userRole) === -1) {
-    console.error(userRole + " != " + route.data['roles']);
-    notify.snackMessage('Accès non autorisé', 4000, 'danger');
-    router.navigate(['']);
-    return false;
-    }*/
-    if (!userRole) {
-      // console.error(userRole + " != " + route.data['roles']);
-      // notify.snackMessage('Accès non autorisé', 4000, 'danger');
-      router.navigate(['']);
-      return false;
-    }
-    return true;
-  }
-  router.navigateByUrl('/login');
-  return false;
+  // if (authService.isLoggedIn()) {
+  //   const userRole = authService.getRole();
+  //   /*let isABoss = userRole ? ['SUPERADMINISTRATEUR', 'ADMINISTRATEUR'].includes(userRole) : false;
+  //   if (route.data['roles'] && route.data['roles'].indexOf(userRole) === -1) {
+  //   console.error(userRole + " != " + route.data['roles']);
+  //   notify.snackMessage('Accès non autorisé', 4000, 'danger');
+  //   router.navigate(['']);
+  //   return false;
+  //   }*/
+  //   if (!userRole) {
+  //     // console.error(userRole + " != " + route.data['roles']);
+  //     // notify.snackMessage('Accès non autorisé', 4000, 'danger');
+  //     router.navigate(['']);
+  //     return false;
+  //   }
+  //   return true;
+  // }
+  // router.navigateByUrl('/login');
+  return true;
 };
 
 /*@Injectable({

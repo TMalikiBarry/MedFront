@@ -39,44 +39,45 @@ export class AuthentificationComponent {
 
   onLogin() {
     // this.router.navigateByUrl('/introduction');
-    let username = this.loginForm.value.username;
-    let password = this.loginForm.value.password;
-
-    if (typeof username === "string" && typeof password === "string") {
-      this.authService.login(username, password)
-        .subscribe({
-          next: (user) => {
-            if (user){
-              /*if (user.firstLogin == 0) {
-                this.router.navigateByUrl('/reset-pw');
-                // this.notif.snackMessage('Veuillez définir votre mot de passe', 3000, 'infos');
-                return;
-              }*/
-              this.authService.authenticateUser(user).subscribe({
-                next: (data) => {
-
-                  if (data) {
-                    this.router.navigateByUrl('/admin/dashboard');
-                    // this.notif.snackMessage("Bienvenue " + user.prenom + ' ' + user.nom,
-                    //   2000, 'success');
-                  }else {
-                    // this.notif.snackMessage('Accès non autorisé', 4000, 'danger');
-                    sessionStorage.clear();
-                  }
-                }
-              })
-            }
-          },
-          // error: (err) => {
-          //   console.error(err);
-          //   if (err.status === 0 || err === 'Something bad happened; please try again later.') {
-          //     // this.notif.snackMessage("Problème de connexion au serveur", 4000, "danger");
-          //   } else {
-          //     // this.notif.snackMessage("Identifiant ou mot de passe incorrect", 4000, "danger");
-          //   }
-          // }
-        })
-    }
+    this.router.navigateByUrl('/admin/dashboard');
+    // let username = this.loginForm.value.username;
+    // let password = this.loginForm.value.password;
+    //
+    // if (typeof username === "string" && typeof password === "string") {
+    //   this.authService.login(username, password)
+    //     .subscribe({
+    //       next: (user) => {
+    //         if (user){
+    //           /*if (user.firstLogin == 0) {
+    //             this.router.navigateByUrl('/reset-pw');
+    //             // this.notif.snackMessage('Veuillez définir votre mot de passe', 3000, 'infos');
+    //             return;
+    //           }*/
+    //           this.authService.authenticateUser(user).subscribe({
+    //             next: (data) => {
+    //
+    //               if (data) {
+    //                 this.router.navigateByUrl('/admin/dashboard');
+    //                 // this.notif.snackMessage("Bienvenue " + user.prenom + ' ' + user.nom,
+    //                 //   2000, 'success');
+    //               }else {
+    //                 // this.notif.snackMessage('Accès non autorisé', 4000, 'danger');
+    //                 sessionStorage.clear();
+    //               }
+    //             }
+    //           })
+    //         }
+    //       },
+    //       // error: (err) => {
+    //       //   console.error(err);
+    //       //   if (err.status === 0 || err === 'Something bad happened; please try again later.') {
+    //       //     // this.notif.snackMessage("Problème de connexion au serveur", 4000, "danger");
+    //       //   } else {
+    //       //     // this.notif.snackMessage("Identifiant ou mot de passe incorrect", 4000, "danger");
+    //       //   }
+    //       // }
+    //     })
+    // }
   }
 
 }
