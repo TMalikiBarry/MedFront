@@ -1,5 +1,5 @@
 export interface EntiteBase {
-  supprime: boolean;
-  dateCreation: Date;
-  dateModification: Date;
+  supprime?: boolean;
+  dateCreation?: Date;
+  dateModification?: Date;
 }

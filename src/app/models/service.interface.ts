@@ -3,10 +3,10 @@ import {PoleInterface} from "./pole.interface";
 
 export interface ServiceInterface {
   id?: number;
-  nom: string;
-  description: string;
-  couleur: string;
-  equipement: string;
+  nom?: string;
+  description?: string;
+  couleur?: string;
+  equipement?: string;
   prestations?: PrestationInterface[];
   pole?: PoleInterface;
 }

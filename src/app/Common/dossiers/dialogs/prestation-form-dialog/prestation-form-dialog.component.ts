@@ -1,7 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {NzModalRef} from "ng-zorro-antd/modal";
-import {FormBuilder} from "@angular/forms";
-import {listService, Service} from "../../../../models/Utils/constants";
+import {FormBuilder, Validators} from "@angular/forms";
+import {listService, my_prescription, Service} from "../../../../models/Utils/constants";
+import {UtilsService} from "../../../../services/utils/utils.service";
+import {PrestationInterface} from "../../../../models/prestation.interface";
+import {PrestationService} from "../../../../services/prestation/prestation.service";
 
 @Component({
   selector: 'app-prestation-form-dialog',
@@ -15,20 +18,24 @@ export class PrestationFormDialogComponent implements OnInit{
   btnText = "Valider";
   isConfirmLoading = false;
   listOfService!: Service[];
+  listPrescription!: any;
 
   prestationForm = this.fb.group({
-    service: '',
-    diagnostic:'',
-    conclusion:'',
+    service: ['', Validators.required],
+    diagnostic:['', Validators.required],
+    conclusion:['', Validators.required],
     prescription: '',
     resultat:''
   })
 
   constructor(private modal: NzModalRef,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private utils: UtilsService,
+              private api: PrestationService) {
   }
   ngOnInit(): void {
     this.listOfService = listService;
+    this.listPrescription = my_prescription;
   }
 
 
@@ -36,7 +43,16 @@ export class PrestationFormDialogComponent implements OnInit{
     this.modal.close();
   }
 
-  handleOk() {
+  addPrestation() {
+    if (this.prestationForm.valid) {
+      const formData = this.prestationForm.value;
+      const prestation = this.createPrestationFromForm(formData);
+
+      this.api.save(prestation).subscribe({
+        next: (response) => console.log('Prestation enregistrée avec succès ', response),
+        error: (error) => console.error('Erreur lors de l\'enregistrement de la prestation', error)
+      });
+    }
   }
 
   triggerFileUpload() {
@@ -44,5 +60,17 @@ export class PrestationFormDialogComponent implements OnInit{
   }
 
   getEvent(event: Event) {
+  }
+
+  createPrestationFromForm(formData: any): PrestationInterface {
+    return {
+      cout: formData.service ?? 12000, // Supposé fixe, peut être ajusté en fonction de la logique de votre application
+      prerequisities: "Venir à jeun", // Peut être ajusté ou récupéré du formulaire si nécessaire
+      diagnostic: formData.diagnostic,
+      conclusion: formData.conclusion,
+      personnel: { id: 3 }, // L'ID doit correspondre à la logique de votre application
+      dossierMedical: { id: 1 }, // L'ID doit correspondre à la logique de votre application
+      service: { id: formData.service } // Supposé que le service dans le formulaire est l'ID
+    };
   }
 }
