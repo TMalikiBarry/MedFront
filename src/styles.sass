@@ -1,5 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
 
+.ant-picker-calendar-header
+  display: flex
+  justify-content: center
+  padding: 12px 0
+
+  .ant-select
+    box-sizing: border-box
+    border-color: #EDF2F7
+    margin: 0
+    padding: 0
+    color: #2a2a2a
+    font-size: 14px
+    font-variant: tabular-nums
+    line-height: 1.5715
+    list-style: none
+    font-feature-settings: 'tnum'
+    position: relative
+    display: inline-block
+    cursor: pointer
+
+.ant-picker-content tr th
+  height: auto
+  padding: 0 12px 5px 0
+  line-height: 18px
+  text-align: center
+  font-size: medium
+
+.ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date-today
+    border-color: #266141
+
+.ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected .ant-picker-calendar-date .ant-picker-calendar-date-value, .ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected:hover .ant-picker-calendar-date .ant-picker-calendar-date-value, .ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected .ant-picker-calendar-date-today .ant-picker-calendar-date-value, .ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected:hover .ant-picker-calendar-date-today .ant-picker-calendar-date-value
+  color: #266141
+
 body, html
   height: 100%
   margin: 0  // Remove default margin

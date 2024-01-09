@@ -9,6 +9,8 @@ import {DossiersRoutingModule} from "./dossiers-routing.module";
 import { PrestationFormDialogComponent } from './dialogs/prestation-form-dialog/prestation-form-dialog.component';
 import {NzCalendarModule} from "ng-zorro-antd/calendar";
 import {NzBadgeModule} from "ng-zorro-antd/badge";
+import { RendezVousFormDialogComponent } from './dialogs/rendez-vous-form-dialog/rendez-vous-form-dialog.component';
+import { DetailRendezVousComponent } from './dialogs/detail-rendez-vous/detail-rendez-vous.component';
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import {NzBadgeModule} from "ng-zorro-antd/badge";
     RendezVousComponent,
     FicheMedicaleComponent,
     DossiersMedicauxComponent,
-    PrestationFormDialogComponent
+    PrestationFormDialogComponent,
+    RendezVousFormDialogComponent,
+    DetailRendezVousComponent
   ],
   imports: [
     SharedModule,

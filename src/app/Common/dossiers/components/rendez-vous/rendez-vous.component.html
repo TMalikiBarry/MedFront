@@ -1,10 +1,10 @@
 <div class="dataLayout">
-    <nz-calendar>
+    <nz-calendar class="custom-calendar">
       <ul *nzDateCell="let date" class="events">
         <ng-container [ngSwitch]="date.getDate()">
           <ng-container *ngSwitchCase="8">
             <li *ngFor="let item of listDataMap.eight">
-              <nz-badge [nzStatus]="item.type" [nzText]="item.content"></nz-badge>
+              <nz-badge (click)="getDetail()" nzColor="#87d068" [nzStatus]="item.type" [nzText]="item.content"></nz-badge>
             </li>
           </ng-container>
           <ng-container *ngSwitchCase="10">
@@ -31,35 +31,33 @@
 <div class="dataLayout">
   <div class="title">
     <p>Rendez-vous d'aujourd'hui</p>
-    <button nz-button nzType="primary" nzSize="large" nzShape="round">
+    <button (click)="addRdv()" nz-button nzType="primary" nzSize="large" nzShape="round">
       <span nz-icon nzType="plus" nzTheme="outline"></span>
       Nouveau rendez-vous
     </button>
   </div>
   <div class="content-rdv">
-    <div class="line-rdv" *ngFor="let item of patients">
-      <div class="detail-rdv">
-        <div class="box-rdv">
-          <div class="user-icon">
-            <span nz-icon nzType="user" nzTheme="outline"></span>
-          </div>
-          <div class="user-detail">
-            <div class="user-doctor">
-              {{ item }}
+    <div class="scroll">
+      <div class="line-rdv" *ngFor="let item of patients">
+        <div class="detail-rdv" (click)="detailRdv()">
+          <div class="box-rdv">
+            <div class="user-icon">
+              <span nz-icon nzType="user" nzTheme="outline"></span>
             </div>
-            <div class="user-detail">
-              <span nz-icon nzType="calendar" nzTheme="outline"></span> {{ heures[0] }}
-              <span nz-icon nzType="skin" nzTheme="outline"></span> Doctor {{ doctor[0] }}
-              <span nz-icon nzType="group" nzTheme="outline"></span> {{prestation[0] }}
+            <div class="user-doctor-detail">
+              <div class="user-doctor">
+                <div class="name"> {{ item }} </div>
+              </div>
+              <div class="user-detail">
+                <span nz-icon nzType="calendar" nzTheme="outline"></span> {{ heures[0] }}
+                <span nz-icon nzType="skin" nzTheme="outline"></span> Doctor {{ doctor[0] }}
+                <span nz-icon nzType="group" nzTheme="outline"></span> {{prestation[0] }}
+              </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
-  </div>
-  <div class="controllers">
-
   </div>
 
 </div>
