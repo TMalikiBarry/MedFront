@@ -1,5 +1,7 @@
 import {EntiteBase} from "./entite-base";
 import {ServiceInterface} from "./service.interface";
+import {DossierMedicalInterface} from "./dossier-medical.interface";
+import {PersonnelInterface} from "./personnel.interface";
 
 export interface PrestationInterface extends EntiteBase {
   id?: number;
@@ -8,7 +10,7 @@ export interface PrestationInterface extends EntiteBase {
   diagnostic?: string;
   conclusion?: string;
   // transactions?: Transaction[];
-  // personnel?: Personnel;
-  // dossierMedical?: DossierMedical;
+  personnel?: PersonnelInterface;
+  dossierMedical?: DossierMedicalInterface;
   service?: ServiceInterface;
 }

@@ -19,37 +19,14 @@
         <span>Option 2</span>
       </li>-->
 
-      <li nz-submenu
+<!--      <li nz-submenu
           [(nzOpen)]="openMap['organisation']"
           (nzOpenChange)="openHandler('organisation')"
           [nzTitle]="titleOrganisation">
         <ul>
-          <li nz-menu-item>
-            <a routerLink="/admin/organisation/cliniques" class="selectedLink">
-              <img
-                [src]="'assets/from_figma/'+(router.url.endsWith('/organisation/cliniques')? 'clinique_green.svg': 'clinique.svg')"
-                alt="Cliniques">
-              <span>Cliniques</span>
-            </a>
-          </li>
-          <li nz-menu-item>
-            <a routerLink="/admin/organisation/poles" class="selectedLink">
-              <img
-                [src]="'assets/from_figma/'+(router.url.endsWith('/organisation/poles')? 'poles_green.svg': 'poles.svg')"
-                alt="Poles">
-              <span>Pôles</span>
-            </a>
-          </li>
-          <li nz-menu-item>
-            <a routerLink="/admin/organisation/services" class="selectedLink">
-              <img
-                [src]="'assets/from_figma/'+(router.url.endsWith('/organisation/services')? 'service_green.svg': 'service.svg')"
-                alt="Services">
-              <span>Services</span>
-            </a>
-          </li>
+
         </ul>
-      </li>
+      </li>-->
 
       <li nz-submenu
           [(nzOpen)]="openMap['personnes']"
@@ -57,11 +34,19 @@
           [nzTitle]="titlePersonnes">
         <ul>
           <li nz-menu-item>
-            <a routerLink="/admin/personnes/personnels" class="selectedLink">
+            <a routerLink="/admin/personnes/fiche-medicale" class="selectedLink">
               <img
-                [src]="'assets/from_figma/'+(router.url.endsWith('/personnes/personnels')? 'personnels_green.svg': 'personnels.svg')"
-                alt="Personnels">
-              <span>Personnels</span>
+                [src]="'assets/from_figma/'+(router.url.endsWith('/personnes/fiche-medicale')? 'fiche_medicale_green.svg': 'fiche_medicale.svg')"
+                alt="Fiches-medicales">
+              <span>Fiches Médicales</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/personnes/dossiers-medicaux" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/personnes/dossiers-medicaux')? 'dossiers_medicaux_green.svg': 'Dossier.svg')"
+                alt="Dossiers-medicaux">
+              <span>Dossiers Médicaux</span>
             </a>
           </li>
           <li nz-menu-item>
@@ -111,22 +96,6 @@
               <span>Prestations</span>
             </a>
           </li>
-          <li nz-menu-item>
-            <a routerLink="/admin/dossiers/fiche-medicale" class="selectedLink">
-              <img
-                [src]="'assets/from_figma/'+(router.url.endsWith('/dossiers/fiche-medicale')? 'fiche_medicale_green.svg': 'fiche_medicale.svg')"
-                alt="Fiches-medicales">
-              <span>Fiches Médicales</span>
-            </a>
-          </li>
-          <li nz-menu-item>
-            <a routerLink="/admin/dossiers/dossiers-medicaux" class="selectedLink">
-              <img
-                [src]="'assets/from_figma/'+(router.url.endsWith('/dossiers/dossiers-medicaux')? 'dossiers_medicaux_green.svg': 'Dossier.svg')"
-                alt="Dossiers-medicaux">
-              <span>Dossiers Médicaux</span>
-            </a>
-          </li>
         </ul>
       </li>
 
@@ -135,6 +104,38 @@
           (nzOpenChange)="openHandler('parametre')"
           [nzTitle]="titleParametre">
         <ul>
+          <li nz-menu-item>
+            <a routerLink="/admin/parametre/cliniques" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/parametre/cliniques')? 'clinique_green.svg': 'clinique.svg')"
+                alt="Cliniques">
+              <span>Cliniques</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/parametre/poles" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/parametre/poles')? 'poles_green.svg': 'poles.svg')"
+                alt="Poles">
+              <span>Pôles</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/parametre/personnels" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/parametre/personnels')? 'personnels_green.svg': 'personnels.svg')"
+                alt="Personnels">
+              <span>Personnels</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/parametre/services" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/parametre/services')? 'service_green.svg': 'service.svg')"
+                alt="Services">
+              <span>Services</span>
+            </a>
+          </li>
           <li nz-menu-item>
             <a routerLink="/admin/parametre/parametres" class="selectedLink">
               <img
@@ -278,7 +279,7 @@
   <img
     [src]="'assets/from_figma/' + (router.url.includes('/personnes/') ? 'Personnes_full_white.svg' : 'Personnes.svg')"
     alt="Dossiers" class="module_logo" width="16.5">
-  <span>Personnes</span>
+  <span>Patients</span>
 </ng-template>
 
 <ng-template #titleFinance>
@@ -310,5 +311,5 @@
   <img
     [src]="'assets/from_figma/' + (router.url.includes('/parametre/') ? 'Parametre_full_white.svg' : 'Parametre.svg')"
     alt="Dossiers" class="module_logo" width="16.5">
-  <span>Parametre</span>
+  <span>Paramètres</span>
 </ng-template>

@@ -19,7 +19,7 @@
             <nz-option nzLabel="----"></nz-option>
             <nz-option
               *ngFor="let service of listOfService"
-              [nzLabel]="service.nom" [nzValue]="service"></nz-option>
+              [nzLabel]="service.nom" [nzValue]="service.id"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
@@ -56,8 +56,8 @@
         <nz-select nzShowSearch nzPlaceHolder="Choissez les prescriptions" formControlName="prescription">
           <nz-option nzLabel="----"></nz-option>
           <nz-option
-            *ngFor="let service of listOfService"
-            [nzLabel]="service.nom" [nzValue]="service"></nz-option>
+            *ngFor="let medicament of listPrescription"
+            [nzLabel]="medicament.libelle" [nzValue]="medicament"></nz-option>
         </nz-select>
       </nz-form-control>
     </nz-form-item>
@@ -66,8 +66,8 @@
 </div>
 
 <div *nzModalFooter>
-  <button nz-button nzType="default" (click)="handleCancel()">Annuler</button>
-  <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">{{btnText}}</button>
+  <button nz-button class="default-button" (click)="handleCancel()">Annuler</button>
+  <button nz-button class="my-primary-button" (click)="addPrestation()" [nzLoading]="isConfirmLoading">{{btnText}}</button>
 </div>
 
 <ng-template #addSuffixUserIcon>

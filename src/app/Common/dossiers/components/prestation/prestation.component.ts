@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {listService, Service} from "../../../../models/Utils/constants";
-import {NzModalService} from "ng-zorro-antd/modal";
+import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
 import {PrestationFormDialogComponent} from "../../dialogs/prestation-form-dialog/prestation-form-dialog.component";
+import {PrestationService} from "../../../../services/prestation/prestation.service";
 
 @Component({
   selector: 'app-prestation',
@@ -16,13 +17,23 @@ export class PrestationComponent implements OnInit{
   singleValue!: Service;
   listOfService!: Service[];
 
-  constructor(private modalService: NzModalService) {
+  constructor(private modalService: NzModalService,
+              private api: PrestationService) {
   }
 
   ngOnInit(): void {
-    this.listOfService = listService
+    this.listOfService = listService;
+    this.getPrestationsByPage();
   }
 
+  getPrestationsByPage(page: number = 0, size: number = 5) {
+    this.api.getPaginatedData(page, size).subscribe({
+      next: response => {
+        console.log("Liste des prestations ", response);
+
+      }
+    })
+  }
   onChange(result: Date): void {
     console.log('onChange: ', result);
   }
@@ -31,11 +42,14 @@ export class PrestationComponent implements OnInit{
     console.log(event)
   }
 
+
   addNewPrestation() {
     this.modalService.create({
       nzContent: PrestationFormDialogComponent,
       nzClosable: false,
-      nzWidth:'50rem'
-    });
+    }).afterClose.subscribe(
+      ()=>{}
+    );
+
   }
 }
