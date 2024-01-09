@@ -4,7 +4,20 @@
         <ng-container [ngSwitch]="date.getDate()">
           <ng-container *ngSwitchCase="8">
             <li *ngFor="let item of listDataMap.eight">
-              <nz-badge (click)="getDetail()" nzColor="#87d068" [nzStatus]="item.type" [nzText]="item.content"></nz-badge>
+              <div class="card-rdv">
+                <div class="card-rdv-title">Extraction dentaire</div>
+                <div class="card-rdv-content">
+                  <div class="card-rdv-heure">
+                    <span nz-icon nzType="plus" nzTheme="outline"></span>
+                    11H 45
+                  </div>
+                  <div class="card-rdv-doctor">
+                    <span nz-icon nzType="plus" nzTheme="outline"></span>
+                    Dr N. Diouf
+                  </div>
+                </div>
+              </div>
+<!--              <nz-badge (click)="getDetail()" nzColor="#87d068" [nzStatus]="item.type" [nzText]="item.content"></nz-badge>-->
             </li>
           </ng-container>
           <ng-container *ngSwitchCase="10">

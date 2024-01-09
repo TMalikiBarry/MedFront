@@ -21,10 +21,10 @@ export class RendezVousFormDialogComponent {
   listOfPole!: Poles[];
   listService!: Service[];
 
-  prestationForm = this.fb.group({
+  RvForm = this.fb.group({
     medecin: '',
     pole:'',
-    prestation:'',
+    service:'',
     date: '',
     resultat:''
   })
@@ -44,6 +44,7 @@ export class RendezVousFormDialogComponent {
   }
 
   handleOk() {
+    console.log(this.RvForm.value)
   }
 
   triggerFileUpload() {
