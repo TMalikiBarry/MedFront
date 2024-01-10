@@ -68,6 +68,12 @@
         <td>{{formatDateString(prestation.dateCreation!)}}</td>
         <td>{{ getPatientName(prestation) }}</td>
         <td>{{ prestation.service?.nom }}</td>
+        <td><nz-badge nzStatus="error" nzText="Non facturé"></nz-badge></td>
+        <td>
+          <a nz-dropdown [nzDropdownMenu]="nonPayeFacture">
+            <img alt="Arrow Down" src="assets/from_figma/actionsOnRow.svg">
+          </a>
+        </td>
 <!--        <td>{{ prestation.diagnostic }}</td>-->
 <!--        <td>{{ prestation.conclusion }}</td>-->
 
@@ -92,6 +98,17 @@
     </li>
     <li nz-menu-item class="selectedLink" (click)="addNewPrestation()">
       <span>Nouvelle prestation</span>
+    </li>
+  </ul>
+</nz-dropdown-menu>
+
+<nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
+  <ul nz-menu>
+    <li nz-menu-item class="selectedLink">
+      <span>Facturer la prestation</span>
+    </li>
+    <li nz-menu-item class="selectedLink">
+      <span>Modifier la prestation</span>
     </li>
   </ul>
 </nz-dropdown-menu>

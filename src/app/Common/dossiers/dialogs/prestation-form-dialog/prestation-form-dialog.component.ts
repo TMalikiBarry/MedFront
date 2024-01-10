@@ -45,12 +45,15 @@ export class PrestationFormDialogComponent implements OnInit{
 
   addPrestation() {
     if (this.prestationForm.valid) {
+      console.log(" CREATION DE PRESTATION ")
       this.isConfirmLoading = true;
       const formData = this.prestationForm.value;
       const prestation = this.createPrestationFromForm(formData);
 
       this.api.save(prestation).subscribe({
         next: (response) => {
+          console.log(" SUCCES DE PRESTATION ")
+
           console.log('Prestation enregistrée avec succès ', response);
         },
         error: (error) => console.error('Erreur lors de l\'enregistrement de la prestation', error),
@@ -67,8 +70,9 @@ export class PrestationFormDialogComponent implements OnInit{
   }
 
   createPrestationFromForm(formData: any): PrestationInterface {
+    const cout  = this.listOfService.find(s => s.id === formData.service)?.cout ?? 12000;
     return {
-      cout: formData.service.cout ?? 12000, // Supposé fixe, peut être ajusté en fonction de la logique de votre application
+      cout, // Supposé fixe, peut être ajusté en fonction de la logique de votre application
       prerequisities: "Venir à jeun", // Peut être ajusté ou récupéré du formulaire si nécessaire
       diagnostic: formData.diagnostic,
       conclusion: formData.conclusion,
