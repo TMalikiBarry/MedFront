@@ -68,7 +68,7 @@ export class PrestationFormDialogComponent implements OnInit{
 
   createPrestationFromForm(formData: any): PrestationInterface {
     return {
-      cout: formData.service ?? 12000, // Supposé fixe, peut être ajusté en fonction de la logique de votre application
+      cout: formData.service.cout ?? 12000, // Supposé fixe, peut être ajusté en fonction de la logique de votre application
       prerequisities: "Venir à jeun", // Peut être ajusté ou récupéré du formulaire si nécessaire
       diagnostic: formData.diagnostic,
       conclusion: formData.conclusion,
