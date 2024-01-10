@@ -1,9 +1,12 @@
+import {PersonneInterface} from "./personne.interface";
 import {PrestationInterface} from "./prestation.interface";
-import {PatientInterface} from "./patient.interface";
+import {PoleInterface} from "./pole.interface";
+import {TitreInterface} from "./titre.interface";
 
 export interface PersonnelInterface {
-  id: number;
-  statut?: string;
-  prestations?: PrestationInterface[];
-  patient?: PatientInterface;
+  id?: number
+  personne : PersonneInterface;
+  prestations ?: PrestationInterface[];
+  titre ?: TitreInterface;
+  pole ?: PoleInterface;
 }

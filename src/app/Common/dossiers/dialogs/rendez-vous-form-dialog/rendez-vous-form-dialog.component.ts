@@ -1,0 +1,61 @@
+import { Component } from '@angular/core';
+import {listService, Service} from "../../../../models/Utils/constants";
+import {NzModalRef} from "ng-zorro-antd/modal";
+import {FormBuilder} from "@angular/forms";
+import {listMedecins, Medecin} from "../../../../models/Utils/medecins";
+import {listPoles, Poles} from "../../../../models/Utils/poles";
+
+@Component({
+  selector: 'app-rendez-vous-form-dialog',
+  templateUrl: './rendez-vous-form-dialog.component.html',
+  styleUrls: ['./rendez-vous-form-dialog.component.sass']
+})
+export class RendezVousFormDialogComponent {
+
+  titleForm = "Nouvelle Rendez-vous";
+  formDesc = "Veuillez remplir ce formulaire pour ajouter un rendez-vous";
+  btnText = "Enregistrer";
+  date !: string
+  isConfirmLoading = false;
+  listOfMedecin!: Medecin[];
+  listOfPole!: Poles[];
+  listService!: Service[];
+
+  RvForm = this.fb.group({
+    medecin: '',
+    pole:'',
+    service:'',
+    date: '',
+    resultat:''
+  })
+
+  constructor(private modal: NzModalRef,
+              private fb: FormBuilder) {
+  }
+  ngOnInit(): void {
+    this.listOfMedecin = listMedecins;
+    this.listOfPole = listPoles;
+    this.listService = listService;
+  }
+
+
+  handleCancel() {
+    this.modal.close();
+  }
+
+  handleOk() {
+    console.log(this.RvForm.value)
+  }
+
+  triggerFileUpload() {
+    document.getElementById('file_uploader')!.click();
+  }
+
+  getEvent(event: Event) {
+  }
+
+  onChange(result: Date): void {
+    console.log('onChange: ', result);
+  }
+
+}

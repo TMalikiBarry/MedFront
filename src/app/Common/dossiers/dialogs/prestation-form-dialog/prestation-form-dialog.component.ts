@@ -72,7 +72,7 @@ export class PrestationFormDialogComponent implements OnInit{
       prerequisities: "Venir à jeun", // Peut être ajusté ou récupéré du formulaire si nécessaire
       diagnostic: formData.diagnostic,
       conclusion: formData.conclusion,
-      personnel: { id: 3 }, // L'ID doit correspondre à la logique de votre application
+      //personnel: { id: 3 }, // L'ID doit correspondre à la logique de votre application
       dossierMedical: { id: 1 }, // L'ID doit correspondre à la logique de votre application
       service: { id: formData.service } // Supposé que le service dans le formulaire est l'ID
     };
