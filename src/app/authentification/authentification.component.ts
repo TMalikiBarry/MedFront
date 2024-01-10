@@ -38,7 +38,6 @@ export class AuthentificationComponent {
   }
 
   onLogin() {
-    // this.router.navigateByUrl('/introduction');
     let username = this.loginForm.value.username;
     let password = this.loginForm.value.password;
 
@@ -48,6 +47,7 @@ export class AuthentificationComponent {
           next: (user) => {
             if (user){
               /*if (user.firstLogin == 0) {
+
                 this.router.navigateByUrl('/reset-pw');
                 // this.notif.snackMessage('Veuillez définir votre mot de passe', 3000, 'infos');
                 return;
@@ -67,14 +67,7 @@ export class AuthentificationComponent {
               })
             }
           },
-          // error: (err) => {
-          //   console.error(err);
-          //   if (err.status === 0 || err === 'Something bad happened; please try again later.') {
-          //     // this.notif.snackMessage("Problème de connexion au serveur", 4000, "danger");
-          //   } else {
-          //     // this.notif.snackMessage("Identifiant ou mot de passe incorrect", 4000, "danger");
-          //   }
-          // }
+
         })
     }
   }

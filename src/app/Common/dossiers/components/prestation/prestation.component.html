@@ -49,6 +49,31 @@
       </div>
       <div class="filterButton"> <button nz-button class="filter-form-button">Filtrer</button></div>
     </div>
+    <nz-table #prestationsTable
+              [nzData]="prestationsList" [nzPageSize]="5">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Patient</th>
+        <th>Service</th>
+        <th>{{'état' | titlecase}} de la facturation</th>
+        <th>Actions</th>
+        <!-- Ajoutez d'autres colonnes si nécessaire -->
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let prestation of prestationsTable.data">
+        <td><strong>{{ getPatientID(prestation) }}</strong></td>
+        <td>{{formatDateString(prestation.dateCreation!)}}</td>
+        <td>{{ getPatientName(prestation) }}</td>
+        <td>{{ prestation.service?.nom }}</td>
+<!--        <td>{{ prestation.diagnostic }}</td>-->
+<!--        <td>{{ prestation.conclusion }}</td>-->
+
+      </tr>
+      </tbody>
+    </nz-table>
 
   </div>
 </div>

@@ -14,6 +14,7 @@ import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzModalModule} from "ng-zorro-antd/modal";
+import {NzTableModule} from "ng-zorro-antd/table";
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import {NzModalModule} from "ng-zorro-antd/modal";
     NzInputModule,
     ReactiveFormsModule,
     NzButtonModule,
+    NzTableModule
   ],
   imports: []
 })

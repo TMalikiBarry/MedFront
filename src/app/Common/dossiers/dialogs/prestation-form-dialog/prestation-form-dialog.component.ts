@@ -45,12 +45,16 @@ export class PrestationFormDialogComponent implements OnInit{
 
   addPrestation() {
     if (this.prestationForm.valid) {
+      this.isConfirmLoading = true;
       const formData = this.prestationForm.value;
       const prestation = this.createPrestationFromForm(formData);
 
       this.api.save(prestation).subscribe({
-        next: (response) => console.log('Prestation enregistrée avec succès ', response),
-        error: (error) => console.error('Erreur lors de l\'enregistrement de la prestation', error)
+        next: (response) => {
+          console.log('Prestation enregistrée avec succès ', response);
+        },
+        error: (error) => console.error('Erreur lors de l\'enregistrement de la prestation', error),
+        complete: () => {this.isConfirmLoading = false}
       });
     }
   }
