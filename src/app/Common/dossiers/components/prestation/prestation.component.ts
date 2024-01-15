@@ -50,7 +50,9 @@ export class PrestationComponent implements OnInit{
       nzContent: PrestationFormDialogComponent,
       nzClosable: false,
     }).afterClose.subscribe(
-      ()=>{}
+      ()=>{
+        this.getPrestationsByPage()
+      }
     );
 
   }
@@ -63,6 +65,7 @@ export class PrestationComponent implements OnInit{
     return `${prestation.dossierMedical?.patient?.personne.prenom} ${prestation.dossierMedical?.patient?.personne.nom}`
   }
 
+  // TODO METTRE DANS UN PIPE POUR GENERALISER SON UTILISATION DANS LES AUTRES COMPONENTS
   formatDateString(inputDateStr: Date | string): string {
     const inputDate = new Date(inputDateStr);
     const day = inputDate.getDate().toString().padStart(2, '0');

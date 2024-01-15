@@ -22,8 +22,6 @@ import { DetailRendezVousComponent } from './dialogs/detail-rendez-vous/detail-r
   imports: [
     SharedModule,
     DossiersRoutingModule,
-    NzCalendarModule,
-    NzBadgeModule,
   ]
 })
 export class DossiersModule { }
