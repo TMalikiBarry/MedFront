@@ -24,7 +24,7 @@
           <h3 class="title">Informations sur le patient</h3>
         </div>
         <div class="form">
-          <form (submit)="enregistrerPatient()">
+          <form [formGroup]="patientForm" (submit)="enregistrerPatient()">
             <div class="gender">
               <label class="label">Genre</label>
               <div>
