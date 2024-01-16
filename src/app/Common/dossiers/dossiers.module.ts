@@ -9,6 +9,7 @@ import {NzCalendarModule} from "ng-zorro-antd/calendar";
 import {NzBadgeModule} from "ng-zorro-antd/badge";
 import { RendezVousFormDialogComponent } from './dialogs/rendez-vous-form-dialog/rendez-vous-form-dialog.component';
 import { DetailRendezVousComponent } from './dialogs/detail-rendez-vous/detail-rendez-vous.component';
+import {NzPopoverModule} from "ng-zorro-antd/popover";
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { DetailRendezVousComponent } from './dialogs/detail-rendez-vous/detail-r
     DossiersRoutingModule,
     NzCalendarModule,
     NzBadgeModule,
+    NzPopoverModule,
   ]
 })
 export class DossiersModule { }

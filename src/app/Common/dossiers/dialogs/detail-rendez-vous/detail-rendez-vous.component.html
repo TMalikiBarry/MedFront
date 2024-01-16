@@ -5,7 +5,7 @@
   </div>
 
   <div>
-    <form nz-form [formGroup]="prestationForm" class="login-form" >
+    <form nz-form [formGroup]="RvForm" class="login-form" >
       <p class="connect-phrase">{{formDesc}}</p>
 
       <div class="make-spaceBetween">
@@ -44,7 +44,7 @@
               <nz-option nzLabel="----"></nz-option>
               <nz-option
                 *ngFor="let medecin of listOfMedecin"
-                [nzLabel]="medecin.nom" [nzValue]="medecin"></nz-option>
+                [nzLabel]="medecin.personne.nom" [nzValue]="medecin"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -54,14 +54,15 @@
         <nz-form-item>
           <nz-form-control>
             <p class="input-label">Date et Heure du RDV</p>
-            <nz-date-picker nzPlaceHolder="Choissez la date" formControlName="date" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
+            <nz-date-picker nzPlaceHolder="Choissez la date" nzShowTime
+                            nzFormat="YYYY-MM-dd HH:mm:ss" formControlName="date"></nz-date-picker>
           </nz-form-control>
         </nz-form-item>
 
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
             <p class="input-label">Presence</p>
-            <nz-select nzShowSearch nzPlaceHolder="Choissez un medecin" formControlName="presence">
+            <nz-select nzShowSearch nzPlaceHolder="Choissez l'option" formControlName="presence">
               <nz-option nzLabel="Confirmee"></nz-option>
               <nz-option nzLabel="Non confirmee"></nz-option>
             </nz-select>

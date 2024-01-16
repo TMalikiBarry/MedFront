@@ -5,14 +5,14 @@ export interface AccesInterface {
   id: number;
   login: string;
   password: string;
-  oldPassword?: string;
-  status: EStatusAcces;
-  dateLastPwdUpdate: string;
-  hasAlreadyConnected: boolean;
+  oldPassword: string |null;
+  status: EStatusAcces |null;
+  dateLastPwdUpdate: string |null;
+  hasAlreadyConnected: boolean |null;
   logActions?: LogAction[];
-  profil?: ProfilInterface;
+  profil: ProfilInterface | null;
   supprime?: boolean;
-  dateCreation?: string;
+  dateCreation : string | null;
   dateModification?: string;
 }
 

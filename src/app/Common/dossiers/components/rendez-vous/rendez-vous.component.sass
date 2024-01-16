@@ -95,29 +95,64 @@
 
   // card detail calendrier
 .card-rdv
-  border: 0.1rem solid
-  border-radius: 10px
-  margin-bottom: 5px
+  //border: 0.1rem solid
+  border-radius: 4px
+  margin-bottom: 6px
   overflow: hidden
   white-space: nowrap
   width: 100%
   text-overflow: ellipsis
   font-size: 12px
   padding: 5px
+  border: 0.5px solid var(--Secondaire, #84BE38)
+  background: rgba(235, 255, 209, 0.08)
+  height: 76px
+  flex-shrink: 0
+  cursor: pointer
 
   .card-rdv-title
+    text-overflow: ellipsis
+    overflow: hidden
+    color: var(--Couleur-texte, #252525)
+    font-size: 12px
+    font-style: normal
+    font-weight: 600
+    margin-bottom: 5px
 
   .card-rdv-content
     text-overflow: ellipsis
     overflow: hidden
     white-space: nowrap
+    display: flex
+    align-content: space-between
+    align-items: stretch
+    flex-wrap: wrap
 
     .card-rdv-heure
-      border-radius: 5px
+      display: inline-flex
+      align-items: center
+      border-radius: 4px
       text-overflow: ellipsis
-      background-color: #266141
+      background-color: #187442
       margin-bottom: 10px
+
+      img
+        margin-right: 5px
+        margin-left: 5px
+      span
+        font-size: 11px
+        margin-right: 5px
+        color: aliceblue
 
     .card-rdv-doctor
       text-overflow: ellipsis
+      overflow: hidden
+      display: inline-flex
+      align-items: center
+      img
+        margin-right: 5px
+        margin-left: 5px
+      span
+        font-size: 12px
+        margin-right: 5px
 
