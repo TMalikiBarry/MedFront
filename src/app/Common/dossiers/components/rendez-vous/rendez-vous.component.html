@@ -1,76 +1,122 @@
-<div class="dataLayout">
-  <nz-calendar class="custom-calendar">
-    <ul *nzDateCell="let date" class="events">
-      <ng-container *ngFor="let item of listDataMap">
-        <ng-container *ngIf="date.getDate() === getDayOfMonth(item.dateRv) && date.getMonth() === getMonthOfYear(item.dateRv) && date.getFullYear() === getYear(item.dateRv)">
-          <li>
-            <div class="card-rdv" nz-popover nzPopoverTitle="{{ item.patient.personne.prenom }} {{ item.patient.personne.nom }}" nzPopoverPlacement="leftTop" [nzPopoverContent]="contentTemplate" (click)="detailRdv(item)">
-              <div class="card-rdv-title">{{ item.patient.personne.prenom }} {{ item.patient.personne.nom }}</div>
-              <div class="card-rdv-content">
-                <div class="card-rdv-heure">
-                  <img src="assets/icon/calendar.svg" alt="calendrier">
-                  <span>{{ getHour(item.dateRv) }}H {{ getMinutes(item.dateRv) }}</span>
-                </div>
-                <div class="card-rdv-doctor">
-                  <img src="assets/icon/Docteur.svg" alt="docteur">
-                  <span> Dr {{ item.personnel.personne.prenom }} {{ item.personnel.personne.nom }}</span>
-                </div>
-              </div>
-            </div>
-          </li>
-        </ng-container>
-        <ng-template #contentTemplate>
-          <div>
-            <p>Numero telephone : {{ item.patient.personne.telephone}} </p>
-            <p>Service : {{ item.service.nom}} </p>
-            <p>Medecin : {{ item.personnel.personne.nom}} </p>
-            <p>Heure : {{ getHour(item.dateRv) }}H {{ getMinutes(item.dateRv) }} </p>
-          </div>
-        </ng-template>
-      </ng-container>
-    </ul>
-    <ng-container *nzMonthCell="let month">
-      <div *ngIf="getMonthData(month) as monthData" class="notes-month">
-        <section>{{ monthData }} Rendez-Vous </section>
-        <button nz-button nzType="primary" nzSize="large" nzShape="round">
-          <span nz-icon nzTheme="outline"></span>
-          Voir plus
-        </button>
-      </div>
-    </ng-container>
-  </nz-calendar>
-</div>
-
-<div class="dataLayout">
-  <div class="title">
-    <p>Rendez-vous d'aujourd'hui</p>
-    <button (click)="addRdv()" nz-button nzType="primary" nzSize="large" nzShape="round">
-      <span nz-icon nzType="plus" nzTheme="outline"></span>
-      Nouveau rendez-vous
-    </button>
-  </div>
-  <div class="content-rdv">
-    <div class="scroll">
-      <div class="line-rdv" *ngFor="let item of listDataMapToday">
-        <div class="detail-rdv" (click)="detailRdv(item)">
-          <div class="box-rdv">
-            <div class="user-icon">
-              <span nz-icon nzType="user" nzTheme="outline"></span>
-            </div>
-            <div class="user-doctor-detail">
-              <div class="user-doctor">
-                <div class="name"> {{ item.patient.personne.prenom }} {{item.patient.personne.nom}} </div>
-              </div>
-              <div class="user-detail">
-                <span nz-icon nzType="calendar" nzTheme="outline"></span> {{ getHour(item.dateRv) }}H {{ getMinutes(item.dateRv) }}
-                <span nz-icon nzType="skin" nzTheme="outline"></span> Doctor {{ item.personnel.personne.prenom }}  {{ item.personnel.personne.nom}}
-                <span nz-icon nzType="group" nzTheme="outline"></span> {{ item.service.nom }}
-              </div>
-            </div>
-          </div>
-        </div>
+<div class="mainbody">
+  <div class="headerLayout">
+    <nz-input-group [nzPrefix]="suffixIconSearch">
+      <input nz-input placeholder="Rechercher par patient, prestation" type="text"/>
+    </nz-input-group>
+    <div class="headerActions">
+      <img alt="notif" src="assets/from_figma/notification_icon.svg" width="17.5">
+      <img alt="email" src="assets/from_figma/email-icon.svg" width="17.5">
+      <img alt="calendar" src="assets/from_figma/calendar-icon.svg" width="17.5">
+      <div class="addActionHeader">
+        <img alt="Ajouter" src="assets/from_figma/addPlus-icon.svg">
+        <span>Ajouter</span>
+        <a [nzDropdownMenu]="menu" nz-dropdown>
+          <img alt="Arrow Down" src="assets/from_figma/arrow-down.svg">
+        </a>
       </div>
     </div>
   </div>
+<!--  <div class="statsLayout">-->
+<!--    <div *ngFor="let stat of numberStats; let i = index" class="myCardStats">-->
+<!--      <div class="logoStats"><img alt="stats" src="assets/from_figma/stats-icon.svg" width="35"></div>-->
 
+<!--      <div class="numberStats"><p>{{ stat }}</p></div>-->
+<!--      <div class="descStats"><p>{{ descSats[i] }}</p></div>-->
+
+<!--    </div>-->
+<!--  </div>-->
+  <div class="div-btn">
+    <button (click)="addRdv()" class="btn" nz-button nzType="primary" nzSize="large" nzShape="round">
+      <span nz-icon nzType="plus"></span>
+      Nouveau rendez-vous
+    </button>
+  </div>
+  <div class="dataLayout">
+    <p>Listes des rendez-vous</p>
+    <div class="controllers">
+      <div class="searchInput">
+        <nz-input-group [nzPrefix]="suffixIconSearch">
+          <input nz-input placeholder="Rechercher par id patient " type="text"/>
+        </nz-input-group>
+      </div>
+      <div class="searchByDate">
+        <nz-date-picker  (ngModelChange)="onChange($event)" [(ngModel)]="date"></nz-date-picker>
+      </div>
+      <div class="searchByService">
+        <nz-select (ngModelChange)="showEvent($event)" [(ngModel)]="singleValue" nzPlaceHolder="Choissez un service"
+                   nzShowSearch>
+          <nz-option nzLabel="----"></nz-option>
+          <nz-option
+            *ngFor="let service of listOfService"
+            [nzLabel]="service.nom" [nzValue]="service"></nz-option>
+        </nz-select>
+      </div>
+      <div class="filterButton">
+        <button (click)="filtre()" class="filter-form-button" nz-button>Filtrer</button>
+      </div>
+    </div>
+    <nz-table #basicTable
+              nzShowPagination
+              nzShowSizeChanger
+              [nzData]="listDataMap" [nzPageSize]="5">
+      <thead>
+      <tr>
+        <th>Heure</th>
+        <th>Date</th>
+        <th>Nom Patient</th>
+        <th>Telephone</th>
+        <th>Service</th>
+        <th>Presence</th>
+        <th>Actions</th>
+        <!-- Ajoutez d'autres colonnes si nécessaire -->
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let rdv of listDataMap">
+        <td><strong>{{ getHour(rdv.dateRv) }}H{{ getMinutes(rdv.dateRv)}}</strong></td>
+        <td>{{ formatDateString(rdv.dateRv) }}</td>
+        <td>{{ rdv.patient.personne.prenom }} {{rdv.patient.personne.nom}}</td>
+        <td>{{ rdv.patient.personne.telephone }}</td>
+        <td>{{ rdv.service.nom }}</td>
+        <td><nz-badge nzStatus="success" nzText="Confirmee"></nz-badge></td>
+        <td class="icon-table"><img (click)="detailRdv(rdv)" src="assets/icon/edit2.svg" alt="modifier"> <img src="assets/icon/Icone%20user.svg" alt="patient"> <img src="assets/icon/trash.svg" alt="delete"></td>
+      </tr>
+      </tbody>
+
+    </nz-table>
+
+  </div>
 </div>
+
+<ng-template #suffixIconSearch>
+  <img alt="Rechercher" src="assets/from_figma/search_icon.svg">
+</ng-template>
+
+<ng-template #suffixIconCalendar>
+  <img alt="Calendar" src="assets/icon/calendar.svg">
+</ng-template>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <li class="selectedLink" nz-menu-item>
+      <span>Nouveau Patient</span>
+    </li>
+    <li class="selectedLink" nz-menu-item>
+      <span>Nouveau RDV</span>
+    </li>
+    <li (click)="addNewPrestation()" class="selectedLink" nz-menu-item>
+      <span>Nouvelle prestation</span>
+    </li>
+  </ul>
+</nz-dropdown-menu>
+
+<nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
+  <ul nz-menu>
+    <li class="selectedLink" nz-menu-item>
+      <span>Facturer la prestation</span>
+    </li>
+    <li class="selectedLink" nz-menu-item>
+      <span>Voir le contenu de la prestation</span>
+    </li>
+  </ul>
+</nz-dropdown-menu>

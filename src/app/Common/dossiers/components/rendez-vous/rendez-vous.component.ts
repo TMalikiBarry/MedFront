@@ -2,6 +2,11 @@ import {Component} from '@angular/core';
 import {NzModalService} from "ng-zorro-antd/modal";
 import {RendezVousFormDialogComponent} from "../../dialogs/rendez-vous-form-dialog/rendez-vous-form-dialog.component";
 import {DetailRendezVousComponent} from "../../dialogs/detail-rendez-vous/detail-rendez-vous.component";
+import {listService, Service} from "../../../../models/Utils/constants";
+import {PrestationInterface} from "../../../../models/prestation.interface";
+import {PrestationService} from "../../../../services/prestation/prestation.service";
+import {PrestationFormDialogComponent} from "../../dialogs/prestation-form-dialog/prestation-form-dialog.component";
+import {PatientInterface} from "../../../../models/patient.interface";
 
 @Component({
   selector: 'app-rendez-vous',
@@ -1255,45 +1260,69 @@ export class RendezVousComponent {
     }
   ]
 
-  constructor(private modalService: NzModalService) {
+  numberStats = [1428, 1000, 400, 28];
+  descSats = ["Consultations","Consultations facturées","Consultations non facturées", "Partiellement payées"]
+  date: any;
+  singleValue!: Service;
+  listOfService!: Service[];
+  prestationsList!: PrestationInterface[];
+
+  // Chemin vers l'icône dans le dossier des actifs
+  customIconPath = 'assets/icon/calendar_small.svg';
+
+  constructor(private modalService: NzModalService,
+              private api: PrestationService) {
   }
 
-  getMonthData(date: Date): number | null {
-    if (date.getMonth() === 8) {
-      return 1394;
-    }
-    return null;
+  ngOnInit(): void {
+    this.listOfService = listService;
+    this.getPrestationsByPage();
   }
 
-  // getNbrRdvMonth(dateString : string){
-  //   const dateObject: Date = new Date(dateString);
-  //   switch (dateObject.getMonth()){
-  //     case 1 :
-  //       return
-  //     case 2 :
-  //       return
-  //     case 3 :
-  //       return
-  //     case 4 :
-  //       return
-  //     case 5 :
-  //       return
-  //     case 6 :
-  //       return
-  //     case 7 :
-  //       return
-  //     case 8 :
-  //       return
-  //     case 9 :
-  //       return
-  //     case 10 :
-  //       return
-  //     case 11 :
-  //       return
-  //     case 12 :
-  //       return
-  //   }
-  // }
+  getPrestationsByPage(page: number = 0, size: number = 5) {
+    this.api.getPaginatedData(page, size).subscribe({
+      next: response => {
+        console.log("Liste des prestations ", response);
+        this.prestationsList = response.content;
+      }
+    })
+  }
+  onChange(result: Date): void {
+    console.log('onChange: ', result);
+  }
+
+  showEvent(event: any) {
+    console.log(event)
+  }
+
+
+  addNewPrestation() {
+    this.modalService.create({
+      nzContent: PrestationFormDialogComponent,
+      nzClosable: false,
+    }).afterClose.subscribe(
+      ()=>{
+        this.getPrestationsByPage()
+      }
+    );
+
+  }
+
+  getPatientName(patient: PatientInterface):string {
+    return `${patient.personne.prenom} ${patient.personne.nom}`
+  }
+
+  // TODO METTRE DANS UN PIPE POUR GENERALISER SON UTILISATION DANS LES AUTRES COMPONENTS
+  formatDateString(inputDateStr: Date | string): string {
+    const inputDate = new Date(inputDateStr);
+    const day = inputDate.getDate().toString().padStart(2, '0');
+    const month = (inputDate.getMonth() + 1).toString().padStart(2, '0'); // getMonth() renvoie un mois indexé à 0
+    const year = inputDate.getFullYear();
+    const hour = inputDate.getHours().toString().padStart(2, '0');
+    const minute = inputDate.getMinutes().toString().padStart(2, '0');
+
+    return `${day}/${month}/${year} ${hour}:${minute}`;
+  }
 
   addRdv() {
     this.modalService.create({
@@ -1335,5 +1364,9 @@ export class RendezVousComponent {
   getMinutes(dateString : string): number {
     const dateObject: Date = new Date(dateString);
     return dateObject.getMinutes();
+  }
+
+  filtre() {
+
   }
 }
