@@ -10,18 +10,18 @@
       <div class="addActionHeader">
         <img alt="Ajouter" src="assets/from_figma/addPlus-icon.svg">
         <span>Ajouter</span>
-        <a nz-dropdown [nzDropdownMenu]="menu">
+        <a [nzDropdownMenu]="menu" nz-dropdown>
           <img alt="Arrow Down" src="assets/from_figma/arrow-down.svg">
         </a>
       </div>
     </div>
   </div>
   <div class="statsLayout">
-    <div class="myCardStats" *ngFor="let stat of numberStats; let i = index">
+    <div *ngFor="let stat of numberStats; let i = index" class="myCardStats">
       <div class="logoStats"><img alt="stats" src="assets/from_figma/stats-icon.svg" width="35"></div>
 
-      <div class="numberStats"><p>{{stat}}</p></div>
-      <div class="descStats"><p>{{descSats[i]}}</p></div>
+      <div class="numberStats"><p>{{ stat }}</p></div>
+      <div class="descStats"><p>{{ descSats[i] }}</p></div>
 
     </div>
   </div>
@@ -34,21 +34,58 @@
           <input nz-input placeholder="Rechercher par patient " type="text"/>
         </nz-input-group>
       </div>
-      <div class="dateDesc"><p>Date</p> </div>
+      <div class="dateDesc"><p>Date</p></div>
       <div class="searchByDate">
-        <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
+        <nz-date-picker (ngModelChange)="onChange($event)" [(ngModel)]="date"></nz-date-picker>
       </div>
-      <div class="serviceDesc"> <p>Service</p> </div>
+      <div class="serviceDesc"><p>Service</p></div>
       <div class="searchByService">
-        <nz-select [(ngModel)]="singleValue" (ngModelChange)="showEvent($event)" nzShowSearch nzPlaceHolder="Choissez un service">
+        <nz-select (ngModelChange)="showEvent($event)" [(ngModel)]="singleValue" nzPlaceHolder="Choissez un service"
+                   nzShowSearch>
           <nz-option nzLabel="----"></nz-option>
           <nz-option
             *ngFor="let service of listOfService"
             [nzLabel]="service.nom" [nzValue]="service"></nz-option>
         </nz-select>
       </div>
-      <div class="filterButton"> <button nz-button class="filter-form-button">Filtrer</button></div>
+      <div class="filterButton">
+        <button class="filter-form-button" nz-button>Filtrer</button>
+      </div>
     </div>
+    <nz-table #prestationsTable
+              [nzData]="prestationsList" [nzPageSize]="5">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Date</th>
+          <th>Patient</th>
+          <th>Service</th>
+          <th>{{ 'état' | titlecase }} de la facturation</th>
+          <th>Actions</th>
+          <!-- Ajoutez d'autres colonnes si nécessaire -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let prestation of prestationsTable.data">
+          <td><strong>{{ getPatientID(prestation) }}</strong></td>
+          <td>{{ formatDateString(prestation.dateCreation!) }}</td>
+          <td>{{ getPatientName(prestation) }}</td>
+          <td>{{ prestation.service?.nom }}</td>
+          <td>
+            <nz-badge nzStatus="error" nzText="Non facturé"></nz-badge>
+          </td>
+          <td>
+            <a [nzDropdownMenu]="nonPayeFacture" nzTrigger="click" nz-dropdown>
+              <img alt="Arrow Down" src="assets/from_figma/actionsOnRow.svg">
+            </a>
+          </td>
+          <!--        <td>{{ prestation.diagnostic }}</td>-->
+          <!--        <td>{{ prestation.conclusion }}</td>-->
+
+        </tr>
+      </tbody>
+
+    </nz-table>
 
   </div>
 </div>
@@ -59,14 +96,25 @@
 
 <nz-dropdown-menu #menu="nzDropdownMenu">
   <ul nz-menu>
-    <li nz-menu-item class="selectedLink">
+    <li class="selectedLink" nz-menu-item>
       <span>Nouveau Patient</span>
     </li>
-    <li nz-menu-item class="selectedLink">
+    <li class="selectedLink" nz-menu-item>
       <span>Nouveau RDV</span>
     </li>
-    <li nz-menu-item class="selectedLink" (click)="addNewPrestation()">
+    <li (click)="addNewPrestation()" class="selectedLink" nz-menu-item>
       <span>Nouvelle prestation</span>
+    </li>
+  </ul>
+</nz-dropdown-menu>
+
+<nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
+  <ul nz-menu>
+    <li class="selectedLink" nz-menu-item>
+      <span>Facturer la prestation</span>
+    </li>
+    <li class="selectedLink" nz-menu-item>
+      <span>Voir le contenu de la prestation</span>
     </li>
   </ul>
 </nz-dropdown-menu>

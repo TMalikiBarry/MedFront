@@ -32,13 +32,15 @@ export class AuthService {
           // login successful if there's a jwt token in the response
           if (user && user.token) {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
+            // TODO NEVER STORE IN STORAGE
             sessionStorage.setItem('TOUCHMED_currentUser', JSON.stringify(user));
             sessionStorage.setItem('TOUCHMED_STATE', 'false');
             sessionStorage.setItem('TOUCHMED_ROLE', user.role);
             sessionStorage.setItem('TOUCHMED_TOKEN', user.token);
+
             this.currentUserSubject.next(user);
-          } else {
-            // this.notify.snackMessage('Login ou mot de passe Incorrect', 3500, 'danger');
+          }else {
+                // this.notify.snackMessage('Login ou mot de passe Incorrect', 3500, 'danger');
           }
 
         }));
@@ -48,7 +50,6 @@ export class AuthService {
     if(login && login.token) {
       this.currentUserSubject.next(login);
       this.isAuth = !!login;
-      // let isABoss = login? ['SUPERADMINISTRATEUR', 'ADMINISTRATEUR'].includes(login.fonction): false;
       if (this.isAuth) {
         sessionStorage.setItem('TOUCHMED_STATE', 'true');
       }
