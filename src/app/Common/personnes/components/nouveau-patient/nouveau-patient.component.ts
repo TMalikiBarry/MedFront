@@ -1,6 +1,9 @@
+// nouveau-patient.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PatientService } from 'src/app/services/patient/patient.service';
+
 @Component({
   selector: 'app-nouveau-patient',
   templateUrl: './nouveau-patient.component.html',
@@ -11,7 +14,7 @@ export class NouveauPatientComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private patientService: PatientService) {
     this.patientForm = this.fb.group({
-      genre: this.fb.array([], [Validators.required]),
+      genre: ['', Validators.required],
       prenom: ['', Validators.required],
       nom: ['', Validators.required],
       telephone: ['', Validators.required],
@@ -24,17 +27,18 @@ export class NouveauPatientComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.patientForm = this.fb.group({
-      genre: this.fb.array([], [Validators.required]),
-      prenom: ['', Validators.required],
-      nom: ['', Validators.required],
-      telephone: ['', Validators.required],
-      dateNaissance: ['', Validators.required],
-      groupeSanguin: ['', Validators.required],
-      adresse: ['', Validators.required],
-      medecinTraitant: ['', Validators.required],
-      ficheAccessible: ['', Validators.required]
-    });
+    // Vous pouvez retirer ce bloc car le formulaire a déjà été initialisé dans le constructeur
+    // this.patientForm = this.fb.group({
+    //   genre: ['', Validators.required],
+    //   prenom: ['', Validators.required],
+    //   nom: ['', Validators.required],
+    //   telephone: ['', Validators.required],
+    //   dateNaissance: ['', Validators.required],
+    //   groupeSanguin: ['', Validators.required],
+    //   adresse: ['', Validators.required],
+    //   medecinTraitant: ['', Validators.required],
+    //   ficheAccessible: ['', Validators.required]
+    // });
   }
 
   enregistrerPatient() {
