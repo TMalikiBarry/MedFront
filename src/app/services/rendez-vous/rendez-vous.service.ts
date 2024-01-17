@@ -10,7 +10,7 @@ export class RendezVousService {
 
   readonly API_URL =  environment.apiURL
 
-  readonly ENDPOINT_RDV = "/rendezVous/"
+  readonly ENDPOINT_RDV = "rendezVous/"
 
   constructor(private http : HttpClient) { }
 

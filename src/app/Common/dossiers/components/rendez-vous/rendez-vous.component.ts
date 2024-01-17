@@ -7,6 +7,7 @@ import {PrestationInterface} from "../../../../models/prestation.interface";
 import {PrestationService} from "../../../../services/prestation/prestation.service";
 import {PrestationFormDialogComponent} from "../../dialogs/prestation-form-dialog/prestation-form-dialog.component";
 import {PatientInterface} from "../../../../models/patient.interface";
+import {RendezVousService} from "../../../../services/rendez-vous/rendez-vous.service";
 
 @Component({
   selector: 'app-rendez-vous',
@@ -1271,19 +1272,19 @@ export class RendezVousComponent {
   customIconPath = 'assets/icon/calendar_small.svg';
 
   constructor(private modalService: NzModalService,
-              private api: PrestationService) {
+              private api: RendezVousService) {
   }
 
   ngOnInit(): void {
     this.listOfService = listService;
-    this.getPrestationsByPage();
+    this.getAllRdv();
   }
 
-  getPrestationsByPage(page: number = 0, size: number = 5) {
-    this.api.getPaginatedData(page, size).subscribe({
+  getAllRdv() {
+    this.api.getAllRdv().subscribe({
       next: response => {
-        console.log("Liste des prestations ", response);
-        this.prestationsList = response.content;
+        console.log("Liste des rdv ", response);
+        console.log(response);
       }
     })
   }
@@ -1302,7 +1303,7 @@ export class RendezVousComponent {
       nzClosable: false,
     }).afterClose.subscribe(
       ()=>{
-        this.getPrestationsByPage()
+        this.getAllRdv()
       }
     );
 
