@@ -6,6 +6,7 @@ import {PersonnelInterface} from "./personnel.interface";
 export interface PrestationInterface extends EntiteBase {
   id?: number;
   cout?: number;
+  montant?: number;
   prerequisities?: string;
   diagnostic?: string;
   conclusion?: string;

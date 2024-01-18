@@ -5,6 +5,12 @@ import {PrestationFormDialogComponent} from "../../dialogs/prestation-form-dialo
 import {PrestationService} from "../../../../services/prestation/prestation.service";
 import {PrestationInterface} from "../../../../models/prestation.interface";
 
+import {Page} from "../../../../models/pagination.interface";
+import {
+  NewPaymentFormDialogComponent
+} from "../../../finance/dialogs/new-payment-form-dialog/new-payment-form-dialog.component";
+import {NzTableQueryParams} from "ng-zorro-antd/table";
+
 @Component({
   selector: 'app-prestation',
   templateUrl: './prestation.component.html',
@@ -12,12 +18,17 @@ import {PrestationInterface} from "../../../../models/prestation.interface";
 })
 export class PrestationComponent implements OnInit{
 
-  numberStats = [1428, 1000, 400, 28];
-  descSats = ["Consultations","Consultations facturées","Consultations non facturées", "Partiellement payées"]
+  numberStats = [8, 0, 8, 0];
+  descSats = ["Prestations","Prestation facturée","Prestations non facturées", "Partiellement payée"]
   date: any;
   singleValue!: Service;
   listOfService!: Service[];
-  prestationsList!: PrestationInterface[];
+  loading = true;
+  total = 1;
+  pageSize = 5;
+  pageIndex = 1;
+  paginatedData!: Page<PrestationInterface>;
+  prestationsList: PrestationInterface[] = [];
 
   constructor(private modalService: NzModalService,
               private api: PrestationService) {
@@ -32,7 +43,12 @@ export class PrestationComponent implements OnInit{
     this.api.getPaginatedData(page, size).subscribe({
       next: response => {
         console.log("Liste des prestations ", response);
-        this.prestationsList = response.content;
+        this.paginatedData = response;
+        this.prestationsList = this.paginatedData.content;
+        this.pageSize = this.paginatedData.pageable.pageSize;
+        this.pageIndex = this.paginatedData.pageable.pageNumber + 1;
+        this.total = this.paginatedData.totalElements;
+        this.loading = false;
       }
     })
   }
@@ -57,6 +73,18 @@ export class PrestationComponent implements OnInit{
 
   }
 
+  addNewPayment() {
+    this.modalService.create({
+      nzContent: NewPaymentFormDialogComponent,
+      nzClosable: false,
+    }).afterClose.subscribe(
+      ()=>{
+        this.getPrestationsByPage()
+      }
+    );
+
+  }
+
   getPatientID(prestation: PrestationInterface): number {
     return ( prestation.id!*17*1000 + prestation.dossierMedical?.id!*19*10 + prestation.dossierMedical?.patient?.id!)
   }
@@ -68,12 +96,34 @@ export class PrestationComponent implements OnInit{
   // TODO METTRE DANS UN PIPE POUR GENERALISER SON UTILISATION DANS LES AUTRES COMPONENTS
   formatDateString(inputDateStr: Date | string): string {
     const inputDate = new Date(inputDateStr);
-    const day = inputDate.getDate().toString().padStart(2, '0');
-    const month = (inputDate.getMonth() + 1).toString().padStart(2, '0'); // getMonth() renvoie un mois indexé à 0
-    const year = inputDate.getFullYear();
-    const hour = inputDate.getHours().toString().padStart(2, '0');
-    const minute = inputDate.getMinutes().toString().padStart(2, '0');
+    // const day = inputDate.getDate().toString().padStart(2, '0');
+    // const month = (inputDate.getMonth() + 1).toString().padStart(2, '0'); // getMonth() renvoie un mois indexé à 0
+    // const year = inputDate.getFullYear();
+    // const hour = inputDate.getHours().toString().padStart(2, '0');
+    // const minute = inputDate.getMinutes().toString().padStart(2, '0');
+    //
+    // return `${day}/${month}/${year} ${hour}:${minute}`;
+    return inputDate.toLocaleString('fr-FR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    });
+  }
 
-    return `${day}/${month}/${year} ${hour}:${minute}`;
+/*  getData(event: any, context: string) {
+    console.log(`MY EVENT ${context}`, event);
+    this.getPrestationsByPage(event);
+  }*/
+
+  onQueryParamsChange(params: NzTableQueryParams): void {
+    console.log(" onQueryParamsChange FUNCTIONS ", params);
+    /*const { pageSize, pageIndex} = params;
+    const currentSort = sort.find(item => item.value !== null);
+    const sortField = (currentSort && currentSort.key) || null;
+    const sortOrder = (currentSort && currentSort.value) || null;*/
+    this.getPrestationsByPage(params.pageIndex - 1, params.pageSize)
   }
 }

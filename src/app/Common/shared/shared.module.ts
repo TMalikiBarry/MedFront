@@ -17,6 +17,7 @@ import {NzModalModule} from "ng-zorro-antd/modal";
 import {NzTableModule} from "ng-zorro-antd/table";
 import {NzCalendarModule} from "ng-zorro-antd/calendar";
 import {NzBadgeModule} from "ng-zorro-antd/badge";
+import {NzPaginationModule} from "ng-zorro-antd/pagination";
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import {NzBadgeModule} from "ng-zorro-antd/badge";
     NzTableModule,
     NzCalendarModule,
     NzBadgeModule,
+    NzPaginationModule
   ],
   imports: []
 })

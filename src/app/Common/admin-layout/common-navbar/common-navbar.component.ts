@@ -25,7 +25,7 @@ export class CommonNavbarComponent implements OnInit {
   ngOnInit(): void {
     const storedUser = sessionStorage.getItem('TOUCHMED_currentUser');
     this.currentUser = storedUser ? JSON.parse(storedUser) as AuthInterface : undefined;
-    console.log("USER ", this.currentUser);
+    // console.log("USER ", this.currentUser);
     Object.keys(this.openMap).forEach(key => {
       this.openMap[key] = this.router.url.includes(key);
     });

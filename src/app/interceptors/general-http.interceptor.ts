@@ -22,7 +22,6 @@ export class GeneralHttpInterceptor implements HttpInterceptor {
     if (request.url.includes('/auth/login')) {
       return next.handle(request);
     }
-    console.log("CURRENT USER ", currentUser)
     if (currentUser && currentUser.token) {
       request = request.clone({
         setHeaders: {

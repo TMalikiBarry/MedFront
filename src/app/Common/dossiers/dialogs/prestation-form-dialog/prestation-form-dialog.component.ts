@@ -1,10 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {NzModalRef} from "ng-zorro-antd/modal";
 import {FormBuilder, Validators} from "@angular/forms";
-import {listService, my_prescription, Service} from "../../../../models/Utils/constants";
-import {UtilsService} from "../../../../services/utils/utils.service";
-import {PrestationInterface} from "../../../../models/prestation.interface";
-import {PrestationService} from "../../../../services/prestation/prestation.service";
+import {listService, my_prescription, Service} from "src/app/models/Utils/constants";
+import {UtilsService} from "src/app/services/utils/utils.service";
+import {PrestationInterface} from "src/app/models/prestation.interface";
+import {PrestationService} from "src/app/services/prestation/prestation.service";
+import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface";
+import {DossierMedicalService} from "../../../../services/dossier-medical/dossier-medical.service";
 
 @Component({
   selector: 'app-prestation-form-dialog',
@@ -18,10 +20,12 @@ export class PrestationFormDialogComponent implements OnInit{
   btnText = "Valider";
   isConfirmLoading = false;
   listOfService!: Service[];
+  listOfDossierMedical!: DossierMedicalInterface[];
   listPrescription!: any;
 
   prestationForm = this.fb.group({
     service: ['', Validators.required],
+    dossier: ['', Validators.required],
     diagnostic:['', Validators.required],
     conclusion:['', Validators.required],
     prescription: '',
@@ -31,11 +35,18 @@ export class PrestationFormDialogComponent implements OnInit{
   constructor(private modal: NzModalRef,
               private fb: FormBuilder,
               private utils: UtilsService,
-              private api: PrestationService) {
+              private api: PrestationService,
+              private dossierMApi: DossierMedicalService,
+              ) {
   }
   ngOnInit(): void {
     this.listOfService = listService;
     this.listPrescription = my_prescription;
+    this.dossierMApi.getAll().subscribe({
+      next: result => {
+        this.listOfDossierMedical = result;
+      }
+    })
   }
 
 
@@ -52,7 +63,6 @@ export class PrestationFormDialogComponent implements OnInit{
 
       this.api.save(prestation).subscribe({
         next: (response) => {
-          console.log(" SUCCES DE PRESTATION ")
 
           console.log('Prestation enregistrée avec succès ', response);
         },
@@ -73,12 +83,18 @@ export class PrestationFormDialogComponent implements OnInit{
     const cout  = this.listOfService.find(s => s.id === formData.service)?.cout ?? 12000;
     return {
       cout, // Supposé fixe, peut être ajusté en fonction de la logique de votre application
+      montant: cout,
       prerequisities: "Venir à jeun", // Peut être ajusté ou récupéré du formulaire si nécessaire
       diagnostic: formData.diagnostic,
       conclusion: formData.conclusion,
       //personnel: { id: 3 }, // L'ID doit correspondre à la logique de votre application
-      dossierMedical: { id: 1 }, // L'ID doit correspondre à la logique de votre application
+      dossierMedical: { id: formData.dossier }, // L'ID doit correspondre à la logique de votre application
       service: { id: formData.service } // Supposé que le service dans le formulaire est l'ID
     };
+  }
+
+  getPatientFullName(dossier: DossierMedicalInterface):string {
+    const personne = dossier.patient?.personne;
+    return `${personne?.prenom} ${personne?.nom}`;
   }
 }
