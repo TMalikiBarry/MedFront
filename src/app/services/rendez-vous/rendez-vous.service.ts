@@ -10,12 +10,12 @@ export class RendezVousService {
 
   readonly API_URL =  environment.apiURL
 
-  readonly ENDPOINT_RDV = "rendezVous/"
+  readonly ENDPOINT_RDV = "/rendezVous/"
 
   constructor(private http : HttpClient) { }
 
   getAllRdv() {
-    return this.http.get<ApiResponseInterface>(this.API_URL+this.ENDPOINT_RDV+"all")
+    return this.http.get<any>(this.API_URL+this.ENDPOINT_RDV+"all")
   }
 
   getRdvById(id : number){

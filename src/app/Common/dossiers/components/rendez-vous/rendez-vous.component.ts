@@ -4,7 +4,6 @@ import {RendezVousFormDialogComponent} from "../../dialogs/rendez-vous-form-dial
 import {DetailRendezVousComponent} from "../../dialogs/detail-rendez-vous/detail-rendez-vous.component";
 import {listService, Service} from "../../../../models/Utils/constants";
 import {PrestationInterface} from "../../../../models/prestation.interface";
-import {PrestationService} from "../../../../services/prestation/prestation.service";
 import {PrestationFormDialogComponent} from "../../dialogs/prestation-form-dialog/prestation-form-dialog.component";
 import {PatientInterface} from "../../../../models/patient.interface";
 import {RendezVousService} from "../../../../services/rendez-vous/rendez-vous.service";
@@ -1261,12 +1260,9 @@ export class RendezVousComponent {
     }
   ]
 
-  numberStats = [1428, 1000, 400, 28];
-  descSats = ["Consultations","Consultations facturées","Consultations non facturées", "Partiellement payées"]
   date: any;
   singleValue!: Service;
   listOfService!: Service[];
-  prestationsList!: PrestationInterface[];
 
   // Chemin vers l'icône dans le dossier des actifs
   customIconPath = 'assets/icon/calendar_small.svg';
@@ -1284,7 +1280,7 @@ export class RendezVousComponent {
     this.api.getAllRdv().subscribe({
       next: response => {
         console.log("Liste des rdv ", response);
-        console.log(response);
+        this.listDataMap = response
       }
     })
   }
