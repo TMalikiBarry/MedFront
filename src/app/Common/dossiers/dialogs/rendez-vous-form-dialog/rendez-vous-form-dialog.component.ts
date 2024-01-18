@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import {listService, Service} from "../../../../models/Utils/constants";
 import {NzModalRef} from "ng-zorro-antd/modal";
 import {FormBuilder} from "@angular/forms";
-import {listMedecins, Medecin} from "../../../../models/Utils/medecins";
+import {listMedecins} from "../../../../models/Utils/medecins";
 import {listPoles, Poles} from "../../../../models/Utils/poles";
+import {PersonnelInterface} from "../../../../models/personnel.interface";
 
 @Component({
   selector: 'app-rendez-vous-form-dialog',
@@ -17,7 +18,7 @@ export class RendezVousFormDialogComponent {
   btnText = "Enregistrer";
   date !: string
   isConfirmLoading = false;
-  listOfMedecin!: Medecin[];
+  listOfMedecin!: PersonnelInterface[];
   listOfPole!: Poles[];
   listService!: Service[];
 

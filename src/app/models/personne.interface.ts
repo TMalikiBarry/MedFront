@@ -9,12 +9,15 @@ export interface PersonneInterface {
   hasAlreadyConnected: boolean;
   telephone: string;
   email: string;
-  datenaissance: Date;
+  datenaissance: string;
   numeroCNI: string;
-  numeroPassport: string;
+  numeroPassport: string |null;
   age: string;
-  otp: string;
-  dategenerationOTP: Date;
-  dateValidationOTP: Date;
+  otp: string|null;
+  dategenerationOTP: string|null;
+  dateValidationOTP: string|null;
   acces: AccesInterface;
+  supprime: boolean
+  dateCreation: string | null,
+  dateModification : string | null
 }

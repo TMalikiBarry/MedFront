@@ -1,0 +1,118 @@
+.mainbody
+  display: flex
+  flex-direction: column
+  align-items: center  // Centrer horizontalement
+  min-height: 100vh
+
+  .headerLayout
+    display: flex
+    justify-content: space-between
+    width: 80%  // Ajuster la largeur
+
+    .ant-input-affix-wrapper
+      width: 40% !important
+      padding: 4px 11px
+      font-size: 14px
+      line-height: 1.5715
+      background-color: #fff
+      border-radius: 0.5625rem !important
+      border: 1px solid #EAECF0 !important
+
+    .headerActions
+      display: flex
+      justify-content: space-between
+      width: 17rem
+
+      .addActionHeader
+        > span
+          margin-right: 0.5rem
+
+  .card-information
+    border-radius: 8px
+    border: 0.5px solid #EAECF0
+    background: var(--Primary, #FFF)
+    padding: 1rem
+    margin-bottom: 1rem
+    width: 80%
+    height: auto
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    align-items: center  // Centrer verticalement
+
+    .formheader
+      display: flex
+      justify-content: space-between
+      align-items: center
+      margin-bottom: 1rem
+
+      .title
+        color: var(--Couleur-texte, #252525)
+        font-family: Inter
+        font-size: 16px
+        font-style: normal
+        font-weight: 600
+        line-height: 40px
+
+  form
+    display: flex
+    flex-wrap: wrap
+
+    .gender, .name, .phone-date, .blood-address, .medecin-fiche, .button
+      width: 100%
+      margin-bottom: 15px
+
+    .gender
+      display: flex
+      flex-direction: column
+      align-items: flex-start
+      gap: 15px
+
+      div
+        flex: 1
+        display: flex
+        align-items: center
+
+      label
+        margin-right: 20px
+
+    .name
+      display: flex
+      gap: 15px
+
+      .prenom, .nom
+        flex: 1
+
+    .phone-date
+      display: flex
+      gap: 15px
+
+      .phone, .date
+        flex: 1
+
+    .blood-address
+      display: flex
+      gap: 15px
+
+      .blood, .address
+        flex: 1
+
+    .medecin-fiche
+      display: flex
+      gap: 15px
+
+      .medecin, .fiche
+        flex: 1
+
+    .label
+      margin-bottom: 5px
+
+    .input, .select
+      width: 100%
+      padding: 8px
+      box-sizing: border-box
+      margin-bottom: 10px
+
+    .button
+      width: 100%
+      text-align: center

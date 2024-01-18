@@ -3,22 +3,75 @@ export interface Service {
   nom: string;
   cout?: number;
   description: string;
-  couleur: string;
-  equipement: string;
-  prestations: any[];
-  pole: {
-    code: string;
+  couleur: string | null;
+  equipement?: string | null;
+  pole?: {
+    id?: number,
+    code?: string,
+    dateCreation?: string | null,
+    nom?: string,
+    supprime?: boolean,
+    description?: string,
+    localisation?: string | null,
+    horaire?: string | null,
+    reponsable?: string | null,
+    equipement?: string | null,
+    clinique?: {
+      code?: string,
+      nom?: string,
+      logo?: string | null,
+      codeCouleur?: string | null,
+      adressse?: string,
+      urlSiteWeb?: string | null,
+      datecreation?: string | null,
+      supprime?: boolean,
+      solde?: number | null,
+      dateFoundation?: string| null,
+      equipementsGeneraux?: string| null
+    }
   };
 }
 
-const service1: Service = {
+const service0: Service = {
   id: 1,
+  nom: "RADIOGRAMME TONALE",
+  description: "RADIOGRAMME",
+  couleur: null,
+  equipement: null,
+  pole: {
+  id: 2,
+    code: "ORL",
+    dateCreation: null,
+    nom: "ORL",
+    supprime: false,
+    description: "ORL ",
+    localisation: null,
+    horaire: null,
+    reponsable: null,
+    equipement: null,
+    clinique: {
+    code: "ALHAZAR",
+      nom: "ALHAZAR",
+      logo: null,
+      codeCouleur: null,
+      adressse: "Dakar",
+      urlSiteWeb: null,
+      datecreation: null,
+      supprime: false,
+      solde: null,
+      dateFoundation: null,
+      equipementsGeneraux: null
+  }
+}
+};
+
+const service1: Service = {
+  id: 2,
   nom: "Consultation",
   cout: 5000,
   description: "DescriptionService1",
   couleur: "CouleurService1",
   equipement: "EquipementService1",
-  prestations: [],
   pole: {
     code: "Ophtalmologie"
   }
@@ -31,7 +84,6 @@ const service2: Service = {
   description: "DescriptionService2",
   couleur: "CouleurService2",
   equipement: "EquipementService2",
-  prestations: [],
   pole: {
     code: "Biologie"
   }
@@ -44,13 +96,12 @@ const service3: Service = {
   description: "DescriptionService2",
   couleur: "CouleurService2",
   equipement: "EquipementService2",
-  prestations: [],
   pole: {
     code: "Chirurgie"
   }
 };
 
-export const listService: Service[] = [service1, service2, service3];
+export const listService: Service[] = [service0, service1, service2, service3];
 
 export const my_prescription = [
   { code: 'MED001', libelle: 'Ibuprofène' },

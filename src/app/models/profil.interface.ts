@@ -4,7 +4,7 @@ import {ActionInterface} from "./action.interface";
 export interface ProfilInterface extends EntiteBase{
   id: number;
   libelle: string;
-  code: EProfil;
+  code: EProfil | null;
   welcomeBookmark: string;
   actions: ActionInterface[];
 }

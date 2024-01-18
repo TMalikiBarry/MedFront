@@ -10,12 +10,12 @@ export class RendezVousService {
 
   readonly API_URL =  environment.apiURL
 
-  readonly ENDPOINT_RDV = "/rdv/"
+  readonly ENDPOINT_RDV = "/rendezVous/"
 
   constructor(private http : HttpClient) { }
 
   getAllRdv() {
-    return this.http.get<ApiResponseInterface>(this.API_URL+this.ENDPOINT_RDV)
+    return this.http.get<any>(this.API_URL+this.ENDPOINT_RDV+"all")
   }
 
   getRdvById(id : number){
@@ -23,11 +23,11 @@ export class RendezVousService {
   }
 
   saveRdv(data : any){
-    return this.http.post<ApiResponseInterface>(this.API_URL+this.ENDPOINT_RDV+"save/", data);
+    return this.http.post<ApiResponseInterface>(this.API_URL+this.ENDPOINT_RDV, data);
   }
 
   updateRdv(data : any){
-    return this.http.put<ApiResponseInterface>(this.API_URL+this.ENDPOINT_RDV+"edit/",data);
+    return this.http.put<ApiResponseInterface>(this.API_URL+this.ENDPOINT_RDV,data);
   }
 
   deleteRdv(id : number){
