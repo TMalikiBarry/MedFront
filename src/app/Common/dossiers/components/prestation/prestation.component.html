@@ -1,0 +1,138 @@
+<div class="mainbody">
+  <div class="headerLayout">
+    <nz-input-group [nzPrefix]="suffixIconSearch">
+      <input nz-input placeholder="Rechercher par patient, prestation" type="text"/>
+    </nz-input-group>
+    <div class="headerActions">
+      <img alt="notif" src="assets/from_figma/notification_icon.svg" width="17.5">
+      <img alt="email" src="assets/from_figma/email-icon.svg" width="17.5">
+      <img alt="calendar" src="assets/from_figma/calendar-icon.svg" width="17.5">
+      <div class="addActionHeader">
+        <img alt="Ajouter" src="assets/from_figma/addPlus-icon.svg">
+        <span>Ajouter</span>
+        <a [nzDropdownMenu]="menu" nz-dropdown>
+          <img alt="Arrow Down" src="assets/from_figma/arrow-down.svg">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="statsLayout">
+    <div *ngFor="let stat of numberStats; let i = index" class="myCardStats">
+      <div class="logoStats"><img alt="stats" src="assets/from_figma/stats-icon.svg" width="35"></div>
+
+      <div class="numberStats"><p>{{ stat }}</p></div>
+      <div class="descStats"><p>{{ descSats[i] }}</p></div>
+
+    </div>
+  </div>
+
+  <div class="dataLayout">
+    <div class="headerData make-spaceBetween">
+      <p>Listes des prestations</p>
+      <button (click)="addNewPrestation()" class="my-primary-button" nz-button>Nouvelle Prestation</button>
+    </div>
+    <div class="controllers">
+      <div class="searchInput">
+        <nz-input-group [nzPrefix]="suffixIconSearch">
+          <input nz-input placeholder="Rechercher par patient " type="text"/>
+        </nz-input-group>
+      </div>
+      <div class="dateDesc"><p>Date</p></div>
+      <div class="searchByDate">
+        <nz-date-picker (ngModelChange)="onChange($event)" [(ngModel)]="date"></nz-date-picker>
+      </div>
+      <div class="serviceDesc"><p>Service</p></div>
+      <div class="searchByService">
+        <nz-select (ngModelChange)="showEvent($event)" [(ngModel)]="singleValue" nzPlaceHolder="Choissez un service"
+                   nzShowSearch>
+          <nz-option nzLabel="----"></nz-option>
+          <nz-option
+            *ngFor="let service of listOfService"
+            [nzLabel]="service.nom" [nzValue]="service"></nz-option>
+        </nz-select>
+      </div>
+      <div class="filterButton">
+        <button class="filter-form-button" nz-button>Filtrer</button>
+      </div>
+    </div>
+    <nz-table #prestationsTable *ngIf="paginatedData"
+              [nzData]="paginatedData.content"
+              [nzPageSize]="paginatedData.pageable.pageSize"
+              [nzPageIndex]="paginatedData.pageable.pageNumber +1"
+              [nzTotal]="paginatedData.totalElements"
+              [nzFrontPagination]="false"
+              (nzQueryParams)="onQueryParamsChange($event)"
+    >
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Date</th>
+          <th>Patient</th>
+          <th>Service</th>
+          <th>{{ 'état' | titlecase }} de la facturation</th>
+          <th>Actions</th>
+          <!-- Ajoutez d'autres colonnes si nécessaire -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let prestation of prestationsTable.data">
+          <td><strong>{{ getPatientID(prestation) }}</strong></td>
+          <td>{{ formatDateString(prestation.dateCreation!) }}</td>
+          <td>{{ getPatientName(prestation) }}</td>
+          <td>{{ prestation.service?.nom }}</td>
+          <td>
+            <nz-badge nzStatus="error" nzText="Non facturé"></nz-badge>
+          </td>
+          <td>
+            <a [nzDropdownMenu]="nonPayeFacture" nzTrigger="click" nz-dropdown>
+              <img alt="Arrow Down" src="assets/from_figma/actionsOnRow.svg">
+            </a>
+          </td>
+          <!--        <td>{{ prestation.diagnostic }}</td>-->
+          <!--        <td>{{ prestation.conclusion }}</td>-->
+
+        </tr>
+      </tbody>
+
+    </nz-table>
+    <!--<nz-pagination class="make-spaceBetween" [nzPageIndex]="1" [nzTotal]="50" [nzItemRender]="renderItemTemplate"></nz-pagination>
+    <ng-template #renderItemTemplate let-type let-page="page">
+      <ng-container [ngSwitch]="type">
+        <a *ngSwitchCase="'page'">{{ page }}</a>
+        <a class="my_left_page" *ngSwitchCase="'prev'"><img src="assets/from_figma/arrow-left.svg" alt="Previous"> Previous</a>
+        <a class="my_right_page" *ngSwitchCase="'next'">Next  <img src="assets/from_figma/arrow-right.svg" alt="Next"></a>
+        <a *ngSwitchCase="'prev_5'"><<</a>
+        <a *ngSwitchCase="'next_5'">>></a>
+      </ng-container>
+    </ng-template>-->
+  </div>
+</div>
+
+<ng-template #suffixIconSearch>
+  <img alt="Rechercher" src="assets/from_figma/search_icon.svg">
+</ng-template>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <li class="selectedLink" nz-menu-item>
+      <span>Nouveau Patient</span>
+    </li>
+    <li class="selectedLink" nz-menu-item>
+      <span>Nouveau RDV</span>
+    </li>
+    <li (click)="addNewPrestation()" class="selectedLink" nz-menu-item>
+      <span>Nouvelle prestation</span>
+    </li>
+  </ul>
+</nz-dropdown-menu>
+
+<nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
+  <ul nz-menu>
+    <li class="selectedLink" nz-menu-item>
+      <span>Facturer la prestation</span>
+    </li>
+    <li class="selectedLink" nz-menu-item>
+      <span>Voir le contenu de la prestation</span>
+    </li>
+  </ul>
+</nz-dropdown-menu>

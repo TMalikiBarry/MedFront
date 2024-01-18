@@ -1,0 +1,106 @@
+<div *nzModalTitle class="make-spaceBetween">
+  <p>{{titleForm}}</p>
+  <img src="assets/from_figma/close_modal.svg" alt="Fermer le form" (click)="handleCancel()">
+</div>
+
+<div>
+  <form nz-form [formGroup]="prestationForm" class="login-form" >
+    <input (change)="getEvent($event)"
+           accept=".pdf, image/*, .doc, .docx, .xls, .xlsx"
+           hidden
+           id='file_uploader'
+           type='file'/>
+    <p class="connect-phrase">{{formDesc}}</p>
+    <div class="make-spaceBetween">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
+          <p class="input-label">Service</p>
+          <nz-select nzShowSearch nzPlaceHolder="Choissez un service" formControlName="service">
+            <nz-option nzLabel="----"></nz-option>
+            <nz-option
+              *ngFor="let service of listOfService"
+              [nzLabel]="service.nom" [nzValue]="service.id"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez Choisir un patient">
+          <p class="input-label">Patient</p>
+          <nz-select nzShowSearch nzPlaceHolder="Choissez un patient" formControlName="dossier">
+            <nz-option nzLabel="----"></nz-option>
+            <nz-option
+              *ngFor="let dossier of listOfDossierMedical"
+              [nzLabel]="getPatientFullName(dossier)" [nzValue]="dossier.id"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div class="make-spaceBetween">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseignez votre mot de passe!">
+          <p class="input-label">Resultat</p>
+          <nz-input-group [nzAddOnAfter]="addSuffixUserIcon" (click)="triggerFileUpload()">
+            <input type="text" nz-input formControlName="resultat" placeholder="Renseignez le résultat" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseignez votre mot de passe!">
+          <p class="input-label">Diagnostique</p>
+          <nz-input-group >
+            <input type="text" nz-input formControlName="diagnostic" placeholder="Renseignez le diagnostique" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div class="make-spaceBetween">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
+          <p class="input-label">Prescriptions</p>
+          <nz-select nzShowSearch nzPlaceHolder="Choissez les prescriptions"
+                     formControlName="prescription" nzMode="multiple">
+            <nz-option nzLabel="&#45;&#45;&#45;&#45;"></nz-option>
+            <nz-option
+              *ngFor="let medicament of listPrescription"
+              [nzLabel]="medicament.libelle" [nzValue]="medicament"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseignez votre mot de passe!">
+          <p class="input-label">Conclusion</p>
+          <nz-input-group >
+            <input type="text" nz-input formControlName="conclusion" placeholder="Renseignez la conclusion" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+<!--
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
+        <p class="input-label">Prescriptions</p>
+        <nz-select nzShowSearch nzPlaceHolder="Choissez les prescriptions" formControlName="prescription">
+          <nz-option nzLabel="&#45;&#45;&#45;&#45;"></nz-option>
+          <nz-option
+            *ngFor="let medicament of listPrescription"
+            [nzLabel]="medicament.libelle" [nzValue]="medicament"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+-->
+
+  </form>
+</div>
+
+<div *nzModalFooter>
+  <button nz-button class="default-button" (click)="handleCancel()">Annuler</button>
+  <button nz-button [disabled]="prestationForm.invalid" class="my-primary-button" (click)="addPrestation()" [nzLoading]="isConfirmLoading">{{btnText}}</button>
+</div>
+
+<ng-template #addSuffixUserIcon>
+  <div class="mySuffixTemp">
+    <img src="assets/from_figma/import_logo.svg" alt="Importer" class="svg-icon">
+    <span>Importer</span>
+  </div>
+
+</ng-template>

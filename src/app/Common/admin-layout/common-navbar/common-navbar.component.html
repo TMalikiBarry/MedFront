@@ -1,0 +1,315 @@
+<nz-layout>
+  <nz-sider nzTheme="light" nzWidth="16%">
+    <div id="firstIMG">
+      <img src="assets/from_figma/logo_dark.svg" alt="Logo TouchMed" class="bg-img">
+    </div>
+    <ul nz-menu nzMode="inline" >
+
+      <li nz-menu-item [ngClass]="{'firstNav': router.url =='/admin/dashboard'}">
+        <a routerLink="/admin/dashboard" class="selectedLink" >
+<!--          <span nz-icon nzType="pie-chart" ></span>-->
+          <img width="16"
+               [src]="'assets/from_figma/'+  (router.url=='/admin/dashboard'?'Dashboard_full_white.svg':'Dashboard.svg' )"
+               alt="Dashboard">
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <!--<li nz-menu-item>
+        <span nz-icon nzType="desktop"></span>
+        <span>Option 2</span>
+      </li>-->
+
+<!--      <li nz-submenu
+          [(nzOpen)]="openMap['organisation']"
+          (nzOpenChange)="openHandler('organisation')"
+          [nzTitle]="titleOrganisation">
+        <ul>
+
+        </ul>
+      </li>-->
+
+      <li nz-submenu
+          [(nzOpen)]="openMap['personnes']"
+          (nzOpenChange)="openHandler('personnes')"
+          [nzTitle]="titlePersonnes">
+        <ul>
+          <li nz-menu-item>
+            <a routerLink="/admin/personnes/fiche-medicale" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/personnes/fiche-medicale')? 'fiche_medicale_green.svg': 'fiche_medicale.svg')"
+                alt="Fiches-medicales">
+              <span>Fiches Médicales</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/personnes/dossiers-medicaux" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/personnes/dossiers-medicaux')? 'dossiers_medicaux_green.svg': 'Dossier.svg')"
+                alt="Dossiers-medicaux">
+              <span>Dossiers Médicaux</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/personnes/patients" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/personnes/prestation')? 'personnels_green.svg': 'personnels.svg')"
+                alt="Patients">
+              <span>Patients</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu
+          [(nzOpen)]="openMap['finance']"
+          (nzOpenChange)="openHandler('finance')"
+          [nzTitle]="titleFinance">
+        <ul>
+          <li nz-menu-item>
+            <a routerLink="/admin/finance/transactions" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/finance/transactions')? 'transactions_green.svg': 'transactions.svg')"
+                alt="Transactions">
+              <span>Transactions</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li nz-submenu
+          [(nzOpen)]="openMap['dossiers']"
+          (nzOpenChange)="openHandler('dossiers')"
+          [nzTitle]="titleDossiers">
+        <ul>
+          <li nz-menu-item>
+            <a routerLink="/admin/dossiers/rendez-vous" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/dossiers/rendez-vous')? 'rdv_green.svg': 'rdv.svg')"
+                alt="Rendez-Vous">
+              <span>Rendez-vous</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/dossiers/prestation" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/dossiers/prestation')? 'Prestation_green.svg': 'Prestation.svg')"
+                alt="Prstations">
+              <span>Prestations</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li nz-submenu
+          [(nzOpen)]="openMap['parametre']"
+          (nzOpenChange)="openHandler('parametre')"
+          [nzTitle]="titleParametre">
+        <ul>
+          <li nz-menu-item>
+            <a routerLink="/admin/parametre/cliniques" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/parametre/cliniques')? 'clinique_green.svg': 'clinique.svg')"
+                alt="Cliniques">
+              <span>Cliniques</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/parametre/poles" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/parametre/poles')? 'poles_green.svg': 'poles.svg')"
+                alt="Poles">
+              <span>Pôles</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/parametre/personnels" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/parametre/personnels')? 'personnels_green.svg': 'personnels.svg')"
+                alt="Personnels">
+              <span>Personnels</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/parametre/services" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/parametre/services')? 'service_green.svg': 'service.svg')"
+                alt="Services">
+              <span>Services</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/parametre/parametres" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/parametre/parametres')? 'parametres_green.svg': 'parametres.svg')"
+                alt="Paramètres">
+              <span>Paramètres</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/parametre/log-actions" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/parametre/log-actions')? 'log-actions_green.svg': 'log-actions.svg')"
+                alt="Log-Actions">
+              <span>Log Actions</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/parametre/sessions" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/parametre/sessions')? 'sessions_green.svg': 'sessions.svg')"
+                alt="Sessions">
+              <span>Sessions</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li nz-submenu
+          [(nzOpen)]="openMap['securite']"
+          (nzOpenChange)="openHandler('securite')"
+          [nzTitle]="titleSecurite">
+        <ul>
+          <li nz-menu-item>
+            <a routerLink="/admin/securite/modules" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/parametre/modules')? 'module_green.svg': 'module.svg')"
+                alt="Rendez-Vous">
+              <span>Modules</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/securite/fonctionnalites" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/parametre/fonctionnalites')? 'fonctionnalite_green.svg': 'fonctionnalite.svg')"
+                alt="Rendez-Vous">
+              <span>Fonctionnalités</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/securite/actions" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/securite/log-actions')? 'log-actions_green.svg': 'log-actions.svg')"
+                alt="Rendez-Vous">
+              <span>Actions</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/securite/profil" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/parametre/profil')? 'personnels_green.svg': 'personnels.svg')"
+                alt="Rendez-Vous">
+              <span>Profil</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a routerLink="/admin/securite/acces" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/parametre/acces')? 'acces_green.svg': 'acces.svg')"
+                alt="Rendez-Vous">
+              <span>Accès</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+<!--      <li nz-menu-item>
+        <span nz-icon nzType="file"></span>
+        <span>File</span>
+      </li>-->
+    </ul>
+    <div class="parent" *ngIf="currentUser">
+      <div class="avatar">
+        <nz-avatar [nzText]="getUserFullNameInitials()" nzSize="large"
+                   style="color: #266141; background-color:#d9f5b5;">
+
+        </nz-avatar>
+      </div>
+      <div class="fullName">
+        <p>{{currentUser.fullName}}</p>
+      </div>
+      <div class="role">
+        {{currentUser.role}}
+      </div>
+      <div class="actions">
+        <a nz-dropdown [nzDropdownMenu]="menu">
+          <img src="assets/from_figma/arrow-down.svg" alt="Hover me">
+        </a>
+      </div>
+    </div>
+  </nz-sider>
+  <nz-layout>
+<!--    <nz-header></nz-header>-->
+    <nz-content>
+<!--      <nz-breadcrumb>-->
+<!--        <nz-breadcrumb-item>User</nz-breadcrumb-item>-->
+<!--        <nz-breadcrumb-item>Bill</nz-breadcrumb-item>-->
+<!--      </nz-breadcrumb>-->
+<!--      <div class="inner-content">Bill is a cat.</div>-->
+      <router-outlet></router-outlet>
+    </nz-content>
+<!--    <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>-->
+  </nz-layout>
+</nz-layout>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <li nz-menu-item class="selectedLink">
+      <img width="20" src="assets/from_figma/personnels.svg" alt="identity">
+      <span>Mon Profil</span>
+    </li>
+    <li nz-menu-item class="selectedLink">
+      <img width="20" src="assets/from_figma/change_pw.svg" alt="Modifier MP">
+      <span>Modifier mon mot de passe</span>
+    </li>
+    <li nz-menu-item class="selectedLink" (click)="logOut()">
+      <img width="20" src="assets/from_figma/logout.svg" alt="Modifier MP">
+      <span>Se déconnecter</span>
+    </li>
+  </ul>
+</nz-dropdown-menu>
+
+<ng-template #titleOrganisation>
+<!--  <span nz-icon nzType="team" [nzTheme]="router.url.includes('/organisation/') ? 'fill': 'outline'"></span>-->
+  <img
+    [src]="'assets/from_figma/' + (router.url.includes('/organisation/') ? 'Organisation_full_white.svg' : 'Organisation.svg')"
+    alt="Dossiers" class="module_logo" width="16.5">
+  <span>Organisation</span>
+</ng-template>
+
+<ng-template #titlePersonnes>
+<!--  <span nz-icon nzType="user" [nzTheme]="router.url.includes('/personnes/') ? 'fill': 'outline'"></span>-->
+  <img
+    [src]="'assets/from_figma/' + (router.url.includes('/personnes/') ? 'Personnes_full_white.svg' : 'Personnes.svg')"
+    alt="Dossiers" class="module_logo" width="16.5">
+  <span>Patients</span>
+</ng-template>
+
+<ng-template #titleFinance>
+  <!--  <span nz-icon nzType="user" [nzTheme]="router.url.includes('/personnes/') ? 'fill': 'outline'"></span>-->
+  <img
+    [src]="'assets/from_figma/' + (router.url.includes('/finance/') ? 'Finance_full_white.svg' : 'Finance.svg')"
+    alt="Dossiers" class="module_logo" width="16.5">
+  <span>Finance</span>
+</ng-template>
+
+<ng-template #titleSecurite>
+<!--  <span nz-icon nzType="team" [nzTheme]="router.url.includes('/securite/') ? 'fill': 'outline'"></span>-->
+  <img
+    [src]="'assets/from_figma/' + (router.url.includes('/securite/') ? 'Securite_full_white.svg' : 'Securite.svg')"
+    alt="Dossiers" class="module_logo" width="16.5">
+  <span>Securite</span>
+</ng-template>
+
+<ng-template #titleDossiers>
+<!--  <span nz-icon nzType="folder" [nzTheme]="router.url.includes('/dossiers/') ? 'fill': 'outline'"></span>-->
+  <img
+    [src]="'assets/from_figma/' + (router.url.includes('/dossiers/') ? 'Dossier_full_white.svg' : 'Dossier.svg')"
+    alt="Dossiers" class="module_logo" width="16.5">
+  <span>Dossiers</span>
+</ng-template>
+
+<ng-template #titleParametre>
+<!--  <span nz-icon nzType="team" [nzTheme]="router.url.includes('/parametre/') ? 'fill': 'outline'"></span>-->
+  <img
+    [src]="'assets/from_figma/' + (router.url.includes('/parametre/') ? 'Parametre_full_white.svg' : 'Parametre.svg')"
+    alt="Dossiers" class="module_logo" width="16.5">
+  <span>Paramètres</span>
+</ng-template>

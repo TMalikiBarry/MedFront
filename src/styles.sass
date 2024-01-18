@@ -1,8 +1,88 @@
 /* You can add global styles to this file, and also import other style files */
 
-body, html 
+.ant-picker-calendar-header
+  display: flex
+  justify-content: center
+  padding: 12px 0
+
+  .ant-select
+    box-sizing: border-box
+    border-color: #EDF2F7
+    margin: 0
+    padding: 0
+    color: #2a2a2a
+    font-size: 14px
+    font-variant: tabular-nums
+    line-height: 1.5715
+    list-style: none
+    font-feature-settings: 'tnum'
+    position: relative
+    display: inline-block
+    cursor: pointer
+
+.ant-picker-content tr th
+  height: auto
+  padding: 0 12px 5px 0
+  line-height: 18px
+  text-align: center
+  font-size: medium
+
+.ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date-today
+    border-color: #266141
+
+.ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected .ant-picker-calendar-date .ant-picker-calendar-date-value, .ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected:hover .ant-picker-calendar-date .ant-picker-calendar-date-value, .ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected .ant-picker-calendar-date-today .ant-picker-calendar-date-value, .ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected:hover .ant-picker-calendar-date-today .ant-picker-calendar-date-value
+  color: #266141
+
+body, html
   height: 100%
   margin: 0  // Remove default margin
   overflow: hidden
-  background: #F6F8FB
+  background: #FFFFFF
   font-family: Lato
+
+
+
+.selectedLink:hover
+  color: #84BE38
+
+.make-spaceBetween
+  display: flex
+  justify-content: space-between
+  align-items: center
+
+
+.center-item
+  display: flex
+  justify-content: center
+  align-items: center
+
+
+.my-primary-button
+  background-color: #266141 !important
+  color: #ECF2FF !important
+  //padding: 0.4rem 0.7rem !important
+  height: 2.5rem
+  text-align: center
+  border-radius: 0.4rem
+
+
+  &:hover
+    background-color: white !important
+    border: 0.5px solid #266141 !important
+    color: #266141 !important
+
+
+
+
+.ant-badge-status-error
+  background-color: #A81735
+//@font-face
+//  font-family: 'Inter'
+//  src: url('src/assets/Fonts/Inter/static/Inter-Bold.ttf')
+
+.my_left_page
+  align-self: start
+
+.my_right_page
+  align-self: end
+
