@@ -8,12 +8,13 @@ import {
 import {catchError, Observable, throwError} from 'rxjs';
 import {AuthService} from "../services/authentication/auth.service";
 import * as JWTUtils from 'jwt-decode';
+import {NotifService} from "../services/notification/notif.service";
 
 
 @Injectable()
 export class GeneralHttpInterceptor implements HttpInterceptor {
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private notify: NotifService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>>{
 
@@ -56,24 +57,24 @@ export class GeneralHttpInterceptor implements HttpInterceptor {
       // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
       if (decodedToken.exp < Date.now() / 1000) {
         this.authService.logout();
-        // this.notify.snackMessage("Connexion expirée, veuillez vous reconnecter", 3500, "warning");
+        this.notify.snackMessage("Connexion expirée, veuillez vous reconnecter", 3500, "warning");
         return throwError( () => "Votre connexion a expiré");
       }
-      // this.notify.snackMessage("Permission non accordée pour cette action", 3500, "danger");
+      this.notify.snackMessage("Permission non accordée pour cette action", 3500, "error");
     }
 
 
     if ([500].indexOf(error.status) !== -1) {
-      // this.notify.snackMessage("Erreur SERVEUR", 5000, "danger");
+      this.notify.snackMessage("Erreur SERVEUR", 5000, "error");
     }
     if (error.status === 0) {
-      // this.notify.snackMessage("Problème de connexion au serveur", 5000, "danger");
+      this.notify.snackMessage("Problème de connexion au serveur", 5000, "error");
     }
     if ([404].indexOf(error.status) !== -1) {
-      // this.notify.snackMessage("Introuvable", 5000, "danger");
+      this.notify.snackMessage("Introuvable", 5000, "error");
     }
     if ([400].indexOf(error.status) !== -1) {
-      // this.notify.snackMessage("Une erreur est survenue", 5000, "danger");
+      this.notify.snackMessage("Une erreur est survenue", 5000, "error");
     }
     const myError = error.error.message || error.statusText;
     // Return an observable with a user-facing error message.

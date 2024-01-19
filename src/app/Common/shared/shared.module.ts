@@ -18,6 +18,7 @@ import {NzTableModule} from "ng-zorro-antd/table";
 import {NzCalendarModule} from "ng-zorro-antd/calendar";
 import {NzBadgeModule} from "ng-zorro-antd/badge";
 import {NzPaginationModule} from "ng-zorro-antd/pagination";
+import { NzMessageModule } from 'ng-zorro-antd/message';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import {NzPaginationModule} from "ng-zorro-antd/pagination";
     NzFormModule,
     NzCheckboxModule,
     NzInputModule,
+    NzMessageModule,
     ReactiveFormsModule,
     NzButtonModule,
     NzTableModule,
