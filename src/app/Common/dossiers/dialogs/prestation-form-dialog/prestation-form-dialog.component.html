@@ -18,8 +18,8 @@
           <nz-select nzShowSearch nzPlaceHolder="Choissez un service" formControlName="service">
             <nz-option nzLabel="----"></nz-option>
             <nz-option
-              *ngFor="let service of listOfService"
-              [nzLabel]="service.nom" [nzValue]="service.id"></nz-option>
+              *ngFor="let service of myServicesList"
+              [nzLabel]="(service.nom + ' - ' + service.pole?.nom) " [nzValue]="service.id"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
