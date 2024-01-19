@@ -29,5 +29,7 @@ export class PatientService {
     return this.http.get(this.url, { params: params });
   }
 
-  getAll(){}
+  getAll(){
+    return  this.http.get<any>(this.url+"/all")
+  }
 }

@@ -8,6 +8,12 @@ import {PersonnelInterface} from "../../../../models/personnel.interface";
 import {PatientInterface} from "../../../../models/patient.interface";
 import {RendezVousInterface} from "../../../../models/rendez-vous.interface";
 import {RendezVousService} from "../../../../services/rendez-vous/rendez-vous.service";
+import {PoleService} from "../../../../services/pole/pole.service";
+import {CliniqueServiceService} from "../../../../services/service/clinique-service.service";
+import {PrestationService} from "../../../../services/prestation/prestation.service";
+import {PersonnelService} from "../../../../services/personnel/personnel.service";
+import {PatientService} from "../../../../services/patient/patient.service";
+import {PrestationInterface} from "../../../../models/prestation.interface";
 
 @Component({
   selector: 'app-rendez-vous-form-dialog',
@@ -28,23 +34,51 @@ export class RendezVousFormDialogComponent {
   rendezVous !: RendezVousInterface;
 
   RvForm = this.fb.group({
-    medecin: '',
-    pole:'',
+    //medecin: '',
+    //pole:'',
     service:'',
-    date: '',
+    dateRv: '',
     patient: '',
     presence: '',
+    duree: 30,
+    remarques: "doit venir avec des gangs",
+    rappels: "",
     resultat:''
   })
 
   constructor(private modal: NzModalRef,
               private api : RendezVousService,
+              private apiPole : PoleService,
+              private apiService : CliniqueServiceService,
+              private apiPatient : PatientService,
+              private apiPersonnel : PersonnelService,
               private fb: FormBuilder) {
   }
   ngOnInit(): void {
-    this.listOfMedecin = listMedecins;
-    this.listOfPole = listPoles;
-    this.listService = listService;
+    this.apiPole.getAllPole().subscribe({
+      next : res => {
+        this.listOfPole = res.reponse
+        console.log(this.listOfPole)
+      }
+    })
+
+    this.apiPatient.getAll().subscribe({
+      next : res => {
+        this.listOfPatient = res as PatientInterface[]
+      }
+    })
+
+    this.apiPersonnel.getAllPersonnel().subscribe({
+      next : res => {
+        this.listOfMedecin = res.reponse
+      }
+    })
+
+    this.apiService.getAllService().subscribe({
+      next : res => {
+        this.listService = res.reponse
+      }
+    })
   }
 
 
@@ -53,8 +87,10 @@ export class RendezVousFormDialogComponent {
   }
 
   handleOk() {
-    console.log(this.RvForm.value)
-    this.api.saveRdv(this.RvForm.value).subscribe({
+    const formData = this.RvForm.value;
+    const rv = this.createRdvFromForm(formData);
+    console.log(rv)
+    this.api.saveRdv(rv).subscribe({
       next: (response) => {
         console.log('RendezVous enregistrée avec succès ', response);
       },
@@ -72,6 +108,29 @@ export class RendezVousFormDialogComponent {
 
   onChange(result: Date): void {
     console.log('onChange: ', result);
+  }
+
+  getDay(dateString : string): Date {
+    const dateObject: Date = new Date(dateString);
+    return dateObject;
+  }
+
+  createRdvFromForm(formData: any): {
+    dateRv: any;
+    remarques: string;
+    patient: { id: any };
+    rappels: string;
+    service: { id: any };
+    duree: number
+  } {
+    return {
+      dateRv: formData.dateRv,
+      duree: 0,
+      patient: {id : formData.patient},
+      rappels: "",
+      remarques: "",
+      service: {id : formData.service},
+    };
   }
 
 }

@@ -10,6 +10,7 @@ import {NzBadgeModule} from "ng-zorro-antd/badge";
 import { RendezVousFormDialogComponent } from './dialogs/rendez-vous-form-dialog/rendez-vous-form-dialog.component';
 import { DetailRendezVousComponent } from './dialogs/detail-rendez-vous/detail-rendez-vous.component';
 import {NzPopoverModule} from "ng-zorro-antd/popover";
+import { DetailRdvPatientComponent } from './dialogs/detail-rdv-patient/detail-rdv-patient.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import {NzPopoverModule} from "ng-zorro-antd/popover";
     RendezVousComponent,
     PrestationFormDialogComponent,
     RendezVousFormDialogComponent,
-    DetailRendezVousComponent
+    DetailRendezVousComponent,
+    DetailRdvPatientComponent
   ],
   imports: [
     SharedModule,

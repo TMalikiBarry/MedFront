@@ -16,7 +16,7 @@
               <nz-option nzLabel="----"></nz-option>
               <nz-option
                 *ngFor="let pole of listOfPole"
-                [nzLabel]="pole.nom" [nzValue]="pole"></nz-option>
+                [nzLabel]="pole.nom" [nzValue]="pole.id"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -28,7 +28,7 @@
               <nz-option nzLabel="----"></nz-option>
               <nz-option
                 *ngFor="let service of listService"
-                [nzLabel]="service.nom" [nzValue]="service"></nz-option>
+                [nzLabel]="service.nom" [nzValue]="service.id"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -42,7 +42,7 @@
               <nz-option nzLabel="----"></nz-option>
               <nz-option
                 *ngFor="let medecin of listOfMedecin"
-                [nzLabel]="medecin.personne.nom" [nzValue]="medecin"></nz-option>
+                [nzLabel]="medecin.personne.nom" [nzValue]="medecin.id" ></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -50,7 +50,7 @@
           <nz-form-control>
             <p class="input-label">Date et Heure du RDV</p>
             <nz-date-picker nzPlaceHolder="Choissez la date" nzShowTime
-                            nzFormat="dd-MM-YYYY HH:mm:ss" formControlName="date" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
+                            nzFormat="dd-MM-YYYY HH:mm:ss" formControlName="dateRv" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -63,7 +63,7 @@
               <nz-option nzLabel="----"></nz-option>
               <nz-option
                 *ngFor="let patient of listOfPatient"
-                [nzLabel]="patient.personne.nom" [nzValue]="patient"></nz-option>
+                [nzLabel]="patient.personne.nom" [nzValue]="patient.id"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>

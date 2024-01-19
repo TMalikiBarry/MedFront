@@ -17,9 +17,9 @@ export class PatientComponent implements OnInit {
   }
 
   loadPatients() {
-    this.patientService.getAllPatients().subscribe(
-      (patients: PatientInterface[]) => {
-        this.patients = patients;
+    this.patientService.getAll().subscribe(
+      patients => {
+        this.patients = patients.reponse;
         console.log(patients);
       },
       (error) => {

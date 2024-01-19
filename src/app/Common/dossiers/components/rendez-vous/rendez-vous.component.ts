@@ -8,6 +8,7 @@ import {PrestationFormDialogComponent} from "../../dialogs/prestation-form-dialo
 import {PatientInterface} from "../../../../models/patient.interface";
 import {RendezVousService} from "../../../../services/rendez-vous/rendez-vous.service";
 import {CliniqueServiceService} from "../../../../services/service/clinique-service.service";
+import {DetailRdvPatientComponent} from "../../dialogs/detail-rdv-patient/detail-rdv-patient.component";
 
 @Component({
   selector: 'app-rendez-vous',
@@ -1374,5 +1375,14 @@ export class RendezVousComponent {
 
   filtre() {
 
+  }
+
+  detailPatient(patient :any) {
+    this.modalService.create({
+      nzContent: DetailRdvPatientComponent,
+      nzData: patient,
+      nzClosable: false,
+      nzWidth: '50rem'
+    });
   }
 }
