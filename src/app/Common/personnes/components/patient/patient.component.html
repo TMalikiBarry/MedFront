@@ -1,1 +1,173 @@
-<p>patient works!</p>
+<div class="mainbody">
+    <div class="headerLayout">
+        <input nz-input placeholder="Rechercher par patient, prestation" type="text"/>
+      
+      <div class="headerActions">
+        <img alt="notif" src="assets/from_figma/notification_icon.svg" width="17.5">
+        <img alt="email" src="assets/from_figma/email-icon.svg" width="17.5">
+        <img alt="calendar" src="assets/from_figma/calendar-icon.svg" width="17.5">
+        <div class="addActionHeader">
+          <img alt="Ajouter" src="assets/from_figma/addPlus-icon.svg">
+          <span>Ajouter</span>
+          <a [nzDropdownMenu]="menu" nz-dropdown>
+            <img alt="Arrow Down" src="assets/from_figma/arrow-down.svg">
+          </a>
+        </div>
+      </div>
+    </div>
+   
+    <div class="chart-overview">
+        <div class="card">
+           <div class="card-title">
+                   <h3 class="title">Gestion des patients</h3>
+                   <div class="legends">
+                           <div class="legend">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="11" viewBox="0 0 10 11" fill="none">
+                                           <circle cx="5" cy="5.5" r="5" fill="#84BE38"/>
+                                   </svg>
+                                   <span>Consultations</span>
+                           </div>
+                           <div class="legend">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="11" viewBox="0 0 10 11" fill="none">
+                                           <circle cx="5" cy="5.5" r="5" fill="#266141"/>
+                                   </svg>
+                                   <span>Hospitalisations</span>
+                           </div>
+                           <div class="legend">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="11" viewBox="0 0 10 11" fill="none">
+                                           <circle cx="5" cy="5.5" r="5" fill="#FDCD51"/>
+                                   </svg>
+                                   <span>Sortie</span>
+                           </div>
+                           <div class="dropdowns">
+                                   <nz-dropdown-menu class="dropdown">
+                                           <span>Service 1</span>
+                                           <span>Service 2</span>
+                                   </nz-dropdown-menu>
+                                   <nz-dropdown-menu class="dropdown">
+                                           <span>Salle 1</span>
+                                           <span>Salle 2</span>
+                                   </nz-dropdown-menu>
+                           </div>
+                           
+                   </div>
+           </div>
+           <div class="chart">
+                   <span>Data loading...</span>
+           </div>
+        </div>
+        <div class="card-right">
+           <div class="card-title">
+                   <h3 class="title">Données relatives aux visites</h3>
+                   <div class="chart">
+                       <span>Data loading...</span>
+               </div>
+                   <div class="legends">
+                           <div class="legend">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="11" viewBox="0 0 10 11" fill="none">
+                                           <circle cx="5" cy="5.5" r="5" fill="#84BE38"/>
+                                   </svg>
+                                   <span>Femmes</span>
+                           </div>
+                           <div class="legend">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="11" viewBox="0 0 10 11" fill="none">
+                                           <circle cx="5" cy="5.5" r="5" fill="#266141"/>
+                                   </svg>
+                                   <span>Hommes</span>
+                           </div>
+                           <div class="legend">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="11" viewBox="0 0 10 11" fill="none">
+                                           <circle cx="5" cy="5.5" r="5" fill="#FDCD51"/>
+                                   </svg>
+                                   <span>Enfants</span>
+                           </div>
+                         
+                           
+                   </div>
+           </div>
+           
+        </div>
+       </div>
+  
+    <div class="dataLayout">
+      <p>Listes des patients</p>
+      <div class="controllers">
+        <div class="searchInput">
+          <nz-input-group [nzPrefix]="suffixIconSearch">
+            <input nz-input placeholder="Rechercher par nom, id " type="text"/>
+          </nz-input-group>
+        </div>
+        
+        <div class="filterButton">
+          <a routerLink="/personnes/nouveau-patient">
+            <button class="filter-form-button" nz-button>Nouveau Patient</button>
+          </a>
+         
+          
+
+        </div>
+      </div>
+      <nz-table #prestationsTable
+                [nzData]="patients" [nzPageSize]="5">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nom du patient</th>
+            <th>Telephone</th>
+            <th>Derniere visite</th>
+            <th>Statut</th>
+            <th>Actions</th>
+            <!-- Ajoutez d'autres colonnes si nécessaire -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let patient of patients">
+            <td>{{ patient.personne.id }}</td>
+            <td>{{ patient.personne.nom }} {{ patient.personne.prenom }}</td>
+            <td>{{ patient.personne.telephone }}</td>
+            <td></td>
+            <td></td>
+        
+            <td>
+              <a [nzDropdownMenu]="nonPayeFacture" nzTrigger="click" nz-dropdown>
+                <img alt="Arrow Down" src="assets/from_figma/actionsOnRow.svg">
+              </a>
+            </td>
+            <!--        <td>{{ prestation.diagnostic }}</td>-->
+            <!--        <td>{{ prestation.conclusion }}</td>-->
+  
+          </tr>
+        </tbody>
+  
+      </nz-table>
+  
+    </div>
+  </div>
+  
+  <ng-template #suffixIconSearch>
+    <img alt="Rechercher" src="assets/from_figma/search_icon.svg">
+  </ng-template>
+  
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu>
+      <li class="selectedLink" nz-menu-item>
+        <span>Nouveau Patient</span>
+      </li>
+      <li class="selectedLink" nz-menu-item>
+        <span>Nouveau RDV</span>
+      </li>
+     
+    </ul>
+  </nz-dropdown-menu>
+  
+  <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
+    <ul nz-menu>
+      <li class="selectedLink" nz-menu-item>
+        <span>Facturer la prestation</span>
+      </li>
+      <li class="selectedLink" nz-menu-item>
+        <span>Voir le contenu de la prestation</span>
+      </li>
+    </ul>
+  </nz-dropdown-menu>
+  
