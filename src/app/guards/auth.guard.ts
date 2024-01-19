@@ -1,9 +1,11 @@
 import {CanActivateFn, Router,} from '@angular/router';
 import {inject} from "@angular/core";
 import {AuthService} from "../services/authentication/auth.service";
+import {NotifService} from "../services/notification/notif.service";
 
 export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
+  const notify = inject(NotifService);
   const router = inject(Router);
   if (authService.isLoggedIn()) {
     const userRole = authService.getRole();
@@ -16,7 +18,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     }*/
     if (!userRole) {
       // console.error(userRole + " != " + route.data['roles']);
-      // notify.snackMessage('Accès non autorisé', 4000, 'danger');
+      notify.snackMessage('Accès non autorisé', 4000, 'error');
       router.navigate(['']);
       return false;
     }
