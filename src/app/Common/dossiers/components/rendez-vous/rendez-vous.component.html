@@ -56,9 +56,13 @@
       </div>
     </div>
     <nz-table #basicTable
-              nzShowPagination
-              nzShowSizeChanger
-              [nzData]="listDataMap" [nzPageSize]="5">
+              *ngIf="paginatedData"
+              [nzData]="paginatedData.content"
+              [nzPageSize]="paginatedData.pageable.pageSize"
+              [nzPageIndex]="paginatedData.pageable.pageNumber +1"
+              [nzTotal]="paginatedData.totalElements"
+              [nzFrontPagination]="false"
+              (nzQueryParams)="onQueryParamsChange($event)">
       <thead>
       <tr>
         <th>Heure</th>
@@ -72,7 +76,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let rdv of listDataMap">
+      <tr *ngFor="let rdv of paginatedData.content">
         <td><strong>{{ getHour(rdv.dateRv) }}H{{ getMinutes(rdv.dateRv)}}</strong></td>
         <td>{{ formatDateString(rdv.dateRv) }}</td>
         <td>{{ rdv.patient.personne.prenom }} {{rdv.patient.personne.nom}}</td>

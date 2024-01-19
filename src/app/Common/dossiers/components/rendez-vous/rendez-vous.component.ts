@@ -9,6 +9,9 @@ import {PatientInterface} from "../../../../models/patient.interface";
 import {RendezVousService} from "../../../../services/rendez-vous/rendez-vous.service";
 import {CliniqueServiceService} from "../../../../services/service/clinique-service.service";
 import {DetailRdvPatientComponent} from "../../dialogs/detail-rdv-patient/detail-rdv-patient.component";
+import {NzTableQueryParams} from "ng-zorro-antd/table";
+import {Page} from "../../../../models/pagination.interface";
+import {RendezVousInterface} from "../../../../models/rendez-vous.interface";
 
 @Component({
   selector: 'app-rendez-vous',
@@ -17,716 +20,717 @@ import {DetailRdvPatientComponent} from "../../dialogs/detail-rdv-patient/detail
 })
 export class RendezVousComponent {
 
-  listDataMap = [
-    {
-      "supprime": false,
-      "dateCreation": "2024-01-09T11:50:26.804259",
-      "dateModification": "2024-01-09T11:50:26.804259",
-      "id": 1,
-      "dateRv": "2024-01-31T10:00:00",
-      "statut": null,
-      "duree": 30.0,
-      "remarques": "doit venir avec des gangs",
-      "rappels": "",
-      "personnel": {
-        "id": 2,
-        "personne": {
-          "supprime": false,
-          "dateCreation": null,
-          "dateModification": "2023-12-24T20:48:27.557194",
-          "id": 4,
-          "nom": "Mbaye",
-          "prenom": "Sidy",
-          "adresse": "Dakar",
-          "genre": "Masculin",
-          "hasAlreadyConnected": false,
-          "telephone": "777984988",
-          "email": "seynabou.ndiaye@intoucgroup.net",
-          "datenaissance": "1999-12-13",
-          "numeroCNI": "2758199402028",
-          "numeroPassport": null,
-          "age": "30",
-          "otp": null,
-          "dategenerationOTP": null,
-          "dateValidationOTP": null,
-          "acces": {
-            "id": 4,
-            "login": "admin1",
-            "password": "$2a$10$7tZxso/Ap81cwRl/vr40wuJUipCTGRFQ0T03cntDCqsrxafdUEEMS",
-            "oldPassword": null,
-            "status": "ACTIF",
-            "dateLastPwdUpdate": null,
-            "hasAlreadyConnected": null,
-            "logActions": [],
-            "profil": {
-              "supprime": false,
-              "dateCreation": "2023-12-24T20:48:27.48334",
-              "dateModification": "2023-12-24T20:48:27.48334",
-              "id": 5,
-              "libelle": "INFIRMIER",
-              "code": "INFIRMIER",
-              "welcomeBookmark": "inf",
-              "actions": []
-            },
-            "supprime": false,
-            "dateCreation": null,
-            "dateModification": "2023-12-24T20:48:27.539963"
-          }
-        },
-        "titre": {
-          "code": "RECEPTION",
-          "libelle": "Reception",
-          "supprim": null
-        },
-        "pole": null
-      },
-      "patient": {
-        "supprime": false,
-        "dateCreation": "2023-12-26T12:00:25.533705",
-        "dateModification": "2023-12-26T12:00:25.533705",
-        "id": 13,
-        "groupeSanguin": "C+",
-        "donneurOrgane": false,
-        "contactEnCasUrgent": "777984099",
-        "personne": {
-          "supprime": false,
-          "dateCreation": "2023-12-26T12:00:25.534053",
-          "dateModification": "2023-12-26T12:00:25.534053",
-          "id": 11,
-          "nom": "Fall",
-          "prenom": "Sidyy",
-          "adresse": "Dakar",
-          "genre": "Masculin",
-          "hasAlreadyConnected": false,
-          "telephone": "777984988",
-          "email": "seynabou.ndiaye@intoucgroup.net",
-          "datenaissance": "1999-12-13",
-          "numeroCNI": "2758199402028",
-          "numeroPassport": null,
-          "age": "30",
-          "otp": null,
-          "dategenerationOTP": null,
-          "dateValidationOTP": null,
-          "acces": null
-        },
-        "personnel": {
-          "id": 2,
-          "personne": {
-            "supprime": false,
-            "dateCreation": null,
-            "dateModification": "2023-12-24T20:48:27.557194",
-            "id": 4,
-            "nom": "Mbaye",
-            "prenom": "Sidy",
-            "adresse": "Dakar",
-            "genre": "Masculin",
-            "hasAlreadyConnected": false,
-            "telephone": "777984988",
-            "email": "seynabou.ndiaye@intoucgroup.net",
-            "datenaissance": "1999-12-13",
-            "numeroCNI": "2758199402028",
-            "numeroPassport": null,
-            "age": "30",
-            "otp": null,
-            "dategenerationOTP": null,
-            "dateValidationOTP": null,
-            "acces": {
-              "id": 4,
-              "login": "admin1",
-              "password": "$2a$10$7tZxso/Ap81cwRl/vr40wuJUipCTGRFQ0T03cntDCqsrxafdUEEMS",
-              "oldPassword": null,
-              "status": "ACTIF",
-              "dateLastPwdUpdate": null,
-              "hasAlreadyConnected": null,
-              "logActions": [],
-              "profil": {
-                "supprime": false,
-                "dateCreation": "2023-12-24T20:48:27.48334",
-                "dateModification": "2023-12-24T20:48:27.48334",
-                "id": 5,
-                "libelle": "INFIRMIER",
-                "code": "INFIRMIER",
-                "welcomeBookmark": "inf",
-                "actions": []
-              },
-              "supprime": false,
-              "dateCreation": null,
-              "dateModification": "2023-12-24T20:48:27.539963"
-            }
-          },
-          "titre": {
-            "code": "RECEPTION",
-            "libelle": "Reception",
-            "supprim": null
-          },
-          "pole": null
-        }
-      },
-      "service": {
-        "id": 1,
-        "nom": "RADIOGRAMME TONALE",
-        "description": "RADIOGRAMME",
-        "couleur": null,
-        "equipement": null,
-        "pole": {
-          "id": 2,
-          "code": "ORL",
-          "dateCreation": null,
-          "nom": "ORL",
-          "supprime": false,
-          "description": "ORL ",
-          "localisation": null,
-          "horaire": null,
-          "reponsable": null,
-          "equipement": null,
-          "clinique": {
-            "code": "ALHAZAR",
-            "nom": "ALHAZAR",
-            "logo": null,
-            "codeCouleur": null,
-            "adressse": "Dakar",
-            "urlSiteWeb": null,
-            "datecreation": null,
-            "supprime": false,
-            "solde": null,
-            "dateFoundation": null,
-            "equipementsGeneraux": null
-          }
-        }
-      }
-    },
-    {
-      "supprime": false,
-      "dateCreation": "2024-01-09T11:50:26.804259",
-      "dateModification": "2024-01-06T11:50:26.804259",
-      "id": 2,
-      "dateRv": "2024-01-12T14:00:00",
-      "statut": null,
-      "duree": 30.0,
-      "remarques": "doit venir avec des gangs",
-      "rappels": "",
-      "personnel": {
-        "id": 2,
-        "personne": {
-          "supprime": false,
-          "dateCreation": null,
-          "dateModification": "2023-12-24T20:48:27.557194",
-          "id": 4,
-          "nom": "Adje",
-          "prenom": "Babacar",
-          "adresse": "Dakar",
-          "genre": "Masculin",
-          "hasAlreadyConnected": false,
-          "telephone": "778591879",
-          "email": "babs.ndiaye@intoucgroup.net",
-          "datenaissance": "1999-12-13",
-          "numeroCNI": "2758199402028",
-          "numeroPassport": null,
-          "age": "30",
-          "otp": null,
-          "dategenerationOTP": null,
-          "dateValidationOTP": null,
-          "acces": {
-            "id": 4,
-            "login": "admin1",
-            "password": "$2a$10$7tZxso/Ap81cwRl/vr40wuJUipCTGRFQ0T03cntDCqsrxafdUEEMS",
-            "oldPassword": null,
-            "status": "ACTIF",
-            "dateLastPwdUpdate": null,
-            "hasAlreadyConnected": null,
-            "logActions": [],
-            "profil": {
-              "supprime": false,
-              "dateCreation": "2023-12-24T20:48:27.48334",
-              "dateModification": "2023-12-24T20:48:27.48334",
-              "id": 5,
-              "libelle": "INFIRMIER",
-              "code": "INFIRMIER",
-              "welcomeBookmark": "inf",
-              "actions": []
-            },
-            "supprime": false,
-            "dateCreation": null,
-            "dateModification": "2023-12-24T20:48:27.539963"
-          }
-        },
-        "titre": {
-          "code": "RECEPTION",
-          "libelle": "Reception",
-          "supprim": null
-        },
-        "pole": null
-      },
-      "patient": {
-        "supprime": false,
-        "dateCreation": "2023-12-26T12:00:25.533705",
-        "dateModification": "2023-12-26T12:00:25.533705",
-        "id": 13,
-        "groupeSanguin": "C+",
-        "donneurOrgane": false,
-        "contactEnCasUrgent": "777984099",
-        "personne": {
-          "supprime": false,
-          "dateCreation": "2023-12-26T12:00:25.534053",
-          "dateModification": "2023-12-26T12:00:25.534053",
-          "id": 11,
-          "nom": "Seck",
-          "prenom": "Babacar",
-          "adresse": "Dakar",
-          "genre": "Masculin",
-          "hasAlreadyConnected": false,
-          "telephone": "777984988",
-          "email": "seynabou.ndiaye@intoucgroup.net",
-          "datenaissance": "1999-12-13",
-          "numeroCNI": "2758199402028",
-          "numeroPassport": null,
-          "age": "30",
-          "otp": null,
-          "dategenerationOTP": null,
-          "dateValidationOTP": null,
-          "acces": null
-        },
-        "personnel": {
-          "id": 2,
-          "personne": {
-            "supprime": false,
-            "dateCreation": null,
-            "dateModification": "2023-12-24T20:48:27.557194",
-            "id": 4,
-            "nom": "Barry",
-            "prenom": "Thierno",
-            "adresse": "Dakar",
-            "genre": "Masculin",
-            "hasAlreadyConnected": false,
-            "telephone": "777984988",
-            "email": "thierno.ndiaye@intoucgroup.net",
-            "datenaissance": "1999-12-13",
-            "numeroCNI": "2758199402028",
-            "numeroPassport": null,
-            "age": "30",
-            "otp": null,
-            "dategenerationOTP": null,
-            "dateValidationOTP": null,
-            "acces": {
-              "id": 4,
-              "login": "admin1",
-              "password": "$2a$10$7tZxso/Ap81cwRl/vr40wuJUipCTGRFQ0T03cntDCqsrxafdUEEMS",
-              "oldPassword": null,
-              "status": "ACTIF",
-              "dateLastPwdUpdate": null,
-              "hasAlreadyConnected": null,
-              "logActions": [],
-              "profil": {
-                "supprime": false,
-                "dateCreation": "2023-12-24T20:48:27.48334",
-                "dateModification": "2023-12-24T20:48:27.48334",
-                "id": 5,
-                "libelle": "INFIRMIER",
-                "code": "INFIRMIER",
-                "welcomeBookmark": "inf",
-                "actions": []
-              },
-              "supprime": false,
-              "dateCreation": null,
-              "dateModification": "2023-12-24T20:48:27.539963"
-            }
-          },
-          "titre": {
-            "code": "RECEPTION",
-            "libelle": "Reception",
-            "supprim": null
-          },
-          "pole": null
-        }
-      },
-      "service": {
-        "id": 1,
-        "nom": "RADIOGRAMME TONALE",
-        "description": "RADIOGRAMME",
-        "couleur": null,
-        "equipement": null,
-        "pole": {
-          "id": 2,
-          "code": "ORL",
-          "dateCreation": null,
-          "nom": "ORL",
-          "supprime": false,
-          "description": "ORL ",
-          "localisation": null,
-          "horaire": null,
-          "reponsable": null,
-          "equipement": null,
-          "clinique": {
-            "code": "ALHAZAR",
-            "nom": "ALHAZAR",
-            "logo": null,
-            "codeCouleur": null,
-            "adressse": "Dakar",
-            "urlSiteWeb": null,
-            "datecreation": null,
-            "supprime": false,
-            "solde": null,
-            "dateFoundation": null,
-            "equipementsGeneraux": null
-          }
-        }
-      }
-    },
-    {
-      "supprime": false,
-      "dateCreation": "2024-01-09T11:50:26.804259",
-      "dateModification": "2024-01-09T11:50:26.804259",
-      "id": 3,
-      "dateRv": "2024-01-25T14:00:00",
-      "statut": null,
-      "duree": 30.0,
-      "remarques": "doit venir avec des gangs",
-      "rappels": "",
-      "personnel": {
-        "id": 2,
-        "personne": {
-          "supprime": false,
-          "dateCreation": null,
-          "dateModification": "2023-12-24T20:48:27.557194",
-          "id": 4,
-          "nom": "Adje",
-          "prenom": "B.",
-          "adresse": "Dakar",
-          "genre": "Masculin",
-          "hasAlreadyConnected": false,
-          "telephone": "778591879",
-          "email": "babs.ndiaye@intoucgroup.net",
-          "datenaissance": "1999-12-13",
-          "numeroCNI": "2758199402028",
-          "numeroPassport": null,
-          "age": "30",
-          "otp": null,
-          "dategenerationOTP": null,
-          "dateValidationOTP": null,
-          "acces": {
-            "id": 4,
-            "login": "admin1",
-            "password": "$2a$10$7tZxso/Ap81cwRl/vr40wuJUipCTGRFQ0T03cntDCqsrxafdUEEMS",
-            "oldPassword": null,
-            "status": "ACTIF",
-            "dateLastPwdUpdate": null,
-            "hasAlreadyConnected": null,
-            "logActions": [],
-            "profil": {
-              "supprime": false,
-              "dateCreation": "2023-12-24T20:48:27.48334",
-              "dateModification": "2023-12-24T20:48:27.48334",
-              "id": 5,
-              "libelle": "INFIRMIER",
-              "code": "INFIRMIER",
-              "welcomeBookmark": "inf",
-              "actions": []
-            },
-            "supprime": false,
-            "dateCreation": null,
-            "dateModification": "2023-12-24T20:48:27.539963"
-          }
-        },
-        "titre": {
-          "code": "RECEPTION",
-          "libelle": "Reception",
-          "supprim": null
-        },
-        "pole": null
-      },
-      "patient": {
-        "supprime": false,
-        "dateCreation": "2023-12-26T12:00:25.533705",
-        "dateModification": "2023-12-26T12:00:25.533705",
-        "id": 13,
-        "groupeSanguin": "C+",
-        "donneurOrgane": false,
-        "contactEnCasUrgent": "777984099",
-        "personne": {
-          "supprime": false,
-          "dateCreation": "2023-12-26T12:00:25.534053",
-          "dateModification": "2023-12-26T12:00:25.534053",
-          "id": 11,
-          "nom": "Diop",
-          "prenom": "Mactar",
-          "adresse": "Dakar",
-          "genre": "Masculin",
-          "hasAlreadyConnected": false,
-          "telephone": "777984988",
-          "email": "seynabou.ndiaye@intoucgroup.net",
-          "datenaissance": "1999-12-13",
-          "numeroCNI": "2758199402028",
-          "numeroPassport": null,
-          "age": "30",
-          "otp": null,
-          "dategenerationOTP": null,
-          "dateValidationOTP": null,
-          "acces": null
-        },
-        "personnel": {
-          "id": 2,
-          "personne": {
-            "supprime": false,
-            "dateCreation": null,
-            "dateModification": "2023-12-24T20:48:27.557194",
-            "id": 4,
-            "nom": "Barry",
-            "prenom": "Thierno",
-            "adresse": "Dakar",
-            "genre": "Masculin",
-            "hasAlreadyConnected": false,
-            "telephone": "777984988",
-            "email": "thierno.ndiaye@intoucgroup.net",
-            "datenaissance": "1999-12-13",
-            "numeroCNI": "2758199402028",
-            "numeroPassport": null,
-            "age": "30",
-            "otp": null,
-            "dategenerationOTP": null,
-            "dateValidationOTP": null,
-            "acces": {
-              "id": 4,
-              "login": "admin1",
-              "password": "$2a$10$7tZxso/Ap81cwRl/vr40wuJUipCTGRFQ0T03cntDCqsrxafdUEEMS",
-              "oldPassword": null,
-              "status": "ACTIF",
-              "dateLastPwdUpdate": null,
-              "hasAlreadyConnected": null,
-              "logActions": [],
-              "profil": {
-                "supprime": false,
-                "dateCreation": "2023-12-24T20:48:27.48334",
-                "dateModification": "2023-12-24T20:48:27.48334",
-                "id": 5,
-                "libelle": "INFIRMIER",
-                "code": "INFIRMIER",
-                "welcomeBookmark": "inf",
-                "actions": []
-              },
-              "supprime": false,
-              "dateCreation": null,
-              "dateModification": "2023-12-24T20:48:27.539963"
-            }
-          },
-          "titre": {
-            "code": "RECEPTION",
-            "libelle": "Reception",
-            "supprim": null
-          },
-          "pole": null
-        }
-      },
-      "service": {
-        "id": 1,
-        "nom": "RADIOGRAMME TONALE",
-        "description": "RADIOGRAMME",
-        "couleur": null,
-        "equipement": null,
-        "pole": {
-          "id": 2,
-          "code": "ORL",
-          "dateCreation": null,
-          "nom": "ORL",
-          "supprime": false,
-          "description": "ORL ",
-          "localisation": null,
-          "horaire": null,
-          "reponsable": null,
-          "equipement": null,
-          "clinique": {
-            "code": "ALHAZAR",
-            "nom": "ALHAZAR",
-            "logo": null,
-            "codeCouleur": null,
-            "adressse": "Dakar",
-            "urlSiteWeb": null,
-            "datecreation": null,
-            "supprime": false,
-            "solde": null,
-            "dateFoundation": null,
-            "equipementsGeneraux": null
-          }
-        }
-      }
-    },
-    {
-      "supprime": false,
-      "dateCreation": "2024-01-09T11:50:26.804259",
-      "dateModification": "2024-01-09T15:50:26.804259",
-      "id": 4,
-      "dateRv": "2024-01-12T14:00:00",
-      "statut": null,
-      "duree": 30.0,
-      "remarques": "doit venir avec des gangs",
-      "rappels": "",
-      "personnel": {
-        "id": 2,
-        "personne": {
-          "supprime": false,
-          "dateCreation": null,
-          "dateModification": "2023-12-24T20:48:27.557194",
-          "id": 4,
-          "nom": "Adje",
-          "prenom": "B.",
-          "adresse": "Dakar",
-          "genre": "Masculin",
-          "hasAlreadyConnected": false,
-          "telephone": "778591879",
-          "email": "babs.ndiaye@intoucgroup.net",
-          "datenaissance": "1999-12-13",
-          "numeroCNI": "2758199402028",
-          "numeroPassport": null,
-          "age": "30",
-          "otp": null,
-          "dategenerationOTP": null,
-          "dateValidationOTP": null,
-          "acces": {
-            "id": 4,
-            "login": "admin1",
-            "password": "$2a$10$7tZxso/Ap81cwRl/vr40wuJUipCTGRFQ0T03cntDCqsrxafdUEEMS",
-            "oldPassword": null,
-            "status": "ACTIF",
-            "dateLastPwdUpdate": null,
-            "hasAlreadyConnected": null,
-            "logActions": [],
-            "profil": {
-              "supprime": false,
-              "dateCreation": "2023-12-24T20:48:27.48334",
-              "dateModification": "2023-12-24T20:48:27.48334",
-              "id": 5,
-              "libelle": "INFIRMIER",
-              "code": "INFIRMIER",
-              "welcomeBookmark": "inf",
-              "actions": []
-            },
-            "supprime": false,
-            "dateCreation": null,
-            "dateModification": "2023-12-24T20:48:27.539963"
-          }
-        },
-        "titre": {
-          "code": "RECEPTION",
-          "libelle": "Reception",
-          "supprim": null
-        },
-        "pole": null
-      },
-      "patient": {
-        "supprime": false,
-        "dateCreation": "2023-12-26T12:00:25.533705",
-        "dateModification": "2023-12-26T12:00:25.533705",
-        "id": 13,
-        "groupeSanguin": "C+",
-        "donneurOrgane": false,
-        "contactEnCasUrgent": "777984099",
-        "personne": {
-          "supprime": false,
-          "dateCreation": "2023-12-26T12:00:25.534053",
-          "dateModification": "2023-12-26T12:00:25.534053",
-          "id": 11,
-          "nom": "Sarr",
-          "prenom": "Ibrahima",
-          "adresse": "Dakar",
-          "genre": "Masculin",
-          "hasAlreadyConnected": false,
-          "telephone": "777984988",
-          "email": "seynabou.ndiaye@intoucgroup.net",
-          "datenaissance": "1999-12-13",
-          "numeroCNI": "2758199402028",
-          "numeroPassport": null,
-          "age": "30",
-          "otp": null,
-          "dategenerationOTP": null,
-          "dateValidationOTP": null,
-          "acces": null
-        },
-        "personnel": {
-          "id": 2,
-          "personne": {
-            "supprime": false,
-            "dateCreation": null,
-            "dateModification": "2023-12-24T20:48:27.557194",
-            "id": 4,
-            "nom": "Barry",
-            "prenom": "Thierno",
-            "adresse": "Dakar",
-            "genre": "Masculin",
-            "hasAlreadyConnected": false,
-            "telephone": "777984988",
-            "email": "thierno.ndiaye@intoucgroup.net",
-            "datenaissance": "1999-12-13",
-            "numeroCNI": "2758199402028",
-            "numeroPassport": null,
-            "age": "30",
-            "otp": null,
-            "dategenerationOTP": null,
-            "dateValidationOTP": null,
-            "acces": {
-              "id": 4,
-              "login": "admin1",
-              "password": "$2a$10$7tZxso/Ap81cwRl/vr40wuJUipCTGRFQ0T03cntDCqsrxafdUEEMS",
-              "oldPassword": null,
-              "status": "ACTIF",
-              "dateLastPwdUpdate": null,
-              "hasAlreadyConnected": null,
-              "logActions": [],
-              "profil": {
-                "supprime": false,
-                "dateCreation": "2023-12-24T20:48:27.48334",
-                "dateModification": "2023-12-24T20:48:27.48334",
-                "id": 5,
-                "libelle": "INFIRMIER",
-                "code": "INFIRMIER",
-                "welcomeBookmark": "inf",
-                "actions": []
-              },
-              "supprime": false,
-              "dateCreation": null,
-              "dateModification": "2023-12-24T20:48:27.539963"
-            }
-          },
-          "titre": {
-            "code": "RECEPTION",
-            "libelle": "Reception",
-            "supprim": null
-          },
-          "pole": null
-        }
-      },
-      "service": {
-        "id": 1,
-        "nom": "RADIOGRAMME TONALE",
-        "description": "RADIOGRAMME",
-        "couleur": null,
-        "equipement": null,
-        "pole": {
-          "id": 2,
-          "code": "ORL",
-          "dateCreation": null,
-          "nom": "ORL",
-          "supprime": false,
-          "description": "ORL ",
-          "localisation": null,
-          "horaire": null,
-          "reponsable": null,
-          "equipement": null,
-          "clinique": {
-            "code": "ALHAZAR",
-            "nom": "ALHAZAR",
-            "logo": null,
-            "codeCouleur": null,
-            "adressse": "Dakar",
-            "urlSiteWeb": null,
-            "datecreation": null,
-            "supprime": false,
-            "solde": null,
-            "dateFoundation": null,
-            "equipementsGeneraux": null
-          }
-        }
-      }
-    }
-  ]
+  // listDataMap = [
+  //   {
+  //     "supprime": false,
+  //     "dateCreation": "2024-01-09T11:50:26.804259",
+  //     "dateModification": "2024-01-09T11:50:26.804259",
+  //     "id": 1,
+  //     "dateRv": "2024-01-31T10:00:00",
+  //     "statut": null,
+  //     "duree": 30.0,
+  //     "remarques": "doit venir avec des gangs",
+  //     "rappels": "",
+  //     "personnel": {
+  //       "id": 2,
+  //       "personne": {
+  //         "supprime": false,
+  //         "dateCreation": null,
+  //         "dateModification": "2023-12-24T20:48:27.557194",
+  //         "id": 4,
+  //         "nom": "Mbaye",
+  //         "prenom": "Sidy",
+  //         "adresse": "Dakar",
+  //         "genre": "Masculin",
+  //         "hasAlreadyConnected": false,
+  //         "telephone": "777984988",
+  //         "email": "seynabou.ndiaye@intoucgroup.net",
+  //         "datenaissance": "1999-12-13",
+  //         "numeroCNI": "2758199402028",
+  //         "numeroPassport": null,
+  //         "age": "30",
+  //         "otp": null,
+  //         "dategenerationOTP": null,
+  //         "dateValidationOTP": null,
+  //         "acces": {
+  //           "id": 4,
+  //           "login": "admin1",
+  //           "password": "$2a$10$7tZxso/Ap81cwRl/vr40wuJUipCTGRFQ0T03cntDCqsrxafdUEEMS",
+  //           "oldPassword": null,
+  //           "status": "ACTIF",
+  //           "dateLastPwdUpdate": null,
+  //           "hasAlreadyConnected": null,
+  //           "logActions": [],
+  //           "profil": {
+  //             "supprime": false,
+  //             "dateCreation": "2023-12-24T20:48:27.48334",
+  //             "dateModification": "2023-12-24T20:48:27.48334",
+  //             "id": 5,
+  //             "libelle": "INFIRMIER",
+  //             "code": "INFIRMIER",
+  //             "welcomeBookmark": "inf",
+  //             "actions": []
+  //           },
+  //           "supprime": false,
+  //           "dateCreation": null,
+  //           "dateModification": "2023-12-24T20:48:27.539963"
+  //         }
+  //       },
+  //       "titre": {
+  //         "code": "RECEPTION",
+  //         "libelle": "Reception",
+  //         "supprim": null
+  //       },
+  //       "pole": null
+  //     },
+  //     "patient": {
+  //       "supprime": false,
+  //       "dateCreation": "2023-12-26T12:00:25.533705",
+  //       "dateModification": "2023-12-26T12:00:25.533705",
+  //       "id": 13,
+  //       "groupeSanguin": "C+",
+  //       "donneurOrgane": false,
+  //       "contactEnCasUrgent": "777984099",
+  //       "personne": {
+  //         "supprime": false,
+  //         "dateCreation": "2023-12-26T12:00:25.534053",
+  //         "dateModification": "2023-12-26T12:00:25.534053",
+  //         "id": 11,
+  //         "nom": "Fall",
+  //         "prenom": "Sidyy",
+  //         "adresse": "Dakar",
+  //         "genre": "Masculin",
+  //         "hasAlreadyConnected": false,
+  //         "telephone": "777984988",
+  //         "email": "seynabou.ndiaye@intoucgroup.net",
+  //         "datenaissance": "1999-12-13",
+  //         "numeroCNI": "2758199402028",
+  //         "numeroPassport": null,
+  //         "age": "30",
+  //         "otp": null,
+  //         "dategenerationOTP": null,
+  //         "dateValidationOTP": null,
+  //         "acces": null
+  //       },
+  //       "personnel": {
+  //         "id": 2,
+  //         "personne": {
+  //           "supprime": false,
+  //           "dateCreation": null,
+  //           "dateModification": "2023-12-24T20:48:27.557194",
+  //           "id": 4,
+  //           "nom": "Mbaye",
+  //           "prenom": "Sidy",
+  //           "adresse": "Dakar",
+  //           "genre": "Masculin",
+  //           "hasAlreadyConnected": false,
+  //           "telephone": "777984988",
+  //           "email": "seynabou.ndiaye@intoucgroup.net",
+  //           "datenaissance": "1999-12-13",
+  //           "numeroCNI": "2758199402028",
+  //           "numeroPassport": null,
+  //           "age": "30",
+  //           "otp": null,
+  //           "dategenerationOTP": null,
+  //           "dateValidationOTP": null,
+  //           "acces": {
+  //             "id": 4,
+  //             "login": "admin1",
+  //             "password": "$2a$10$7tZxso/Ap81cwRl/vr40wuJUipCTGRFQ0T03cntDCqsrxafdUEEMS",
+  //             "oldPassword": null,
+  //             "status": "ACTIF",
+  //             "dateLastPwdUpdate": null,
+  //             "hasAlreadyConnected": null,
+  //             "logActions": [],
+  //             "profil": {
+  //               "supprime": false,
+  //               "dateCreation": "2023-12-24T20:48:27.48334",
+  //               "dateModification": "2023-12-24T20:48:27.48334",
+  //               "id": 5,
+  //               "libelle": "INFIRMIER",
+  //               "code": "INFIRMIER",
+  //               "welcomeBookmark": "inf",
+  //               "actions": []
+  //             },
+  //             "supprime": false,
+  //             "dateCreation": null,
+  //             "dateModification": "2023-12-24T20:48:27.539963"
+  //           }
+  //         },
+  //         "titre": {
+  //           "code": "RECEPTION",
+  //           "libelle": "Reception",
+  //           "supprim": null
+  //         },
+  //         "pole": null
+  //       }
+  //     },
+  //     "service": {
+  //       "id": 1,
+  //       "nom": "RADIOGRAMME TONALE",
+  //       "description": "RADIOGRAMME",
+  //       "couleur": null,
+  //       "equipement": null,
+  //       "pole": {
+  //         "id": 2,
+  //         "code": "ORL",
+  //         "dateCreation": null,
+  //         "nom": "ORL",
+  //         "supprime": false,
+  //         "description": "ORL ",
+  //         "localisation": null,
+  //         "horaire": null,
+  //         "reponsable": null,
+  //         "equipement": null,
+  //         "clinique": {
+  //           "code": "ALHAZAR",
+  //           "nom": "ALHAZAR",
+  //           "logo": null,
+  //           "codeCouleur": null,
+  //           "adressse": "Dakar",
+  //           "urlSiteWeb": null,
+  //           "datecreation": null,
+  //           "supprime": false,
+  //           "solde": null,
+  //           "dateFoundation": null,
+  //           "equipementsGeneraux": null
+  //         }
+  //       }
+  //     }
+  //   },
+  //   {
+  //     "supprime": false,
+  //     "dateCreation": "2024-01-09T11:50:26.804259",
+  //     "dateModification": "2024-01-06T11:50:26.804259",
+  //     "id": 2,
+  //     "dateRv": "2024-01-12T14:00:00",
+  //     "statut": null,
+  //     "duree": 30.0,
+  //     "remarques": "doit venir avec des gangs",
+  //     "rappels": "",
+  //     "personnel": {
+  //       "id": 2,
+  //       "personne": {
+  //         "supprime": false,
+  //         "dateCreation": null,
+  //         "dateModification": "2023-12-24T20:48:27.557194",
+  //         "id": 4,
+  //         "nom": "Adje",
+  //         "prenom": "Babacar",
+  //         "adresse": "Dakar",
+  //         "genre": "Masculin",
+  //         "hasAlreadyConnected": false,
+  //         "telephone": "778591879",
+  //         "email": "babs.ndiaye@intoucgroup.net",
+  //         "datenaissance": "1999-12-13",
+  //         "numeroCNI": "2758199402028",
+  //         "numeroPassport": null,
+  //         "age": "30",
+  //         "otp": null,
+  //         "dategenerationOTP": null,
+  //         "dateValidationOTP": null,
+  //         "acces": {
+  //           "id": 4,
+  //           "login": "admin1",
+  //           "password": "$2a$10$7tZxso/Ap81cwRl/vr40wuJUipCTGRFQ0T03cntDCqsrxafdUEEMS",
+  //           "oldPassword": null,
+  //           "status": "ACTIF",
+  //           "dateLastPwdUpdate": null,
+  //           "hasAlreadyConnected": null,
+  //           "logActions": [],
+  //           "profil": {
+  //             "supprime": false,
+  //             "dateCreation": "2023-12-24T20:48:27.48334",
+  //             "dateModification": "2023-12-24T20:48:27.48334",
+  //             "id": 5,
+  //             "libelle": "INFIRMIER",
+  //             "code": "INFIRMIER",
+  //             "welcomeBookmark": "inf",
+  //             "actions": []
+  //           },
+  //           "supprime": false,
+  //           "dateCreation": null,
+  //           "dateModification": "2023-12-24T20:48:27.539963"
+  //         }
+  //       },
+  //       "titre": {
+  //         "code": "RECEPTION",
+  //         "libelle": "Reception",
+  //         "supprim": null
+  //       },
+  //       "pole": null
+  //     },
+  //     "patient": {
+  //       "supprime": false,
+  //       "dateCreation": "2023-12-26T12:00:25.533705",
+  //       "dateModification": "2023-12-26T12:00:25.533705",
+  //       "id": 13,
+  //       "groupeSanguin": "C+",
+  //       "donneurOrgane": false,
+  //       "contactEnCasUrgent": "777984099",
+  //       "personne": {
+  //         "supprime": false,
+  //         "dateCreation": "2023-12-26T12:00:25.534053",
+  //         "dateModification": "2023-12-26T12:00:25.534053",
+  //         "id": 11,
+  //         "nom": "Seck",
+  //         "prenom": "Babacar",
+  //         "adresse": "Dakar",
+  //         "genre": "Masculin",
+  //         "hasAlreadyConnected": false,
+  //         "telephone": "777984988",
+  //         "email": "seynabou.ndiaye@intoucgroup.net",
+  //         "datenaissance": "1999-12-13",
+  //         "numeroCNI": "2758199402028",
+  //         "numeroPassport": null,
+  //         "age": "30",
+  //         "otp": null,
+  //         "dategenerationOTP": null,
+  //         "dateValidationOTP": null,
+  //         "acces": null
+  //       },
+  //       "personnel": {
+  //         "id": 2,
+  //         "personne": {
+  //           "supprime": false,
+  //           "dateCreation": null,
+  //           "dateModification": "2023-12-24T20:48:27.557194",
+  //           "id": 4,
+  //           "nom": "Barry",
+  //           "prenom": "Thierno",
+  //           "adresse": "Dakar",
+  //           "genre": "Masculin",
+  //           "hasAlreadyConnected": false,
+  //           "telephone": "777984988",
+  //           "email": "thierno.ndiaye@intoucgroup.net",
+  //           "datenaissance": "1999-12-13",
+  //           "numeroCNI": "2758199402028",
+  //           "numeroPassport": null,
+  //           "age": "30",
+  //           "otp": null,
+  //           "dategenerationOTP": null,
+  //           "dateValidationOTP": null,
+  //           "acces": {
+  //             "id": 4,
+  //             "login": "admin1",
+  //             "password": "$2a$10$7tZxso/Ap81cwRl/vr40wuJUipCTGRFQ0T03cntDCqsrxafdUEEMS",
+  //             "oldPassword": null,
+  //             "status": "ACTIF",
+  //             "dateLastPwdUpdate": null,
+  //             "hasAlreadyConnected": null,
+  //             "logActions": [],
+  //             "profil": {
+  //               "supprime": false,
+  //               "dateCreation": "2023-12-24T20:48:27.48334",
+  //               "dateModification": "2023-12-24T20:48:27.48334",
+  //               "id": 5,
+  //               "libelle": "INFIRMIER",
+  //               "code": "INFIRMIER",
+  //               "welcomeBookmark": "inf",
+  //               "actions": []
+  //             },
+  //             "supprime": false,
+  //             "dateCreation": null,
+  //             "dateModification": "2023-12-24T20:48:27.539963"
+  //           }
+  //         },
+  //         "titre": {
+  //           "code": "RECEPTION",
+  //           "libelle": "Reception",
+  //           "supprim": null
+  //         },
+  //         "pole": null
+  //       }
+  //     },
+  //     "service": {
+  //       "id": 1,
+  //       "nom": "RADIOGRAMME TONALE",
+  //       "description": "RADIOGRAMME",
+  //       "couleur": null,
+  //       "equipement": null,
+  //       "pole": {
+  //         "id": 2,
+  //         "code": "ORL",
+  //         "dateCreation": null,
+  //         "nom": "ORL",
+  //         "supprime": false,
+  //         "description": "ORL ",
+  //         "localisation": null,
+  //         "horaire": null,
+  //         "reponsable": null,
+  //         "equipement": null,
+  //         "clinique": {
+  //           "code": "ALHAZAR",
+  //           "nom": "ALHAZAR",
+  //           "logo": null,
+  //           "codeCouleur": null,
+  //           "adressse": "Dakar",
+  //           "urlSiteWeb": null,
+  //           "datecreation": null,
+  //           "supprime": false,
+  //           "solde": null,
+  //           "dateFoundation": null,
+  //           "equipementsGeneraux": null
+  //         }
+  //       }
+  //     }
+  //   },
+  //   {
+  //     "supprime": false,
+  //     "dateCreation": "2024-01-09T11:50:26.804259",
+  //     "dateModification": "2024-01-09T11:50:26.804259",
+  //     "id": 3,
+  //     "dateRv": "2024-01-25T14:00:00",
+  //     "statut": null,
+  //     "duree": 30.0,
+  //     "remarques": "doit venir avec des gangs",
+  //     "rappels": "",
+  //     "personnel": {
+  //       "id": 2,
+  //       "personne": {
+  //         "supprime": false,
+  //         "dateCreation": null,
+  //         "dateModification": "2023-12-24T20:48:27.557194",
+  //         "id": 4,
+  //         "nom": "Adje",
+  //         "prenom": "B.",
+  //         "adresse": "Dakar",
+  //         "genre": "Masculin",
+  //         "hasAlreadyConnected": false,
+  //         "telephone": "778591879",
+  //         "email": "babs.ndiaye@intoucgroup.net",
+  //         "datenaissance": "1999-12-13",
+  //         "numeroCNI": "2758199402028",
+  //         "numeroPassport": null,
+  //         "age": "30",
+  //         "otp": null,
+  //         "dategenerationOTP": null,
+  //         "dateValidationOTP": null,
+  //         "acces": {
+  //           "id": 4,
+  //           "login": "admin1",
+  //           "password": "$2a$10$7tZxso/Ap81cwRl/vr40wuJUipCTGRFQ0T03cntDCqsrxafdUEEMS",
+  //           "oldPassword": null,
+  //           "status": "ACTIF",
+  //           "dateLastPwdUpdate": null,
+  //           "hasAlreadyConnected": null,
+  //           "logActions": [],
+  //           "profil": {
+  //             "supprime": false,
+  //             "dateCreation": "2023-12-24T20:48:27.48334",
+  //             "dateModification": "2023-12-24T20:48:27.48334",
+  //             "id": 5,
+  //             "libelle": "INFIRMIER",
+  //             "code": "INFIRMIER",
+  //             "welcomeBookmark": "inf",
+  //             "actions": []
+  //           },
+  //           "supprime": false,
+  //           "dateCreation": null,
+  //           "dateModification": "2023-12-24T20:48:27.539963"
+  //         }
+  //       },
+  //       "titre": {
+  //         "code": "RECEPTION",
+  //         "libelle": "Reception",
+  //         "supprim": null
+  //       },
+  //       "pole": null
+  //     },
+  //     "patient": {
+  //       "supprime": false,
+  //       "dateCreation": "2023-12-26T12:00:25.533705",
+  //       "dateModification": "2023-12-26T12:00:25.533705",
+  //       "id": 13,
+  //       "groupeSanguin": "C+",
+  //       "donneurOrgane": false,
+  //       "contactEnCasUrgent": "777984099",
+  //       "personne": {
+  //         "supprime": false,
+  //         "dateCreation": "2023-12-26T12:00:25.534053",
+  //         "dateModification": "2023-12-26T12:00:25.534053",
+  //         "id": 11,
+  //         "nom": "Diop",
+  //         "prenom": "Mactar",
+  //         "adresse": "Dakar",
+  //         "genre": "Masculin",
+  //         "hasAlreadyConnected": false,
+  //         "telephone": "777984988",
+  //         "email": "seynabou.ndiaye@intoucgroup.net",
+  //         "datenaissance": "1999-12-13",
+  //         "numeroCNI": "2758199402028",
+  //         "numeroPassport": null,
+  //         "age": "30",
+  //         "otp": null,
+  //         "dategenerationOTP": null,
+  //         "dateValidationOTP": null,
+  //         "acces": null
+  //       },
+  //       "personnel": {
+  //         "id": 2,
+  //         "personne": {
+  //           "supprime": false,
+  //           "dateCreation": null,
+  //           "dateModification": "2023-12-24T20:48:27.557194",
+  //           "id": 4,
+  //           "nom": "Barry",
+  //           "prenom": "Thierno",
+  //           "adresse": "Dakar",
+  //           "genre": "Masculin",
+  //           "hasAlreadyConnected": false,
+  //           "telephone": "777984988",
+  //           "email": "thierno.ndiaye@intoucgroup.net",
+  //           "datenaissance": "1999-12-13",
+  //           "numeroCNI": "2758199402028",
+  //           "numeroPassport": null,
+  //           "age": "30",
+  //           "otp": null,
+  //           "dategenerationOTP": null,
+  //           "dateValidationOTP": null,
+  //           "acces": {
+  //             "id": 4,
+  //             "login": "admin1",
+  //             "password": "$2a$10$7tZxso/Ap81cwRl/vr40wuJUipCTGRFQ0T03cntDCqsrxafdUEEMS",
+  //             "oldPassword": null,
+  //             "status": "ACTIF",
+  //             "dateLastPwdUpdate": null,
+  //             "hasAlreadyConnected": null,
+  //             "logActions": [],
+  //             "profil": {
+  //               "supprime": false,
+  //               "dateCreation": "2023-12-24T20:48:27.48334",
+  //               "dateModification": "2023-12-24T20:48:27.48334",
+  //               "id": 5,
+  //               "libelle": "INFIRMIER",
+  //               "code": "INFIRMIER",
+  //               "welcomeBookmark": "inf",
+  //               "actions": []
+  //             },
+  //             "supprime": false,
+  //             "dateCreation": null,
+  //             "dateModification": "2023-12-24T20:48:27.539963"
+  //           }
+  //         },
+  //         "titre": {
+  //           "code": "RECEPTION",
+  //           "libelle": "Reception",
+  //           "supprim": null
+  //         },
+  //         "pole": null
+  //       }
+  //     },
+  //     "service": {
+  //       "id": 1,
+  //       "nom": "RADIOGRAMME TONALE",
+  //       "description": "RADIOGRAMME",
+  //       "couleur": null,
+  //       "equipement": null,
+  //       "pole": {
+  //         "id": 2,
+  //         "code": "ORL",
+  //         "dateCreation": null,
+  //         "nom": "ORL",
+  //         "supprime": false,
+  //         "description": "ORL ",
+  //         "localisation": null,
+  //         "horaire": null,
+  //         "reponsable": null,
+  //         "equipement": null,
+  //         "clinique": {
+  //           "code": "ALHAZAR",
+  //           "nom": "ALHAZAR",
+  //           "logo": null,
+  //           "codeCouleur": null,
+  //           "adressse": "Dakar",
+  //           "urlSiteWeb": null,
+  //           "datecreation": null,
+  //           "supprime": false,
+  //           "solde": null,
+  //           "dateFoundation": null,
+  //           "equipementsGeneraux": null
+  //         }
+  //       }
+  //     }
+  //   },
+  //   {
+  //     "supprime": false,
+  //     "dateCreation": "2024-01-09T11:50:26.804259",
+  //     "dateModification": "2024-01-09T15:50:26.804259",
+  //     "id": 4,
+  //     "dateRv": "2024-01-12T14:00:00",
+  //     "statut": null,
+  //     "duree": 30.0,
+  //     "remarques": "doit venir avec des gangs",
+  //     "rappels": "",
+  //     "personnel": {
+  //       "id": 2,
+  //       "personne": {
+  //         "supprime": false,
+  //         "dateCreation": null,
+  //         "dateModification": "2023-12-24T20:48:27.557194",
+  //         "id": 4,
+  //         "nom": "Adje",
+  //         "prenom": "B.",
+  //         "adresse": "Dakar",
+  //         "genre": "Masculin",
+  //         "hasAlreadyConnected": false,
+  //         "telephone": "778591879",
+  //         "email": "babs.ndiaye@intoucgroup.net",
+  //         "datenaissance": "1999-12-13",
+  //         "numeroCNI": "2758199402028",
+  //         "numeroPassport": null,
+  //         "age": "30",
+  //         "otp": null,
+  //         "dategenerationOTP": null,
+  //         "dateValidationOTP": null,
+  //         "acces": {
+  //           "id": 4,
+  //           "login": "admin1",
+  //           "password": "$2a$10$7tZxso/Ap81cwRl/vr40wuJUipCTGRFQ0T03cntDCqsrxafdUEEMS",
+  //           "oldPassword": null,
+  //           "status": "ACTIF",
+  //           "dateLastPwdUpdate": null,
+  //           "hasAlreadyConnected": null,
+  //           "logActions": [],
+  //           "profil": {
+  //             "supprime": false,
+  //             "dateCreation": "2023-12-24T20:48:27.48334",
+  //             "dateModification": "2023-12-24T20:48:27.48334",
+  //             "id": 5,
+  //             "libelle": "INFIRMIER",
+  //             "code": "INFIRMIER",
+  //             "welcomeBookmark": "inf",
+  //             "actions": []
+  //           },
+  //           "supprime": false,
+  //           "dateCreation": null,
+  //           "dateModification": "2023-12-24T20:48:27.539963"
+  //         }
+  //       },
+  //       "titre": {
+  //         "code": "RECEPTION",
+  //         "libelle": "Reception",
+  //         "supprim": null
+  //       },
+  //       "pole": null
+  //     },
+  //     "patient": {
+  //       "supprime": false,
+  //       "dateCreation": "2023-12-26T12:00:25.533705",
+  //       "dateModification": "2023-12-26T12:00:25.533705",
+  //       "id": 13,
+  //       "groupeSanguin": "C+",
+  //       "donneurOrgane": false,
+  //       "contactEnCasUrgent": "777984099",
+  //       "personne": {
+  //         "supprime": false,
+  //         "dateCreation": "2023-12-26T12:00:25.534053",
+  //         "dateModification": "2023-12-26T12:00:25.534053",
+  //         "id": 11,
+  //         "nom": "Sarr",
+  //         "prenom": "Ibrahima",
+  //         "adresse": "Dakar",
+  //         "genre": "Masculin",
+  //         "hasAlreadyConnected": false,
+  //         "telephone": "777984988",
+  //         "email": "seynabou.ndiaye@intoucgroup.net",
+  //         "datenaissance": "1999-12-13",
+  //         "numeroCNI": "2758199402028",
+  //         "numeroPassport": null,
+  //         "age": "30",
+  //         "otp": null,
+  //         "dategenerationOTP": null,
+  //         "dateValidationOTP": null,
+  //         "acces": null
+  //       },
+  //       "personnel": {
+  //         "id": 2,
+  //         "personne": {
+  //           "supprime": false,
+  //           "dateCreation": null,
+  //           "dateModification": "2023-12-24T20:48:27.557194",
+  //           "id": 4,
+  //           "nom": "Barry",
+  //           "prenom": "Thierno",
+  //           "adresse": "Dakar",
+  //           "genre": "Masculin",
+  //           "hasAlreadyConnected": false,
+  //           "telephone": "777984988",
+  //           "email": "thierno.ndiaye@intoucgroup.net",
+  //           "datenaissance": "1999-12-13",
+  //           "numeroCNI": "2758199402028",
+  //           "numeroPassport": null,
+  //           "age": "30",
+  //           "otp": null,
+  //           "dategenerationOTP": null,
+  //           "dateValidationOTP": null,
+  //           "acces": {
+  //             "id": 4,
+  //             "login": "admin1",
+  //             "password": "$2a$10$7tZxso/Ap81cwRl/vr40wuJUipCTGRFQ0T03cntDCqsrxafdUEEMS",
+  //             "oldPassword": null,
+  //             "status": "ACTIF",
+  //             "dateLastPwdUpdate": null,
+  //             "hasAlreadyConnected": null,
+  //             "logActions": [],
+  //             "profil": {
+  //               "supprime": false,
+  //               "dateCreation": "2023-12-24T20:48:27.48334",
+  //               "dateModification": "2023-12-24T20:48:27.48334",
+  //               "id": 5,
+  //               "libelle": "INFIRMIER",
+  //               "code": "INFIRMIER",
+  //               "welcomeBookmark": "inf",
+  //               "actions": []
+  //             },
+  //             "supprime": false,
+  //             "dateCreation": null,
+  //             "dateModification": "2023-12-24T20:48:27.539963"
+  //           }
+  //         },
+  //         "titre": {
+  //           "code": "RECEPTION",
+  //           "libelle": "Reception",
+  //           "supprim": null
+  //         },
+  //         "pole": null
+  //       }
+  //     },
+  //     "service": {
+  //       "id": 1,
+  //       "nom": "RADIOGRAMME TONALE",
+  //       "description": "RADIOGRAMME",
+  //       "couleur": null,
+  //       "equipement": null,
+  //       "pole": {
+  //         "id": 2,
+  //         "code": "ORL",
+  //         "dateCreation": null,
+  //         "nom": "ORL",
+  //         "supprime": false,
+  //         "description": "ORL ",
+  //         "localisation": null,
+  //         "horaire": null,
+  //         "reponsable": null,
+  //         "equipement": null,
+  //         "clinique": {
+  //           "code": "ALHAZAR",
+  //           "nom": "ALHAZAR",
+  //           "logo": null,
+  //           "codeCouleur": null,
+  //           "adressse": "Dakar",
+  //           "urlSiteWeb": null,
+  //           "datecreation": null,
+  //           "supprime": false,
+  //           "solde": null,
+  //           "dateFoundation": null,
+  //           "equipementsGeneraux": null
+  //         }
+  //       }
+  //     }
+  //   }
+  // ]
+
 
   listDataMapToday = [
     {
@@ -1266,6 +1270,13 @@ export class RendezVousComponent {
   singleValue!: Service;
   listOfService!: Service[];
 
+  loading = true;
+  total = 1;
+  pageSize = 5;
+  pageIndex = 1;
+  paginatedData!: Page<RendezVousInterface>;
+  prestationsList: PrestationInterface[] = [];
+
   // Chemin vers l'icône dans le dossier des actifs
   customIconPath = 'assets/icon/calendar_small.svg';
 
@@ -1276,7 +1287,8 @@ export class RendezVousComponent {
 
   ngOnInit(): void {
     this.getAllService();
-    this.getAllRdv();
+    //this.getAllRdv();
+    this.getRdvByPage();
   }
 
   private getAllService() {
@@ -1290,7 +1302,7 @@ export class RendezVousComponent {
     this.api.getAllRdv().subscribe({
       next: response => {
         console.log("Liste des rdv ", response);
-        this.listDataMap = response
+        this.listDataMapToday = response
       }
     })
   }
@@ -1363,12 +1375,12 @@ export class RendezVousComponent {
     return dateObject.getFullYear()
   }
 
-  getHour(dateString : string): number {
+  getHour(dateString: Date): number {
     const dateObject: Date = new Date(dateString);
     return dateObject.getHours();
   }
 
-  getMinutes(dateString : string): number {
+  getMinutes(dateString: Date): number {
     const dateObject: Date = new Date(dateString);
     return dateObject.getMinutes();
   }
@@ -1384,5 +1396,28 @@ export class RendezVousComponent {
       nzClosable: false,
       nzWidth: '50rem'
     });
+  }
+
+  getRdvByPage(page: number = 0, size: number = 5) {
+    this.api.getAllRdvPagination(page, size).subscribe({
+      next: response => {
+        console.log("Liste des rdv page ", response);
+        this.paginatedData = response;
+        this.prestationsList = this.paginatedData.content;
+        this.pageSize = this.paginatedData.pageable.pageSize;
+        this.pageIndex = this.paginatedData.pageable.pageNumber + 1;
+        this.total = this.paginatedData.totalElements;
+        this.loading = false;
+      }
+    })
+  }
+
+  onQueryParamsChange(params: NzTableQueryParams): void {
+    console.log(" onQueryParamsChange FUNCTIONS ", params);
+    /*const { pageSize, pageIndex} = params;
+    const currentSort = sort.find(item => item.value !== null);
+    const sortField = (currentSort && currentSort.key) || null;
+    const sortOrder = (currentSort && currentSort.value) || null;*/
+    this.getRdvByPage(params.pageIndex - 1, params.pageSize)
   }
 }

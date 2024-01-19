@@ -12,4 +12,5 @@ export interface RendezVousInterface {
   personnel ?: PersonnelInterface;
   patient : PatientInterface;
   service : ServiceInterface;
+  personnelCreateur : PersonnelInterface
 }

@@ -34,8 +34,8 @@ export class RendezVousFormDialogComponent {
   rendezVous !: RendezVousInterface;
 
   RvForm = this.fb.group({
-    //medecin: '',
-    //pole:'',
+    medecin: '',
+    pole:'',
     service:'',
     dateRv: '',
     patient: '',
@@ -51,6 +51,7 @@ export class RendezVousFormDialogComponent {
               private apiPole : PoleService,
               private apiService : CliniqueServiceService,
               private apiPatient : PatientService,
+              private apiRdv : RendezVousService,
               private apiPersonnel : PersonnelService,
               private fb: FormBuilder) {
   }
@@ -92,6 +93,8 @@ export class RendezVousFormDialogComponent {
     console.log(rv)
     this.api.saveRdv(rv).subscribe({
       next: (response) => {
+        this.modal.close();
+        this.apiRdv.getAllRdv();
         console.log('RendezVous enregistrée avec succès ', response);
       },
       error: (error) => console.error('Erreur lors de l\'enregistrement', error),
@@ -122,6 +125,7 @@ export class RendezVousFormDialogComponent {
     rappels: string;
     service: { id: any };
     duree: number
+    personnelCreateur : { id : any}
   } {
     return {
       dateRv: formData.dateRv,
@@ -130,6 +134,7 @@ export class RendezVousFormDialogComponent {
       rappels: "",
       remarques: "",
       service: {id : formData.service},
+      personnelCreateur : {id : formData.medecin}
     };
   }
 
