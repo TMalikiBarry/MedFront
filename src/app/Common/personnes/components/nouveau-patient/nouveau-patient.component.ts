@@ -42,7 +42,7 @@ export class NouveauPatientComponent implements OnInit {
       const patientData = this.patientForm.value;
 
       // Appelez le service pour ajouter le patient
-      this.patientService.addPatient(patientData).subscribe(
+      this.patientService.save(patientData).subscribe(
         (response) => {
           // Gérez la réponse ici, par exemple, affichez un message de succès
           console.log('Patient ajouté avec succès', response);

@@ -55,6 +55,29 @@
         </nz-form-item>
       </div>
 
+      <div class="make-spaceBetween">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Veuillez choisir le patient!">
+            <p class="input-label">Patient</p>
+            <nz-select nzShowSearch nzPlaceHolder="Choissez un patient" formControlName="patient">
+              <nz-option nzLabel="----"></nz-option>
+              <nz-option
+                *ngFor="let patient of listOfPatient"
+                [nzLabel]="patient.personne.nom" [nzValue]="patient"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
+            <p class="input-label">Presence</p>
+            <nz-select nzShowSearch nzPlaceHolder="Choissez l'option" formControlName="presence">
+              <nz-option nzLabel="Confirmee" nzValue="Confirmee"></nz-option>
+              <nz-option nzLabel="Non confirmee" nzValue="Non Confirmee"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
     </form>
   </div>
 

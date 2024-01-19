@@ -5,6 +5,9 @@ import {FormBuilder} from "@angular/forms";
 import {listMedecins} from "../../../../models/Utils/medecins";
 import {listPoles, Poles} from "../../../../models/Utils/poles";
 import {PersonnelInterface} from "../../../../models/personnel.interface";
+import {PatientInterface} from "../../../../models/patient.interface";
+import {RendezVousInterface} from "../../../../models/rendez-vous.interface";
+import {RendezVousService} from "../../../../services/rendez-vous/rendez-vous.service";
 
 @Component({
   selector: 'app-rendez-vous-form-dialog',
@@ -21,16 +24,21 @@ export class RendezVousFormDialogComponent {
   listOfMedecin!: PersonnelInterface[];
   listOfPole!: Poles[];
   listService!: Service[];
+  listOfPatient !: PatientInterface[]
+  rendezVous !: RendezVousInterface;
 
   RvForm = this.fb.group({
     medecin: '',
     pole:'',
     service:'',
     date: '',
+    patient: '',
+    presence: '',
     resultat:''
   })
 
   constructor(private modal: NzModalRef,
+              private api : RendezVousService,
               private fb: FormBuilder) {
   }
   ngOnInit(): void {
@@ -46,6 +54,13 @@ export class RendezVousFormDialogComponent {
 
   handleOk() {
     console.log(this.RvForm.value)
+    this.api.saveRdv(this.RvForm.value).subscribe({
+      next: (response) => {
+        console.log('RendezVous enregistrée avec succès ', response);
+      },
+      error: (error) => console.error('Erreur lors de l\'enregistrement', error),
+      complete: () => {this.isConfirmLoading = false}
+    });
   }
 
   triggerFileUpload() {

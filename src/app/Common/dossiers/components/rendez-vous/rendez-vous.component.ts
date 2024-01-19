@@ -7,6 +7,7 @@ import {PrestationInterface} from "../../../../models/prestation.interface";
 import {PrestationFormDialogComponent} from "../../dialogs/prestation-form-dialog/prestation-form-dialog.component";
 import {PatientInterface} from "../../../../models/patient.interface";
 import {RendezVousService} from "../../../../services/rendez-vous/rendez-vous.service";
+import {CliniqueServiceService} from "../../../../services/service/clinique-service.service";
 
 @Component({
   selector: 'app-rendez-vous',
@@ -1268,14 +1269,22 @@ export class RendezVousComponent {
   customIconPath = 'assets/icon/calendar_small.svg';
 
   constructor(private modalService: NzModalService,
-              private api: RendezVousService) {
+              private api: RendezVousService,
+              private apiService : CliniqueServiceService) {
   }
 
   ngOnInit(): void {
-    this.listOfService = listService;
+    this.getAllService();
     this.getAllRdv();
   }
 
+  private getAllService() {
+    this.apiService.getAllService().subscribe({
+      next : res => {
+        this.listOfService = res.reponse
+      }
+    })
+  }
   getAllRdv() {
     this.api.getAllRdv().subscribe({
       next: response => {

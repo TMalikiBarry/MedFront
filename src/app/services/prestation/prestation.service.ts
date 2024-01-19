@@ -28,5 +28,7 @@ export class PrestationService {
     return this.http.get(this.url, { params: params });
   }
 
-  getAll(){}
+  getAll(){
+    return this.http.get<ApiResponseInterface>(this.url+"/all")
+  }
 }
