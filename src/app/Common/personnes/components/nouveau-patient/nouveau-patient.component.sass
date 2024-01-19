@@ -7,7 +7,19 @@
   .headerLayout
     display: flex
     justify-content: space-between
-    width: 80%  // Ajuster la largeur
+    width: 100%  // Ajuster la largeur
+
+    .headerBrea
+      display: flex
+      margin: 5% 0 0 5%
+      justify-content: space-between
+      width: 100%  // Ajuster la largeur
+      .headerActions
+        //placer à gauche pour le breacrumb
+        margin-left: 5%
+        display: flex
+        justify-content: space-between
+        width: 17rem
 
     .ant-input-affix-wrapper
       width: 40% !important
@@ -26,25 +38,36 @@
       .addActionHeader
         > span
           margin-right: 0.5rem
+  
+.patient-form
+  width: 100%
 
-  .card-information
+  .card-information,.allergies-card
     border-radius: 8px
     border: 0.5px solid #EAECF0
     background: var(--Primary, #FFF)
     padding: 1rem
     margin-bottom: 1rem
-    width: 80%
+    width: 100%
     height: auto
     display: flex
     flex-direction: column
     justify-content: space-between
-    align-items: center  // Centrer verticalement
+    align-items: left
+    margin: 5% 0 0 5%
+
+
 
     .formheader
       display: flex
       justify-content: space-between
       align-items: center
       margin-bottom: 1rem
+      align-items: left
+
+   
+     
+
 
       .title
         color: var(--Couleur-texte, #252525)
@@ -53,6 +76,8 @@
         font-style: normal
         font-weight: 600
         line-height: 40px
+        // placer à gauche 
+        text-align: left
 
   form
     display: flex
@@ -75,6 +100,15 @@
 
       label
         margin-right: 20px
+        color: var(--Primary, #282C5D)
+        font-variant-numeric: stacked-fractions
+        font-feature-settings: 'cv09' on, 'cv04' on, 'ss01' on, 'cv03' on, 'ss03' on, 'cv06' on
+        font-family: Lato
+        font-size: 14px
+        font-style: normal
+        font-weight: 500
+        line-height: 24px
+        letter-spacing: -0.09px
 
     .name
       display: flex
@@ -106,12 +140,23 @@
 
     .label
       margin-bottom: 5px
+      color: var(--Primary, #282C5D)
+      font-variant-numeric: stacked-fractions
+      font-feature-settings: 'cv09' on, 'cv04' on, 'ss01' on, 'cv03' on, 'ss03' on, 'cv06' on
+      font-family: Lato
+      font-size: 14px
+      font-style: normal
+      font-weight: 500
+      line-height: 24px
+      letter-spacing: -0.09px
 
     .input, .select
       width: 100%
       padding: 8px
-      box-sizing: border-box
+      border-radius: 4px
+      border: 0.75px solid #CBCED9
       margin-bottom: 10px
+      
 
     .button
       width: 100%
@@ -127,4 +172,6 @@
         border: 1px solid var(--Primaire, #266141)
         background: var(--Primaire, #266141)
         box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05)
-        color: var(--Couleur-texte, #FFFFFF)
+        color: var(--Couleur-texte, #ffffff)
+        margin-left: 80%
+        margin-top: 10%

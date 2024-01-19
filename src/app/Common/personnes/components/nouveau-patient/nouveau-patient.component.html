@@ -17,14 +17,20 @@
         </div>
       </div>
     </div>
-  
+    <div class="patient-form">
+    <form [formGroup]="patientForm" (submit)="enregistrerPatient()">
+      
+
+      <div class="button">
+        <button class="btn" type="submit">Enregistrer</button>
+      </div>
     <!-- Card for form-->
     <div class="card-information">
         <div class="formheader">
           <h3 class="title">Informations sur le patient</h3>
         </div>
         <div class="form">
-          <form [formGroup]="patientForm" (submit)="enregistrerPatient()">
+          
             <div class="gender">
               <label class="label">Genre</label>
               <div>
@@ -98,15 +104,30 @@
               </div>
             </div>
       
-            <div class="button">
-              <button class="btn" type="submit">Enregistrer</button>
-            </div>
-          </form>
+            
+         
         </div>
       </div>
-      
+      <!-- Card for Allergie input-->
+      <div class="allergies-card">
+        <div class="headerForm">
+          <h3 class="title">
+            Allergies
+          </h3>
+        </div>
+        <div class="form">
+          <div class="medecin">
+            <label class="label" for="medecin">Allergies et intolérances</label>
+          <!-- textarea -->
+            <textarea class="input" id="allergies" name="allergies" formControlName="allergies" required></textarea>
+             </div>
+        </div>
+      </div>
+    </form>
   </div>
   
+  </div>
+
   <ng-template #suffixIconSearch>
     <img alt="Rechercher" src="assets/from_figma/search_icon.svg">
   </ng-template>
