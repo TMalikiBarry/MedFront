@@ -41,8 +41,8 @@ export class RendezVousFormDialogComponent {
     patient: '',
     presence: '',
     duree: 30,
-    remarques: "doit venir avec des gangs",
-    rappels: "",
+    remarques: '',
+    rappels: '',
     resultat:''
   })
 
@@ -59,7 +59,6 @@ export class RendezVousFormDialogComponent {
     this.apiPole.getAllPole().subscribe({
       next : res => {
         this.listOfPole = res.reponse
-        console.log(this.listOfPole)
       }
     })
 
@@ -124,17 +123,17 @@ export class RendezVousFormDialogComponent {
     patient: { id: any };
     rappels: string;
     service: { id: any };
-    duree: number
-    personnelCreateur : { id : any}
+    duree: number;
+    personnel: { id: any };
   } {
     return {
       dateRv: formData.dateRv,
-      duree: 0,
+      duree: 30,
       patient: {id : formData.patient},
       rappels: "",
       remarques: "",
       service: {id : formData.service},
-      personnelCreateur : {id : formData.medecin}
+      personnel : {id : formData.medecin}
     };
   }
 
