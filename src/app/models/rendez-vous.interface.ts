@@ -9,8 +9,8 @@ export interface RendezVousInterface {
   duree ?: number;
   remarques ?: string;
   rappels ?: string;
-  personnel ?: PersonnelInterface;
+  personnel : PersonnelInterface;
   patient : PatientInterface;
   service : ServiceInterface;
-  personnelCreateur : PersonnelInterface
+  personnelCreateur ?: PersonnelInterface
 }
