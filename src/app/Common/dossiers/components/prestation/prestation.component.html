@@ -79,7 +79,7 @@
           <td><strong>{{ getPatientID(prestation) }}</strong></td>
           <td>{{ formatDateString(prestation.dateCreation!) }}</td>
           <td>{{ getPatientName(prestation) }}</td>
-          <td>{{ prestation.service?.nom }}</td>
+          <td>{{ prestation.service?.nom + ' - ' + prestation.service?.pole?.nom }}</td>
           <td>
             <nz-badge nzStatus="error" nzText="Non facturé"></nz-badge>
           </td>

@@ -7,6 +7,9 @@ import {PrestationInterface} from "src/app/models/prestation.interface";
 import {PrestationService} from "src/app/services/prestation/prestation.service";
 import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface";
 import {DossierMedicalService} from "../../../../services/dossier-medical/dossier-medical.service";
+import {CliniqueServiceService} from "../../../../services/service/clinique-service.service";
+import {ServiceInterface} from "../../../../models/service.interface";
+import {NotifService} from "../../../../services/notification/notif.service";
 
 @Component({
   selector: 'app-prestation-form-dialog',
@@ -20,6 +23,7 @@ export class PrestationFormDialogComponent implements OnInit{
   btnText = "Valider";
   isConfirmLoading = false;
   listOfService!: Service[];
+  myServicesList!: ServiceInterface[];
   listOfDossierMedical!: DossierMedicalInterface[];
   listPrescription!: any;
 
@@ -37,6 +41,8 @@ export class PrestationFormDialogComponent implements OnInit{
               private utils: UtilsService,
               private api: PrestationService,
               private dossierMApi: DossierMedicalService,
+              private serviceApi: CliniqueServiceService,
+              private notify: NotifService
               ) {
   }
   ngOnInit(): void {
@@ -44,7 +50,12 @@ export class PrestationFormDialogComponent implements OnInit{
     this.listPrescription = my_prescription;
     this.dossierMApi.getAll().subscribe({
       next: result => {
-        this.listOfDossierMedical = result;
+        this.listOfDossierMedical = result.filter( dossier => !!dossier.patient?.personne);
+      }
+    });
+    this.serviceApi.getAllService().subscribe({
+      next: result => {
+        this.myServicesList = result.reponse as ServiceInterface[];
       }
     })
   }
@@ -63,8 +74,11 @@ export class PrestationFormDialogComponent implements OnInit{
 
       this.api.save(prestation).subscribe({
         next: (response) => {
-
+          this.notify.snackMessage(
+            `Prestation pour le patient ${this.getPatientFullName(prestation.dossierMedical!)} ajouté avec succès`,
+            3000, 'success');
           console.log('Prestation enregistrée avec succès ', response);
+
         },
         error: (error) => console.error('Erreur lors de l\'enregistrement de la prestation', error),
         complete: () => {this.isConfirmLoading = false}
