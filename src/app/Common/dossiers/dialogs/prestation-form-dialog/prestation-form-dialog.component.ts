@@ -10,6 +10,7 @@ import {DossierMedicalService} from "../../../../services/dossier-medical/dossie
 import {CliniqueServiceService} from "../../../../services/service/clinique-service.service";
 import {ServiceInterface} from "../../../../models/service.interface";
 import {NotifService} from "../../../../services/notification/notif.service";
+import {PersonneInterface} from "../../../../models/personne.interface";
 
 @Component({
   selector: 'app-prestation-form-dialog',
@@ -56,6 +57,9 @@ export class PrestationFormDialogComponent implements OnInit{
     this.serviceApi.getAllService().subscribe({
       next: result => {
         this.myServicesList = result.reponse as ServiceInterface[];
+      },
+      error: () => {
+        this.modal.close();
       }
     })
   }
@@ -75,9 +79,10 @@ export class PrestationFormDialogComponent implements OnInit{
       this.api.save(prestation).subscribe({
         next: (response) => {
           this.notify.snackMessage(
-            `Prestation pour le patient ${this.getPatientFullName(prestation.dossierMedical!)} ajouté avec succès`,
+            `Prestation pour le patient ${this.getPatientFullName(Number(formData.dossier))} ajouté avec succès`,
             3000, 'success');
           console.log('Prestation enregistrée avec succès ', response);
+          this.prestationForm.reset();
 
         },
         error: (error) => console.error('Erreur lors de l\'enregistrement de la prestation', error),
@@ -107,8 +112,24 @@ export class PrestationFormDialogComponent implements OnInit{
     };
   }
 
-  getPatientFullName(dossier: DossierMedicalInterface):string {
-    const personne = dossier.patient?.personne;
-    return `${personne?.prenom} ${personne?.nom}`;
+  getPatientFullName(dossier: DossierMedicalInterface | number):string {
+    // Vérifier si dossier est un objet (et donc potentiellement un DossierMedicalInterface)
+    let personne: PersonneInterface | undefined;
+    if (typeof dossier === 'object' && dossier !== null) {
+      // Supposons que si 'dossier' a une propriété 'patient', c'est un DossierMedicalInterface
+      if ('patient' in dossier && dossier.patient?.personne) {
+        personne = dossier.patient.personne;
+      }
+    } else {  // Ici, vous pouvez gérer le cas où dossier est un number
+      personne = this.listOfDossierMedical.find(d => d.id = dossier)?.patient?.personne
+    }
+
+    return `${personne!.prenom} ${personne!.nom}`;
+    // Gérer les cas non couverts ou retourner une valeur par défaut
+    // return 'Default Name'
+  }
+
+  displayEvent(event: Event) {
+    console.log(event);
   }
 }

@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {listService, Service} from "../../../../models/Utils/constants";
+import {listService, Service} from "src/app/models/Utils/constants";
 import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
 import {PrestationFormDialogComponent} from "../../dialogs/prestation-form-dialog/prestation-form-dialog.component";
-import {PrestationService} from "../../../../services/prestation/prestation.service";
-import {PrestationInterface} from "../../../../models/prestation.interface";
+import {PrestationService} from "src/app/services/prestation/prestation.service";
+import {PrestationInterface} from "src/app/models/prestation.interface";
 
-import {Page} from "../../../../models/pagination.interface";
+import {Page} from "src/app/models/pagination.interface";
 import {
   NewPaymentFormDialogComponent
 } from "../../../finance/dialogs/new-payment-form-dialog/new-payment-form-dialog.component";
@@ -18,7 +18,7 @@ import {NzTableQueryParams} from "ng-zorro-antd/table";
 })
 export class PrestationComponent implements OnInit{
 
-  numberStats = [8, 0, 8, 0];
+  numberStats = [3, 0, 2, 0];
   descSats = ["Prestations","Prestation facturée","Prestations non facturées", "Partiellement payée"]
   date: any;
   singleValue!: Service;
@@ -44,6 +44,10 @@ export class PrestationComponent implements OnInit{
       next: response => {
         console.log("Liste des prestations ", response);
         this.paginatedData = response;
+        // SET STATS
+        this.numberStats[0] = this.paginatedData.totalElements;
+        this.numberStats[2] = this.paginatedData.totalElements;
+        this.numberStats[1] = this.numberStats[0]- this.numberStats[2]
         this.prestationsList = this.paginatedData.content;
         this.pageSize = this.paginatedData.pageable.pageSize;
         this.pageIndex = this.paginatedData.pageable.pageNumber + 1;
