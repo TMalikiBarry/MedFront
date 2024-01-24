@@ -10,6 +10,32 @@
 
       <div class="make-spaceBetween">
         <nz-form-item>
+          <nz-form-control nzErrorTip="Veuillez choisir le patient!">
+            <p class="input-label">Patient</p>
+            <div class="patient-add">
+              <nz-select nzShowSearch nzPlaceHolder="Choissez un patient" formControlName="patient">
+                <nz-option nzLabel="----"></nz-option>
+                <nz-option
+                  *ngFor="let patient of listOfPatient"
+                  [nzLabel]="patient.personne.nom" [nzValue]="patient.id"></nz-option>
+              </nz-select>
+              <button nz-button nzType="default">Ajouter</button>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
+            <p class="input-label">Presence</p>
+            <nz-select nzShowSearch nzPlaceHolder="Choissez l'option" formControlName="presence">
+              <nz-option nzLabel="Confirmee" nzValue="Confirmee"></nz-option>
+              <nz-option nzLabel="Non confirmee" nzValue="Non Confirmee"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="make-spaceBetween">
+        <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
             <p class="input-label">Poles</p>
             <nz-select nzShowSearch nzPlaceHolder="Choissez un pole" formControlName="pole">
@@ -50,30 +76,28 @@
           <nz-form-control>
             <p class="input-label">Date et Heure du RDV</p>
             <nz-date-picker nzPlaceHolder="Choissez la date" nzShowTime
-                            nzFormat="dd-MM-YYYY HH:mm:ss" formControlName="dateRv" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
+                            nzFormat="dd-MM-YYYY HH:mm:ss" formControlName="dateRv"></nz-date-picker>
           </nz-form-control>
         </nz-form-item>
       </div>
 
       <div class="make-spaceBetween">
         <nz-form-item>
-          <nz-form-control nzErrorTip="Veuillez choisir le patient!">
-            <p class="input-label">Patient</p>
-            <nz-select nzShowSearch nzPlaceHolder="Choissez un patient" formControlName="patient">
-              <nz-option nzLabel="----"></nz-option>
-              <nz-option
-                *ngFor="let patient of listOfPatient"
-                [nzLabel]="patient.personne.nom" [nzValue]="patient.id"></nz-option>
+          <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
+            <p class="input-label">Duree</p>
+            <nz-select nzShowSearch nzPlaceHolder="Choissez la duree" formControlName="duree">
+              <nz-option nzLabel="15 minutes" nzValue="15"></nz-option>
+              <nz-option nzLabel="30 minutes" nzValue="30"></nz-option>
+              <nz-option nzLabel="45 minutes" nzValue="45"></nz-option>
+              <nz-option nzLabel="60 minutes" nzValue="60"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
+
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
-            <p class="input-label">Presence</p>
-            <nz-select nzShowSearch nzPlaceHolder="Choissez l'option" formControlName="presence">
-              <nz-option nzLabel="Confirmee" nzValue="Confirmee"></nz-option>
-              <nz-option nzLabel="Non confirmee" nzValue="Non Confirmee"></nz-option>
-            </nz-select>
+            <p class="input-label">Note</p>
+            <textarea rows="2" formControlName="remarques"></textarea>
           </nz-form-control>
         </nz-form-item>
       </div>

@@ -1344,20 +1344,26 @@ export class RendezVousComponent {
   }
 
   addRdv() {
-    this.modalService.create({
+    const dialog = this.modalService.create({
       nzContent: RendezVousFormDialogComponent,
       nzClosable: false,
-      nzWidth:'50rem'
+      nzWidth: '50rem'
+    })
+    dialog.afterClose.subscribe(() => {
+      this.getRdvByPage();
     });
   }
 
   detailRdv(data : any) {
-    this.modalService.create({
-      nzContent: DetailRendezVousComponent,
+    const dialog = this.modalService.create({
+      nzContent: RendezVousFormDialogComponent,
       nzData : data,
       nzClosable: false,
       nzWidth:'50rem'
     });
+    dialog.afterClose.subscribe(() => {
+      this.getRdvByPage();
+    })
   }
 
   getDayOfMonth(dateString : string): number {
@@ -1419,5 +1425,13 @@ export class RendezVousComponent {
     const sortField = (currentSort && currentSort.key) || null;
     const sortOrder = (currentSort && currentSort.value) || null;*/
     this.getRdvByPage(params.pageIndex - 1, params.pageSize)
+  }
+
+  deleteRdv(id: any) {
+    this.api.deleteRdv(id).subscribe({
+      next : res =>{
+        console.log(res)
+      }
+    })
   }
 }

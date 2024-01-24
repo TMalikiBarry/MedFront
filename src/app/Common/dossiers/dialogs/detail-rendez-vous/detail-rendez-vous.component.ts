@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {listMedecins} from "../../../../models/Utils/medecins";
-import {listPoles, Poles} from "../../../../models/Utils/poles";
-import {listPrestations, Prestations} from "../../../../models/Utils/prestations";
+import { Poles} from "../../../../models/Utils/poles";
+import {Prestations} from "../../../../models/Utils/prestations";
 import {NzModalRef} from "ng-zorro-antd/modal";
 import {FormBuilder} from "@angular/forms";
-import {listService, Service} from "../../../../models/Utils/constants";
+import {Service} from "../../../../models/Utils/constants";
 import {PersonnelInterface} from "../../../../models/personnel.interface";
 import {PoleService} from "../../../../services/pole/pole.service";
 import {CliniqueServiceService} from "../../../../services/service/clinique-service.service";
 import {PrestationService} from "../../../../services/prestation/prestation.service";
 import {PersonnelService} from "../../../../services/personnel/personnel.service";
+import {RendezVousService} from "../../../../services/rendez-vous/rendez-vous.service";
 
 @Component({
   selector: 'app-detail-rendez-vous',
@@ -44,24 +44,14 @@ export class DetailRendezVousComponent implements OnInit{
               private apiService : CliniqueServiceService,
               private apiPrestation : PrestationService,
               private apiPersonnel : PersonnelService,
+              private api : RendezVousService,
               private fb: FormBuilder) {
   }
   ngOnInit(): void {
     this.data = this.modal.getConfig().nzData
     console.log(this.data)
 
-    this.apiPole.getAllPole().subscribe({
-      next : res => {
-        this.listOfPole = res.reponse
-        console.log(this.listOfPole)
-      }
-    })
-
-    this.apiPrestation.getAll().subscribe({
-      next : res => {
-        this.listOfPrestation = res.reponse
-      }
-    })
+    this.load();
 
     this.apiPersonnel.getAllPersonnel().subscribe({
       next : res => {
@@ -81,11 +71,6 @@ export class DetailRendezVousComponent implements OnInit{
       }
     })
 
-    // this.listOfMedecin = listMedecins;
-    // this.listOfPole = listPoles;
-    // this.listOfPrestation = listPrestations;
-    // this.listOfServices = listService;
-
     let dateRv : Date = new Date(this.data.dateRv)
     this.RvForm.controls.date.setValue(dateRv.toISOString())
 
@@ -102,6 +87,17 @@ export class DetailRendezVousComponent implements OnInit{
   }
 
   handleOk() {
+    const formData = this.RvForm.value;
+    const rv = this.createRdvFromForm(formData);
+    console.log(rv)
+    this.api.updateRdv(rv).subscribe({
+      next: (response) => {
+        this.modal.close();
+        console.log('RendezVous mis a jour avec succès ', response);
+      },
+      error: (error) => console.error('Erreur lors de l\'enregistrement', error),
+      complete: () => {this.isConfirmLoading = false}
+    });
   }
 
   triggerFileUpload() {
@@ -113,5 +109,41 @@ export class DetailRendezVousComponent implements OnInit{
 
   onChange(result: Date): void {
     console.log('onChange: ', result);
+  }
+
+  createRdvFromForm(formData: any): {
+    id : number
+    dateRv: any;
+    remarques: string;
+    patient: { id: any };
+    rappels: string;
+    service: { id: any };
+    duree: number;
+    personnel: { id: any };
+  } {
+    return {
+      id : this.data.id,
+      dateRv: formData.dateRv,
+      duree: 30,
+      patient: {id : formData.patient},
+      rappels: "",
+      remarques: "",
+      service: {id : formData.service},
+      personnel : {id : formData.medecin}
+    };
+  }
+  private load() {
+    this.apiPole.getAllPole().subscribe({
+      next : res => {
+        this.listOfPole = res.reponse
+        console.log(this.listOfPole)
+      }
+    })
+
+    this.apiPrestation.getAll().subscribe({
+      next : res => {
+        this.listOfPrestation = res.reponse
+      }
+    })
   }
 }
