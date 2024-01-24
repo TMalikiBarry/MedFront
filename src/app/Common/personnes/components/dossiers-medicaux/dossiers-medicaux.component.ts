@@ -12,6 +12,8 @@ export class DossiersMedicauxComponent implements OnInit {
 
   constructor(private patientService: PatientService) {}
 
+  // le component nouveau-patient servira de vue pour modifier la fiche médicale à ce stade  on dois le load avec les données du patient
+
   ngOnInit() {
     this.loadPatients();
   }
@@ -34,5 +36,21 @@ export class DossiersMedicauxComponent implements OnInit {
         // Gérez l'erreur selon vos besoins
       }
     );
+
   }
+
+  
+  searchPatient(event: Event) {
+    const searchValue = (event.target as HTMLInputElement)?.value;
+
+    if (searchValue !== undefined) {
+        this.patients = this.patients.filter((patient) => {
+            return (
+                patient.personne.nom.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
+                patient.personne.prenom.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
+            );
+        });
+    }
+}
+
 }
