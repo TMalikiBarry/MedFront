@@ -37,7 +37,7 @@ export class RendezVousService {
     return this.http.put<ApiResponseInterface>(this.API_URL+this.ENDPOINT_RDV,data);
   }
 
-  deleteRdv(id : number){
+  deleteRdv(id : any){
     return this.http.delete<ApiResponseInterface>(this.API_URL+this.ENDPOINT_RDV+"/delete/"+id);
   }
 }

@@ -83,7 +83,7 @@
         <td>{{ rdv.patient.personne.telephone }}</td>
         <td>{{ rdv.service.nom }}</td>
         <td><nz-badge nzStatus="success" nzText="Confirmee"></nz-badge></td>
-        <td class="icon-table"><img (click)="detailRdv(rdv)" src="assets/icon/edit2.svg" alt="modifier"> <img (click)="detailPatient(rdv.patient)" src="assets/icon/Icone%20user.svg" alt="patient"> <img src="assets/icon/trash.svg" alt="delete"></td>
+        <td class="icon-table"><img (click)="detailRdv(rdv)" src="assets/icon/edit2.svg" alt="modifier"> <img (click)="detailPatient(rdv.patient)" src="assets/icon/Icone%20user.svg" alt="patient"> <img (click)="deleteRdv(rdv.id)" src="assets/icon/trash.svg" alt="delete"></td>
       </tr>
       </tbody>
 

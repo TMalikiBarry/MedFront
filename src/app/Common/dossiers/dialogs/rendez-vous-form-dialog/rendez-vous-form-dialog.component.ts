@@ -1,19 +1,16 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {listService, Service} from "../../../../models/Utils/constants";
 import {NzModalRef} from "ng-zorro-antd/modal";
 import {FormBuilder} from "@angular/forms";
-import {listMedecins} from "../../../../models/Utils/medecins";
-import {listPoles, Poles} from "../../../../models/Utils/poles";
+import {Poles} from "../../../../models/Utils/poles";
 import {PersonnelInterface} from "../../../../models/personnel.interface";
 import {PatientInterface} from "../../../../models/patient.interface";
 import {RendezVousInterface} from "../../../../models/rendez-vous.interface";
 import {RendezVousService} from "../../../../services/rendez-vous/rendez-vous.service";
 import {PoleService} from "../../../../services/pole/pole.service";
 import {CliniqueServiceService} from "../../../../services/service/clinique-service.service";
-import {PrestationService} from "../../../../services/prestation/prestation.service";
 import {PersonnelService} from "../../../../services/personnel/personnel.service";
 import {PatientService} from "../../../../services/patient/patient.service";
-import {PrestationInterface} from "../../../../models/prestation.interface";
 
 @Component({
   selector: 'app-rendez-vous-form-dialog',
@@ -32,36 +29,125 @@ export class RendezVousFormDialogComponent {
   listService!: Service[];
   listOfPatient !: PatientInterface[]
   rendezVous !: RendezVousInterface;
+  data: any
 
   RvForm = this.fb.group({
     medecin: '',
-    pole:'',
-    service:'',
+    pole: '',
+    service: '',
     dateRv: '',
     patient: '',
     presence: '',
-    duree: 30,
+    duree: '',
     remarques: '',
     rappels: '',
-    resultat:''
+    resultat: ''
   })
 
   constructor(private modal: NzModalRef,
-              private api : RendezVousService,
-              private apiPole : PoleService,
-              private apiService : CliniqueServiceService,
-              private apiPatient : PatientService,
-              private apiRdv : RendezVousService,
-              private apiPersonnel : PersonnelService,
+              private api: RendezVousService,
+              private apiPole: PoleService,
+              private apiService: CliniqueServiceService,
+              private apiPatient: PatientService,
+              private apiRdv: RendezVousService,
+              private apiPersonnel: PersonnelService,
               private fb: FormBuilder) {
   }
+
   ngOnInit(): void {
+    this.load()
+    this.data = this.modal.getConfig().nzData
+    console.log(this.data)
+
+    if(this.data){
+
+      this.RvForm.controls.patient.setValue(this.data.patient.id)
+      // const formattedDate = this.formatCustomDate(this.data.dateRv);
+      // console.log(formattedDate);
+
+      //let dateRv : Date = new Date(this.data.dateRv)
+      this.RvForm.controls.dateRv.setValue(this.data.dateRv)
+
+      //this.RvForm.controls.dateRv.setValue(this.data.dateRv)
+      this.RvForm.controls.medecin.setValue(this.data.personnel.id)
+      this.RvForm.controls.service.setValue(this.data.service.id)
+      this.RvForm.controls.pole.setValue(this.data.service.pole.id)
+      this.RvForm.controls.duree.setValue(this.data.duree.toString())
+      //this.RvForm.controls.number.setValue(this.data.patient.personne.telephone)
+      this.RvForm.controls.remarques.setValue(this.data.remarques)
+      this.RvForm.controls.presence.setValue("Confirmee")
+
+    }
+  }
+
+
+  handleCancel() {
+    this.modal.close();
+  }
+
+  handleOk() {
+    const formData = this.RvForm.value;
+    const rv = this.createRdvFromForm(formData);
+    console.log(rv)
+    if(this.data){
+      this.updateRdv(rv)
+    }else{
+      this.api.saveRdv(rv).subscribe({
+        next: (response) => {
+          this.modal.close();
+          this.apiRdv.getAllRdv();
+          console.log('RendezVous enregistrée avec succès ', response);
+        },
+        error: (error) => console.error('Erreur lors de l\'enregistrement', error),
+        complete: () => {this.isConfirmLoading = false}
+      });
+    }
+  }
+
+  triggerFileUpload() {
+    document.getElementById('file_uploader')!.click();
+  }
+
+  getEvent(event: Event) {
+  }
+
+  onChange(result: Date): void {
+    console.log('onChange: ', result);
+  }
+
+  getDay(dateString : string): Date {
+    return new Date(dateString);
+  }
+
+  createRdvFromForm(formData: any): {
+    id : any
+    dateRv: any;
+    remarques: any;
+    patient: { id: any };
+    rappels: string;
+    service: { id: any };
+    duree: number;
+    personnel: { id: any }
+  } {
+    return {
+      id : null,
+      dateRv: formData.dateRv,
+      duree: formData.duree,
+      patient: {id : formData.patient},
+      rappels: "",
+      remarques: formData.remarques,
+      service: {id : formData.service},
+      personnel : {id : formData.medecin}
+    };
+  }
+
+  private load() {
     this.apiPole.getAllPole().subscribe({
       next : res => {
         this.listOfPole = res.reponse
+        console.log(this.listOfPole)
       }
     })
-
     this.apiPatient.getAll().subscribe({
       next : res => {
         this.listOfPatient = res as PatientInterface[]
@@ -77,64 +163,36 @@ export class RendezVousFormDialogComponent {
     this.apiService.getAllService().subscribe({
       next : res => {
         this.listService = res.reponse
+        console.log(listService)
       }
     })
+
   }
 
-
-  handleCancel() {
-    this.modal.close();
-  }
-
-  handleOk() {
-    const formData = this.RvForm.value;
-    const rv = this.createRdvFromForm(formData);
-    console.log(rv)
-    this.api.saveRdv(rv).subscribe({
+  private updateRdv(rv: any) {
+    rv.id = this.data.id
+    this.api.updateRdv(rv).subscribe({
       next: (response) => {
         this.modal.close();
         this.apiRdv.getAllRdv();
-        console.log('RendezVous enregistrée avec succès ', response);
+        console.log('RendezVous mis a jour avec succès ', response);
       },
-      error: (error) => console.error('Erreur lors de l\'enregistrement', error),
+      error: (error) => console.error('Erreur lors de la mise a jour', error),
       complete: () => {this.isConfirmLoading = false}
     });
   }
 
-  triggerFileUpload() {
-    document.getElementById('file_uploader')!.click();
-  }
+  private formatCustomDate(inputDate: string): string {
+    const date = new Date(inputDate);
 
-  getEvent(event: Event) {
-  }
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Note: Les mois commencent à 0, donc ajoutez 1
+    const year = date.getFullYear();
 
-  onChange(result: Date): void {
-    console.log('onChange: ', result);
-  }
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
 
-  getDay(dateString : string): Date {
-    const dateObject: Date = new Date(dateString);
-    return dateObject;
+    return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
   }
-
-  createRdvFromForm(formData: any): {
-    dateRv: any;
-    remarques: string;
-    patient: { id: any };
-    rappels: string;
-    service: { id: any };
-    duree: number;
-    personnel: { id: any };
-  } {
-    return {
-      dateRv: formData.dateRv,
-      duree: 30,
-      patient: {id : formData.patient},
-      rappels: "",
-      remarques: "",
-      service: {id : formData.service},
-      personnel : {id : formData.medecin}
-    };
-  }
-
 }
