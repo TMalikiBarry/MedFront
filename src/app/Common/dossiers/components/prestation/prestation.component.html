@@ -39,20 +39,20 @@
       </div>
       <div class="dateDesc"><p>Date</p></div>
       <div class="searchByDate">
-        <nz-date-picker (ngModelChange)="onChange($event)" [(ngModel)]="date"></nz-date-picker>
+        <nz-date-picker (ngModelChange)="onChange($event)" [(ngModel)]="dateDebut"></nz-date-picker>
       </div>
       <div class="serviceDesc"><p>Service</p></div>
       <div class="searchByService">
-        <nz-select (ngModelChange)="showEvent($event)" [(ngModel)]="singleValue" nzPlaceHolder="Choissez un service"
+        <nz-select (ngModelChange)="showEvent($event)" [(ngModel)]="serviceId" nzPlaceHolder="Choissez un service"
                    nzShowSearch>
           <nz-option nzLabel="----"></nz-option>
           <nz-option
             *ngFor="let service of listOfService"
-            [nzLabel]="service.nom" [nzValue]="service"></nz-option>
+            [nzLabel]="service.nom!" [nzValue]="service.id"></nz-option>
         </nz-select>
       </div>
       <div class="filterButton">
-        <button class="filter-form-button" nz-button>Filtrer</button>
+        <button class="filter-form-button" nz-button (click)="filterData()">Filtrer</button>
       </div>
     </div>
     <nz-table #prestationsTable *ngIf="paginatedData"

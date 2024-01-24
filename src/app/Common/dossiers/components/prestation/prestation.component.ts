@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {listService, Service} from "src/app/models/Utils/constants";
 import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
 import {PrestationFormDialogComponent} from "../../dialogs/prestation-form-dialog/prestation-form-dialog.component";
 import {PrestationService} from "src/app/services/prestation/prestation.service";
@@ -10,6 +9,10 @@ import {
   NewPaymentFormDialogComponent
 } from "../../../finance/dialogs/new-payment-form-dialog/new-payment-form-dialog.component";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
+import {CliniqueServiceService} from "src/app/services/service/clinique-service.service";
+import {ServiceInterface} from "src/app/models/service.interface";
+import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface";
+import {DossierMedicalService} from "src/app/services/dossier-medical/dossier-medical.service";
 
 @Component({
   selector: 'app-prestation',
@@ -20,27 +23,43 @@ export class PrestationComponent implements OnInit{
 
   numberStats = [3, 0, 2, 0];
   descSats = ["Prestations","Prestation facturée","Prestations non facturées", "Partiellement payée"]
-  date: any;
-  singleValue!: Service;
-  listOfService!: Service[];
-  loading = true;
-  total = 1;
-  pageSize = 5;
-  pageIndex = 1;
+  dateDebut!: Date;
+  serviceId!: ServiceInterface;
+  listOfService!: ServiceInterface[];
+  listOfDossierMedical!: DossierMedicalInterface[];
   paginatedData!: Page<PrestationInterface>;
-  prestationsList: PrestationInterface[] = [];
+  // prestationsList: PrestationInterface[] = [];
 
   constructor(private modalService: NzModalService,
-              private api: PrestationService) {
+              private api: PrestationService,
+              private serviceApi: CliniqueServiceService,
+              private dossierMApi: DossierMedicalService) {
   }
 
   ngOnInit(): void {
-    this.listOfService = listService;
+    // this.listOfService = <ServiceInterface[]>listService;
+    this.serviceApi.getAllService().subscribe({
+      next: result => {
+        this.listOfService = result.reponse as ServiceInterface[];
+      },
+    });
+    this.dossierMApi.getAll().subscribe({
+      next: result => {
+        this.listOfDossierMedical = result.filter( dossier => !!dossier.patient?.personne);
+      }
+    });
     this.getPrestationsByPage();
   }
 
-  getPrestationsByPage(page: number = 0, size: number = 5) {
-    this.api.getPaginatedData(page, size).subscribe({
+  getPrestationsByPage(page: number = 0,
+                       size: number = 5,
+                       firstName?: string,
+                       lastName?: string,
+                       serviceId?: number,
+                       startDate?: string,
+                       endDate?: string) {
+    this.api.getPaginatedFilteredData(page, size, firstName, lastName, serviceId,
+      startDate, endDate).subscribe({
       next: response => {
         console.log("Liste des prestations ", response);
         this.paginatedData = response;
@@ -48,11 +67,7 @@ export class PrestationComponent implements OnInit{
         this.numberStats[0] = this.paginatedData.totalElements;
         this.numberStats[2] = this.paginatedData.totalElements;
         this.numberStats[1] = this.numberStats[0]- this.numberStats[2]
-        this.prestationsList = this.paginatedData.content;
-        this.pageSize = this.paginatedData.pageable.pageSize;
-        this.pageIndex = this.paginatedData.pageable.pageNumber + 1;
-        this.total = this.paginatedData.totalElements;
-        this.loading = false;
+        // this.prestationsList = this.paginatedData.content;
       }
     })
   }
@@ -129,5 +144,9 @@ export class PrestationComponent implements OnInit{
     const sortField = (currentSort && currentSort.key) || null;
     const sortOrder = (currentSort && currentSort.value) || null;*/
     this.getPrestationsByPage(params.pageIndex - 1, params.pageSize)
+  }
+
+  filterData() {
+
   }
 }

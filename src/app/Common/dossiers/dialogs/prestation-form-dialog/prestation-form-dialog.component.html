@@ -26,7 +26,8 @@
       <nz-form-item>
         <nz-form-control nzErrorTip="Veuillez Choisir un patient">
           <p class="input-label">Patient</p>
-          <nz-select nzShowSearch nzPlaceHolder="Choissez un patient" formControlName="dossier">
+          <nz-select nzShowSearch [nzDropdownRender]="addNewPatientTemplate" nzPlaceHolder="Choissez un patient"
+                     formControlName="dossier">
             <nz-option nzLabel="----"></nz-option>
             <nz-option
               *ngFor="let dossier of listOfDossierMedical"
@@ -45,8 +46,8 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-control nzErrorTip="Veuillez renseignez votre mot de passe!">
-          <p class="input-label">Diagnostique</p>
+        <nz-form-control nzErrorTip="Veuillez renseigner le diagnostic!">
+          <p class="input-label">Diagnostic</p>
           <nz-input-group >
             <input type="text" nz-input formControlName="diagnostic" placeholder="Renseignez le diagnostique" />
           </nz-input-group>
@@ -55,8 +56,12 @@
     </div>
     <div class="make-spaceBetween">
       <nz-form-item>
-        <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
-          <p class="input-label">Prescriptions</p>
+        <nz-form-control nzErrorTip="Veuillez choisir une prescription!">
+          <p class="input-label">Prérequis</p>
+          <nz-input-group >
+            <input type="text" nz-input formControlName="prerequis" placeholder="Renseignez les conditions à respecter " />
+          </nz-input-group>
+<!--
           <nz-select nzShowSearch nzPlaceHolder="Choissez les prescriptions"
                      formControlName="prescription" (selectionchange)="displayEvent($event)">
             <nz-option nzLabel="&#45;&#45;&#45;&#45;"></nz-option>
@@ -64,10 +69,11 @@
               *ngFor="let medicament of listPrescription"
               [nzLabel]="medicament.libelle" [nzValue]="medicament"></nz-option>
           </nz-select>
+-->
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-control nzErrorTip="Veuillez renseignez votre mot de passe!">
+        <nz-form-control nzErrorTip="Veuillez renseignez la conclusion!">
           <p class="input-label">Conclusion</p>
           <nz-input-group >
             <input type="text" nz-input formControlName="conclusion" placeholder="Renseignez la conclusion" />
@@ -103,4 +109,14 @@
     <span>Importer</span>
   </div>
 
+</ng-template>
+
+<ng-template #addNewPatientTemplate>
+  <nz-divider></nz-divider>
+  <div class="container">
+    <a class="add-item" (click)="addNewPatient()">
+      <i nz-icon nzType="plus"></i>
+      Ajouter nouveau patient
+    </a>
+  </div>
 </ng-template>

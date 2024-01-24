@@ -28,6 +28,37 @@ export class PrestationService {
     return this.http.get(this.url, { params: params });
   }
 
+  getPaginatedFilteredData(page: number = 0,
+                           size: number = 5,
+                           firstName?: string,
+                           lastName?: string,
+                           serviceId?: number,
+                           startDate?: string,
+                           endDate?: string
+  ): Observable<any> {
+    let params = new HttpParams()
+      .append('page', page.toString())
+      .append('size', size.toString());
+
+    if (firstName) {
+      params = params.append('firstName', firstName);
+    }
+    if (lastName) {
+      params = params.append('lastName', lastName);
+    }
+    if (serviceId !== undefined && serviceId !== null) {
+      params = params.append('serviceId', serviceId.toString());
+    }
+    if (startDate) {
+      params = params.append('startDate', startDate);
+    }
+    if (endDate) {
+      params = params.append('endDate', endDate);
+    }
+
+    return this.http.get(this.url, { params: params });
+  }
+
   getAll(){
     return this.http.get<ApiResponseInterface>(this.url+"/all")
   }

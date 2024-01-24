@@ -33,7 +33,7 @@ export class PrestationFormDialogComponent implements OnInit{
     dossier: ['', Validators.required],
     diagnostic:['', Validators.required],
     conclusion:['', Validators.required],
-    prescription: '',
+    prerequis: ['', Validators.required],
     resultat:''
   })
 
@@ -103,7 +103,7 @@ export class PrestationFormDialogComponent implements OnInit{
     return {
       cout, // Supposé fixe, peut être ajusté en fonction de la logique de votre application
       montant: cout,
-      prerequisities: "Venir à jeun", // Peut être ajusté ou récupéré du formulaire si nécessaire
+      prerequisities: formData.prerequis, // Peut être ajusté ou récupéré du formulaire si nécessaire
       diagnostic: formData.diagnostic,
       conclusion: formData.conclusion,
       //personnel: { id: 3 }, // L'ID doit correspondre à la logique de votre application
@@ -131,5 +131,9 @@ export class PrestationFormDialogComponent implements OnInit{
 
   displayEvent(event: Event) {
     console.log(event);
+  }
+
+  addNewPatient() {
+
   }
 }
