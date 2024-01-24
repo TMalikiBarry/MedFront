@@ -32,7 +32,7 @@ export class RendezVousService {
     if(serviceId)
       params = params.append('serviceId',serviceId)
     if(endDate)
-      params = params.append('endDate',endDate)
+      params = params.append('startDate',endDate)
     return this.http.get<any>(this.API_URL+this.ENDPOINT_RDV,{ params: params })
   }
 

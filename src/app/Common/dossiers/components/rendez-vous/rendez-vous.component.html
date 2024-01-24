@@ -40,7 +40,7 @@
         </nz-input-group>
       </div>
       <div class="searchByDate">
-        <nz-date-picker  (ngModelChange)="onChange($event)" [(ngModel)]="date"></nz-date-picker>
+        <nz-date-picker nzFormat="dd-MM-YYYY"  (ngModelChange)="onChange($event)" [(ngModel)]="date"></nz-date-picker>
       </div>
       <div class="searchByService">
         <nz-select (ngModelChange)="showEvent($event)" [(ngModel)]="serviceId" nzPlaceHolder="Choissez un service"
