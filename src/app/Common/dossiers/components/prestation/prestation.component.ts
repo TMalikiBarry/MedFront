@@ -13,6 +13,7 @@ import {CliniqueServiceService} from "src/app/services/service/clinique-service.
 import {ServiceInterface} from "src/app/models/service.interface";
 import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface";
 import {DossierMedicalService} from "src/app/services/dossier-medical/dossier-medical.service";
+import {PersonneInterface} from "../../../../models/personne.interface";
 
 @Component({
   selector: 'app-prestation',
@@ -24,10 +25,14 @@ export class PrestationComponent implements OnInit{
   numberStats = [3, 0, 2, 0];
   descSats = ["Prestations","Prestation facturée","Prestations non facturées", "Partiellement payée"]
   dateDebut!: Date;
-  serviceId!: ServiceInterface;
+  serviceId!: number;
   listOfService!: ServiceInterface[];
   listOfDossierMedical!: DossierMedicalInterface[];
   paginatedData!: Page<PrestationInterface>;
+  patientPers!: PersonneInterface;
+  pageIndex: number = 0;
+  pageSize: number = 5;
+
   // prestationsList: PrestationInterface[] = [];
 
   constructor(private modalService: NzModalService,
@@ -71,12 +76,41 @@ export class PrestationComponent implements OnInit{
       }
     })
   }
-  onChange(result: Date): void {
-    console.log('onChange: ', result);
+  onQueryParamsChange(params: NzTableQueryParams): void {
+    console.log(" onQueryParamsChange FUNCTIONS ", params);
+    this.pageIndex = params.pageIndex -1;
+    this.pageSize = params.pageSize
+    /*const { pageSize, pageIndex} = params;
+    const currentSort = sort.find(item => item.value !== null);
+    const sortField = (currentSort && currentSort.key) || null;
+    const sortOrder = (currentSort && currentSort.value) || null;*/
+    let prenom = null;
+    let nom = null;
+    if (this.patientPers){
+      prenom = this.patientPers.prenom;
+      nom = this.patientPers.nom;
+    }
+    this.getPrestationsByPage(this.pageIndex, params.pageSize,
+      prenom!, nom!, this.serviceId,
+      this.dateDebut ? this.dateDebut.toISOString(): undefined)
   }
 
-  showEvent(event: any) {
-    console.log(event)
+  filterData() {
+    let prenom = null;
+    let nom = null;
+    if (this.patientPers){
+      prenom = this.patientPers.prenom;
+      nom = this.patientPers.nom;
+    }
+    this.getPrestationsByPage(0, 5,
+      prenom!, nom!, this.serviceId,
+      this.dateDebut ? this.dateDebut.toISOString(): undefined)
+  }
+
+  onChange(result: Date): void {
+    if (typeof result == 'object')
+      console.log('onChange: ', result.toISOString());
+    console.log('SELECTION: ', result)
   }
 
 
@@ -91,6 +125,7 @@ export class PrestationComponent implements OnInit{
     );
 
   }
+
 
   addNewPayment() {
     this.modalService.create({
@@ -108,11 +143,11 @@ export class PrestationComponent implements OnInit{
     return ( prestation.id!*17*1000 + prestation.dossierMedical?.id!*19*10 + prestation.dossierMedical?.patient?.id!)
   }
 
-  getPatientName(prestation: PrestationInterface):string {
-    return `${prestation.dossierMedical?.patient?.personne.prenom} ${prestation.dossierMedical?.patient?.personne.nom}`
+  getPatientName(dossierMedical: DossierMedicalInterface):string {
+    return `${dossierMedical?.patient?.personne.prenom} ${dossierMedical?.patient?.personne.nom}`
   }
-
   // TODO METTRE DANS UN PIPE POUR GENERALISER SON UTILISATION DANS LES AUTRES COMPONENTS
+
   formatDateString(inputDateStr: Date | string): string {
     const inputDate = new Date(inputDateStr);
     // const day = inputDate.getDate().toString().padStart(2, '0');
@@ -136,17 +171,4 @@ export class PrestationComponent implements OnInit{
     console.log(`MY EVENT ${context}`, event);
     this.getPrestationsByPage(event);
   }*/
-
-  onQueryParamsChange(params: NzTableQueryParams): void {
-    console.log(" onQueryParamsChange FUNCTIONS ", params);
-    /*const { pageSize, pageIndex} = params;
-    const currentSort = sort.find(item => item.value !== null);
-    const sortField = (currentSort && currentSort.key) || null;
-    const sortOrder = (currentSort && currentSort.value) || null;*/
-    this.getPrestationsByPage(params.pageIndex - 1, params.pageSize)
-  }
-
-  filterData() {
-
-  }
 }
