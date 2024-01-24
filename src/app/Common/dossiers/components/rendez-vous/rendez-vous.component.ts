@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
 import {NzModalService} from "ng-zorro-antd/modal";
 import {RendezVousFormDialogComponent} from "../../dialogs/rendez-vous-form-dialog/rendez-vous-form-dialog.component";
-import {DetailRendezVousComponent} from "../../dialogs/detail-rendez-vous/detail-rendez-vous.component";
-import {listService, Service} from "../../../../models/Utils/constants";
+import {Service} from "../../../../models/Utils/constants";
 import {PrestationInterface} from "../../../../models/prestation.interface";
 import {PrestationFormDialogComponent} from "../../dialogs/prestation-form-dialog/prestation-form-dialog.component";
 import {PatientInterface} from "../../../../models/patient.interface";
@@ -1267,7 +1266,8 @@ export class RendezVousComponent {
   ]
 
   date: any;
-  singleValue!: Service;
+  filtrePatient: any;
+  serviceId!: number;
   listOfService!: Service[];
 
   loading = true;
@@ -1392,7 +1392,22 @@ export class RendezVousComponent {
   }
 
   filtre() {
-
+    let date = ''
+    if(this.date){
+      date = this.formatCustomDate(this.date)
+    }
+    this.api.getAllRdvPagination(0, 5,this.filtrePatient, this.filtrePatient,this.filtrePatient,this.serviceId,date).subscribe({
+      next: response => {
+        console.log("Liste des rdv filter page ", response);
+        console.log(response)
+        this.paginatedData = response;
+        this.prestationsList = this.paginatedData.content;
+        this.pageSize = this.paginatedData.pageable.pageSize;
+        this.pageIndex = this.paginatedData.pageable.pageNumber + 1;
+        this.total = this.paginatedData.totalElements;
+        this.loading = false;
+      }
+    })
   }
 
   detailPatient(patient :any) {
@@ -1433,5 +1448,19 @@ export class RendezVousComponent {
         console.log(res)
       }
     })
+  }
+
+  private formatCustomDate(inputDate: string): string {
+    const date = new Date(inputDate);
+
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
   }
 }
