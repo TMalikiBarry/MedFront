@@ -5,6 +5,8 @@ import {DossierMedicalInterface} from "./dossier-medical.interface";
 
 export interface PatientInterface {
   id?: number
+  dateCreation ?: Date
+  dateModification ?: Date
   groupeSanguin : string
   donneurOrgane : Boolean
   contactEnCasUrgent : string

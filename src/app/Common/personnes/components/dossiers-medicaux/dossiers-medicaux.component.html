@@ -1,1 +1,113 @@
-<p>dossiers-medicaux works!</p>
+<div class="mainbody">
+    <div class="headerLayout">
+        <input nz-input placeholder="Rechercher par patient, prestation" type="text"/>
+      
+      <div class="headerActions">
+        <img alt="notif" src="assets/from_figma/notification_icon.svg" width="17.5">
+        <img alt="email" src="assets/from_figma/email-icon.svg" width="17.5">
+        <img alt="calendar" src="assets/from_figma/calendar-icon.svg" width="17.5">
+        <div class="addActionHeader">
+          <img alt="Ajouter" src="assets/from_figma/addPlus-icon.svg">
+          <span>Ajouter</span>
+          <a [nzDropdownMenu]="menu" nz-dropdown>
+            <img alt="Arrow Down" src="assets/from_figma/arrow-down.svg">
+          </a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="dataLayout">
+      <p>Dossiers médicaux des patients</p>
+      <div class="controllers">
+        <div class="searchInput">
+          <nz-input-group [nzPrefix]="suffixIconSearch">
+            <input nz-input placeholder="Rechercher par patient " type="text"/>
+          </nz-input-group>
+        </div>
+        <div class="dateDesc"><p>Date</p></div>
+        <div class="searchByDate">
+          <nz-date-picker  ></nz-date-picker>
+        </div>
+        <div class="serviceDesc"><p>Statut</p></div>
+        <div class="searchByService">
+          <nz-select nzPlaceHolder="Choissez un status"
+                     nzShowSearch>
+            <nz-option nzLabel="----"></nz-option>
+            <nz-option
+              ></nz-option>
+          </nz-select>
+        </div>
+        <div class="filterButton">
+          <button class="filter-form-button" nz-button>Filtrer</button>
+        </div>
+      </div>
+      <nz-table #prestationsTable
+                [nzData]="patients" [nzPageSize]="5">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Date de creation</th>
+            <th>Nom du patients</th>
+            <th>Statut</th>
+            <th>Actions</th>
+            <!-- Ajoutez d'autres colonnes si nécessaire -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let patient of patients">
+            <td>{{ patient.personne.id }}</td>
+            <td>{{ patient.dateCreation | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ patient.personne.nom }} {{ patient.personne.prenom }}</td>
+            <td></td>
+        
+            <td>
+              <a [nzDropdownMenu]="nonPayeFacture" nzTrigger="click" nz-dropdown>
+                <img alt="Arrow Down" src="assets/from_figma/actionsOnRow.svg">
+              </a>
+            </td>
+            <!--        <td>{{ prestation.diagnostic }}</td>-->
+            <!--        <td>{{ prestation.conclusion }}</td>-->
+  
+          </tr>
+        </tbody>
+  
+      </nz-table>
+  
+    </div>
+  </div>
+  
+  <ng-template #suffixIconSearch>
+    <img alt="Rechercher" src="assets/from_figma/search_icon.svg">
+  </ng-template>
+  
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu>
+      <li class="selectedLink" nz-menu-item>
+        <span>Nouveau Patient</span>
+      </li>
+      <li class="selectedLink" nz-menu-item>
+        <span>Nouveau RDV</span>
+      </li>
+     
+    </ul>
+  </nz-dropdown-menu>
+  
+  <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
+    <ul nz-menu>
+      <li class="selectedLink" nz-menu-item>
+        <span>
+            <!-- Link to personnes/nouveau-patient -->
+            <a routerLink="/personnes/nouveau-patient">
+             Voire la fiche medicale
+            </a>
+        </span>
+      </li>
+      <li class="selectedLink" nz-menu-item>
+        <span>Partager le dossier</span>
+      </li>
+      <li class="selectedLink" nz-menu-item>
+        <span>Accéder à la fiche du patient</span>
+      </li>
+    </ul>
+  </nz-dropdown-menu>
+  

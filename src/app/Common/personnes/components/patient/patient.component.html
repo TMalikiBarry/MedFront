@@ -53,7 +53,11 @@
                    </div>
            </div>
            <div class="chart">
-                   <span>Data loading...</span>
+                   <!-- Creer un diagramme en bar  -->
+                   <div>
+                            <canvas id="myChart" width="400" height="400"></canvas>
+                            
+                   </div>
            </div>
         </div>
         <div class="card-right">
@@ -125,7 +129,9 @@
             <td>{{ patient.personne.id }}</td>
             <td>{{ patient.personne.nom }} {{ patient.personne.prenom }}</td>
             <td>{{ patient.personne.telephone }}</td>
-            <td></td>
+           
+<td>{{ patient.dateModification | date: 'dd/MM/yyyy HH:mm' }}</td>
+
             <td></td>
         
             <td>
