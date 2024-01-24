@@ -95,13 +95,18 @@
   <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
     <ul nz-menu>
       <li class="selectedLink" nz-menu-item>
-        <span>Modifier les infos du patient</span>
+        <span>
+            <!-- Link to personnes/nouveau-patient -->
+            <a routerLink="/personnes/nouveau-patient">
+             Voire la fiche medicale
+            </a>
+        </span>
       </li>
       <li class="selectedLink" nz-menu-item>
-        <span>Ajouter une prestation</span>
+        <span>Partager le dossier</span>
       </li>
       <li class="selectedLink" nz-menu-item>
-        <span>Accéder à la fiche medical</span>
+        <span>Accéder à la fiche du patient</span>
       </li>
     </ul>
   </nz-dropdown-menu>

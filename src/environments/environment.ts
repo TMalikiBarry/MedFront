@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
 
-  apiURL : 'http://localhost:8090/touchmed-api/',
+  apiURL : 'http://dev-touchmed.gutouch.net/touchmed-api/',
 };
