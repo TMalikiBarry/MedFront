@@ -56,7 +56,7 @@
                    <!-- Creer un diagramme en bar  -->
                    <div>
                             <canvas id="myChart" width="400" height="400"></canvas>
-                            
+
                    </div>
            </div>
         </div>
@@ -132,7 +132,7 @@
            
 <td>{{ patient.dateModification | date: 'dd/MM/yyyy HH:mm' }}</td>
 
-            <td></td>
+            <td> {{ patient.status}}</td>
         
             <td>
               <a [nzDropdownMenu]="nonPayeFacture" nzTrigger="click" nz-dropdown>

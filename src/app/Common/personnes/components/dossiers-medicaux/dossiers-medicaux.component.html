@@ -21,7 +21,7 @@
       <div class="controllers">
         <div class="searchInput">
           <nz-input-group [nzPrefix]="suffixIconSearch">
-            <input nz-input placeholder="Rechercher par patient " type="text"/>
+            <input nz-input placeholder="Rechercher par patient " type="text" (input)="searchPatient($event)"/>
           </nz-input-group>
         </div>
         <div class="dateDesc"><p>Date</p></div>
@@ -58,7 +58,7 @@
             <td>{{ patient.personne.id }}</td>
             <td>{{ patient.dateCreation | date: 'dd/MM/yyyy HH:mm' }}</td>
             <td>{{ patient.personne.nom }} {{ patient.personne.prenom }}</td>
-            <td></td>
+            <td> {{ patient.status}}</td>
         
             <td>
               <a [nzDropdownMenu]="nonPayeFacture" nzTrigger="click" nz-dropdown>
