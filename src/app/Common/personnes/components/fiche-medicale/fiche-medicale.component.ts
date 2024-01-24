@@ -24,7 +24,7 @@ export class FicheMedicaleComponent implements OnInit {
   }
 
   loadPatients() {
-    this.patientService.getAllPatients().subscribe(
+    this.patientService.getAll().subscribe(
       (patients: PatientInterface[]) => {
         this.patients = patients;
         console.log(patients);
