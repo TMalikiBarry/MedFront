@@ -8,7 +8,7 @@ import { PatientInterface } from 'src/app/models/patient.interface';
   styleUrls: ['./patient.component.sass']
 })
 export class PatientComponent implements OnInit {
-  patients: PatientInterface[] = [];
+  patients!: PatientInterface[];
 
   constructor(private patientService: PatientService) {}
 
@@ -20,7 +20,7 @@ export class PatientComponent implements OnInit {
     this.patientService.getAll().subscribe(
       patients => {
         this.patients = patients.reponse;
-        console.log(patients);
+        console.log('Recuperation de patient ',patients);
       },
       (error) => {
         console.error('Erreur lors de la récupération des patients', error);

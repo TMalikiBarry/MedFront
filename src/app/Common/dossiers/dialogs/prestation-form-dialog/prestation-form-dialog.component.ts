@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NzModalRef} from "ng-zorro-antd/modal";
+import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
 import {FormBuilder, Validators} from "@angular/forms";
 import {listService, my_prescription, Service} from "src/app/models/Utils/constants";
 import {UtilsService} from "src/app/services/utils/utils.service";
@@ -11,6 +11,8 @@ import {CliniqueServiceService} from "../../../../services/service/clinique-serv
 import {ServiceInterface} from "../../../../models/service.interface";
 import {NotifService} from "../../../../services/notification/notif.service";
 import {PersonneInterface} from "../../../../models/personne.interface";
+
+import {NouveauPatientComponent} from "../../../personnes/components/nouveau-patient/nouveau-patient.component";
 
 @Component({
   selector: 'app-prestation-form-dialog',
@@ -38,6 +40,7 @@ export class PrestationFormDialogComponent implements OnInit{
   })
 
   constructor(private modal: NzModalRef,
+              private modalService: NzModalService,
               private fb: FormBuilder,
               private utils: UtilsService,
               private api: PrestationService,
@@ -134,6 +137,9 @@ export class PrestationFormDialogComponent implements OnInit{
   }
 
   addNewPatient() {
-
+    this.modalService.create({
+      nzContent: NouveauPatientComponent,
+      nzWidth: 800
+    })
   }
 }
