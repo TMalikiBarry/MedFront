@@ -18,11 +18,27 @@ export class RendezVousService {
     return this.http.get<any>(this.API_URL+this.ENDPOINT_RDV+"/all")
   }
 
-  getAllRdvPagination(page: number = 0, size: number = 5){
+  getAllRdvPagination(page: number = 0, size: number = 5,lastname ?: string ,firstName ?: string, telephone ?: string ,serviceId ?: number ,endDate ?: string){
     let params = new HttpParams();
     params = params.append('page', page.toString());
     params = params.append('size', size.toString());
-    return this.http.get<any>(this.API_URL+this.ENDPOINT_RDV)
+
+    if(lastname)
+      params = params.append('lastname',lastname.toString())
+    if(firstName)
+      params = params.append('firstName',firstName.toString())
+    if(telephone)
+      params = params.append('telephone',telephone.toString())
+    if(serviceId)
+      params = params.append('serviceId',serviceId)
+    if(endDate)
+      params = params.append('startDate',endDate)
+    return this.http.get<any>(this.API_URL+this.ENDPOINT_RDV,{ params: params })
+  }
+
+  getRdvFiltre(){
+    let params = new HttpParams();
+    return this.http.get<any>(this.API_URL+this.ENDPOINT_RDV,{params: params})
   }
 
   getRdvById(id : number){
