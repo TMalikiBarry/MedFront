@@ -1411,12 +1411,15 @@ export class RendezVousComponent {
   }
 
   detailPatient(patient :any) {
-    this.modalService.create({
+    const dialog = this.modalService.create({
       nzContent: DetailRdvPatientComponent,
-      nzData: patient,
+      nzData : patient,
       nzClosable: false,
-      nzWidth: '50rem'
+      nzWidth:'50rem'
     });
+    dialog.afterClose.subscribe(() => {
+      this.getRdvByPage();
+    })
   }
 
   getRdvByPage(page: number = 0, size: number = 5) {

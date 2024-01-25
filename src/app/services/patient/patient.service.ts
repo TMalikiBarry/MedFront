@@ -32,4 +32,8 @@ export class PatientService {
   getAll(){
     return  this.http.get<any>(this.url+"/all")
   }
+
+  UpddatePatient(data : any){
+    return this.http.put<ApiResponseInterface>(this.url,data);
+  }
 }
