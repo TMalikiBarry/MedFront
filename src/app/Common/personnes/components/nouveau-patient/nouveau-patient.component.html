@@ -1,25 +1,8 @@
 <div class="mainbody">
     <!-- Header layout-->
-    <div class="headerLayout">
-      <nz-input-group [nzPrefix]="suffixIconSearch">
-        <input nz-input placeholder="Rechercher par patient, prestation" type="text"/>
-      </nz-input-group>
-      <div class="headerActions">
-        <img alt="notif" src="assets/from_figma/notification_icon.svg" width="17.5">
-        <img alt="email" src="assets/from_figma/email-icon.svg" width="17.5">
-        <img alt="calendar" src="assets/from_figma/calendar-icon.svg" width="17.5">
-        <div class="addActionHeader">
-          <img alt="Ajouter" src="assets/from_figma/addPlus-icon.svg">
-          <span>Ajouter</span>
-          <a [nzDropdownMenu]="menu" nz-dropdown>
-            <img alt="Arrow Down" src="assets/from_figma/arrow-down.svg">
-          </a>
-        </div>
-      </div>
-    </div>
     <div class="patient-form">
     <form [formGroup]="patientForm" (submit)="enregistrerPatient()">
-      
+
 
       <div class="button">
         <button class="btn" type="submit">Enregistrer</button>
@@ -30,7 +13,7 @@
           <h3 class="title">Informations sur le patient</h3>
         </div>
         <div class="form">
-          
+
             <div class="gender">
               <label class="label">Genre</label>
               <div>
@@ -46,7 +29,7 @@
                 <label for="unspecified">Non précisé</label>
               </div>
             </div>
-      
+
             <div class="name">
               <div class="prenom">
                 <label class="label" for="prenom">Prénom</label>
@@ -57,7 +40,7 @@
                 <input class="input" type="text" id="nom" name="nom" formControlName="nom" required>
               </div>
             </div>
-      
+
             <div class="phone-date">
               <div class="phone">
                 <label class="label" for="phone">Téléphone</label>
@@ -68,7 +51,7 @@
                 <input class="input" type="date" id="date" name="date" formControlName="dateNaissance" required>
               </div>
             </div>
-      
+
             <div class="blood-address">
               <div class="blood">
                 <label class="label" for="blood">Groupe sanguin</label>
@@ -88,7 +71,7 @@
                 <input class="input" type="text" id="address" name="address" formControlName="adresse" required>
               </div>
             </div>
-      
+
             <div class="medecin-fiche">
               <div class="medecin">
                 <label class="label" for="medecin">Médecin traitant</label>
@@ -103,9 +86,9 @@
                 </select>
               </div>
             </div>
-      
-            
-         
+
+
+
         </div>
       </div>
       <!-- Card for Allergie input-->
@@ -125,13 +108,13 @@
       </div>
     </form>
   </div>
-  
+
   </div>
 
   <ng-template #suffixIconSearch>
     <img alt="Rechercher" src="assets/from_figma/search_icon.svg">
   </ng-template>
-  
+
   <nz-dropdown-menu #menu="nzDropdownMenu">
     <ul nz-menu>
       <li class="selectedLink" nz-menu-item>
@@ -145,7 +128,7 @@
       </li>
     </ul>
   </nz-dropdown-menu>
-    
+
   <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
     <ul nz-menu>
       <li class="selectedLink" nz-menu-item>
@@ -156,4 +139,3 @@
       </li>
     </ul>
   </nz-dropdown-menu>
-  

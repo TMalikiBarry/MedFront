@@ -33,7 +33,7 @@
     </div>
     <div class="controllers">
       <div class="searchInput">
-        <nz-select nzShowSearch nzPlaceHolder="Choissez un patient" [(ngModel)]="patientPers">
+        <nz-select nzAllowClear nzShowSearch nzPlaceHolder="Choissez un patient" [(ngModel)]="patientPers">
           <nz-option nzLabel="----"></nz-option>
           <nz-option
             *ngFor="let dossier of listOfDossierMedical"
@@ -47,12 +47,12 @@
       </div>
       <div class="dateDesc"><p>Date</p></div>
       <div class="searchByDate">
-        <nz-date-picker (ngModelChange)="onChange($event)" [(ngModel)]="dateDebut"></nz-date-picker>
+        <nz-date-picker nzFormat="dd/MM/YYYY" (ngModelChange)="onChange($event)" [(ngModel)]="dateDebut"></nz-date-picker>
       </div>
       <div class="serviceDesc"><p>Service</p></div>
       <div class="searchByService">
         <nz-select (ngModelChange)="onChange($event)" [(ngModel)]="serviceId" nzPlaceHolder="Choissez un service"
-                   nzShowSearch>
+                   nzShowSearch nzAllowClear>
           <nz-option nzLabel="----"></nz-option>
           <nz-option
             *ngFor="let service of listOfService"

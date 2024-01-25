@@ -1,7 +1,7 @@
 <div class="mainbody">
     <div class="headerLayout">
         <input nz-input placeholder="Rechercher par patient, prestation" type="text"/>
-      
+
       <div class="headerActions">
         <img alt="notif" src="assets/from_figma/notification_icon.svg" width="17.5">
         <img alt="email" src="assets/from_figma/email-icon.svg" width="17.5">
@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-   
+
     <div class="chart-overview">
         <div class="card">
            <div class="card-title">
@@ -49,14 +49,14 @@
                                            <span>Salle 2</span>
                                    </nz-dropdown-menu>
                            </div>
-                           
+
                    </div>
            </div>
            <div class="chart">
                    <!-- Creer un diagramme en bar  -->
                    <div>
                             <canvas id="myChart" width="400" height="400"></canvas>
-                            
+
                    </div>
            </div>
         </div>
@@ -85,14 +85,14 @@
                                    </svg>
                                    <span>Enfants</span>
                            </div>
-                         
-                           
+
+
                    </div>
            </div>
-           
+
         </div>
        </div>
-  
+
     <div class="dataLayout">
       <p>Listes des patients</p>
       <div class="controllers">
@@ -101,13 +101,13 @@
             <input nz-input placeholder="Rechercher par nom, id " type="text"/>
           </nz-input-group>
         </div>
-        
+
         <div class="filterButton">
-          <a routerLink="/personnes/nouveau-patient">
+          <a routerLink="/admin/personnes/nouveau-patient">
             <button class="filter-form-button" nz-button>Nouveau Patient</button>
           </a>
-         
-          
+
+
 
         </div>
       </div>
@@ -129,11 +129,11 @@
             <td>{{ patient.personne.id }}</td>
             <td>{{ patient.personne.nom }} {{ patient.personne.prenom }}</td>
             <td>{{ patient.personne.telephone }}</td>
-           
+
 <td>{{ patient.dateModification | date: 'dd/MM/yyyy HH:mm' }}</td>
 
             <td></td>
-        
+
             <td>
               <a [nzDropdownMenu]="nonPayeFacture" nzTrigger="click" nz-dropdown>
                 <img alt="Arrow Down" src="assets/from_figma/actionsOnRow.svg">
@@ -141,19 +141,19 @@
             </td>
             <!--        <td>{{ prestation.diagnostic }}</td>-->
             <!--        <td>{{ prestation.conclusion }}</td>-->
-  
+
           </tr>
         </tbody>
-  
+
       </nz-table>
-  
+
     </div>
   </div>
-  
+
   <ng-template #suffixIconSearch>
     <img alt="Rechercher" src="assets/from_figma/search_icon.svg">
   </ng-template>
-  
+
   <nz-dropdown-menu #menu="nzDropdownMenu">
     <ul nz-menu>
       <li class="selectedLink" nz-menu-item>
@@ -162,10 +162,10 @@
       <li class="selectedLink" nz-menu-item>
         <span>Nouveau RDV</span>
       </li>
-     
+
     </ul>
   </nz-dropdown-menu>
-  
+
   <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
     <ul nz-menu>
       <li class="selectedLink" nz-menu-item>
@@ -176,4 +176,3 @@
       </li>
     </ul>
   </nz-dropdown-menu>
-  
