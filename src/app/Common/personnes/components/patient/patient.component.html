@@ -132,7 +132,7 @@
 
 <td>{{ patient.dateModification | date: 'dd/MM/yyyy HH:mm' }}</td>
 
-            <td></td>
+            <td> {{ patient.status}}</td>
 
             <td>
               <a [nzDropdownMenu]="nonPayeFacture" nzTrigger="click" nz-dropdown>
@@ -169,10 +169,12 @@
   <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
     <ul nz-menu>
       <li class="selectedLink" nz-menu-item>
-        <span>Facturer la prestation</span>
+        <span>Consulter la fiche Medicale</span>
       </li>
       <li class="selectedLink" nz-menu-item>
-        <span>Voir le contenu de la prestation</span>
+        <a routerLink="/admin/dossiers/prestation">
+        <span>Ajouter une prestation</span>
+        </a>
       </li>
     </ul>
   </nz-dropdown-menu>
