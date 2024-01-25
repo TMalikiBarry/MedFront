@@ -3,6 +3,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PatientService } from 'src/app/services/patient/patient.service';
+import {NzModalRef} from "ng-zorro-antd/modal";
 
 @Component({
   selector: 'app-nouveau-patient',
@@ -12,7 +13,9 @@ import { PatientService } from 'src/app/services/patient/patient.service';
 export class NouveauPatientComponent implements OnInit {
   patientForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private patientService: PatientService) {
+  constructor(private fb: FormBuilder,
+              private modalRef : NzModalRef,
+              private patientService: PatientService) {
     this.patientForm = this.fb.group({
       genre: ['', Validators.required],
       prenom: ['', Validators.required],
@@ -50,6 +53,7 @@ export class NouveauPatientComponent implements OnInit {
         (response) => {
           // Gérez la réponse ici, par exemple, affichez un message de succès
           console.log('Patient ajouté avec succès', response);
+          this.modalRef.close(response.reponse)
 
           // Réinitialisez le formulaire après avoir ajouté le patient
           this.patientForm.reset();

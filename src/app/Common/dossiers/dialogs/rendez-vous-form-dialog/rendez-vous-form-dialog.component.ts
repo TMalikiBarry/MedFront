@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {listService, Service} from "../../../../models/Utils/constants";
-import {NzModalRef} from "ng-zorro-antd/modal";
+import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
 import {FormBuilder} from "@angular/forms";
 import {Poles} from "../../../../models/Utils/poles";
 import {PersonnelInterface} from "../../../../models/personnel.interface";
@@ -11,6 +11,7 @@ import {PoleService} from "../../../../services/pole/pole.service";
 import {CliniqueServiceService} from "../../../../services/service/clinique-service.service";
 import {PersonnelService} from "../../../../services/personnel/personnel.service";
 import {PatientService} from "../../../../services/patient/patient.service";
+import {NouveauPatientComponent} from "../../../personnes/components/nouveau-patient/nouveau-patient.component";
 
 @Component({
   selector: 'app-rendez-vous-form-dialog',
@@ -31,6 +32,8 @@ export class RendezVousFormDialogComponent {
   rendezVous !: RendezVousInterface;
   data: any
 
+  selectedDataFromSecondDialog: any;
+
   RvForm = this.fb.group({
     medecin: '',
     pole: '',
@@ -45,6 +48,7 @@ export class RendezVousFormDialogComponent {
   })
 
   constructor(private modal: NzModalRef,
+              private modalService: NzModalService,
               private api: RendezVousService,
               private apiPole: PoleService,
               private apiService: CliniqueServiceService,
@@ -179,6 +183,18 @@ export class RendezVousFormDialogComponent {
       },
       error: (error) => console.error('Erreur lors de la mise a jour', error),
       complete: () => {this.isConfirmLoading = false}
+    });
+  }
+
+  NewPatient() {
+    let dialog = this.modalService.create({
+      nzContent: NouveauPatientComponent,
+      nzWidth: 800,
+    })
+    dialog.afterClose.subscribe((result: any) => {
+      console.log('Données reçues du modal :', result);
+      this.load()
+      this.RvForm.controls.patient.setValue(result)
     });
   }
 }

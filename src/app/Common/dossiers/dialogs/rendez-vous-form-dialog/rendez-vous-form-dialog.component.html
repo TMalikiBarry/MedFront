@@ -17,9 +17,9 @@
                 <nz-option nzLabel="----"></nz-option>
                 <nz-option
                   *ngFor="let patient of listOfPatient"
-                  [nzLabel]="patient.personne.nom" [nzValue]="patient.id"></nz-option>
+                  [nzLabel]="patient.personne.prenom+' '+patient.personne.nom" [nzValue]="patient.id"></nz-option>
               </nz-select>
-              <button nz-button nzType="default">Ajouter</button>
+              <button (click)="NewPatient()" nz-button nzType="default">Ajouter</button>
             </div>
           </nz-form-control>
         </nz-form-item>
