@@ -7,7 +7,7 @@ import {
   PrestationFormDialogComponent
 } from "../../../dossiers/dialogs/prestation-form-dialog/prestation-form-dialog.component";
 import {NouveauPatientComponent} from "../nouveau-patient/nouveau-patient.component";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-patient',
@@ -27,6 +27,9 @@ export class PatientComponent implements OnInit {
   constructor(private patientService: PatientService,
               private modalService: NzModalService,
               private router: Router,
+              private route: ActivatedRoute,
+
+
   ) {}
 
   ngOnInit() {
@@ -74,5 +77,13 @@ export class PatientComponent implements OnInit {
         this.router.navigateByUrl('/admin/dossiers/prestation');
       }
     );
+  }
+  redirectToDossierMedical() {
+    // Assurez-vous que vous avez l'ID du patient disponible
+    const patientId = this.route.snapshot.params['id']; // Assurez-vous que 'id' correspond au nom du paramètre dans votre route
+    if (patientId) {
+      // Redirection vers le dossier médical avec l'ID du patient
+      this.router.navigateByUrl('/admin/personnes/dossiers-medicaux', patientId);
+    }
   }
 }

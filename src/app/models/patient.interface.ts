@@ -15,5 +15,6 @@ export interface PatientInterface {
   personnel : PersonnelInterface
   dossiermedical : DossierMedicalInterface[]
   status : string
+  antecedant_patologie: string
 
 }
