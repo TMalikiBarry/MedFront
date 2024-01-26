@@ -24,4 +24,8 @@ export class CliniqueServiceService {
   saveService(data : any){
     return this.http.post<ApiResponseInterface>(this.API_URL+this.ENDPOINT_SERVICE, data);
   }
+
+  getServiceByPoleId(id :  number){
+    return this.http.get<ApiResponseInterface>(this.API_URL+this.ENDPOINT_SERVICE+"pole/"+id)
+  }
 }

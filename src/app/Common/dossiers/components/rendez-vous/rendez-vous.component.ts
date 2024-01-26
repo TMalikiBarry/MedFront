@@ -12,6 +12,7 @@ import {NzTableQueryParams} from "ng-zorro-antd/table";
 import {Page} from "../../../../models/pagination.interface";
 import {RendezVousInterface} from "../../../../models/rendez-vous.interface";
 import {NotifService} from "../../../../services/notification/notif.service";
+import {DetailRendezVousComponent} from "../../dialogs/detail-rendez-vous/detail-rendez-vous.component";
 
 @Component({
   selector: 'app-rendez-vous',
@@ -1349,7 +1350,7 @@ export class RendezVousComponent {
     const dialog = this.modalService.create({
       nzContent: RendezVousFormDialogComponent,
       nzClosable: false,
-      nzWidth: '50rem'
+      nzWidth: '40rem'
     })
     dialog.afterClose.subscribe(() => {
       this.getRdvByPage();

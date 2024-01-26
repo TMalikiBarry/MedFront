@@ -35,14 +35,33 @@ nz-form-item
   line-height: 1.4375rem
 
 .footer-btn
-  nz-button
-    width: 130px
-    height: 40px
+  .ant-btn, .ant-btn:focus
+    width: 152px
+    height: 41px
+    outline: 0
+    background-color: #266141
+    color: #FFFFFF
+    border-radius: 10px
+  .annuler
+    background-color: #FFFFFF
+    color: #266141
 
-.patient-add
+  //nz-button
+  //  display: flex
+  //  width: 152px
+  //  height: 41px
+  //  align-items: center
+  //  gap: 12px
+  //  background-color: #266141
+
+.container
   display: flex
-  button
-    width: 22%
-    margin-left: 10px
-  nz-select
-    width: 75%
+  justify-content: space-around
+  align-items: center
+
+  .add-item
+    text-decoration: none
+    align-self: flex-end
+    margin-bottom: .5rem
+    color: darkgreen
+

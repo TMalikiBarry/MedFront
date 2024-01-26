@@ -31,6 +31,7 @@ export class RendezVousFormDialogComponent {
   listService!: Service[];
   listOfPatient !: PatientInterface[]
   rendezVous !: RendezVousInterface;
+  filtreService !: Service[]
   data: any
 
   selectedDataFromSecondDialog: any;
@@ -47,6 +48,7 @@ export class RendezVousFormDialogComponent {
     rappels: '',
     resultat: ''
   })
+  poleSelect: any;
 
   constructor(private modal: NzModalRef,
               private modalService: NzModalService,
@@ -81,7 +83,7 @@ export class RendezVousFormDialogComponent {
       this.RvForm.controls.duree.setValue(this.data.duree.toString())
       //this.RvForm.controls.number.setValue(this.data.patient.personne.telephone)
       this.RvForm.controls.remarques.setValue(this.data.remarques)
-      this.RvForm.controls.presence.setValue("Confirmee")
+      this.RvForm.controls.presence.setValue("Non Confirmee")
 
     }
   }
@@ -168,6 +170,7 @@ export class RendezVousFormDialogComponent {
     this.apiService.getAllService().subscribe({
       next : res => {
         this.listService = res.reponse
+        this.filtreService = res.reponse
         console.log(listService)
       }
     })
@@ -198,5 +201,12 @@ export class RendezVousFormDialogComponent {
       this.load()
       this.RvForm.controls.patient.setValue(result)
     });
+  }
+
+  showEvent(event: any) {
+    console.log(event)
+    let idpole = event
+    this.RvForm.controls.service.setValue(null)
+    this.filtreService = this.listService.filter(service => service.pole?.id === idpole)
   }
 }

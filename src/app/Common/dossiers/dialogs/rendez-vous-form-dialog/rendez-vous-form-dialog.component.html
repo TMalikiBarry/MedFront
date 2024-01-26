@@ -12,23 +12,31 @@
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez choisir le patient!">
             <p class="input-label">Patient</p>
-            <div class="patient-add">
-              <nz-select nzShowSearch nzPlaceHolder="Choissez un patient" formControlName="patient">
+              <nz-select [nzDropdownRender]="addNewPatientTemplate" nzShowSearch nzPlaceHolder="Choissez un patient" formControlName="patient">
                 <nz-option nzLabel="----"></nz-option>
                 <nz-option
                   *ngFor="let patient of listOfPatient"
                   [nzLabel]="patient.personne.prenom+' '+patient.personne.nom" [nzValue]="patient.id"></nz-option>
               </nz-select>
-              <button (click)="NewPatient()" nz-button nzType="default">Ajouter</button>
-            </div>
           </nz-form-control>
         </nz-form-item>
+<!--        <nz-form-item>-->
+<!--          <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">-->
+<!--            <p class="input-label">Presence</p>-->
+<!--            <nz-select nzShowSearch nzPlaceHolder="Choissez l'option" formControlName="presence">-->
+<!--              <nz-option nzLabel="Confirmee" nzValue="Confirmee"></nz-option>-->
+<!--              <nz-option nzLabel="Non confirmee" nzValue="Non Confirmee"></nz-option>-->
+<!--            </nz-select>-->
+<!--          </nz-form-control>-->
+<!--        </nz-form-item>-->
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
-            <p class="input-label">Presence</p>
-            <nz-select nzShowSearch nzPlaceHolder="Choissez l'option" formControlName="presence">
-              <nz-option nzLabel="Confirmee" nzValue="Confirmee"></nz-option>
-              <nz-option nzLabel="Non confirmee" nzValue="Non Confirmee"></nz-option>
+            <p class="input-label">Medecins</p>
+            <nz-select nzShowSearch nzPlaceHolder="Choissez un medecin" formControlName="medecin">
+              <nz-option nzLabel="----"></nz-option>
+              <nz-option
+                *ngFor="let medecin of listOfMedecin"
+                [nzLabel]="medecin.personne.nom" [nzValue]="medecin.id" ></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -38,7 +46,7 @@
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
             <p class="input-label">Poles</p>
-            <nz-select nzShowSearch nzPlaceHolder="Choissez un pole" formControlName="pole">
+            <nz-select (ngModelChange)="showEvent($event)" nzShowSearch nzPlaceHolder="Choissez un pole" formControlName="pole">
               <nz-option nzLabel="----"></nz-option>
               <nz-option
                 *ngFor="let pole of listOfPole"
@@ -53,7 +61,7 @@
             <nz-select nzShowSearch nzPlaceHolder="Choissez un service" formControlName="service">
               <nz-option nzLabel="----"></nz-option>
               <nz-option
-                *ngFor="let service of listService"
+                *ngFor="let service of filtreService"
                 [nzLabel]="service.nom" [nzValue]="service.id"></nz-option>
             </nz-select>
           </nz-form-control>
@@ -62,26 +70,13 @@
 
       <div class="make-spaceBetween">
         <nz-form-item>
-          <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
-            <p class="input-label">Medecins</p>
-            <nz-select nzShowSearch nzPlaceHolder="Choissez un medecin" formControlName="medecin">
-              <nz-option nzLabel="----"></nz-option>
-              <nz-option
-                *ngFor="let medecin of listOfMedecin"
-                [nzLabel]="medecin.personne.nom" [nzValue]="medecin.id" ></nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
           <nz-form-control>
             <p class="input-label">Date et Heure du RDV</p>
             <nz-date-picker nzPlaceHolder="Choissez la date" nzShowTime
                             nzFormat="dd-MM-YYYY HH:mm:ss" formControlName="dateRv"></nz-date-picker>
           </nz-form-control>
         </nz-form-item>
-      </div>
 
-      <div class="make-spaceBetween">
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
             <p class="input-label">Duree</p>
@@ -93,6 +88,9 @@
             </nz-select>
           </nz-form-control>
         </nz-form-item>
+      </div>
+
+      <div class="make-spaceBetween">
 
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
@@ -106,8 +104,8 @@
   </div>
 
   <div *nzModalFooter class="footer-btn">
-    <button nz-button nzType="default" (click)="handleCancel()">Annuler</button>
-    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">{{btnText}}</button>
+    <button nz-button class="annuler" (click)="handleCancel()">Annuler</button>
+    <button nz-button (click)="handleOk()" [nzLoading]="isConfirmLoading">{{btnText}}</button>
   </div>
 </div>
 
@@ -116,5 +114,14 @@
   <div class="mySuffixTemp">
     <img src="assets/from_figma/import_logo.svg" alt="Importer" class="svg-icon">
     <span>Importer</span>
+  </div>
+</ng-template>
+<ng-template #addNewPatientTemplate>
+  <nz-divider></nz-divider>
+  <div class="container">
+    <a class="add-item" (click)="NewPatient()">
+      <i nz-icon nzType="plus"></i>
+      Ajouter nouveau patient
+    </a>
   </div>
 </ng-template>

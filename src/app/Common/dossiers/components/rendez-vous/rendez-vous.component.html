@@ -65,25 +65,24 @@
               (nzQueryParams)="onQueryParamsChange($event)">
       <thead>
       <tr>
-        <th>Heure</th>
-        <th>Date</th>
-        <th>Nom Patient</th>
+        <th>Date Rendez-Vous</th>
+        <th>Patient</th>
         <th>Telephone</th>
         <th>Service</th>
-        <th>Presence</th>
+        <th>Statut</th>
         <th>Actions</th>
         <!-- Ajoutez d'autres colonnes si nécessaire -->
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let rdv of paginatedData.content">
-        <td><strong>{{ getHour(rdv.dateRv) }}H{{ getMinutes(rdv.dateRv)}}</strong></td>
+<!--        <td><strong>{{ getHour(rdv.dateRv) }}H{{ getMinutes(rdv.dateRv)}}</strong></td>-->
         <td>{{ formatDateString(rdv.dateRv) }}</td>
-        <td>{{ rdv.patient.personne.prenom }} {{rdv.patient.personne.nom}}</td>
+        <td><strong>{{ rdv.patient.personne.id}}</strong> - {{ rdv.patient.personne.prenom }} {{rdv.patient.personne.nom}}</td>
         <td>{{ rdv.patient.personne.telephone }}</td>
         <td>{{ rdv.service.nom }}</td>
-        <td><nz-badge nzStatus="success" nzText="Confirmee"></nz-badge></td>
-        <td class="icon-table"><img (click)="detailRdv(rdv)" src="assets/icon/edit2.svg" alt="modifier"> <img (click)="detailPatient(rdv.patient)" src="assets/icon/Icone%20user.svg" alt="patient"> <img (click)="deleteRdv(rdv.id)" src="assets/icon/trash.svg" alt="delete"></td>
+        <td><nz-badge nzStatus="processing" nzText="Non Confirmee"></nz-badge></td>
+        <td class="icon-table"> <img (click)="detailRdv(rdv)" src="assets/icon/eye.svg" alt="modifier"> <img (click)="detailPatient(rdv.patient)" src="assets/icon/Icone%20user.svg" alt="patient"> <img (click)="deleteRdv(rdv.id)" src="assets/icon/trash.svg" alt="delete"></td>
       </tr>
       </tbody>
 

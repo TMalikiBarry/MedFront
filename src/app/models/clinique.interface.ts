@@ -1,6 +1,7 @@
 import {PoleInterface} from "./pole.interface";
+import {EntiteBase} from "./entite-base";
 
-export interface CliniqueInterface {
+export interface CliniqueInterface extends EntiteBase {
   code: string;
   nom: string;
   logo: string;
