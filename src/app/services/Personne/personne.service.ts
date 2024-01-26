@@ -1,0 +1,28 @@
+import { Injectable } from '@angular/core';
+import {environment} from "../../../environments/environment";
+import {HttpClient} from "@angular/common/http";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PersonneService {
+
+  readonly API_URL = environment.apiURL
+
+  readonly ENDPOINT_PERSONNE = "/personne/"
+
+  constructor(private http : HttpClient) { }
+
+  getAllPersonne(){
+    return this.http.get<any>(this.API_URL+this.ENDPOINT_PERSONNE)
+  }
+
+  savePersonne(data : any){
+    return this.http.post<any>(this.API_URL+this.ENDPOINT_PERSONNE+"save", data)
+  }
+
+  getPersonneById(id : number){
+    return this.http.get<any>(this.API_URL+this.ENDPOINT_PERSONNE+id)
+  }
+
+}

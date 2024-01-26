@@ -14,7 +14,7 @@ export class PatientService {
   url = `${environment.apiURL}/patients`;
   constructor(private http: HttpClient) { }
 
-  save(patient: PatientInterface): Observable<ApiResponseInterface>{
+  save(patient: any): Observable<ApiResponseInterface>{
 
     return this.http.post<ApiResponseInterface>(this.url, patient);
   }
