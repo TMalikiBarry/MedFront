@@ -12,6 +12,7 @@ import {CliniqueServiceService} from "../../../../services/service/clinique-serv
 import {PersonnelService} from "../../../../services/personnel/personnel.service";
 import {PatientService} from "../../../../services/patient/patient.service";
 import {NouveauPatientComponent} from "../../../personnes/components/nouveau-patient/nouveau-patient.component";
+import {NotifService} from "../../../../services/notification/notif.service";
 
 @Component({
   selector: 'app-rendez-vous-form-dialog',
@@ -55,6 +56,7 @@ export class RendezVousFormDialogComponent {
               private apiPatient: PatientService,
               private apiRdv: RendezVousService,
               private apiPersonnel: PersonnelService,
+              private notification: NotifService,
               private fb: FormBuilder) {
   }
 
@@ -101,6 +103,7 @@ export class RendezVousFormDialogComponent {
           this.modal.close();
           this.apiRdv.getAllRdv();
           console.log('RendezVous enregistrée avec succès ', response);
+          this.notification.snackMessage(`Rendez-vous ajouté avec succés`, 3000, 'success')
         },
         error: (error) => console.error('Erreur lors de l\'enregistrement', error),
         complete: () => {this.isConfirmLoading = false}
@@ -112,8 +115,6 @@ export class RendezVousFormDialogComponent {
     document.getElementById('file_uploader')!.click();
   }
 
-  getEvent(event: Event) {
-  }
 
   onChange(result: Date): void {
     console.log('onChange: ', result);
@@ -179,6 +180,7 @@ export class RendezVousFormDialogComponent {
       next: (response) => {
         this.modal.close();
         this.apiRdv.getAllRdv();
+        this.notification.snackMessage(`Rendez-vous mis à jour avec succés`, 3000, 'success')
         console.log('RendezVous mis a jour avec succès ', response);
       },
       error: (error) => console.error('Erreur lors de la mise a jour', error),
