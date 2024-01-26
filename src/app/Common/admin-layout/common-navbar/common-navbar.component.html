@@ -41,6 +41,7 @@
               <span>Fiches Médicales</span>
             </a>
           </li>
+          <!--
           <li nz-menu-item>
             <a routerLink="/admin/personnes/dossiers-medicaux" class="selectedLink">
               <img
@@ -49,6 +50,7 @@
               <span>Dossiers Médicaux</span>
             </a>
           </li>
+          -->
           <li nz-menu-item>
             <a routerLink="/admin/personnes/patients" class="selectedLink">
               <img
@@ -93,7 +95,7 @@
               <img
                 [src]="'assets/from_figma/'+(router.url.endsWith('/dossiers/prestation')? 'Prestation_green.svg': 'Prestation.svg')"
                 alt="Prstations">
-              <span>Prestations</span>
+              <span>Liste des prestations</span>
             </a>
           </li>
         </ul>
@@ -303,7 +305,7 @@
   <img
     [src]="'assets/from_figma/' + (router.url.includes('/dossiers/') ? 'Dossier_full_white.svg' : 'Dossier.svg')"
     alt="Dossiers" class="module_logo" width="16.5">
-  <span>Dossiers</span>
+  <span>Prestations</span>
 </ng-template>
 
 <ng-template #titleParametre>

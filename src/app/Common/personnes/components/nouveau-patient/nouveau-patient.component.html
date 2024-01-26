@@ -4,9 +4,9 @@
     <form [formGroup]="patientForm" (submit)="enregistrerPatient()">
 
 
-      <div class="button">
-        <button class="btn" type="submit">Enregistrer</button>
-      </div>
+<!--      <div class="button">
+        <button class="btn" type="submit" (click)="enregistrerPatient()">Enregistrer</button>
+      </div>-->
     <!-- Card for form-->
     <div class="card-information">
         <div class="formheader">
@@ -108,6 +108,12 @@
       </div>
     </form>
   </div>
+  <div *nzModalFooter>
+    <button nz-button class="my-default-button basic-button" (click)="handleCancel()">Annuler</button>
+    <button nz-button [disabled]="patientForm.invalid" class="basic-button my-primary-button" (click)="enregistrerPatient()">Enregistrer</button>
+  </div>
+
+
 
   </div>
 

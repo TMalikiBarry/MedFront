@@ -5,18 +5,23 @@ import {PrestationInterface} from "../../models/prestation.interface";
 import {Observable} from "rxjs";
 import {ApiResponseInterface} from "../../models/api-response.interface";
 import {PatientInterface} from "../../models/patient.interface";
+import {DossierMedicalInterface} from "../../models/dossier-medical.interface";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatientService {
 
-  url = `${environment.apiURL}/patients`;
+  private readonly url = `${environment.apiURL}/patients`;
+  private readonly urlDossier = `${environment.apiURL}/dossierMedical`;
   constructor(private http: HttpClient) { }
 
   save(patient: any): Observable<ApiResponseInterface>{
-
-    return this.http.post<ApiResponseInterface>(this.url, patient);
+    const dossier: DossierMedicalInterface = {
+      patient,
+      statut: 'ACTIF'
+    }
+    return this.http.post<ApiResponseInterface>(this.urlDossier, dossier);
   }
 
   getPaginatedData(page: number = 0, size: number = 5): Observable<any> {

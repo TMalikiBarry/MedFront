@@ -15,18 +15,21 @@
       <nz-form-item>
         <nz-form-control nzErrorTip="Veuillez choisir un service!">
           <p class="input-label">Service</p>
-          <nz-select nzShowSearch nzPlaceHolder="Choissez un service" formControlName="service">
+          <nz-select nzAllowClear nzShowSearch nzPlaceHolder="Choissez un service" formControlName="service">
             <nz-option nzLabel="----"></nz-option>
-            <nz-option
-              *ngFor="let service of myServicesList"
-              [nzLabel]="(service.nom + ' - ' + service.pole?.nom) " [nzValue]="service.id"></nz-option>
+            <nz-option-group *ngFor="let pole of listOfPole" [nzLabel]="pole.nom">
+              <nz-option
+                *ngFor="let service of getAllServicesByPole(pole)"
+                [nzLabel]="service.nom!" [nzValue]="service.id"></nz-option>
+            </nz-option-group>
+
           </nz-select>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control nzErrorTip="Veuillez Choisir un patient">
           <p class="input-label">Patient</p>
-          <nz-select nzShowSearch [nzDropdownRender]="addNewPatientTemplate" nzPlaceHolder="Choissez un patient"
+          <nz-select nzAllowClear nzShowSearch [nzDropdownRender]="addNewPatientTemplate" nzPlaceHolder="Choissez un patient"
                      formControlName="dossier">
             <nz-option nzLabel="----"></nz-option>
             <nz-option
@@ -38,11 +41,20 @@
     </div>
     <div class="make-spaceBetween">
       <nz-form-item>
-        <nz-form-control nzErrorTip="Veuillez renseignez votre mot de passe!">
-          <p class="input-label">Resultat</p>
-          <nz-input-group [nzAddOnAfter]="addSuffixUserIcon" (click)="triggerFileUpload()">
-            <input type="text" nz-input formControlName="resultat" placeholder="Renseignez le résultat" />
+        <nz-form-control nzErrorTip="Veuillez choisir une prescription!">
+          <p class="input-label">Prérequis</p>
+          <nz-input-group >
+            <input type="text" nz-input formControlName="prerequis" placeholder="Renseignez les conditions à respecter " />
           </nz-input-group>
+          <!--
+                    <nz-select nzShowSearch nzPlaceHolder="Choissez les prescriptions"
+                               formControlName="prescription" (selectionchange)="displayEvent($event)">
+                      <nz-option nzLabel="&#45;&#45;&#45;&#45;"></nz-option>
+                      <nz-option
+                        *ngFor="let medicament of listPrescription"
+                        [nzLabel]="medicament.libelle" [nzValue]="medicament"></nz-option>
+                    </nz-select>
+          -->
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
@@ -56,22 +68,14 @@
     </div>
     <div class="make-spaceBetween">
       <nz-form-item>
-        <nz-form-control nzErrorTip="Veuillez choisir une prescription!">
-          <p class="input-label">Prérequis</p>
-          <nz-input-group >
-            <input type="text" nz-input formControlName="prerequis" placeholder="Renseignez les conditions à respecter " />
+        <nz-form-control nzErrorTip="Veuillez renseignez votre mot de passe!">
+          <p class="input-label">Résultat</p>
+          <nz-input-group [nzAddOnAfter]="addSuffixUserIcon" (click)="triggerFileUpload()">
+            <input type="text" nz-input formControlName="resultat" placeholder="Renseignez le résultat" />
           </nz-input-group>
-<!--
-          <nz-select nzShowSearch nzPlaceHolder="Choissez les prescriptions"
-                     formControlName="prescription" (selectionchange)="displayEvent($event)">
-            <nz-option nzLabel="&#45;&#45;&#45;&#45;"></nz-option>
-            <nz-option
-              *ngFor="let medicament of listPrescription"
-              [nzLabel]="medicament.libelle" [nzValue]="medicament"></nz-option>
-          </nz-select>
--->
         </nz-form-control>
       </nz-form-item>
+
       <nz-form-item>
         <nz-form-control nzErrorTip="Veuillez renseignez la conclusion!">
           <p class="input-label">Conclusion</p>

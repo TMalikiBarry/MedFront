@@ -13,7 +13,8 @@ import {CliniqueServiceService} from "src/app/services/service/clinique-service.
 import {ServiceInterface} from "src/app/models/service.interface";
 import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface";
 import {DossierMedicalService} from "src/app/services/dossier-medical/dossier-medical.service";
-import {PersonneInterface} from "../../../../models/personne.interface";
+import {PersonneInterface} from "src/app/models/personne.interface";
+import {PoleInterface} from "src/app/models/pole.interface";
 
 @Component({
   selector: 'app-prestation',
@@ -34,6 +35,7 @@ export class PrestationComponent implements OnInit{
   pageSize: number = 5;
 
   // prestationsList: PrestationInterface[] = [];
+  listOfPole!: PoleInterface[];
 
   constructor(private modalService: NzModalService,
               private api: PrestationService,
@@ -46,6 +48,11 @@ export class PrestationComponent implements OnInit{
     this.serviceApi.getAllService().subscribe({
       next: result => {
         this.listOfService = result.reponse as ServiceInterface[];
+        this.listOfPole = this.listOfService
+          .map(s => s.pole!) // Créez un tableau de tous les pôles
+          .filter((pole, index, self) =>
+            pole && self.findIndex(p => p.id === pole.id) === index
+          );
       },
     });
     this.dossierMApi.getAll().subscribe({
@@ -178,6 +185,11 @@ export class PrestationComponent implements OnInit{
       minute: '2-digit',
       hour12: false
     });
+  }
+
+
+  getAllServicesByPole(pole: PoleInterface): ServiceInterface [] {
+    return this.listOfService.filter(s => s.pole?.id === pole.id);
   }
 
 /*  getData(event: any, context: string) {

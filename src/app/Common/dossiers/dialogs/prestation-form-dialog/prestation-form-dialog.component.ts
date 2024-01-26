@@ -6,13 +6,14 @@ import {UtilsService} from "src/app/services/utils/utils.service";
 import {PrestationInterface} from "src/app/models/prestation.interface";
 import {PrestationService} from "src/app/services/prestation/prestation.service";
 import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface";
-import {DossierMedicalService} from "../../../../services/dossier-medical/dossier-medical.service";
-import {CliniqueServiceService} from "../../../../services/service/clinique-service.service";
-import {ServiceInterface} from "../../../../models/service.interface";
-import {NotifService} from "../../../../services/notification/notif.service";
-import {PersonneInterface} from "../../../../models/personne.interface";
+import {DossierMedicalService} from "src/app/services/dossier-medical/dossier-medical.service";
+import {CliniqueServiceService} from "src/app/services/service/clinique-service.service";
+import {ServiceInterface} from "src/app/models/service.interface";
+import {NotifService} from "src/app/services/notification/notif.service";
+import {PersonneInterface} from "src/app/models/personne.interface";
 
 import {NouveauPatientComponent} from "../../../personnes/components/nouveau-patient/nouveau-patient.component";
+import {PoleInterface} from "../../../../models/pole.interface";
 
 @Component({
   selector: 'app-prestation-form-dialog',
@@ -30,6 +31,7 @@ export class PrestationFormDialogComponent implements OnInit{
   myServicesList!: ServiceInterface[];
   listOfDossierMedical!: DossierMedicalInterface[];
   listPrescription!: any;
+  listOfPole!: PoleInterface[];
 
   prestationForm: FormGroup = this.fb.group({
     service: ['', Validators.required],
@@ -69,6 +71,16 @@ export class PrestationFormDialogComponent implements OnInit{
     this.serviceApi.getAllService().subscribe({
       next: result => {
         this.myServicesList = result.reponse as ServiceInterface[];
+        /*this.listOfPole = this.myServicesList.map(s => {
+          // return this.listOfPole.some( p => p.id == s.pole?.id) ? s.pole : undefined
+          return s.pole!
+        });*/
+        this.listOfPole = this.myServicesList
+          .map(s => s.pole!) // Créez un tableau de tous les pôles
+          .filter((pole, index, self) =>
+            pole && self.findIndex(p => p.id === pole.id) === index
+          ); // Filtrez pour ne garder que les pôles uniques
+
       },
       error: () => {
         this.modal.close();
@@ -81,23 +93,28 @@ export class PrestationFormDialogComponent implements OnInit{
     this.modal.close();
   }
 
+
   addPrestation() {
+
     if (this.prestationForm.valid) {
-      console.log(" CREATION DE PRESTATION ")
       this.isConfirmLoading = true;
       const formData = this.prestationForm.value;
+
       const prestation = this.createPrestationFromForm(formData);
 
       this.api.save(prestation).subscribe({
         next: (response) => {
+          console.log('TYPE DE ', typeof Number(formData.dossier));
+          console.log('NOMBRE CHOISI ', Number(formData.dossier));
           this.notify.snackMessage(
-            `Prestation pour le patient ${this.getPatientFullName(Number(formData.dossier))} ajouté avec succès`,
+            `Prestation pour le patient ${this.getPatientFullName(Number(formData.dossier), 'adding')} ajouté avec succès`,
             3000, 'success');
           console.log('Prestation enregistrée avec succès ', response);
           this.prestationForm.reset();
           if (this.dossierData)  {
             this.prestationForm.controls['dossier'].setValue(this.dossierData.id);
           }
+          this.handleCancel();
 
         },
         error: (error) => console.error('Erreur lors de l\'enregistrement de la prestation', error),
@@ -128,16 +145,21 @@ export class PrestationFormDialogComponent implements OnInit{
     };
   }
 
-  getPatientFullName(dossier: DossierMedicalInterface | number):string {
+  getPatientFullName(dossier: DossierMedicalInterface | number, context ?: string):string {
     // Vérifier si dossier est un objet (et donc potentiellement un DossierMedicalInterface)
     let personne: PersonneInterface | undefined;
-    if (typeof dossier === 'object' && dossier !== null) {
+
+    if (dossier !== null && typeof dossier !== 'number') {
       // Supposons que si 'dossier' a une propriété 'patient', c'est un DossierMedicalInterface
       if ('patient' in dossier && dossier.patient?.personne) {
         personne = dossier.patient.personne;
+        if (context) {
+          console.log('DOSSIER CHOISI ', dossier);
+          console.log('PERSONNE CORRESPONDANT ', personne);
+        }
       }
     } else {  // Ici, vous pouvez gérer le cas où dossier est un number
-      personne = this.listOfDossierMedical.find(d => d.id = dossier)?.patient?.personne
+      personne = this.listOfDossierMedical.find(d => d.id === dossier)?.patient?.personne;
     }
 
     return `${personne!.prenom} ${personne!.nom}`;
@@ -154,5 +176,9 @@ export class PrestationFormDialogComponent implements OnInit{
       nzContent: NouveauPatientComponent,
       nzWidth: 800
     })
+  }
+
+  getAllServicesByPole(pole: PoleInterface): ServiceInterface [] {
+    return this.myServicesList.filter(s => s.pole?.id === pole.id);
   }
 }

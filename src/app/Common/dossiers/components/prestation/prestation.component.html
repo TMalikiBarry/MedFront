@@ -54,9 +54,11 @@
         <nz-select [(ngModel)]="serviceId" nzPlaceHolder="Choissez un service"
                    nzShowSearch nzAllowClear>
           <nz-option nzLabel="----"></nz-option>
-          <nz-option
-            *ngFor="let service of listOfService"
-            [nzLabel]="(service.nom + ' - (' + service.pole?.nom + ')')" [nzValue]="service.id"></nz-option>
+          <nz-option-group *ngFor="let pole of listOfPole" [nzLabel]="pole.nom">
+            <nz-option
+              *ngFor="let service of getAllServicesByPole(pole)"
+              [nzLabel]="service.nom!" [nzValue]="service.id"></nz-option>
+          </nz-option-group>
         </nz-select>
       </div>
       <div class="filterButton">

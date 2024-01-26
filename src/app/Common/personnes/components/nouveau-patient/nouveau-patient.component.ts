@@ -158,4 +158,8 @@ export class NouveauPatientComponent implements OnInit {
       personne: this.personne
     };
   }
+
+  handleCancel() {
+      this.modalRef.close();
+  }
 }
