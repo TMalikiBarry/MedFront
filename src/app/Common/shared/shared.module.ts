@@ -18,8 +18,9 @@ import {NzTableModule} from "ng-zorro-antd/table";
 import {NzCalendarModule} from "ng-zorro-antd/calendar";
 import {NzBadgeModule} from "ng-zorro-antd/badge";
 import {NzPaginationModule} from "ng-zorro-antd/pagination";
-import { NzMessageModule } from 'ng-zorro-antd/message';
+import {NzMessageModule} from 'ng-zorro-antd/message';
 import {NzDividerModule} from "ng-zorro-antd/divider";
+import {NzPopoverModule} from "ng-zorro-antd/popover";
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import {NzDividerModule} from "ng-zorro-antd/divider";
     NzCalendarModule,
     NzBadgeModule,
     NzDividerModule,
-    NzPaginationModule
+    NzPaginationModule,
+    NzPopoverModule,
   ],
   imports: []
 })

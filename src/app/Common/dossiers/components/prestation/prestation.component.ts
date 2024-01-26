@@ -24,7 +24,7 @@ export class PrestationComponent implements OnInit{
 
   numberStats = [3, 0, 2, 0];
   descSats = ["Prestations","Prestation facturée","Prestations non facturées", "Partiellement payée"]
-  dateDebut!: Date;
+  choosenDate!: Date[];
   serviceId!: number;
   listOfService!: ServiceInterface[];
   listOfDossierMedical!: DossierMedicalInterface[];
@@ -84,6 +84,12 @@ export class PrestationComponent implements OnInit{
     const currentSort = sort.find(item => item.value !== null);
     const sortField = (currentSort && currentSort.key) || null;
     const sortOrder = (currentSort && currentSort.value) || null;*/
+    let startDate = undefined;
+    let endDate = undefined;
+    if (this.choosenDate) {
+      startDate = this.choosenDate[0] ? this.choosenDate[0].toISOString(): undefined;
+      endDate = this.choosenDate[1] ? this.choosenDate[1].toISOString(): undefined;
+    }
     let prenom = null;
     let nom = null;
     if (this.patientPers){
@@ -92,19 +98,25 @@ export class PrestationComponent implements OnInit{
     }
     this.getPrestationsByPage(this.pageIndex, params.pageSize,
       prenom!, nom!, this.serviceId,
-      this.dateDebut ? this.dateDebut.toISOString(): undefined)
+      startDate,
+      endDate)
   }
 
   filterData() {
+    let startDate = undefined;
+    let endDate = undefined;
+    if (this.choosenDate) {
+      startDate = this.choosenDate[0] ? this.choosenDate[0].toISOString(): undefined;
+      endDate = this.choosenDate[1] ? this.choosenDate[1].toISOString(): undefined;
+    }
     let prenom = null;
     let nom = null;
     if (this.patientPers){
       prenom = this.patientPers.prenom;
       nom = this.patientPers.nom;
     }
-    this.getPrestationsByPage(0, 5,
-      prenom!, nom!, this.serviceId,
-      this.dateDebut ? this.dateDebut.toISOString(): undefined)
+    this.getPrestationsByPage(this.pageIndex, this.pageSize,
+      prenom!, nom!, this.serviceId, startDate, endDate)
   }
 
   onChange(result: Date): void {

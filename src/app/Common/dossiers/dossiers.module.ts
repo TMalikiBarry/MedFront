@@ -25,9 +25,6 @@ import { DetailRdvPatientComponent } from './dialogs/detail-rdv-patient/detail-r
   imports: [
     SharedModule,
     DossiersRoutingModule,
-    NzCalendarModule,
-    NzBadgeModule,
-    NzPopoverModule,
   ]
 })
 export class DossiersModule { }
