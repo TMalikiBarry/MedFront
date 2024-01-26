@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
+import {NzModalService} from "ng-zorro-antd/modal";
 import {PrestationFormDialogComponent} from "../../dialogs/prestation-form-dialog/prestation-form-dialog.component";
 import {PrestationService} from "src/app/services/prestation/prestation.service";
 import {PrestationInterface} from "src/app/models/prestation.interface";
@@ -119,11 +119,13 @@ export class PrestationComponent implements OnInit{
       prenom!, nom!, this.serviceId, startDate, endDate)
   }
 
+/*
   onChange(result: Date): void {
     if (typeof result == 'object')
       console.log('onChange: ', result.toISOString());
     console.log('SELECTION: ', result)
   }
+*/
 
 
   addNewPrestation() {
@@ -135,7 +137,6 @@ export class PrestationComponent implements OnInit{
         this.getPrestationsByPage()
       }
     );
-
   }
 
 

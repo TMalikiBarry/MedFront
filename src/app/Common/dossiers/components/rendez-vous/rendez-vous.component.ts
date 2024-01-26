@@ -11,6 +11,7 @@ import {DetailRdvPatientComponent} from "../../dialogs/detail-rdv-patient/detail
 import {NzTableQueryParams} from "ng-zorro-antd/table";
 import {Page} from "../../../../models/pagination.interface";
 import {RendezVousInterface} from "../../../../models/rendez-vous.interface";
+import {NotifService} from "../../../../services/notification/notif.service";
 
 @Component({
   selector: 'app-rendez-vous',
@@ -1282,6 +1283,7 @@ export class RendezVousComponent {
 
   constructor(private modalService: NzModalService,
               private api: RendezVousService,
+              private notification: NotifService,
               private apiService : CliniqueServiceService) {
   }
 
@@ -1448,7 +1450,9 @@ export class RendezVousComponent {
   deleteRdv(id: any) {
     this.api.deleteRdv(id).subscribe({
       next : res =>{
-        console.log(res)
+        console.log(res);
+        this.notification.snackMessage(`Rendez-vous mis supprimé avec succés`, 3000, 'success')
+
       }
     })
   }

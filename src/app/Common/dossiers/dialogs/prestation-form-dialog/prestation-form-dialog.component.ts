@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {listService, my_prescription, Service} from "src/app/models/Utils/constants";
 import {UtilsService} from "src/app/services/utils/utils.service";
 import {PrestationInterface} from "src/app/models/prestation.interface";
@@ -26,11 +26,12 @@ export class PrestationFormDialogComponent implements OnInit{
   btnText = "Valider";
   isConfirmLoading = false;
   listOfService!: Service[];
+  dossierData!: DossierMedicalInterface
   myServicesList!: ServiceInterface[];
   listOfDossierMedical!: DossierMedicalInterface[];
   listPrescription!: any;
 
-  prestationForm = this.fb.group({
+  prestationForm: FormGroup = this.fb.group({
     service: ['', Validators.required],
     dossier: ['', Validators.required],
     diagnostic:['', Validators.required],
@@ -50,11 +51,19 @@ export class PrestationFormDialogComponent implements OnInit{
               ) {
   }
   ngOnInit(): void {
+
     this.listOfService = listService;
     this.listPrescription = my_prescription;
     this.dossierMApi.getAll().subscribe({
       next: result => {
         this.listOfDossierMedical = result.filter( dossier => !!dossier.patient?.personne);
+        const patient = this.modal.getConfig().nzData;
+        if (patient) {
+          this.dossierData = this.listOfDossierMedical.find(d => d.patient?.id === patient.id)!;
+          if (this.dossierData) {
+            this.prestationForm.controls['dossier'].setValue(this.dossierData.id)
+          }
+        }
       }
     });
     this.serviceApi.getAllService().subscribe({
@@ -86,6 +95,9 @@ export class PrestationFormDialogComponent implements OnInit{
             3000, 'success');
           console.log('Prestation enregistrée avec succès ', response);
           this.prestationForm.reset();
+          if (this.dossierData)  {
+            this.prestationForm.controls['dossier'].setValue(this.dossierData.id);
+          }
 
         },
         error: (error) => console.error('Erreur lors de l\'enregistrement de la prestation', error),
@@ -99,6 +111,7 @@ export class PrestationFormDialogComponent implements OnInit{
   }
 
   getEvent(event: Event) {
+    console.log('EVENEMENT RECUPERER FICHIER ', event);
   }
 
   createPrestationFromForm(formData: any): PrestationInterface {

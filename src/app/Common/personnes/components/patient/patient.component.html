@@ -103,16 +103,15 @@
         </div>
 
         <div class="filterButton">
-          <a routerLink="/admin/personnes/nouveau-patient">
-            <button class="filter-form-button" nz-button>Nouveau Patient</button>
+          <a>
+            <button (click)="addNewPatient()" class="my-primary-button" nz-button>Nouveau Patient</button>
           </a>
 
 
 
         </div>
       </div>
-      <nz-table #prestationsTable
-                [nzData]="patients" [nzPageSize]="5">
+      <nz-table #patientsTable [nzData]="patients" [nzPageSize]="5">
         <thead>
           <tr>
             <th>ID</th>
@@ -125,12 +124,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let patient of patients">
+          <tr *ngFor="let patient of patientsTable.data">
             <td>{{ patient.personne.id }}</td>
             <td>{{ patient.personne.nom }} {{ patient.personne.prenom }}</td>
             <td>{{ patient.personne.telephone }}</td>
 
-<td>{{ patient.dateModification | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ patient.dateModification | date: 'dd/MM/yyyy HH:mm' }}</td>
 
             <td> {{ patient.status}}</td>
 
@@ -141,6 +140,18 @@
             </td>
             <!--        <td>{{ prestation.diagnostic }}</td>-->
             <!--        <td>{{ prestation.conclusion }}</td>-->
+            <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
+              <ul nz-menu>
+                <li class="selectedLink" nz-menu-item>
+                  <span>Consulter la fiche Medicale</span>
+                </li>
+                <li class="selectedLink" nz-menu-item (click)="addNewPrestation(patient)">
+                  <a>
+                    <span>Ajouter une prestation</span>
+                  </a>
+                </li>
+              </ul>
+            </nz-dropdown-menu>
 
           </tr>
         </tbody>
@@ -166,15 +177,3 @@
     </ul>
   </nz-dropdown-menu>
 
-  <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
-    <ul nz-menu>
-      <li class="selectedLink" nz-menu-item>
-        <span>Consulter la fiche Medicale</span>
-      </li>
-      <li class="selectedLink" nz-menu-item>
-        <a routerLink="/admin/dossiers/prestation">
-        <span>Ajouter une prestation</span>
-        </a>
-      </li>
-    </ul>
-  </nz-dropdown-menu>
