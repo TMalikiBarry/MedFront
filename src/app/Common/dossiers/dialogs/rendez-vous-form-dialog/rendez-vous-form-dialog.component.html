@@ -95,7 +95,12 @@
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
             <p class="input-label">Note</p>
-            <textarea rows="2" formControlName="remarques"></textarea>
+            <textarea
+              nz-input
+              formControlName="remarques"
+              placeholder="les notes et remarques"
+              [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+            ></textarea>
           </nz-form-control>
         </nz-form-item>
       </div>
