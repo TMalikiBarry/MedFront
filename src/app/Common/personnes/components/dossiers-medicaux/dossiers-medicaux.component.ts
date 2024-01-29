@@ -1,56 +1,81 @@
 import { Component, OnInit } from '@angular/core';
-import { PatientService } from 'src/app/services/patient/patient.service';
-import { PatientInterface } from 'src/app/models/patient.interface';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { NzModalRef } from 'ng-zorro-antd/modal';
+import { PersonneInterface } from '../../../../models/personne.interface';
+import { PatientInterface } from '../../../../models/patient.interface';
+import { PersonneService } from '../../../../services/Personne/personne.service';
+import { PatientService } from '../../../../services/patient/patient.service';
 
 @Component({
   selector: 'app-dossiers-medicaux',
   templateUrl: './dossiers-medicaux.component.html',
-  styleUrls: ['./dossiers-medicaux.component.sass'],
+  styleUrls: ['./dossiers-medicaux.component.sass']
 })
 export class DossiersMedicauxComponent implements OnInit {
-  patients: PatientInterface[] = [];
+  patientForm: FormGroup;
+  patient!: PatientInterface;
 
-  constructor(private patientService: PatientService) {}
-
-  // le component nouveau-patient servira de vue pour modifier la fiche médicale à ce stade  on dois le load avec les données du patient
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private modalRef: NzModalRef,
+    private apiPersonne: PersonneService,
+    private patientService: PatientService
+  ) {
+    this.patientForm = this.fb.group({
+      genre: ['', Validators.required],
+      prenom: ['', Validators.required],
+      nom: ['', Validators.required],
+      telephone: ['', Validators.required],
+      dateNaissance: ['', Validators.required],
+      groupeSanguin: ['', Validators.required],
+      adresse: ['', Validators.required],
+      antecedant_patologie: ['']
+    });
+  }
 
   ngOnInit() {
-    this.loadPatients();
-  }
-  onChange(result: Date): void {
-    console.log('onChange: ', result);
-  }
-
-  showEvent(event: any) {
-    console.log(event)
-  }
-
-  loadPatients() {
-    this.patientService.getAll().subscribe(
-      (patients: PatientInterface[]) => {
-        this.patients = patients;
-        console.log(patients);
-      },
-      (error) => {
-        console.error('Erreur lors de la récupération des patients', error);
-        // Gérez l'erreur selon vos besoins
+    this.route.paramMap.subscribe(params => {
+      const patientId = params?.get('id');
+      if (patientId) {
+        this.loadPatientData(+patientId);
       }
-    );
-
+    });
   }
 
-  
-  searchPatient(event: Event) {
-    const searchValue = (event.target as HTMLInputElement)?.value;
+  loadPatientData(patientId: number) {
+    this.patientService.getPatientById(patientId).subscribe({
+      next: (patient: PatientInterface) => {
+        this.patient = patient;
+        this.populateFormWithPatientData(patient);
+      },
+      error: (error) => {
+        console.error('Error fetching patient data:', error);
+      }
+    });
+  }
 
-    if (searchValue !== undefined) {
-        this.patients = this.patients.filter((patient) => {
-            return (
-                patient.personne.nom.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) ||
-                patient.personne.prenom.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
-            );
-        });
-    }
-}
+  populateFormWithPatientData(patient: PatientInterface) {
+    this.patientForm.patchValue({
+      genre: patient.personne.genre,
+      prenom: patient.personne.prenom,
+      nom: patient.personne.nom,
+      telephone: patient.personne.telephone,
+      dateNaissance: patient.personne.datenaissance,
+      groupeSanguin: patient.groupeSanguin,
+      adresse: patient.personne.adresse,
+      antecedant_patologie: patient.antecedant_patologie
+    });
+  }
 
+  updatePatient() {
+    // Add the logic to update the patient using patientForm values
+    // This will be similar to the logic you use for creating a new patient
+    // Make sure to handle the update operation in your patient service
+  }
+
+  closeModal() {
+    this.modalRef.close();
+  }
 }

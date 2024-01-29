@@ -118,7 +118,7 @@
             <th>Nom du patient</th>
             <th>Telephone</th>
             <th>Derniere visite</th>
-            <th>Statut</th>
+            <th>Date de naissance</th>
             <th>Actions</th>
             <!-- Ajoutez d'autres colonnes si nécessaire -->
           </tr>
@@ -131,7 +131,7 @@
 
             <td>{{ patient.dateModification | date: 'dd/MM/yyyy HH:mm' }}</td>
 
-            <td> {{ patient.status}}</td>
+            <td> {{ patient.personne.datenaissance}}</td>
 
             <td>
               <a [nzDropdownMenu]="nonPayeFacture" nzTrigger="click" nz-dropdown>
@@ -142,12 +142,10 @@
             <!--        <td>{{ prestation.conclusion }}</td>-->
             <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
               <ul nz-menu>
-                <li class="selectedLink" nz-menu-item>
-                  <span>Consulter la fiche Medicale</span>
-                </li>
-                <li class="selectedLink" nz-menu-item (click)="addNewPrestation(patient)">
+               
+                <li class="selectedLink" nz-menu-item (click)="redirectToDossierMedical()">
                   <a>
-                    <span>Ajouter une prestation</span>
+                    <span>Dossier medical</span>
                   </a>
                 </li>
               </ul>

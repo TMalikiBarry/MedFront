@@ -39,4 +39,7 @@ export class PatientService {
   UpddatePatient(data : any){
     return this.http.put<ApiResponseInterface>(this.url,data);
   }
+  getPatientById(patientId: number): Observable<PatientInterface> {
+    return this.http.get<PatientInterface>(`${this.url}${patientId}`);
+  }
 }
