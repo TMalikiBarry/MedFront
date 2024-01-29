@@ -61,9 +61,9 @@ export class NouveauPatientComponent implements OnInit {
       let patientForm = <PatientInterface>this.createPatientForm(patientData, personneForm)
       this.patientService.save(patientForm).subscribe({
         next : res1 => {
-          this.patient = res1.reponse
+          this.patient = res1.reponse.patient
           console.log(res1)
-          this.modalRef.close()
+          this.modalRef.close(res1.reponse.patient.id)
         }
       })
 

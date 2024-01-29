@@ -21,7 +21,7 @@ import {NotifService} from "../../../../services/notification/notif.service";
 })
 export class RendezVousFormDialogComponent {
 
-  titleForm = "Nouvelle Rendez-vous";
+  titleForm = "Nouveau Rendez-vous";
   formDesc = "Veuillez remplir ce formulaire pour ajouter un rendez-vous";
   btnText = "Enregistrer";
   date !: string
