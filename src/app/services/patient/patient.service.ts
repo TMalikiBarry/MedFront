@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from "../../../environments/environment.prod";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ApiResponseInterface} from "../../models/api-response.interface";
 import {DossierMedicalInterface} from "../../models/dossier-medical.interface";
+import {PatientInterface} from "../../models/patient.interface";
 
 @Injectable({
   providedIn: 'root'

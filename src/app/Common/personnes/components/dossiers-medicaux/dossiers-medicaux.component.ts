@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { NzModalRef } from 'ng-zorro-antd/modal';
-import { PersonneInterface } from '../../../../models/personne.interface';
-import { PatientInterface } from '../../../../models/patient.interface';
-import { PersonneService } from '../../../../services/Personne/personne.service';
-import { PatientService } from '../../../../services/patient/patient.service';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
+import {NzModalRef} from 'ng-zorro-antd/modal';
+import {PatientInterface} from '../../../../models/patient.interface';
+import {PersonneService} from '../../../../services/Personne/personne.service';
+import {PatientService} from '../../../../services/patient/patient.service';
 
 @Component({
   selector: 'app-dossiers-medicaux',
@@ -65,7 +64,7 @@ export class DossiersMedicauxComponent implements OnInit {
       dateNaissance: patient.personne.datenaissance,
       groupeSanguin: patient.groupeSanguin,
       adresse: patient.personne.adresse,
-      antecedant_patologie: patient.antecedant_patologie
+      // antecedant_patologie: patient.antecedant_patologie
     });
   }
 
