@@ -1,113 +1,74 @@
 <div class="mainbody">
-    <div class="headerLayout">
-        <input nz-input placeholder="Rechercher par patient, prestation" type="text"/>
-      
-      <div class="headerActions">
-        <img alt="notif" src="assets/from_figma/notification_icon.svg" width="17.5">
-        <img alt="email" src="assets/from_figma/email-icon.svg" width="17.5">
-        <img alt="calendar" src="assets/from_figma/calendar-icon.svg" width="17.5">
-        <div class="addActionHeader">
-          <img alt="Ajouter" src="assets/from_figma/addPlus-icon.svg">
-          <span>Ajouter</span>
-          <a [nzDropdownMenu]="menu" nz-dropdown>
-            <img alt="Arrow Down" src="assets/from_figma/arrow-down.svg">
-          </a>
+  <div class="patient-form">
+    <form [formGroup]="patientForm" (submit)="updatePatient()">
+      <div class="button">
+        <button class="btn" type="submit">Enregistrer</button>
+      </div>
+
+      <div class="card-information">
+        <div class="formheader">
+          <h3 class="title">Informations sur le patient</h3>
+        </div>
+        <div class="form">
+          <div class="gender">
+            <!-- Gender Input -->
+            <label class="label">Genre</label>
+            <!-- ... (Other gender code) -->
+          </div>
+
+          <div class="name">
+            <!-- Name Inputs -->
+            <div class="prenom">
+              <label class="label" for="prenom">Prénom</label>
+              <input class="input" type="text" id="prenom" name="prenom" formControlName="prenom" required>
+            </div>
+            <div class="nom">
+              <label class="label" for="nom">Nom</label>
+              <input class="input" type="text" id="nom" name="nom" formControlName="nom" required>
+            </div>
+          </div>
+
+          <div class="phone-date">
+            <!-- Phone and Date Inputs -->
+            <!-- ... (Other phone-date code) -->
+          </div>
+
+          <div class="blood-address">
+            <!-- Blood and Address Inputs -->
+            <!-- ... (Other blood-address code) -->
+          </div>
         </div>
       </div>
-    </div>
-  
-    <div class="dataLayout">
-      <p>Dossiers médicaux des patients</p>
-      <div class="controllers">
-        <div class="searchInput">
-          <nz-input-group [nzPrefix]="suffixIconSearch">
-            <input nz-input placeholder="Rechercher par patient " type="text" (input)="searchPatient($event)"/>
-          </nz-input-group>
+
+      <div class="allergies-card">
+        <div class="headerForm">
+          <h3 class="title">
+            Antecedants medicaux et patologies
+          </h3>
         </div>
-        <div class="dateDesc"><p>Date</p></div>
-        <div class="searchByDate">
-          <nz-date-picker  ></nz-date-picker>
-        </div>
-        <div class="serviceDesc"><p>Statut</p></div>
-        <div class="searchByService">
-          <nz-select nzPlaceHolder="Choissez un status"
-                     nzShowSearch>
-            <nz-option nzLabel="----"></nz-option>
-            <nz-option
-              ></nz-option>
-          </nz-select>
-        </div>
-        <div class="filterButton">
-          <button class="filter-form-button" nz-button>Filtrer</button>
+        <div class="form">
+          <div class="medecin">
+            <!-- Antecedant_patologie Textarea -->
+            <label class="label" for="antecedant_patologie">Antecedants medicaux et patologies</label>
+            <textarea class="input" id="antecedant_patologie" name="antecedant_patologie" formControlName="antecedant_patologie" required placeholder="Enumerer les Antecedants medicaux et les patologies s'il y'en a"></textarea>
+          </div>
         </div>
       </div>
-      <nz-table #prestationsTable
-                [nzData]="patients" [nzPageSize]="5">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Date de creation</th>
-            <th>Nom du patients</th>
-            <th>Statut</th>
-            <th>Actions</th>
-            <!-- Ajoutez d'autres colonnes si nécessaire -->
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let patient of patients">
-            <td>{{ patient.personne.id }}</td>
-            <td>{{ patient.dateCreation | date: 'dd/MM/yyyy HH:mm' }}</td>
-            <td>{{ patient.personne.nom }} {{ patient.personne.prenom }}</td>
-            <td> {{ patient.status}}</td>
-        
-            <td>
-              <a [nzDropdownMenu]="nonPayeFacture" nzTrigger="click" nz-dropdown>
-                <img alt="Arrow Down" src="assets/from_figma/actionsOnRow.svg">
-              </a>
-            </td>
-            <!--        <td>{{ prestation.diagnostic }}</td>-->
-            <!--        <td>{{ prestation.conclusion }}</td>-->
-  
-          </tr>
-        </tbody>
-  
-      </nz-table>
-  
-    </div>
+    </form>
   </div>
-  
-  <ng-template #suffixIconSearch>
-    <img alt="Rechercher" src="assets/from_figma/search_icon.svg">
-  </ng-template>
-  
-  <nz-dropdown-menu #menu="nzDropdownMenu">
-    <ul nz-menu>
-      <li class="selectedLink" nz-menu-item>
-        <span>Nouveau Patient</span>
-      </li>
-      <li class="selectedLink" nz-menu-item>
-        <span>Nouveau RDV</span>
-      </li>
-     
-    </ul>
-  </nz-dropdown-menu>
-  
-  <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
-    <ul nz-menu>
-      <li class="selectedLink" nz-menu-item>
-        <span>
-            <!-- Link to personnes/nouveau-patient -->
-            <a routerLink="/personnes/nouveau-patient">
-             Voire la fiche medicale
-            </a>
-        </span>
-      </li>
-      <li class="selectedLink" nz-menu-item>
-        <span>Partager le dossier</span>
-      </li>
-      <li class="selectedLink" nz-menu-item>
-        <span>Accéder à la fiche du patient</span>
-      </li>
-    </ul>
-  </nz-dropdown-menu>
-  
+
+  <!-- Display Patient Information -->
+  <div *ngIf="patient" class="patient-info">
+    <h3 class="title">Informations du patient</h3>
+    <div>
+      <strong>Genre:</strong> {{ patientForm.get('genre')?.value }}
+    </div>
+    <div>
+      <strong>Prénom:</strong> {{ patientForm.get('prenom')?.value }}
+    </div>
+    <div>
+      <strong>Nom:</strong> {{ patientForm.get('nom')?.value }}
+    </div>
+    <!-- Add more fields as needed -->
+  </div>
+</div>
