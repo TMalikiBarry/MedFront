@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../../environments/environment.prod";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {PrestationInterface} from "../../models/prestation.interface";
 import {Observable} from "rxjs";
 import {ApiResponseInterface} from "../../models/api-response.interface";
-import {PatientInterface} from "../../models/patient.interface";
 import {DossierMedicalInterface} from "../../models/dossier-medical.interface";
 
 @Injectable({
@@ -19,7 +17,7 @@ export class PatientService {
   save(patient: any): Observable<ApiResponseInterface>{
     const dossier: DossierMedicalInterface = {
       patient,
-      statut: 'ACTIF'
+      statut: "ACTIF"
     }
     return this.http.post<ApiResponseInterface>(this.urlDossier, dossier);
   }

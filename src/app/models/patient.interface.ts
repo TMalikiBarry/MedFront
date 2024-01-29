@@ -12,8 +12,8 @@ export interface PatientInterface {
   contactEnCasUrgent : string
   rendezVous ?: RendezVousInterface[]
   personne : PersonneInterface
-  personnel : PersonnelInterface
-  dossiermedical : DossierMedicalInterface[]
-  status : string
+  personnel? : PersonnelInterface
+  dossiermedical? : DossierMedicalInterface
+  status? : string
 
 }

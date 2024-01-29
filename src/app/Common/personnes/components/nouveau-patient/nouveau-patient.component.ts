@@ -7,7 +7,6 @@ import {NzModalRef} from "ng-zorro-antd/modal";
 import {PersonneService} from "../../../../services/Personne/personne.service";
 import {PersonneInterface} from "../../../../models/personne.interface";
 import {PatientInterface} from "../../../../models/patient.interface";
-import {AccesInterface} from "../../../../models/acces.interface";
 import {RendezVousInterface} from "../../../../models/rendez-vous.interface";
 import {PersonnelInterface} from "../../../../models/personnel.interface";
 import {DossierMedicalInterface} from "../../../../models/dossier-medical.interface";
@@ -19,7 +18,7 @@ import {DossierMedicalInterface} from "../../../../models/dossier-medical.interf
 })
 export class NouveauPatientComponent implements OnInit {
   patientForm: FormGroup;
-  personne !: PersonneInterface
+  personne!: PersonneInterface
   patient !: PatientInterface
 
   constructor(private fb: FormBuilder,
@@ -59,23 +58,24 @@ export class NouveauPatientComponent implements OnInit {
     if (this.patientForm.valid) {
       const patientData = this.patientForm.value;
       let personneForm = this.createPersonneForm(patientData)
-      console.log(JSON.stringify(personneForm))
+      let patientForm = <PatientInterface>this.createPatientForm(patientData, personneForm)
+      this.patientService.save(patientForm).subscribe({
+        next : res1 => {
+          this.patient = res1.reponse
+          console.log(res1)
+          this.modalRef.close()
+        }
+      })
 
+/*
       this.apiPersonne.savePersonne(personneForm).subscribe({
         next : res => {
           console.log(res)
-          this.personne = res.reponse
-          let patientForm = this.createPatientForm(patientData)
-          this.patientService.save(patientForm).subscribe({
-            next : res1 => {
-              this.patient = res1.reponse
-              console.log(res1)
-              this.modalRef.close()
-            }
-          })
+          this.personne = <PersonneInterface>res.reponse
         }
 
       })
+*/
 
       // this.personne.nom = this.patientForm.controls['nom'].value
       // this.personne.prenom = this.patientForm.controls['prenom'].value
@@ -108,7 +108,8 @@ export class NouveauPatientComponent implements OnInit {
      }
   }
 
-  createPersonneForm(formData : any):{
+  createPersonneForm(formData : any): PersonneInterface
+/*    {
     id ?: number;
     nom: string;
     prenom: string;
@@ -128,18 +129,20 @@ export class NouveauPatientComponent implements OnInit {
     supprime?: boolean
     dateCreation?: string | null,
     dateModification ?: string | null
-  } {
+  } */
+  {
     return {
       adresse: formData.adresse,
       genre: formData.genre,
       nom: formData.nom,
       prenom: formData.prenom,
       telephone: formData.telephone,
-      datenaissance : formData.datenaissance
+      datenaissance : formData.datenaissance,
+      hasAlreadyConnected: false,
     };
   }
 
-  createPatientForm(formData : any):{
+  createPatientForm(formData : any, personne: PersonneInterface):{
     dateCreation ?: Date
     dateModification ?: Date
     groupeSanguin : string
@@ -152,10 +155,10 @@ export class NouveauPatientComponent implements OnInit {
     status ?: string
   } {
     return {
-      contactEnCasUrgent: formData.contactEnCasUrgent,
+      contactEnCasUrgent: formData.telephone,
       donneurOrgane: false,
       groupeSanguin: formData.groupeSanguin,
-      personne: this.personne
+      personne
     };
   }
 

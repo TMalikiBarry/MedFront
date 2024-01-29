@@ -1,7 +1,7 @@
 <div class="mainbody">
     <div class="headerLayout">
         <input nz-input placeholder="Rechercher par patient, prestation" type="text"/>
-      
+
       <div class="headerActions">
         <img alt="notif" src="assets/from_figma/notification_icon.svg" width="17.5">
         <img alt="email" src="assets/from_figma/email-icon.svg" width="17.5">
@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-  
+
     <div class="dataLayout">
       <p>Gestion des fiches medicales</p>
       <div class="controllers">
@@ -28,7 +28,7 @@
         <div class="searchByDate">
           <nz-date-picker  ></nz-date-picker>
         </div>
-    
+
         <div class="filterButton">
           <button class="filter-form-button" nz-button>Filtrer</button>
         </div>
@@ -51,10 +51,10 @@
             <td>{{ patient.dateCreation | date: 'dd/MM/yyyy HH:mm' }}</td>
             <td>{{ patient.personne.nom }} {{ patient.personne.prenom }}</td>
             <td>
-                {{ patient.personnel.personne.prenom}} {{ patient.personnel.personne.nom }}
+                {{ patient.personnel!.personne.prenom}} {{ patient.personnel!.personne.nom }}
             </td>
-            
-        
+
+
             <td>
               <a [nzDropdownMenu]="nonPayeFacture" nzTrigger="click" nz-dropdown>
                 <img alt="Arrow Down" src="assets/from_figma/actionsOnRow.svg">
@@ -62,19 +62,19 @@
             </td>
             <!--        <td>{{ prestation.diagnostic }}</td>-->
             <!--        <td>{{ prestation.conclusion }}</td>-->
-  
+
           </tr>
         </tbody>
-  
+
       </nz-table>
-  
+
     </div>
   </div>
-  
+
   <ng-template #suffixIconSearch>
     <img alt="Rechercher" src="assets/from_figma/search_icon.svg">
   </ng-template>
-  
+
   <nz-dropdown-menu #menu="nzDropdownMenu">
     <ul nz-menu>
       <li class="selectedLink" nz-menu-item>
@@ -83,10 +83,10 @@
       <li class="selectedLink" nz-menu-item>
         <span>Nouveau RDV</span>
       </li>
-     
+
     </ul>
   </nz-dropdown-menu>
-  
+
   <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
     <ul nz-menu>
       <li class="selectedLink" nz-menu-item>
@@ -97,7 +97,6 @@
         <span>Ajouter une prestation</span>
         </a>
       </li>
-    
+
     </ul>
   </nz-dropdown-menu>
-  
