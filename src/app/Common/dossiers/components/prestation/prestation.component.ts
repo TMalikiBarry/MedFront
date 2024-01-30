@@ -15,6 +15,7 @@ import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface"
 import {DossierMedicalService} from "src/app/services/dossier-medical/dossier-medical.service";
 import {PersonneInterface} from "src/app/models/personne.interface";
 import {PoleInterface} from "src/app/models/pole.interface";
+import {PersonnelInterface} from "../../../../models/personnel.interface";
 
 @Component({
   selector: 'app-prestation',
@@ -196,4 +197,13 @@ export class PrestationComponent implements OnInit{
     console.log(`MY EVENT ${context}`, event);
     this.getPrestationsByPage(event);
   }*/
+  getPersonnelName(personnel: PersonnelInterface | undefined) {
+    const personne = personnel ? personnel.personne : undefined
+    return personne ? `${personne.prenom} ${personne.nom}` : undefined;
+
+  }
+
+  displaySelected(event: any) {
+    console.log(event)
+  }
 }
