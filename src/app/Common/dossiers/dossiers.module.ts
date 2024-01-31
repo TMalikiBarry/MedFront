@@ -9,6 +9,9 @@ import { PrestationFormDialogComponent } from './dialogs/prestation-form-dialog/
 import { RendezVousFormDialogComponent } from './dialogs/rendez-vous-form-dialog/rendez-vous-form-dialog.component';
 import { DetailRendezVousComponent } from './dialogs/detail-rendez-vous/detail-rendez-vous.component';
 import { DetailRdvPatientComponent } from './dialogs/detail-rdv-patient/detail-rdv-patient.component';
+import { FacturationComponent } from './dialogs/facturation/facturation.component';
+import { PaymentSuccessComponent } from './dialogs/payment-success/payment-success.component';
+import { PaymentFailedComponent } from './dialogs/payment-failed/payment-failed.component';
 
 
 @NgModule({
@@ -18,7 +21,10 @@ import { DetailRdvPatientComponent } from './dialogs/detail-rdv-patient/detail-r
     PrestationFormDialogComponent,
     RendezVousFormDialogComponent,
     DetailRendezVousComponent,
-    DetailRdvPatientComponent
+    DetailRdvPatientComponent,
+    FacturationComponent,
+    PaymentSuccessComponent,
+    PaymentFailedComponent
   ],
   imports: [
     SharedModule,

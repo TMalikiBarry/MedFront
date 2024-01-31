@@ -15,6 +15,7 @@ import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface"
 import {DossierMedicalService} from "src/app/services/dossier-medical/dossier-medical.service";
 import {PersonneInterface} from "src/app/models/personne.interface";
 import {PoleInterface} from "src/app/models/pole.interface";
+import {FacturationComponent} from "../../dialogs/facturation/facturation.component";
 
 @Component({
   selector: 'app-prestation',
@@ -196,4 +197,16 @@ export class PrestationComponent implements OnInit{
     console.log(`MY EVENT ${context}`, event);
     this.getPrestationsByPage(event);
   }*/
+  facturer(prestation: PrestationInterface) {
+    console.log(prestation)
+    this.modalService.create({
+      nzContent : FacturationComponent,
+      nzClosable: false,
+      nzData : prestation,
+    }).afterClose.subscribe(
+      ()=>{
+        this.getPrestationsByPage()
+      }
+    );
+  }
 }

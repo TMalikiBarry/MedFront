@@ -1,0 +1,33 @@
+<div class="modal">
+  <div *nzModalTitle class="make-spaceBetween">
+    <p>{{titleForm}}</p>
+    <img src="assets/from_figma/close_modal.svg" alt="Fermer le form" (click)="handleCancel()">
+  </div>
+
+  <div>
+    <form nz-form [formGroup]="FacForm" class="login-form" >
+      <p class="connect-phrase">{{formDesc}}</p>
+
+      <div>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Veuillez choisir le patient!">
+            <p class="input-label">Moyen de payment</p>
+            <nz-select nzShowSearch nzPlaceHolder="Choissez un le moyen de payment" formControlName="moyenPayment">
+              <nz-option nzLabel="----"></nz-option>
+              <nz-option
+                *ngFor="let mode of listMoyenPayment"
+                [nzLabel]="mode.libelle" [nzValue]="mode.code"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </form>
+  </div>
+
+  <div *nzModalFooter class="footer-btn">
+    <button nz-button class="annuler" (click)="handleCancel()">Annuler</button>
+    <button nz-button (click)="handleOk()" [nzLoading]="isConfirmLoading">{{btnText}}</button>
+  </div>
+</div>
+
