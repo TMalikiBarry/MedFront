@@ -8,6 +8,7 @@ import {
 } from "../../../dossiers/dialogs/prestation-form-dialog/prestation-form-dialog.component";
 import {NouveauPatientComponent} from "../nouveau-patient/nouveau-patient.component";
 import {ActivatedRoute, Router} from "@angular/router";
+import {PersonneInterface} from "../../../../models/personne.interface";
 
 @Component({
   selector: 'app-patient',
@@ -77,6 +78,32 @@ export class PatientComponent implements OnInit {
         this.router.navigateByUrl('/admin/dossiers/prestation');
       }
     );
+  }
+
+  getAgeDescription(personne: PersonneInterface): string | void {
+    // Si le champ 'age' est présent
+    if (personne.age !== undefined) {
+      return `${personne.age} ans`;
+    }
+
+    // Si 'dateNaissance' a une valeur non nulle et définie
+    if (personne.datenaissance) {
+      const birthDate = new Date(personne.datenaissance);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+
+      // Si le mois actuel est avant le mois de naissance,
+      // ou si c'est le mois de naissance mais que le jour actuel est avant le jour de naissance,
+      // soustraire 1 de l'âge
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+
+      return `${age} ans`;
+    }
+
+    // Si aucune des conditions n'est remplie, la fonction ne renvoie rien
   }
   redirectToDossierMedical() {
     // Assurez-vous que vous avez l'ID du patient disponible

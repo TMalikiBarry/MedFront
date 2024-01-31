@@ -33,6 +33,8 @@
           (nzOpenChange)="openHandler('personnes')"
           [nzTitle]="titlePersonnes">
         <ul>
+          <!--
+
           <li nz-menu-item>
             <a routerLink="/admin/personnes/fiche-medicale" class="selectedLink">
               <img
@@ -41,7 +43,6 @@
               <span>Fiches Médicales</span>
             </a>
           </li>
-          <!--
           <li nz-menu-item>
             <a routerLink="/admin/personnes/dossiers-medicaux" class="selectedLink">
               <img
@@ -50,13 +51,14 @@
               <span>Dossiers Médicaux</span>
             </a>
           </li>
+
           -->
           <li nz-menu-item>
             <a routerLink="/admin/personnes/patients" class="selectedLink">
               <img
                 [src]="'assets/from_figma/'+(router.url.endsWith('/personnes/patients')? 'new_patient_green.svg': 'new_patient.svg')"
                 alt="Patients">
-              <span>Patients</span>
+              <span>Liste des Patients</span>
             </a>
           </li>
         </ul>

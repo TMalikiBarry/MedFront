@@ -21,12 +21,16 @@ import {NzPaginationModule} from "ng-zorro-antd/pagination";
 import {NzMessageModule} from 'ng-zorro-antd/message';
 import {NzDividerModule} from "ng-zorro-antd/divider";
 import {NzPopoverModule} from "ng-zorro-antd/popover";
+import {DisplayNonNullStringPipe} from "../../pipes/display-string/display-non-null-string.pipe";
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    DisplayNonNullStringPipe,
+  ],
   exports: [
     CommonModule,
+    DisplayNonNullStringPipe,
     NzLayoutModule,
     NzMenuModule,
     NzIconModule,

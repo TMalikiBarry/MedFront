@@ -104,7 +104,10 @@
 
         <div class="filterButton">
           <a>
-            <button (click)="addNewPatient()" class="my-primary-button basic-button" nz-button>Nouveau Patient</button>
+            <button (click)="addNewPatient()" class="my-primary-button basic-button" nz-button>
+              <span nz-icon nzType="plus"></span>
+              Nouveau Patient
+            </button>
           </a>
 
 
@@ -114,25 +117,43 @@
       <nz-table #patientsTable [nzData]="patients" [nzPageSize]="5">
         <thead>
           <tr>
-            <th>ID</th>
             <th>Nom du patient</th>
             <th>Telephone</th>
-            <th>Derniere visite</th>
-            <th>Date de naissance</th>
+            <th>Email</th>
+            <th>Tel. Urgence</th>
+            <!--            <th>Derniere visite</th>-->
+            <th>Age</th>
+            <th>Adresse</th>
             <th>Actions</th>
             <!-- Ajoutez d'autres colonnes si nécessaire -->
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let patient of patientsTable.data">
-            <td>{{ patient.personne.id }}</td>
-            <td>{{ patient.personne.nom }} {{ patient.personne.prenom }}</td>
-            <td>{{ patient.personne.telephone }}</td>
+            <!--            <td>{{ patient.personne.id }}</td>-->
+            <td>{{ patient.personne.prenom | titlecase }} {{ patient.personne.nom | uppercase }}</td>
+            <td>
+              <div [ngClass]="{'displayString' : !patient.personne.telephone}">
+                {{ patient.personne.telephone! | displayString }}
+              </div>
+            </td>
+            <td>
+              <div [ngClass]="{'displayString' : !patient.personne.email}">
+                {{ patient.personne.email! | displayString }}
+              </div>
+            </td>
+            <td>
+              <div [ngClass]="{'displayString' : !patient.contactEnCasUrgent}">
+                {{ patient.contactEnCasUrgent! | displayString }}
+              </div>
+            </td>
 
-            <td>{{ patient.dateModification | date: 'dd/MM/yyyy HH:mm' }}</td>
-
-            <td> {{ patient.personne.datenaissance}}</td>
-
+            <td> {{ getAgeDescription(patient.personne) }}</td>
+            <td>
+              <div [ngClass]="{'displayString' : !patient.personne.adresse}">
+                {{ patient.personne.adresse! | displayString }}
+              </div>
+            </td>
             <td>
               <a [nzDropdownMenu]="nonPayeFacture" nzTrigger="click" nz-dropdown>
                 <img alt="Arrow Down" src="assets/from_figma/actionsOnRow.svg">
@@ -142,8 +163,8 @@
             <!--        <td>{{ prestation.conclusion }}</td>-->
             <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
               <ul nz-menu>
-               
-                <li class="selectedLink" nz-menu-item (click)="redirectToDossierMedical()">
+
+                <li (click)="redirectToDossierMedical()" class="selectedLink" nz-menu-item>
                   <a>
                     <span>Dossier medical</span>
                   </a>

@@ -29,7 +29,10 @@
   <div class="dataLayout">
     <div class="headerData make-spaceBetween">
       <p>Listes des prestations</p>
-      <button (click)="addNewPrestation()" class="basic-button my-primary-button" nz-button>Nouvelle Prestation</button>
+      <button (click)="addNewPrestation()" class="basic-button my-primary-button" nz-button>
+        <span nz-icon nzType="plus"></span>
+        Nouvelle Prestation
+      </button>
     </div>
     <div class="controllers">
       <div class="searchInput">
@@ -37,7 +40,14 @@
           <nz-option nzLabel="----"></nz-option>
           <nz-option
             *ngFor="let dossier of listOfDossierMedical"
-            [nzLabel]="getPatientName(dossier)" [nzValue]="dossier.patient?.personne"></nz-option>
+            [nzLabel]="getPatientName(dossier) +' - '+ dossier.patient?.personne?.telephone"
+            [nzValue]="dossier.patient?.personne">
+
+          </nz-option>
+          <!--          <ng-template #customizeOption let-selected>
+                      {{ selected?.prenom + ' ' + selected?.nom }}
+                      <span class="phone-display">- {{ selected?.telephone }}</span>
+                    </ng-template>-->
         </nz-select>
 <!--
         <nz-input-group [nzPrefix]="suffixIconSearch">
@@ -75,24 +85,45 @@
     >
       <thead>
         <tr>
-          <th>ID</th>
+          <!--          <th>ID</th>-->
           <th>Date</th>
           <th>Patient</th>
           <th>Service</th>
-          <th>{{ 'état' | titlecase }} de la facturation</th>
+          <th>Diagnostic</th>
+          <th>Montant</th>
+          <th>Médecin</th>
+          <!--          <th>{{ 'état' | titlecase }} de la facturation</th>-->
           <th>Actions</th>
           <!-- Ajoutez d'autres colonnes si nécessaire -->
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let prestation of prestationsTable.data">
-          <td><strong>{{ getPatientID(prestation) }}</strong></td>
+          <!--          <td><strong>{{ getPatientID(prestation) }}</strong></td>-->
           <td>{{ formatDateString(prestation.dateCreation!) }}</td>
-          <td>{{ getPatientName(prestation.dossierMedical!) }}</td>
-          <td>{{ prestation.service?.nom + ' - (' + prestation.service?.pole?.nom + ')'}}</td>
+          <td><span
+            class="my-patient-id"> {{ prestation.dossierMedical?.patient?.id }}</span>{{ ' - ' + getPatientName(prestation.dossierMedical!) }}
+          </td>
+          <td>{{ prestation.service?.nom }} <span
+            class="service-pole">{{ ' - (' + prestation.service?.pole?.nom + ')' }}</span></td>
+          <td>
+            <div [ngClass]="{'displayString' : !prestation.diagnostic}">
+              {{ prestation.diagnostic! | displayString }}
+            </div>
+          </td>
+          <td>
+            {{ prestation.montant | currency: 'XOF': 'symbol': '1.':'fr-FR' }}
+          </td>
+          <td>
+            <div [ngClass]="{'displayString' : !prestation.personnel?.personne}">
+              {{ getPersonnelName(prestation.personnel)! | displayString }}
+            </div>
+          </td>
+          <!--
           <td>
             <nz-badge nzStatus="error" nzText="Non facturé"></nz-badge>
           </td>
+          -->
           <td>
             <a [nzDropdownMenu]="nonPayeFacture" nzTrigger="click" nz-dropdown>
               <img alt="Arrow Down" src="assets/from_figma/actionsOnRow.svg">
