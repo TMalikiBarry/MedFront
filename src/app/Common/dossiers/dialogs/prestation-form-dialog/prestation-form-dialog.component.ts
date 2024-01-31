@@ -12,7 +12,9 @@ import {ServiceInterface} from "src/app/models/service.interface";
 import {NotifService} from "src/app/services/notification/notif.service";
 import {PersonneInterface} from "src/app/models/personne.interface";
 
-import {NouveauPatientComponent} from "../../../personnes/components/nouveau-patient/nouveau-patient.component";
+import {
+  NouveauPatientComponent
+} from "../../../personnes/dialogs/nouveau-patient-form-dialog/nouveau-patient.component";
 import {PoleInterface} from "../../../../models/pole.interface";
 
 @Component({
@@ -56,18 +58,7 @@ export class PrestationFormDialogComponent implements OnInit{
 
     this.listOfService = listService;
     this.listPrescription = my_prescription;
-    this.dossierMApi.getAll().subscribe({
-      next: result => {
-        this.listOfDossierMedical = result.filter( dossier => !!dossier.patient?.personne);
-        const patient = this.modal.getConfig().nzData;
-        if (patient) {
-          this.dossierData = this.listOfDossierMedical.find(d => d.patient?.id === patient.id)!;
-          if (this.dossierData) {
-            this.prestationForm.controls['dossier'].setValue(this.dossierData.id)
-          }
-        }
-      }
-    });
+    this.loadPatients();
     this.serviceApi.getAllService().subscribe({
       next: result => {
         this.myServicesList = result.reponse as ServiceInterface[];
@@ -88,7 +79,20 @@ export class PrestationFormDialogComponent implements OnInit{
     })
   }
 
-
+  loadPatients() {
+    this.dossierMApi.getAll().subscribe({
+      next: result => {
+        this.listOfDossierMedical = result.filter(dossier => !!dossier.patient?.personne);
+        const patient = this.modal.getConfig().nzData;
+        if (patient) {
+          this.dossierData = this.listOfDossierMedical.find(d => d.patient?.id === patient.id)!;
+          if (this.dossierData) {
+            this.prestationForm.controls['dossier'].setValue(this.dossierData.id)
+          }
+        }
+      }
+    });
+  }
   handleCancel() {
     this.modal.close();
   }
@@ -175,7 +179,11 @@ export class PrestationFormDialogComponent implements OnInit{
     this.modalService.create({
       nzContent: NouveauPatientComponent,
       nzWidth: 800
-    })
+    }).afterClose.subscribe((result: any) => {
+      console.log('Données reçues du modal :', result);
+      this.loadPatients()
+      // this.prestationForm.controls.dossier.setValue(result)
+    });
   }
 
   getAllServicesByPole(pole: PoleInterface): ServiceInterface [] {

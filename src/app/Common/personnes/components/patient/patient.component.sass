@@ -1,8 +1,8 @@
 .mainbody
   display: flex
   flex-direction: column
-  max-height: 100vh
-  overflow-y: auto
+  //max-height: 100vh
+  //overflow-y: auto
 
   .headerLayout
     display: flex
@@ -33,6 +33,9 @@
   .chart-overview
     display: flex
     gap: 1rem
+    margin-block: 2rem
+  // Ajout de la marge à gauche pour espacement
+
 
   .card
      border-radius: 8px
@@ -41,7 +44,6 @@
      width: 40%
      height: 456px
      flex-shrink: 0
-     margin: 5% 0 0 5%  // Ajout de la marge à gauche pour espacement
      &-title
       width: 100%
       display: flex
@@ -49,7 +51,7 @@
       margin: 2% 0 0 2%  // Ajout de la marge à gauche pour espacement
       .title
         color: var(--Couleur-texte, #252525)
-        font-family: Inter
+        font-family: Inter, sans-serif
         font-size: 16px
         font-style: normal
         font-weight: 600
@@ -86,7 +88,7 @@
 
       .title
         color: var(--Couleur-texte, #252525)
-        font-family: Inter
+        font-family: Inter, sans-serif
         font-size: 16px
         font-style: normal
         font-weight: 600

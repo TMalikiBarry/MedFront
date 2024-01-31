@@ -1,8 +1,8 @@
-// nouveau-patient.component.ts
+// nouveau-patient-form-dialog.component.ts
 
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PatientService } from 'src/app/services/patient/patient.service';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {PatientService} from 'src/app/services/patient/patient.service';
 import {NzModalRef} from "ng-zorro-antd/modal";
 import {PersonneService} from "../../../../services/Personne/personne.service";
 import {PersonneInterface} from "../../../../models/personne.interface";
@@ -12,7 +12,7 @@ import {PersonnelInterface} from "../../../../models/personnel.interface";
 import {DossierMedicalInterface} from "../../../../models/dossier-medical.interface";
 
 @Component({
-  selector: 'app-nouveau-patient',
+  selector: 'app-nouveau-patient-form-dialog',
   templateUrl: './nouveau-patient.component.html',
   styleUrls: ['./nouveau-patient.component.sass']
 })
@@ -20,6 +20,7 @@ export class NouveauPatientComponent implements OnInit {
   patientForm: FormGroup;
   personne!: PersonneInterface
   patient !: PatientInterface
+  maxDate: string;
 
   constructor(private fb: FormBuilder,
               private modalRef : NzModalRef,
@@ -33,10 +34,13 @@ export class NouveauPatientComponent implements OnInit {
       dateNaissance: ['', Validators.required],
       groupeSanguin: ['', Validators.required],
       adresse: ['', Validators.required],
-      medecinTraitant: ['', Validators.required],
-      ficheAccessible: ['', Validators.required],
+      medecinTraitant: [''],
+      ficheAccessible: [''],
       allergies: ['']
     });
+
+    const today = new Date();
+    this.maxDate = today.toISOString().split('T')[0]; // Convertit en format YYYY-MM-DD
   }
 
   ngOnInit() {
@@ -108,6 +112,22 @@ export class NouveauPatientComponent implements OnInit {
      }
   }
 
+  getAge(dateNaissance: string | Date): string {
+    const birthDate = new Date(dateNaissance);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+
+    // Si le mois actuel est avant le mois de naissance,
+    // ou si c'est le mois de naissance mais que le jour actuel est avant le jour de naissance,
+    // soustraire 1 de l'âge
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    return age.toString();
+  }
+
   createPersonneForm(formData : any): PersonneInterface
 /*    {
     id ?: number;
@@ -136,6 +156,7 @@ export class NouveauPatientComponent implements OnInit {
       genre: formData.genre,
       nom: formData.nom,
       prenom: formData.prenom,
+      age: this.getAge(formData.datenaissance),
       telephone: formData.telephone,
       datenaissance : formData.datenaissance,
       hasAlreadyConnected: false,

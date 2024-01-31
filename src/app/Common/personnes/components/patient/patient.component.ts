@@ -6,9 +6,9 @@ import {NzModalService} from "ng-zorro-antd/modal";
 import {
   PrestationFormDialogComponent
 } from "../../../dossiers/dialogs/prestation-form-dialog/prestation-form-dialog.component";
-import {NouveauPatientComponent} from "../nouveau-patient/nouveau-patient.component";
+import {NouveauPatientComponent} from "../../dialogs/nouveau-patient-form-dialog/nouveau-patient.component";
 import {ActivatedRoute, Router} from "@angular/router";
-import {PersonneInterface} from "../../../../models/personne.interface";
+import {PersonneInterface} from "src/app/models/personne.interface";
 
 @Component({
   selector: 'app-patient',
@@ -80,9 +80,9 @@ export class PatientComponent implements OnInit {
     );
   }
 
-  getAgeDescription(personne: PersonneInterface): string | void {
+  getAgeDescription(personne: PersonneInterface): string | undefined {
     // Si le champ 'age' est présent
-    if (personne.age !== undefined) {
+    if (personne.age) {
       return `${personne.age} ans`;
     }
 
@@ -102,6 +102,7 @@ export class PatientComponent implements OnInit {
 
       return `${age} ans`;
     }
+    return undefined
 
     // Si aucune des conditions n'est remplie, la fonction ne renvoie rien
   }

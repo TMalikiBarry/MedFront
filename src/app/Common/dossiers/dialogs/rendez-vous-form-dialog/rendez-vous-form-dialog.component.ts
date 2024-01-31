@@ -11,7 +11,9 @@ import {PoleService} from "../../../../services/pole/pole.service";
 import {CliniqueServiceService} from "../../../../services/service/clinique-service.service";
 import {PersonnelService} from "../../../../services/personnel/personnel.service";
 import {PatientService} from "../../../../services/patient/patient.service";
-import {NouveauPatientComponent} from "../../../personnes/components/nouveau-patient/nouveau-patient.component";
+import {
+  NouveauPatientComponent
+} from "../../../personnes/dialogs/nouveau-patient-form-dialog/nouveau-patient.component";
 import {NotifService} from "../../../../services/notification/notif.service";
 
 @Component({

@@ -104,7 +104,7 @@
 
         <div class="filterButton">
           <a>
-            <button (click)="addNewPatient()" class="my-primary-button basic-button" nz-button>
+            <button (click)="addNewPatient()" class="my-primary-button basic-button" nz-button nzSize="large">
               <span nz-icon nzType="plus"></span>
               Nouveau Patient
             </button>
@@ -148,7 +148,14 @@
               </div>
             </td>
 
-            <td> {{ getAgeDescription(patient.personne) }}</td>
+            <!--            <td> {{ getAgeDescription(patient.personne)  }}</td>-->
+
+            <td>
+              <div [ngClass]="{'displayString' : !getAgeDescription(patient.personne)}">
+                {{ getAgeDescription(patient.personne) | displayString }}
+              </div>
+            </td>
+
             <td>
               <div [ngClass]="{'displayString' : !patient.personne.adresse}">
                 {{ patient.personne.adresse! | displayString }}

@@ -56,11 +56,7 @@ export class PrestationComponent implements OnInit{
           );
       },
     });
-    this.dossierMApi.getAll().subscribe({
-      next: result => {
-        this.listOfDossierMedical = result.filter( dossier => !!dossier.patient?.personne);
-      }
-    });
+    this.loadPatients();
     this.getPrestationsByPage();
   }
 
@@ -147,7 +143,6 @@ export class PrestationComponent implements OnInit{
     );
   }
 
-
   addNewPayment() {
     this.modalService.create({
       nzContent: NewPaymentFormDialogComponent,
@@ -158,6 +153,14 @@ export class PrestationComponent implements OnInit{
       }
     );
 
+  }
+
+  loadPatients() {
+    this.dossierMApi.getAll().subscribe({
+      next: result => {
+        this.listOfDossierMedical = result.filter(dossier => !!dossier.patient?.personne);
+      }
+    });
   }
 
   getPatientID(prestation: PrestationInterface): number {
