@@ -131,7 +131,16 @@
           </td>
           <!--        <td>{{ prestation.diagnostic }}</td>-->
           <!--        <td>{{ prestation.conclusion }}</td>-->
-
+          <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
+            <ul nz-menu>
+              <li (click)="facturer(prestation)" class="selectedLink" nz-menu-item>
+                <span>Facturer la prestation</span>
+              </li>
+              <li class="selectedLink" nz-menu-item>
+                <span>Voir le contenu de la prestation</span>
+              </li>
+            </ul>
+          </nz-dropdown-menu>
         </tr>
       </tbody>
 
@@ -163,17 +172,6 @@
     </li>
     <li (click)="addNewPrestation()" class="selectedLink" nz-menu-item>
       <span>Nouvelle prestation</span>
-    </li>
-  </ul>
-</nz-dropdown-menu>
-
-<nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
-  <ul nz-menu>
-    <li class="selectedLink" nz-menu-item>
-      <span>Facturer la prestation</span>
-    </li>
-    <li class="selectedLink" nz-menu-item>
-      <span>Voir le contenu de la prestation</span>
     </li>
   </ul>
 </nz-dropdown-menu>
