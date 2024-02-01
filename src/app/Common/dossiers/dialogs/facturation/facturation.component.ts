@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
+import {NzModalRef} from "ng-zorro-antd/modal";
 import {FormBuilder} from "@angular/forms";
 import {TransactionService} from "../../../../services/transaction/transaction.service";
 import {PrestationInterface} from "../../../../models/prestation.interface";
@@ -20,9 +20,12 @@ declare function sendPaymentInfos(
   url_redirection_success: string | undefined,
   url_redirection_failed: string | undefined,
   transactionAmount: number,
+  city: string | undefined,
+  email: string | undefined,
   clientFirstName: string | undefined,
   clientLastName: string | undefined,
-  clientPhone: string | undefined
+  clientPhone: string | undefined,
+
 ): void;
 
 
@@ -120,6 +123,8 @@ export class FacturationComponent implements OnInit{
         const {
           token = transaction.token,
           amount = transaction.amount,
+          city = transaction.prestation.dossierMedical?.patient?.personne.adresse,
+          email = transaction.prestation.dossierMedical?.patient?.personne.email,
           clientFirstName = transaction.prestation.dossierMedical?.patient?.personne.prenom ,
           clientLastName = transaction.prestation.dossierMedical?.patient?.personne.nom ,
           clientPhone = transaction.prestation.dossierMedical?.patient?.personne.telephone,
@@ -150,8 +155,11 @@ export class FacturationComponent implements OnInit{
           url_redirection_success,
           url_redirection_failed,
           amount,
+          city,
+          email,
           clientFirstName,
           clientLastName,
+
           clientPhone
         );
         console.log("Envoie des éléménts")
