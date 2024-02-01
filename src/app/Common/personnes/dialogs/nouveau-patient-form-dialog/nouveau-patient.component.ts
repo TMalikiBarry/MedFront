@@ -21,6 +21,7 @@ export class NouveauPatientComponent implements OnInit {
   personne!: PersonneInterface
   patient !: PatientInterface
   maxDate: string;
+  titleForm: string = "Nouveau Patient";
 
   constructor(private fb: FormBuilder,
               private modalRef : NzModalRef,
@@ -34,6 +35,8 @@ export class NouveauPatientComponent implements OnInit {
       dateNaissance: ['', Validators.required],
       groupeSanguin: ['', Validators.required],
       adresse: ['', Validators.required],
+      email: ['', Validators.required],
+      contactUrgence: ['', Validators.required],
       medecinTraitant: [''],
       ficheAccessible: [''],
       allergies: ['']
@@ -71,7 +74,6 @@ export class NouveauPatientComponent implements OnInit {
         }
       })
 
-/*
       this.apiPersonne.savePersonne(personneForm).subscribe({
         next : res => {
           console.log(res)
@@ -79,7 +81,6 @@ export class NouveauPatientComponent implements OnInit {
         }
 
       })
-*/
 
       // this.personne.nom = this.patientForm.controls['nom'].value
       // this.personne.prenom = this.patientForm.controls['prenom'].value
@@ -156,9 +157,10 @@ export class NouveauPatientComponent implements OnInit {
       genre: formData.genre,
       nom: formData.nom,
       prenom: formData.prenom,
-      age: this.getAge(formData.datenaissance),
+      age: this.getAge(formData.dateNaissance),
       telephone: formData.telephone,
-      datenaissance : formData.datenaissance,
+      email: formData.email,
+      datenaissance: formData.dateNaissance,
       hasAlreadyConnected: false,
     };
   }
@@ -176,7 +178,7 @@ export class NouveauPatientComponent implements OnInit {
     status ?: string
   } {
     return {
-      contactEnCasUrgent: formData.telephone,
+      contactEnCasUrgent: formData.contactUrgence,
       donneurOrgane: false,
       groupeSanguin: formData.groupeSanguin,
       personne

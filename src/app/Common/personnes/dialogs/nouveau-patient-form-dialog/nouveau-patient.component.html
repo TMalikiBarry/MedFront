@@ -1,4 +1,8 @@
 <div class="mainbody">
+  <div *nzModalTitle class="make-spaceBetween">
+    <p>{{ titleForm }}</p>
+    <img (click)="handleCancel()" alt="Fermer le form" src="assets/from_figma/close_modal.svg">
+  </div>
     <!-- Header layout-->
     <div class="patient-form">
     <form [formGroup]="patientForm" (submit)="enregistrerPatient()">
@@ -53,7 +57,19 @@
               </div>
             </div>
 
-            <div class="blood-address">
+          <div class="name">
+            <div class="prenom">
+              <label class="label" for="email">Email</label>
+              <input class="input" formControlName="email" id="email" name="email" required type="text">
+            </div>
+            <div class="nom">
+              <label class="label" for="contactUrgence">Contact d'urgence</label>
+              <input class="input" formControlName="contactUrgence" id="contactUrgence" name="contactUrgence"
+                     required type="text">
+            </div>
+          </div>
+
+          <div class="blood-address">
               <div class="blood">
                 <label class="label" for="blood">Groupe sanguin</label>
                 <select class="input" name="blood" id="blood" formControlName="groupeSanguin" required>
@@ -105,7 +121,7 @@
           <div class="medecin">
             <label class="label" for="allergies">Allergies et intolérances</label>
           <!-- textarea -->
-            <textarea class="input" id="allergies" name="allergies" formControlName="allergies" required></textarea>
+            <textarea class="input" formControlName="allergies" id="allergies" name="allergies"></textarea>
              </div>
         </div>
       </div>
@@ -113,7 +129,7 @@
   </div>
   <div *nzModalFooter>
     <button nz-button class="my-default-button basic-button" (click)="handleCancel()">Annuler</button>
-    <button nz-button [disabled]="patientForm.invalid" class="basic-button my-primary-button" (click)="enregistrerPatient()">Enregistrer</button>
+    <button (click)="enregistrerPatient()" class="basic-button my-primary-button" nz-button>Enregistrer</button>
   </div>
 
 
