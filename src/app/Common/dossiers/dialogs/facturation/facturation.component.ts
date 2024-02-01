@@ -4,6 +4,8 @@ import {FormBuilder} from "@angular/forms";
 import {TransactionService} from "../../../../services/transaction/transaction.service";
 import {PrestationInterface} from "../../../../models/prestation.interface";
 import {ApiResponseInterface} from "../../../../models/api-response.interface";
+import {ParametreService} from "../../../../services/parametre/parametre.service";
+import {ParametreInterface} from "../../../../models/parametre.interface";
 
 
 declare global {
@@ -14,15 +16,17 @@ declare global {
 
 declare function sendPaymentInfos(
   order_number: string,
-  agency_code: string,
-  secure_code: string,
-  domain_name: string,
+  agency_code: string | undefined,
+  secure_code: string | undefined,
+  domain_name: string | undefined,
   url_redirection_success: string | undefined,
   url_redirection_failed: string | undefined,
   transactionAmount: number,
-  clientFirstName: string | undefined,
-  clientLastName: string | undefined,
-  clientPhone: string | undefined
+  city: string,
+  email: string,
+  clientFirstName: string,
+  clientLastName: string,
+  clientPhone: string,
 ): void;
 
 
@@ -38,6 +42,15 @@ export class FacturationComponent implements OnInit{
   isConfirmLoading = false;
   formDesc = "Veuillez remplir ce formulaire pour effectuer une facturation";
   btnText = "Enregistrer";
+  parametres !: ParametreInterface[]
+  agency_code  = 'CGFB23069'
+  domain_name = 'gutouch.net';
+  secure_code = 'SMBbr8S6zlUULluHeG6rVS5YBMhN8AV0M0H6JXYdVq4IkxTusH';
+
+  // TODO a revoir
+  url_redirection_success = 'https://dev-touch-ssii.gutouch.net/touchmedportal/admin/finance/paymentsuccess';
+  url_redirection_failed = 'https://dev-touch-ssii.gutouch.net/touchmedportal/admin/finance/paymentfailed';
+
   listMoyenPayment = [
     {
       libelle: "Orange Money",
@@ -73,12 +86,14 @@ export class FacturationComponent implements OnInit{
   })
 
   constructor(private modal: NzModalRef,
+              private parametreService : ParametreService,
               private transactionService : TransactionService,
               private fb: FormBuilder) {
   }
   ngOnInit(): void {
     this.data = this.modal.getConfig().nzData as PrestationInterface
     console.log("Data "+this.data)
+    this.loadParametre();
     this.loadTouchPayScript()
   }
 
@@ -93,19 +108,8 @@ export class FacturationComponent implements OnInit{
   }
 
   makePayment(): void {
-    // let Amount = this.data.montant;
-    // Vérifier si le montant est renseigné
-    // if (!Amount) {
-    //   console.log('Veuillez renseigner le montant de la transaction');
-    //   return;
-    // }
-
-    // Convertir transactionAmount en nombre
-    //const transactionAmount = parseFloat(Amount.toString());
-    // console.log(transactionAmount)
-
     this.FacForm.controls.prestation.setValue(this.data)
-    console.log(this.FacForm)
+    console.log(this.FacForm.value)
     let trans = this.FacForm.value
     let moyen = ''
     if(this.FacForm.controls.moyenPayment.value){
@@ -116,79 +120,19 @@ export class FacturationComponent implements OnInit{
     this.transactionService.saveTransaction(trans, moyen).subscribe(
       (response : ApiResponseInterface) => {
         let transaction = response.reponse
-        // Ouvrir la fenêtre de paiement TouchPay Web
-        const {
-          token = transaction.token,
-          amount = transaction.amount,
-          clientFirstName = transaction.prestation.dossierMedical?.patient?.personne.prenom ,
-          clientLastName = transaction.prestation.dossierMedical?.patient?.personne.nom ,
-          clientPhone = transaction.prestation.dossierMedical?.patient?.personne.telephone,
-        } = transaction;
-        console.log("transaction after save "+JSON.stringify(transaction))
-
-        const order_number = token;
-        const agency_code = 'CGFB23069';
-        const secure_code = 'SMBbr8S6zlUULluHeG6rVS5YBMhN8AV0M0H6JXYdVq4IkxTusH';
-        const domain_name = 'gutouch.net';
-        const url_redirection_success = 'http://41.208.152.126/cgfplacement/paymentsuccess';
-        const url_redirection_failed = 'http://41.208.152.126/cgfplacement/paymentfailed';
-        console.log("Constitution des éléménts")
-        console.log(order_number)
-        console.log(secure_code)
-        console.log(domain_name)
-        console.log(url_redirection_success)
-        console.log(url_redirection_failed)
-        console.log(amount)
-        console.log(clientFirstName)
-        console.log(clientLastName)
-        console.log(clientPhone)
-        sendPaymentInfos(
-          order_number,
-          agency_code,
-          secure_code,
-          domain_name,
-          url_redirection_success,
-          url_redirection_failed,
-          amount,
-          clientFirstName,
-          clientLastName,
-          clientPhone
-        );
-        console.log("Envoie des éléménts")
-        // Mettre à jour le compte client après la transaction réussie
-        window.SendPaymentInfos = () => {
-          console.log("Dans la fenetre")
-          // Ajouter le numéro de compte à la transaction avant la mise à jour
-          //transaction.accountNumber = this.accountNumber;
-          console.log("Ecoute call back")
-          // this.transactionService.handleCallBack('success', this.accountNumber).subscribe(
-          //   (response) => {
-          //     // Gérer la réponse du service
-          //     console.log('Réponse du service :', response);
-          //
-          //     this.operationsService.depot({ montant: transactionAmount, numeroCompte: this.accountNumber }).subscribe(
-          //       (response) => {
-          //         // Gérer la réponse du service
-          //         console.log('Réponse du service :', response);
-          //       },
-          //       (error) => {
-          //         // Gérer l'erreur
-          //         console.log('Erreur lors de la mise à jour du compte client :', error);
-          //       }
-          //     );
-          //   },
-          //   (error) => {
-          //     // Gérer l'erreur
-          //     console.log('Erreur lors de la mise à jour du compte client :', error);
-          //   }
-          // );
-        };
-      },
-      (error) => {
-        // Gérer l'erreur
-        console.log('Erreur lors de la création de la transaction :', error);
+        if(moyen != "CASH")
+          this.touchPay(transaction)
+        this.modal.close()
       }
     );
+  }
+
+  loadParametre() {
+    this.parametreService.getAllParametre().subscribe({
+      next : value => {
+        this.parametres = value.reponse
+      }
+    })
   }
 
   loadTouchPayScript(): void {
@@ -204,5 +148,64 @@ export class FacturationComponent implements OnInit{
       console.error('Failed to load TouchPay script');
     };
     document.body.appendChild(script);
+  }
+
+  private touchPay(transaction: any) {
+    // Ouvrir la fenêtre de paiement TouchPay Web
+    const {
+      token = transaction.token,
+      amount = transaction.amount,
+      city = transaction.prestation.dossierMedical.patient.personne.adresse,
+      email = transaction.prestation.dossierMedical.patient.personne.email,
+      clientFirstName = transaction.prestation.dossierMedical?.patient?.personne.prenom ,
+      clientLastName = transaction.prestation.dossierMedical?.patient?.personne.nom ,
+      clientPhone = transaction.prestation.dossierMedical?.patient?.personne.telephone,
+    } = transaction;
+    console.log("transaction after save "+JSON.stringify(transaction))
+    const order_number = token;
+    console.log("Constitution des éléménts")
+    sendPaymentInfos(
+      order_number,
+      this.agency_code,
+      this.secure_code,
+      this.domain_name,
+      this.url_redirection_success,
+      this.url_redirection_failed,
+      amount,
+      city,
+      email,
+      clientFirstName,
+      clientLastName,
+      clientPhone
+    );
+    console.log("Envoie des éléménts")
+    // Mettre à jour le compte client après la transaction réussie
+    window.SendPaymentInfos = () => {
+      console.log("Dans la fenetre")
+      // Ajouter le numéro de compte à la transaction avant la mise à jour
+      //transaction.accountNumber = this.accountNumber;
+      console.log("Ecoute call back")
+      // this.transactionService.handleCallBack('success', this.accountNumber).subscribe(
+      //   (response) => {
+      //     // Gérer la réponse du service
+      //     console.log('Réponse du service :', response);
+      //
+      //     this.operationsService.depot({ montant: transactionAmount, numeroCompte: this.accountNumber }).subscribe(
+      //       (response) => {
+      //         // Gérer la réponse du service
+      //         console.log('Réponse du service :', response);
+      //       },
+      //       (error) => {
+      //         // Gérer l'erreur
+      //         console.log('Erreur lors de la mise à jour du compte client :', error);
+      //       }
+      //     );
+      //   },
+      //   (error) => {
+      //     // Gérer l'erreur
+      //     console.log('Erreur lors de la mise à jour du compte client :', error);
+      //   }
+      // );
+    };
   }
 }
