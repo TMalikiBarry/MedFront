@@ -29,7 +29,7 @@ export class PrestationFormDialogComponent implements OnInit{
   btnText = "Valider";
   isConfirmLoading = false;
   listOfService!: Service[];
-  dossierData!: DossierMedicalInterface
+  dossierData?: DossierMedicalInterface
   myServicesList!: ServiceInterface[];
   listOfDossierMedical!: DossierMedicalInterface[];
   listPrescription!: any;
@@ -79,16 +79,18 @@ export class PrestationFormDialogComponent implements OnInit{
     })
   }
 
-  loadPatients() {
+  loadPatients(patientId?: number) {
     this.dossierMApi.getAll().subscribe({
       next: result => {
         this.listOfDossierMedical = result.filter(dossier => !!dossier.patient?.personne);
         const patient = this.modal.getConfig().nzData;
         if (patient) {
           this.dossierData = this.listOfDossierMedical.find(d => d.patient?.id === patient.id)!;
-          if (this.dossierData) {
-            this.prestationForm.controls['dossier'].setValue(this.dossierData.id)
-          }
+        } else if (patientId) {
+          this.dossierData = this.listOfDossierMedical.find(d => d.patient?.id === patientId)!;
+        }
+        if (this.dossierData) {
+          this.prestationForm.controls['dossier'].setValue(this.dossierData.id);
         }
       }
     });
@@ -178,10 +180,12 @@ export class PrestationFormDialogComponent implements OnInit{
   addNewPatient() {
     this.modalService.create({
       nzContent: NouveauPatientComponent,
-      nzWidth: 800
+      nzClosable: false,
+      nzWidth: 700
     }).afterClose.subscribe((result: any) => {
+      this.dossierData = undefined;
       console.log('Données reçues du modal :', result);
-      this.loadPatients()
+      this.loadPatients(result);
       // this.prestationForm.controls.dossier.setValue(result)
     });
   }

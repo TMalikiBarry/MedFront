@@ -21,6 +21,7 @@ export class NouveauPatientComponent implements OnInit {
   personne!: PersonneInterface
   patient !: PatientInterface
   maxDate: string;
+  titleForm: string = "Nouveau Patient";
 
   constructor(private fb: FormBuilder,
               private modalRef : NzModalRef,

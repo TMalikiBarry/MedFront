@@ -136,6 +136,7 @@ export class PrestationComponent implements OnInit{
   addNewPrestation() {
     this.modalService.create({
       nzContent: PrestationFormDialogComponent,
+      nzWidth: 900,
       nzClosable: false,
     }).afterClose.subscribe(
       ()=>{

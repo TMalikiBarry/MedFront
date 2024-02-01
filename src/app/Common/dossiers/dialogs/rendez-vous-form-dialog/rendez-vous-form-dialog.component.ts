@@ -196,6 +196,7 @@ export class RendezVousFormDialogComponent {
   NewPatient() {
     let dialog = this.modalService.create({
       nzContent: NouveauPatientComponent,
+      nzClosable: false,
       nzWidth: 800,
     })
     dialog.afterClose.subscribe((result: any) => {
