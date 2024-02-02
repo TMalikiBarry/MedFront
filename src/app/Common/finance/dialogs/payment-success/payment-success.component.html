@@ -1,56 +1,33 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-6">
-      <div class="rest">
-        <div id="card">
-          <div class="logo-invoice">
-            <img class="logo-mobile" src="assets/images/CGF-BOURSE_LOGO_WITH_FOND.png" routerLink="/" alt="">
-          </div>
-          <div class="error-image">
-            <div class="circle">
-              <img src="assets/images/check.png" alt="">
-            </div>
-            <div id="card-title">
-              <h2>Transaction réussie</h2>
-              <p class="subtitle">Le dépôt vers votre compte a été bien effectué</p>
-            </div>
-            <hr>
-          </div>
-          <div id="card-content">
-            <div>
-              <div class="info-row">
-                <span class="label">Numéro de référence:</span>
-                <span class="value">{{ commandNumber }}</span>
-              </div>
-              <div class="info-row">
-                <span class="label">Date:</span>
-                <span class="value">{{ formattedPaymentDate }}</span>
-              </div>
-              <div class="info-row">
-                <span class="label">Montant déposé:</span>
-                <span class="value">{{ transactionAmount - fee }} FCFA</span>
-              </div>
-              <div class="info-row">
-                <span class="label">Frais :</span>
-                <span class="value">{{ fee }} FCFA</span>
-              </div>
-              <div class="info-row">
-                <span class="label">Montant Total:</span>
-                <span class="value">{{ transactionAmount }}  FCFA</span>
-              </div>
-              <hr>
-              <div class="button-choice">
-                <button type="button" class="square-button-transparent" (click)="goToPaymentPage()">Faire une autre transaction</button>
-<!--                <button type="button" class="square-button" (click)="downloadInvoice()">Enregistrer</button>-->
-              </div>
-            </div>
-          </div>
-        </div>
+<div class="container">
+  <div class="header">
+    <span> La transaction a été bien effectuée </span>
+  </div>
+  <div class="body">
+    <div class="detail">
+      <div class="info-row">
+        <span class="label">Numéro de référence:</span>
+        <span class="value">{{ commandNumber }}</span>
+      </div>
+      <div class="info-row">
+        <span class="label">Date:</span>
+        <span class="value">{{ formattedPaymentDate }}</span>
+      </div>
+      <div class="info-row">
+        <span class="label">Montant déposé:</span>
+        <span class="value">{{ transactionAmount - fee }} FCFA</span>
+      </div>
+      <div class="info-row">
+        <span class="label">Frais :</span>
+        <span class="value">{{ fee }} FCFA</span>
+      </div>
+      <div class="info-row">
+        <span class="label">Montant Total:</span>
+        <span class="value">{{ transactionAmount }}  FCFA</span>
       </div>
     </div>
   </div>
-</div>
-
-<div class="">
-  <div class=""></div>
+  <div class="button-choice">
+    <button nz-button class="my-default-button basic-button" (click)="handleCancel()">Retour</button>
+    <button nz-button class="basic-button my-primary-button" (click)="goToPaymentPage()" >Faire une autre transaction</button>
+  </div>
 </div>

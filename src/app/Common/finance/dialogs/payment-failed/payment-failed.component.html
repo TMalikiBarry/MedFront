@@ -1,28 +1,14 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-6">
-      <div class="rest">
-        <div>
-          <img class="logo-mobile" src="assets/images/CGF-BOURSE_LOGO_WITH_FOND.png" routerLink="/" alt="">
-        </div>
-        <div id="card">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-body">
-                <div class="circle">
-                  <img src="assets/images/failed.png" alt="">
-                </div>
-                <div class="text-center">
-                  <h3>Echec de la transaction</h3>
-                  <p>Votre opération n’a pas pu être effectuée, veuillez réessayer</p><br />
-                  <button type="button" class="restart-button" (click)="retryPayment()">Réessayer</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
+<div class="container">
+  <div class="header">
+    <span> Echec de la transaction </span>
+  </div>
+  <div class="body">
+    <div class="detail">
+      <p>Votre opération n’a pas pu être effectuée, veuillez réessayer</p>
     </div>
+  </div>
+  <div class="button-choice">
+    <button nz-button class="my-default-button basic-button" (click)="handleCancel()">Retour</button>
+    <button nz-button class="basic-button my-primary-button" (click)="retryPayment()" >Réessayer</button>
   </div>
 </div>

@@ -62,6 +62,10 @@ export class PaymentSuccessComponent {
   // }
 
   goToPaymentPage(): void {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/admin/finance/transactions']);
+  }
+
+  handleCancel() {
+
   }
 }
