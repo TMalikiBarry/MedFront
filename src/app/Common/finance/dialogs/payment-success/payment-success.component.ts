@@ -66,6 +66,6 @@ export class PaymentSuccessComponent {
   }
 
   handleCancel() {
-
+    this.router.navigate(['/admin/finance/transactions'])
   }
 }

@@ -14,10 +14,10 @@ export class PaymentFailedComponent {
   }
   retryPayment(): void {
     // Remplacez '/payment' par le chemin de votre page de paiement
-    this.router.navigate(['/admin/finance/transaction']);
+    this.router.navigate(['/admin/finance/transactions']);
   }
 
   handleCancel() {
-    this.router.navigate(['/admin/finance/transaction']);
+    this.router.navigate(['/admin/finance/transactions']);
   }
 }

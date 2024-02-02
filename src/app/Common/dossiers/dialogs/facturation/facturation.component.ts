@@ -128,9 +128,32 @@ export class FacturationComponent implements OnInit{
   }
 
   loadParametre() {
-    this.parametreService.getAllParametre().subscribe({
+    this.parametreService.getParametreByCode("AGENCY_CODE").subscribe({
       next : value => {
-        this.parametres = value.reponse
+        this.agency_code = value.reponse.stringValue
+      }
+    })
+
+    this.parametreService.getParametreByCode("DOMAINE_NAME").subscribe({
+      next : value => {
+        this.domain_name = value.reponse.stringValue
+      }
+    })
+
+    this.parametreService.getParametreByCode("SECURE_CODE").subscribe({
+      next : value => {
+        this.secure_code = value.reponse.stringValue
+      }
+    })
+    this.parametreService.getParametreByCode("URL_REDIRECTION_SUCCESS").subscribe({
+      next : value => {
+        this.url_redirection_success = value.reponse.stringValue
+      }
+    })
+
+    this.parametreService.getParametreByCode("URL_REDIRECTION_FAILED").subscribe({
+      next : value => {
+        this.url_redirection_failed = value.reponse.stringValue
       }
     })
   }
