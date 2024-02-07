@@ -1,14 +1,14 @@
 <div class="container">
   <div class="header">
-    <span> Echec de la transaction </span>
-  </div>
-  <div class="body">
-    <div class="detail">
-      <p>Votre opération n’a pas pu être effectuée, veuillez réessayer</p>
+    <div class="icon">
+      <img src="assets/icon/failed.svg" alt="success">
+    </div>
+    <div class="text">
+      <h3>Echec de la transaction</h3>
+      <p>Votre transaction n’a as pu être effectuée. Veuillez réessayer</p>
     </div>
   </div>
   <div class="button-choice">
-    <button nz-button class="my-default-button basic-button" (click)="handleCancel()">Retour</button>
-<!--    <button nz-button class="basic-button my-primary-button" (click)="retryPayment()" >Réessayer</button>-->
+    <button nz-button class="basic-button my-primary-button" (click)="handleCancel()" >Réessayer</button>
   </div>
 </div>

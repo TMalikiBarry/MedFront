@@ -1,33 +1,41 @@
 <div class="container">
   <div class="header">
-    <span> La transaction a été bien effectuée </span>
+    <div class="icon">
+      <img src="assets/icon/success.svg" alt="success">
+    </div>
+    <div class="text">
+      <h3>Paiement avec succés</h3>
+      <p>Votre transaction a été effectuée avec succès</p>
+    </div>
   </div>
+  <hr>
   <div class="body">
     <div class="detail">
       <div class="info-row">
-        <span class="label">Numéro de référence:</span>
+        <span class="label">Numéro de référence</span>
         <span class="value">{{ commandNumber }}</span>
       </div>
       <div class="info-row">
-        <span class="label">Date:</span>
+        <span class="label">Date</span>
         <span class="value">{{ formattedPaymentDate }}</span>
       </div>
       <div class="info-row">
-        <span class="label">Montant déposé:</span>
+        <span class="label">Montant déposé</span>
         <span class="value">{{ transactionAmount - fee }} FCFA</span>
       </div>
       <div class="info-row">
-        <span class="label">Frais :</span>
+        <span class="label">Frais </span>
         <span class="value">{{ fee }} FCFA</span>
       </div>
+      <hr>
       <div class="info-row">
-        <span class="label">Montant Total:</span>
+        <span class="label">Montant Total</span>
         <span class="value">{{ transactionAmount }}  FCFA</span>
       </div>
     </div>
   </div>
   <div class="button-choice">
-<!--    <button nz-button class="my-default-button basic-button" (click)="handleCancel()">Voir les transactions</button>-->
-    <button nz-button class="basic-button my-primary-button" (click)="goToPaymentPage()" >Voir les transactions</button>
+      <button nz-button class="my-default-button basic-button" (click)="handleCancel()">Voir les transactions</button>
+      <button nz-button class="basic-button my-primary-button" (click)="goToPaymentPage()" >Faire une autre transaction</button>
   </div>
 </div>
