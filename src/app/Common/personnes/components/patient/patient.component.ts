@@ -74,15 +74,16 @@ export class PatientComponent implements OnInit {
       nzData: data,
       nzClosable: false,
     }).afterClose.subscribe(
-      ()=>{
-        this.router.navigateByUrl('/admin/dossiers/prestation');
+      (result) => {
+        if (result === 'toPrestations')
+          this.router.navigateByUrl('/admin/dossiers/prestation');
       }
     );
   }
 
   getAgeDescription(personne: PersonneInterface): string | undefined {
     // Si le champ 'age' est présent
-    if (personne.age) {
+    if (personne.age && personne.age !== "NaN") {
       return `${personne.age} ans`;
     }
 

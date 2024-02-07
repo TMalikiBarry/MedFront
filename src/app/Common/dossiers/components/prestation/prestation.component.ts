@@ -73,11 +73,15 @@ export class PrestationComponent implements OnInit{
       next: response => {
         console.log("Liste des prestations ", response);
         this.paginatedData = response;
+
         // SET STATS
-        this.numberStats[0] = this.paginatedData.totalElements;
-        this.numberStats[2] = this.paginatedData.totalElements;
-        this.numberStats[1] = this.numberStats[0]- this.numberStats[2]
-        // this.prestationsList = this.paginatedData.content;
+        if (!firstName && !lastName && !serviceId && !startDate && !endDate) {
+          this.numberStats[0] = this.paginatedData.totalElements;
+          this.numberStats[2] = this.paginatedData.totalElements;
+          this.numberStats[1] = this.numberStats[0] - this.numberStats[2]
+          // this.prestationsList = this.paginatedData.content;
+        }
+
       }
     })
   }

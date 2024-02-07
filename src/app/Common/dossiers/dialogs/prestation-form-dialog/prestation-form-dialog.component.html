@@ -104,7 +104,12 @@
 
 <div *nzModalFooter>
   <button nz-button class="my-default-button basic-button" (click)="handleCancel()">Annuler</button>
-  <button nz-button [disabled]="prestationForm.invalid" class="basic-button my-primary-button" (click)="addPrestation()" [nzLoading]="isConfirmLoading">{{btnText}}</button>
+  <button (click)="addPrestation()"
+          [disabled]="prestationForm.invalid"
+          [ngClass]="{'buttonIsDisabled': prestationForm.invalid, 'basic-button' : true, 'my-primary-button': prestationForm.valid}" [nzLoading]="isConfirmLoading"
+          [nzTooltipTitle]="prestationForm.invalid ? 'Veuillez bien remplir le formulaire': 'Enregistrer'" nz-button nz-tooltip>
+    {{ btnText }}
+  </button>
 </div>
 
 <ng-template #addSuffixUserIcon>

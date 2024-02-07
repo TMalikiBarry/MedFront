@@ -95,8 +95,9 @@ export class PrestationFormDialogComponent implements OnInit{
       }
     });
   }
-  handleCancel() {
-    this.modal.close();
+
+  handleCancel(code?: string) {
+    this.modal.close(code);
   }
 
 
@@ -120,7 +121,7 @@ export class PrestationFormDialogComponent implements OnInit{
           if (this.dossierData)  {
             this.prestationForm.controls['dossier'].setValue(this.dossierData.id);
           }
-          this.handleCancel();
+          this.handleCancel('toPrestations');
 
         },
         error: (error) => console.error('Erreur lors de l\'enregistrement de la prestation', error),

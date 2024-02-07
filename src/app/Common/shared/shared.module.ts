@@ -22,6 +22,7 @@ import {NzMessageModule} from 'ng-zorro-antd/message';
 import {NzDividerModule} from "ng-zorro-antd/divider";
 import {NzPopoverModule} from "ng-zorro-antd/popover";
 import {DisplayNonNullStringPipe} from "../../pipes/display-string/display-non-null-string.pipe";
+import {NzToolTipModule} from "ng-zorro-antd/tooltip";
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import {DisplayNonNullStringPipe} from "../../pipes/display-string/display-non-n
     NzFormModule,
     NzCheckboxModule,
     NzInputModule,
+    NzToolTipModule,
     NzMessageModule,
     ReactiveFormsModule,
     NzButtonModule,

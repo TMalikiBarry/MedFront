@@ -6,6 +6,7 @@ import {PatientComponent} from './components/patient/patient.component';
 import {FicheMedicaleComponent} from "./components/fiche-medicale/fiche-medicale.component";
 import {DossiersMedicauxComponent} from "./components/dossiers-medicaux/dossiers-medicaux.component";
 import {NouveauPatientComponent} from './dialogs/nouveau-patient-form-dialog/nouveau-patient.component';
+import {OnePatientPageComponent} from './components/one-patient-page/one-patient-page.component';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import {NouveauPatientComponent} from './dialogs/nouveau-patient-form-dialog/nou
     FicheMedicaleComponent,
     DossiersMedicauxComponent,
     NouveauPatientComponent,
+    OnePatientPageComponent,
   ],
   imports: [
     SharedModule,

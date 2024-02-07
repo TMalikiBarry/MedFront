@@ -129,7 +129,12 @@
   </div>
   <div *nzModalFooter>
     <button nz-button class="my-default-button basic-button" (click)="handleCancel()">Annuler</button>
-    <button (click)="enregistrerPatient()" class="basic-button my-primary-button" nz-button>Enregistrer</button>
+    <button (click)="enregistrerPatient()"
+            [ngClass]="{'buttonIsDisabled': patientForm.invalid, 'basic-button' : true, 'my-primary-button': patientForm.valid}"
+            [nzTooltipTitle]="patientForm.invalid ? 'Veuillez bien remplir le formulaire': 'Enregistrer'" nz-button
+            nz-tooltip>
+      Enregistrer
+    </button>
   </div>
 
 
@@ -137,30 +142,6 @@
   </div>
 
   <ng-template #suffixIconSearch>
-    <img alt="Rechercher" src="../../../../../assets/from_figma/search_icon.svg">
+    <img alt="Rechercher" src="assets/from_figma/search_icon.svg">
   </ng-template>
 
-  <nz-dropdown-menu #menu="nzDropdownMenu">
-    <ul nz-menu>
-      <li class="selectedLink" nz-menu-item>
-        <span>Nouveau Patient</span>
-      </li>
-      <li class="selectedLink" nz-menu-item>
-        <span>Nouveau RDV</span>
-      </li>
-      <li (click)="null" class="selectedLink" nz-menu-item>
-        <span>Nouvelle prestation</span>
-      </li>
-    </ul>
-  </nz-dropdown-menu>
-
-  <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
-    <ul nz-menu>
-      <li class="selectedLink" nz-menu-item>
-        <span>Facturer la prestation</span>
-      </li>
-      <li class="selectedLink" nz-menu-item>
-        <span>Voir le contenu de la prestation</span>
-      </li>
-    </ul>
-  </nz-dropdown-menu>
