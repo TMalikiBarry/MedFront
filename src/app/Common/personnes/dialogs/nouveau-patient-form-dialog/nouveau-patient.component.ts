@@ -35,7 +35,7 @@ export class NouveauPatientComponent implements OnInit {
       dateNaissance: ['', Validators.required],
       groupeSanguin: ['', Validators.required],
       adresse: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       contactUrgence: ['', Validators.required],
       medecinTraitant: [''],
       ficheAccessible: [''],

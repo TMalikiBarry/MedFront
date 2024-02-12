@@ -23,6 +23,9 @@ import {NzDividerModule} from "ng-zorro-antd/divider";
 import {NzPopoverModule} from "ng-zorro-antd/popover";
 import {DisplayNonNullStringPipe} from "../../pipes/display-string/display-non-null-string.pipe";
 import {NzToolTipModule} from "ng-zorro-antd/tooltip";
+import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
+import {NzRadioModule} from "ng-zorro-antd/radio";
+import {PrettyPhoneNumberPipe} from "../../pipes/pretty-phone-number/pretty-phone-number.pipe";
 
 
 @NgModule({
@@ -32,6 +35,7 @@ import {NzToolTipModule} from "ng-zorro-antd/tooltip";
   exports: [
     CommonModule,
     DisplayNonNullStringPipe,
+    PrettyPhoneNumberPipe,
     NzLayoutModule,
     NzMenuModule,
     NzIconModule,
@@ -55,8 +59,13 @@ import {NzToolTipModule} from "ng-zorro-antd/tooltip";
     NzDividerModule,
     NzPaginationModule,
     NzPopoverModule,
+    NzPopconfirmModule,
+    NzRadioModule
   ],
-  imports: []
+  // Pour StandAlone Pipe
+  imports: [
+    PrettyPhoneNumberPipe
+  ]
 })
 export class SharedModule {
 }

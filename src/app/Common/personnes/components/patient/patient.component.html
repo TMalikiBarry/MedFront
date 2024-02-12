@@ -104,7 +104,8 @@
 
         <div class="filterButton">
           <a>
-            <button (click)="addNewPatient()" class="my-primary-button basic-button" nz-button nzSize="large">
+            <button class="my-primary-button basic-button" nz-button nzSize="large"
+                    routerLink="/admin/personnes/create-patient">
               <span nz-icon nzType="plus"></span>
               Nouveau Patient
             </button>
@@ -134,7 +135,7 @@
             <td>{{ patient.personne.prenom | titlecase }} {{ patient.personne.nom | uppercase }}</td>
             <td>
               <div [ngClass]="{'displayString' : !patient.personne.telephone}">
-                {{ patient.personne.telephone! | displayString }}
+                {{ (patient.personne.telephone! | prettyPhoneNumber) | displayString }}
               </div>
             </td>
             <td>
@@ -162,7 +163,7 @@
               </div>
             </td>
             <td>
-              <a [nzDropdownMenu]="nonPayeFacture" nzTrigger="click" nz-dropdown>
+              <a [nzDropdownMenu]="nonPayeFacture" nz-dropdown nzPlacement="bottomCenter" nzTrigger="click">
                 <img alt="Arrow Down" src="assets/from_figma/actionsOnRow.svg">
               </a>
             </td>

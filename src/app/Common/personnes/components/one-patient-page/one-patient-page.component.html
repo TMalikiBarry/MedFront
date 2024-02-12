@@ -1,1 +1,126 @@
-<p>one-patient-page works!</p>
+<div class="make-spaceBetween">
+  <p><span (click)="toPatientPage()" nz-tooltip nzTooltipPlacement="bottom"
+           nzTooltipTitle="Se rendre à la page patients"
+           routerLink="/admin/personnes/patients">
+    Patient /
+  </span>
+    <span>{{ contextPage }}</span></p>
+  <!--  <button (click)="enregistrer()"
+            [ngClass]="{'buttonIsDisabled': patientForm.invalid, 'basic-button' : true, 'my-primary-button': patientForm.valid}"
+            [nzTooltipTitle]="patientForm.invalid ? 'Veuillez bien remplir le formulaire': 'Enregistrer'" nz-button
+            nz-tooltip>
+      {{btnText}}
+    </button>-->
+  <button (click)="enregistrer()" class="basic-button my-primary-button" nz-button
+          nzSize="large">
+    {{ btnText }}
+  </button>
+</div>
+
+<div [formGroup]="patientForm" class="myPatientForm">
+  <div class="inner-card">
+    <p>Informations sur le patient</p>
+    <p>Genre</p>
+    <nz-radio-group formControlName="genre">
+      <label nz-radio nzValue="Homme">Homme</label>
+      <label nz-radio nzValue="Femme">Femme</label>
+      <!--      <label nz-radio nzValue="C">Option C</label>-->
+    </nz-radio-group>
+
+    <div class="make-spaceBetween">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le prénom!">
+          <p>Prénom</p>
+          <nz-input-group>
+            <input formControlName="prenom" nz-input placeholder="Renseignez le prénom" type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le nom!">
+          <p>Nom</p>
+          <nz-input-group>
+            <input formControlName="nom" nz-input placeholder="Renseignez le nom" type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div class="make-spaceBetween">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le numéro de téléphone!">
+          <p>Numéro de téléphone</p>
+          <nz-input-group>
+            <input formControlName="telephone" nz-input placeholder="Renseignez le numéro de téléphone" type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le mail!">
+          <p>Email</p>
+          <nz-input-group>
+            <input formControlName="email" nz-input placeholder="Renseignez le mail" type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div class="make-spaceBetween">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le contact d'urgence!">
+          <p>Contact d'urgence</p>
+          <nz-input-group>
+            <input formControlName="contactUrgence" nz-input placeholder="Renseignez le contact d'urgence" type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner l'adresse!">
+          <p>Adresse</p>
+          <nz-input-group>
+            <input formControlName="adresse" nz-input placeholder="Renseignez l'adresse" type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div class="make-spaceBetween">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le groupe sanguin!">
+          <p>Groupe sanguin</p>
+          <nz-select formControlName="groupeSanguin" nzPlaceHolder="Choissez le groupe sanguin" nzShowSearch>
+            <nz-option nzLabel="----"></nz-option>
+            <nz-option
+              *ngFor="let groupeSanguin of groupeSanguinOptions"
+              [nzLabel]="groupeSanguin" [nzValue]="groupeSanguin"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner la date de naissance!">
+          <!--<p>Date de naissance</p>
+          <nz-input-group >
+            <input type="text" nz-input formControlName="nom" placeholder="Renseignez le nom" />
+          </nz-input-group>-->
+          <p class="input-label">Date de naissance</p>
+          <nz-date-picker [nzDisabledDate]="disabledDate"
+                          formControlName="dateNaissance" nzFormat="dd-MM-YYYY HH:mm:ss"
+                          nzPlaceHolder="Choissez la date de naissance"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div class="inner-card">
+    <p>Allergies</p>
+    <textarea formControlName="allergies" placeholder="Mettez les allergies du patient" rows="3"></textarea>
+  </div>
+
+  <div class="inner-card">
+    <p>Maladies chroniques</p>
+    <textarea formControlName="maladiesChroniques" placeholder="Mettez les maladies chroniques du patient"
+              rows="3"></textarea>
+  </div>
+</div>

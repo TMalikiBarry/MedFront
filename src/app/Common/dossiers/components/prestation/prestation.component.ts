@@ -212,6 +212,7 @@ export class PrestationComponent implements OnInit{
       nzContent : FacturationComponent,
       nzClosable: false,
       nzData : prestation,
+      nzWidth: 650
     }).afterClose.subscribe(
       ()=>{
         this.getPrestationsByPage()

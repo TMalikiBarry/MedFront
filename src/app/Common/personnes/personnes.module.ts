@@ -19,7 +19,7 @@ import {OnePatientPageComponent} from './components/one-patient-page/one-patient
   ],
   imports: [
     SharedModule,
-    PersonnesRoutingModule
+    PersonnesRoutingModule,
   ]
 })
 export class PersonnesModule { }

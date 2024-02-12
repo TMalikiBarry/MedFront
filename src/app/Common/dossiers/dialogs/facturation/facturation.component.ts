@@ -1,11 +1,18 @@
 import {Component, OnInit} from '@angular/core';
-import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
+import {NzModalRef} from "ng-zorro-antd/modal";
 import {FormBuilder} from "@angular/forms";
 import {TransactionService} from "../../../../services/transaction/transaction.service";
 import {PrestationInterface} from "../../../../models/prestation.interface";
 import {ApiResponseInterface} from "../../../../models/api-response.interface";
 import {ParametreService} from "../../../../services/parametre/parametre.service";
 import {ParametreInterface} from "../../../../models/parametre.interface";
+import {ServiceInterface} from "../../../../models/service.interface";
+import {DossierMedicalInterface} from "../../../../models/dossier-medical.interface";
+import {PoleInterface} from "../../../../models/pole.interface";
+import {PersonneInterface} from "../../../../models/personne.interface";
+import {DossierMedicalService} from "../../../../services/dossier-medical/dossier-medical.service";
+import {CliniqueServiceService} from "../../../../services/service/clinique-service.service";
+import {NotifService} from "../../../../services/notification/notif.service";
 
 
 declare global {
@@ -46,6 +53,13 @@ export class FacturationComponent implements OnInit{
   agency_code  = 'CGFB23069'
   domain_name = 'gutouch.net';
   secure_code = 'SMBbr8S6zlUULluHeG6rVS5YBMhN8AV0M0H6JXYdVq4IkxTusH';
+  showFinalStep = false;
+  dossierData?: DossierMedicalInterface;
+
+  myServicesList!: ServiceInterface[];
+  listOfDossierMedical!: DossierMedicalInterface[];
+  listPrescription!: any;
+  listOfPole!: PoleInterface[];
 
   // TODO a revoir
   url_redirection_success = 'https://dev-touch-ssii.gutouch.net/touchmedportal/admin/finance/paymentsuccess';
@@ -81,20 +95,48 @@ export class FacturationComponent implements OnInit{
 
   FacForm = this.fb.group({
     prestation : '',
+    dossier: 0,
+    service: '',
+    amount: '',
+    referentielPartenaire: '',
+    couverture: '',
     moyenPayment : '',
+    transactionAmount: '',
     transactionType : 'ENCAISSEMENT'
   })
 
   constructor(private modal: NzModalRef,
               private parametreService : ParametreService,
               private transactionService : TransactionService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private dossierMApi: DossierMedicalService,
+              private serviceApi: CliniqueServiceService,
+              private notify: NotifService) {
   }
   ngOnInit(): void {
     this.data = this.modal.getConfig().nzData as PrestationInterface
     console.log("Data "+this.data)
     this.loadParametre();
-    this.loadTouchPayScript()
+    this.loadTouchPayScript();
+    this.loadPatients();
+    this.serviceApi.getAllService().subscribe({
+      next: result => {
+        this.myServicesList = result.reponse as ServiceInterface[];
+        /*this.listOfPole = this.myServicesList.map(s => {
+          // return this.listOfPole.some( p => p.id == s.pole?.id) ? s.pole : undefined
+          return s.pole!
+        });*/
+        this.listOfPole = this.myServicesList
+          .map(s => s.pole!) // Créez un tableau de tous les pôles
+          .filter((pole, index, self) =>
+            pole && self.findIndex(p => p.id === pole.id) === index
+          ); // Filtrez pour ne garder que les pôles uniques
+
+      },
+      error: () => {
+        this.modal.close();
+      }
+    })
   }
 
   handleCancel() {
@@ -230,5 +272,48 @@ export class FacturationComponent implements OnInit{
       //   }
       // );
     };
+  }
+
+  loadPatients(patientId?: number) {
+    this.dossierMApi.getAll().subscribe({
+      next: result => {
+        this.listOfDossierMedical = result.filter(dossier => !!dossier.patient?.personne);
+        const patient = this.modal.getConfig().nzData;
+        if (patient) {
+          this.dossierData = this.listOfDossierMedical.find(d => d.patient?.id === patient.id)!;
+        } else if (patientId) {
+          this.dossierData = this.listOfDossierMedical.find(d => d.patient?.id === patientId)!;
+        }
+        if (this.dossierData) {
+          this.FacForm.controls['dossier'].setValue(this.dossierData.id!);
+        }
+      }
+    });
+  }
+
+  getPatientFullName(dossier: DossierMedicalInterface | number, context ?: string): string {
+    // Vérifier si dossier est un objet (et donc potentiellement un DossierMedicalInterface)
+    let personne: PersonneInterface | undefined;
+
+    if (dossier !== null && typeof dossier !== 'number') {
+      // Supposons que si 'dossier' a une propriété 'patient', c'est un DossierMedicalInterface
+      if ('patient' in dossier && dossier.patient?.personne) {
+        personne = dossier.patient.personne;
+        if (context) {
+          console.log('DOSSIER CHOISI ', dossier);
+          console.log('PERSONNE CORRESPONDANT ', personne);
+        }
+      }
+    } else {  // Ici, vous pouvez gérer le cas où dossier est un number
+      personne = this.listOfDossierMedical.find(d => d.id === dossier)?.patient?.personne;
+    }
+
+    return `${personne!.prenom} ${personne!.nom}`;
+    // Gérer les cas non couverts ou retourner une valeur par défaut
+    // return 'Default Name'
+  }
+
+  getAllServicesByPole(pole: PoleInterface): ServiceInterface [] {
+    return this.myServicesList.filter(s => s.pole?.id === pole.id);
   }
 }
