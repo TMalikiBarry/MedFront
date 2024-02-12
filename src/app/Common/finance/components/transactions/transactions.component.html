@@ -1,1 +1,178 @@
-<p>transactions works!</p>
+<div class="mainbody">
+  <div class="headerLayout">
+    <nz-input-group [nzPrefix]="suffixIconSearch">
+      <input nz-input placeholder="Rechercher par patient, prestation" type="text"/>
+    </nz-input-group>
+    <div class="headerActions">
+      <img alt="notif" src="assets/from_figma/notification_icon.svg" width="17.5">
+      <img alt="email" src="assets/from_figma/email-icon.svg" width="17.5">
+      <img alt="calendar" src="assets/from_figma/calendar-icon.svg" width="17.5">
+      <div class="addActionHeader">
+        <img alt="Ajouter" src="assets/from_figma/addPlus-icon.svg">
+        <span>Ajouter</span>
+        <a [nzDropdownMenu]="menu" nz-dropdown>
+          <img alt="Arrow Down" src="assets/from_figma/arrow-down.svg">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="dash">
+    <div class="shart">
+      <p>Caisse du jour</p>
+      <div class="legende">
+        <nz-badge nzStatus="success"></nz-badge> Momo
+        <nz-badge nzStatus="processing"></nz-badge> espece
+        <nz-badge nzStatus="warning"></nz-badge> Prise en charge
+      </div>
+    </div>
+    <div class="statsLayout">
+      <div *ngFor="let stat of numberStats; let i = index"  class="myCardStats">
+        <div class="logoStats"><img alt="stats" src="assets/icon/paiementDefault.svg" width="35"></div>
+
+        <div class="numberStats"><p>{{ stat }}</p></div>
+        <div class="descStats"><p>{{ descSats[i] }}</p></div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="dataLayout">
+    <div class="headerData make-spaceBetween">
+      <p>Listes des paiements</p>
+      <div class="div-btn">
+        <button (click)="export()" class="btn-basic" nz-button nzSize="large">
+          <img src="assets/icon/export.svg" alt="export">
+          Exporter
+        </button>
+        <button (click)="addNewPaiment()" class="btn-priamry" nz-button nzType="primary" nzSize="large" nzShape="round">
+          <span nz-icon nzType="plus"></span>
+          Nouveau Paiement
+        </button>
+      </div>
+    </div>
+<!--    <div class="controllers">-->
+<!--      <div class="searchInput">-->
+<!--        <nz-select nzAllowClear nzShowSearch nzPlaceHolder="Choissez un patient" [(ngModel)]="patientPers">-->
+<!--          <nz-option nzLabel="&#45;&#45;&#45;&#45;"></nz-option>-->
+<!--          <nz-option-->
+<!--            *ngFor="let dossier of listOfDossierMedical"-->
+<!--            [nzLabel]="getPatientName(dossier) +' - '+ dossier.patient?.personne?.telephone"-->
+<!--            [nzValue]="dossier.patient?.personne">-->
+
+<!--          </nz-option>-->
+<!--          &lt;!&ndash;          <ng-template #customizeOption let-selected>-->
+<!--                      {{ selected?.prenom + ' ' + selected?.nom }}-->
+<!--                      <span class="phone-display">- {{ selected?.telephone }}</span>-->
+<!--                    </ng-template>&ndash;&gt;-->
+<!--        </nz-select>-->
+<!--        &lt;!&ndash;-->
+<!--                <nz-input-group [nzPrefix]="suffixIconSearch">-->
+<!--                  <input nz-input placeholder="Rechercher par patient " type="text"/>-->
+<!--                </nz-input-group>-->
+<!--        &ndash;&gt;-->
+<!--      </div>-->
+<!--      <div class="dateDesc"><p>Date</p></div>-->
+<!--      <div class="searchByDate">-->
+<!--        <nz-range-picker nzFormat="dd/MM/YYYY" [(ngModel)]="choosenDate"></nz-range-picker>-->
+<!--      </div>-->
+<!--      <div class="serviceDesc"><p>Service</p></div>-->
+<!--      <div class="searchByService">-->
+<!--        <nz-select [(ngModel)]="serviceId" nzPlaceHolder="Choissez un service"-->
+<!--                   nzShowSearch nzAllowClear>-->
+<!--          <nz-option nzLabel="&#45;&#45;&#45;&#45;"></nz-option>-->
+<!--          <nz-option-group *ngFor="let pole of listOfPole" [nzLabel]="pole.nom">-->
+<!--            <nz-option-->
+<!--              *ngFor="let service of getAllServicesByPole(pole)"-->
+<!--              [nzLabel]="service.nom!" [nzValue]="service.id"></nz-option>-->
+<!--          </nz-option-group>-->
+<!--        </nz-select>-->
+<!--      </div>-->
+<!--      <div class="filterButton">-->
+<!--        <button class="filter-form-button" nz-button (click)="filterData()">Filtrer</button>-->
+<!--      </div>-->
+<!--    </div>-->
+    <nz-table #paiementTable *ngIf="paginatedData"
+              [nzData]="paginatedData.content"
+              [nzPageSize]="paginatedData.pageable.pageSize"
+              [nzPageIndex]="paginatedData.pageable.pageNumber +1"
+              [nzTotal]="paginatedData.totalElements"
+              [nzFrontPagination]="false"
+              (nzQueryParams)="onQueryParamsChange($event)"
+    >
+      <thead>
+      <tr>
+        <!--          <th>ID</th>-->
+        <th>Reference</th>
+        <th>Date</th>
+        <th>Patient</th>
+        <th>Moyen</th>
+        <th>Montant</th>
+        <th>Prestation</th>
+        <!--          <th>{{ 'état' | titlecase }} de la facturation</th>-->
+        <th>Actions</th>
+        <!-- Ajoutez d'autres colonnes si nécessaire -->
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let paiement of paiementTable.data">
+        <td>{{ paiement.service?.nom }} <span
+          class="service-pole">{{ ' - (' + paiement.service?.pole?.nom + ')' }}</span>
+        </td>
+        <td>{{ formatDateString(paiement.dateCreation!) }}</td>
+        <td>
+          <span
+            class="my-patient-id"> {{ paiement.dossierMedical?.patient?.id }}
+          </span>{{ ' - ' + getPatientName(paiement.dossierMedical!) }}
+        </td>
+        <td>
+          <div [ngClass]="{'displayString' : !paiement.diagnostic}">
+            {{ paiement.diagnostic! | displayString }}
+          </div>
+        </td>
+        <td>
+          {{ paiement.montant | currency: 'XOF': 'symbol': '1.':'fr-FR' }}
+        </td>
+        <td>
+          <div [ngClass]="{'displayString' : !paiement.personnel?.personne}">
+            {{ getPersonnelName(paiement.personnel)! | displayString }}
+          </div>
+        </td>
+        <td>
+          <a [nzDropdownMenu]="nonPayeFacture" nzTrigger="click" nz-dropdown>
+            <img alt="Arrow Down" src="assets/from_figma/actionsOnRow.svg">
+          </a>
+        </td>
+        <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
+          <ul nz-menu>
+<!--            <li (click)="facturer(paiement)" class="selectedLink" nz-menu-item>-->
+<!--              <span>Facturer</span>-->
+<!--            </li>-->
+<!--            <li class="selectedLink" nz-menu-item>-->
+<!--              <span>Détails</span>-->
+<!--            </li>-->
+          </ul>
+        </nz-dropdown-menu>
+      </tr>
+      </tbody>
+
+    </nz-table>
+  </div>
+</div>
+
+<ng-template #suffixIconSearch>
+  <img alt="Rechercher" src="assets/from_figma/search_icon.svg">
+</ng-template>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <li class="selectedLink" nz-menu-item>
+      <span>Nouveau Patient</span>
+    </li>
+    <li class="selectedLink" nz-menu-item>
+      <span>Nouveau RDV</span>
+    </li>
+    <li (click)="addNewPrestation()" class="selectedLink" nz-menu-item>
+      <span>Nouvelle prestation</span>
+    </li>
+  </ul>
+</nz-dropdown-menu>

@@ -1,1 +1,145 @@
-<p>new-payment-form-dialog works!</p>
+<div *nzModalTitle class="make-spaceBetween">
+  <p>{{titleForm}}</p>
+  <img src="assets/from_figma/close_modal.svg" alt="Fermer le form" (click)="handleCancel()">
+</div>
+
+<div>
+  <form nz-form [formGroup]="prestationForm" class="login-form" >
+    <input (change)="getEvent($event)"
+           accept=".pdf, image/*, .doc, .docx, .xls, .xlsx"
+           hidden
+           id='file_uploader'
+           type='file'/>
+    <p class="connect-phrase">{{formDesc}}</p>
+    <div class="make-spaceBetween">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez Choisir un patient">
+          <p class="input-label">Nom du Patient</p>
+          <nz-select nzAllowClear nzShowSearch [nzDropdownRender]="addNewPatientTemplate" nzPlaceHolder="Choissez un patient"
+                     formControlName="dossier">
+            <nz-option nzLabel="----"></nz-option>
+            <nz-option
+              *ngFor="let dossier of listOfDossierMedical"
+              [nzLabel]="getPatientFullName(dossier)" [nzValue]="dossier.id"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez choisir une methode de facturation!">
+          <p class="input-label">Methode de facturation</p>
+          <nz-select nzAllowClear nzShowSearch nzPlaceHolder="Choissez la methode de facturation" formControlName="methode">
+            <nz-option nzLabel="----"></nz-option>
+              <nz-option
+                *ngFor="let moyen of listMoyenPayment"
+                [nzLabel]="moyen.libelle!" [nzValue]="moyen.code">
+              </nz-option>
+
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div class="make-spaceBetween">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez choisir une prescription!">
+          <p class="input-label">Prestation</p>
+<!--          <nz-input-group >-->
+<!--            <input type="text" nz-input formControlName="prestation" placeholder="Renseignez les conditions à respecter " />-->
+<!--          </nz-input-group>-->
+          <nz-select nzShowSearch nzPlaceHolder="Choissez la prestation"
+                     formControlName="prestation" (selectionchange)="displayEvent($event)">
+            <nz-option nzLabel="&#45;&#45;&#45;&#45;"></nz-option>
+<!--            <nz-option-->
+<!--              *ngFor="let prestation of listOfPrestation"-->
+<!--              [nzLabel]="prestation." [nzValue]="prestation">-->
+<!--              -->
+<!--            </nz-option>-->
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le diagnostic!">
+          <p class="input-label">Montant</p>
+          <nz-input-group nzSuffix=" FCFA">
+            <input type="text" nz-input formControlName="montant" placeholder="Renseignez le montant" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div class="make-spaceBetween">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez choisir un moyen de paiement!">
+          <p class="input-label">Moyen Paiement</p>
+          <nz-select nzAllowClear nzShowSearch nzPlaceHolder="Choissez le moyen de paiement" formControlName="moyen de paiement">
+            <nz-option nzLabel="----"></nz-option>
+            <nz-option
+              *ngFor="let moyen of listMoyenPayment"
+              [nzLabel]="moyen.libelle!" [nzValue]="moyen.code">
+            </nz-option>
+
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseignez la conclusion!">
+          <p class="input-label">Couverture maladie</p>
+          <nz-input-group nzSuffix=" %" >
+            <input type="text" nz-input formControlName="couverture" placeholder="Couverture maladie" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div class="make-spaceBetween">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez choisir un assurance!">
+          <p class="input-label">Assurance</p>
+          <nz-select nzAllowClear nzShowSearch nzPlaceHolder="Choissez l'assurances'" formControlName="assurance">
+            <nz-option nzLabel="----"></nz-option>
+            <nz-option
+              *ngFor="let moyen of listMoyenPayment"
+              [nzLabel]="moyen.libelle!" [nzValue]="moyen.code">
+            </nz-option>
+
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseignez la conclusion!">
+          <p class="input-label">Montant Total a payer</p>
+          <nz-input-group nzSuffix=" FCFA">
+            <input type="text" nz-input formControlName="montantTotal" placeholder="Montant Total a payer" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </form>
+</div>
+
+<div *nzModalFooter>
+  <button nz-button class="my-default-button basic-button" (click)="handleCancel()">Annuler</button>
+  <button (click)="addPrestation()"
+          [disabled]="prestationForm.invalid"
+          [ngClass]="{'buttonIsDisabled': prestationForm.invalid, 'basic-button' : true, 'my-primary-button': prestationForm.valid}" [nzLoading]="isConfirmLoading"
+          [nzTooltipTitle]="prestationForm.invalid ? 'Veuillez bien remplir le formulaire': 'Enregistrer'" nz-button nz-tooltip>
+    {{ btnText }}
+  </button>
+</div>
+
+<ng-template #addSuffixUserIcon>
+  <div class="mySuffixTemp">
+    <img src="assets/from_figma/import_logo.svg" alt="Importer" class="svg-icon">
+    <span>Importer</span>
+  </div>
+
+</ng-template>
+
+<ng-template #addNewPatientTemplate>
+  <nz-divider></nz-divider>
+  <div class="container">
+    <a class="add-item" (click)="addNewPatient()">
+      <i nz-icon nzType="plus"></i>
+      Ajouter nouveau patient
+    </a>
+  </div>
+</ng-template>
