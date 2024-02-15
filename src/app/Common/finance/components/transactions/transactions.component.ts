@@ -16,6 +16,7 @@ import {
 import {NewPaymentFormDialogComponent} from "../../dialogs/new-payment-form-dialog/new-payment-form-dialog.component";
 import {FacturationComponent} from "../../../dossiers/dialogs/facturation/facturation.component";
 import {PersonnelInterface} from "../../../../models/personnel.interface";
+import {TransactionService} from "../../../../services/transaction/transaction.service";
 
 @Component({
   selector: 'app-transactions',
@@ -39,6 +40,7 @@ export class TransactionsComponent {
 
   constructor(private modalService: NzModalService,
               private api: PrestationService,
+              private apiTransaction : TransactionService,
               private serviceApi: CliniqueServiceService,
               private dossierMApi: DossierMedicalService) {
   }
@@ -56,6 +58,7 @@ export class TransactionsComponent {
       },
     });
     this.loadPatients();
+    this.getAllTransaction();
     this.getPrestationsByPage();
   }
 
@@ -74,9 +77,14 @@ export class TransactionsComponent {
 
         // SET STATS
         if (!firstName && !lastName && !serviceId && !startDate && !endDate) {
+          // Total Paiement
           this.numberStats[0] = this.paginatedData.totalElements;
-          this.numberStats[2] = this.paginatedData.totalElements;
-          this.numberStats[1] = this.numberStats[0] - this.numberStats[2]
+          // Paiement espece
+          this.numberStats[1] = this.paginatedData.totalElements;
+          // Prise en charge
+          this.numberStats[2] = this.numberStats[0] - this.numberStats[2]
+          // payement partiel
+          this.numberStats[3] = this.numberStats[2]
           // this.prestationsList = this.paginatedData.content;
         }
 
@@ -229,5 +237,13 @@ export class TransactionsComponent {
 
   export() {
 
+  }
+
+  private getAllTransaction() {
+    this.apiTransaction.getAllTransaction().subscribe({
+      next : value => {
+        console.log(value)
+      }
+    })
   }
 }
