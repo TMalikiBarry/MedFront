@@ -9,6 +9,7 @@ import {
 import {NouveauPatientComponent} from "../../dialogs/nouveau-patient-form-dialog/nouveau-patient.component";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PersonneInterface} from "src/app/models/personne.interface";
+import * as Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-patient',
@@ -18,6 +19,8 @@ import {PersonneInterface} from "src/app/models/personne.interface";
 export class PatientComponent implements OnInit {
   patients!: PatientInterface[];
   choosenDate!: Date[];
+  chartPatient!: any;
+  chartGenrePatient!: any;
   serviceId!: number;
   // listOfService!: ServiceInterface[];
   // listOfDossierMedical!: DossierMedicalInterface[];
@@ -35,6 +38,7 @@ export class PatientComponent implements OnInit {
 
   ngOnInit() {
     this.loadPatients();
+    this.createCanvasFigures();
   }
 
   loadPatients() {
@@ -51,9 +55,75 @@ export class PatientComponent implements OnInit {
     );
   }
 
-  showTable(myTable: any) {
-    console.log('TABLE PATIENTS ', myTable)
+  createCanvasFigures() {
+    // const canvasPatientsStats = document.getElementById('patientsStats')
 
+    this.chartPatient = new Chart.Chart("patientsStats", {
+      type: 'bar', //this denotes tha type of chart
+
+      data: {// values on X-Axis
+        labels: ['Dim', 'Lun', 'Mar','Mer',
+          'Jeu', 'Ven', 'Sam'],
+        datasets: [
+          {
+            label: "Inscrits",
+            data: ['467','576', '572', '79', '92',
+              '574', '573'],
+            backgroundColor: '#266141'
+          },
+          {
+            label: "Venus",
+            data: ['542', '542', '536', '327', '17',
+              '0.00', '538'],
+            backgroundColor: '#84BE38'
+          }
+        ]
+      },
+      options: {
+        aspectRatio:1.8
+      }
+
+    });
+
+    this.chartGenrePatient = new Chart.Chart( "genrePatient", {
+        type: 'doughnut',
+        data: {
+          labels: [
+            'Hommes',
+            'Femmes',
+            'Garçons',
+            'Filles'
+          ],
+          datasets: [{
+            // label: 'My First Dataset',
+            data: [100, 150, 190, 180],
+            backgroundColor: [
+              '#266141',
+              '#84BE38',
+              '#FDCD51',
+              '#ffebbe'
+            ],
+            hoverOffset: 35
+          }]
+        }
+      }
+
+    )
+
+  }
+
+  getDayInfo(dateString: string): { id: number, label: string } {
+    // Créer un objet Date à partir de la chaîne de date
+    const date = new Date(dateString);
+
+    // Jours de la semaine
+    const daysOfWeek = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+
+    // Index du jour de la semaine (0 pour Dimanche, 1 pour Lundi, ..., 6 pour Samedi)
+    const dayIndex = date.getDay();
+
+    // Renvoyer un objet avec l'index et le nom du jour
+    return { id: dayIndex, label: daysOfWeek[dayIndex] };
   }
 
   addNewPatient() {

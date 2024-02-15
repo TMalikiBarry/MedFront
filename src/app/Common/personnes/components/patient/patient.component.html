@@ -19,26 +19,26 @@
     <div class="chart-overview">
         <div class="card">
            <div class="card-title">
-                   <h3 class="title">Gestion des patients</h3>
+                   <h3 class="title">Flux hebdomadaire des patients</h3>
                    <div class="legends">
                            <div class="legend">
                                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="11" viewBox="0 0 10 11" fill="none">
                                            <circle cx="5" cy="5.5" r="5" fill="#84BE38"/>
                                    </svg>
-                                   <span>Consultations</span>
+                                   <span>Patients inscrits</span>
                            </div>
                            <div class="legend">
                                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="11" viewBox="0 0 10 11" fill="none">
                                            <circle cx="5" cy="5.5" r="5" fill="#266141"/>
                                    </svg>
-                                   <span>Hospitalisations</span>
+                                   <span>Patients venus</span>
                            </div>
-                           <div class="legend">
+<!--                           <div class="legend">
                                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="11" viewBox="0 0 10 11" fill="none">
                                            <circle cx="5" cy="5.5" r="5" fill="#FDCD51"/>
                                    </svg>
                                    <span>Sortie</span>
-                           </div>
+                           </div>-->
                            <div class="dropdowns">
                                    <nz-dropdown-menu class="dropdown">
                                            <span>Service 1</span>
@@ -56,39 +56,18 @@
            <div class="chart">
                    <!-- Creer un diagramme en bar  -->
                    <div>
-                            <canvas id="myChart" width="400" height="400"></canvas>
+                            <canvas id="patientsStats">{{chartPatient}}</canvas>
 
                    </div>
            </div>
         </div>
         <div class="card-right">
            <div class="card-title">
-                   <h3 class="title">Données relatives aux visites</h3>
-                   <div class="chart">
-                       <span>Data loading...</span>
-               </div>
-                   <div class="legends">
-                           <div class="legend">
-                                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="11" viewBox="0 0 10 11" fill="none">
-                                           <circle cx="5" cy="5.5" r="5" fill="#84BE38"/>
-                                   </svg>
-                                   <span>Femmes</span>
-                           </div>
-                           <div class="legend">
-                                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="11" viewBox="0 0 10 11" fill="none">
-                                           <circle cx="5" cy="5.5" r="5" fill="#266141"/>
-                                   </svg>
-                                   <span>Hommes</span>
-                           </div>
-                           <div class="legend">
-                                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="11" viewBox="0 0 10 11" fill="none">
-                                           <circle cx="5" cy="5.5" r="5" fill="#FDCD51"/>
-                                   </svg>
-                                   <span>Enfants</span>
-                           </div>
+             <h3 class="title">Données relatives aux visites</h3>
 
-
-                   </div>
+             <div class="chart">
+                 <canvas id="genrePatient" style="max-width: 400px; max-height: 400px">{{chartGenrePatient}}</canvas>
+             </div>
            </div>
 
         </div>
