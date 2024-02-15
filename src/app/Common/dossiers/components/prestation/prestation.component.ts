@@ -34,7 +34,7 @@ export class PrestationComponent implements OnInit{
   paginatedData!: Page<PrestationInterface>;
   patientPers!: PersonneInterface;
   pageIndex: number = 0;
-  pageSize: number = 5;
+  pageSize: number = 10;
 
   // prestationsList: PrestationInterface[] = [];
   listOfPole!: PoleInterface[];
@@ -62,7 +62,7 @@ export class PrestationComponent implements OnInit{
   }
 
   getPrestationsByPage(page: number = 0,
-                       size: number = 5,
+                       size: number = 10,
                        firstName?: string,
                        lastName?: string,
                        serviceId?: number,
@@ -140,7 +140,7 @@ export class PrestationComponent implements OnInit{
   addNewPrestation() {
     this.modalService.create({
       nzContent: PrestationFormDialogComponent,
-      nzWidth: 900,
+      nzWidth: 650,
       nzClosable: false,
     }).afterClose.subscribe(
       ()=>{

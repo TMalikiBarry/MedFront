@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {NzModalService} from "ng-zorro-antd/modal";
 import {RendezVousFormDialogComponent} from "../../dialogs/rendez-vous-form-dialog/rendez-vous-form-dialog.component";
-import {Service} from "../../../../models/Utils/constants";
 import {PrestationInterface} from "../../../../models/prestation.interface";
 import {PrestationFormDialogComponent} from "../../dialogs/prestation-form-dialog/prestation-form-dialog.component";
 import {PatientInterface} from "../../../../models/patient.interface";
@@ -12,7 +11,6 @@ import {NzTableQueryParams} from "ng-zorro-antd/table";
 import {Page} from "../../../../models/pagination.interface";
 import {RendezVousInterface} from "../../../../models/rendez-vous.interface";
 import {NotifService} from "../../../../services/notification/notif.service";
-import {DetailRendezVousComponent} from "../../dialogs/detail-rendez-vous/detail-rendez-vous.component";
 import {ServiceInterface} from "../../../../models/service.interface";
 import {PoleInterface} from "../../../../models/pole.interface";
 
@@ -901,7 +899,7 @@ export class RendezVousComponent {
     })
   }
 
-  getRdvByPage(page: number = 0, size: number = 5) {
+  getRdvByPage(page: number = 0, size: number = 10) {
     this.api.getAllRdvPagination(page, size).subscribe({
       next: response => {
         console.log("Liste des rdv page ", response);

@@ -6,7 +6,7 @@ const medecin1: PersonnelInterface = {
   id: 2,
   personne: {
     supprime: false,
-    dateCreation: null,
+    dateCreation: "2023-12-15T20:18:07.557194",
     dateModification: "2023-12-24T20:48:27.557194",
     id: 4,
     nom: "Mbaye",
@@ -18,11 +18,8 @@ const medecin1: PersonnelInterface = {
     email: "seynabou.ndiaye@intoucgroup.net",
     datenaissance: "1999-12-13",
     numeroCNI: "2758199402028",
-    numeroPassport: null,
     age: "30",
-    otp: null,
-    dategenerationOTP: null,
-    dateValidationOTP: null,
+
     acces: {
     id: 4,
       login: "admin1",

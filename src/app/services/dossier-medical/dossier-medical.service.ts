@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from "../../../environments/environment.prod";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {PatientInterface} from "../../models/patient.interface";
@@ -19,7 +19,7 @@ export class DossierMedicalService {
     return this.http.post<ApiResponseInterface>(this.url, patient);
   }
 
-  getPaginatedData(page: number = 0, size: number = 5): Observable<any> {
+  getPaginatedData(page: number = 0, size: number = 10): Observable<any> {
     // Création des paramètres de la requête
     let params = new HttpParams();
     params = params.append('page', page.toString());

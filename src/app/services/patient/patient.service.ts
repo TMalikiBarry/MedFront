@@ -23,7 +23,7 @@ export class PatientService {
     return this.http.post<ApiResponseInterface>(this.urlDossier, dossier);
   }
 
-  getPaginatedData(page: number = 0, size: number = 5): Observable<any> {
+  getPaginatedData(page: number = 0, size: number = 10): Observable<any> {
     // Création des paramètres de la requête
     let params = new HttpParams();
     params = params.append('page', page.toString());

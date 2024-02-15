@@ -24,7 +24,7 @@ export class PatientComponent implements OnInit {
   // paginatedData!: Page<PatientInterface>;
   // patientPers!: PersonneInterface;
   // pageIndex: number = 0;
-  // pageSize: number = 5;
+  // pageSize: number = 10;
   constructor(private patientService: PatientService,
               private modalService: NzModalService,
               private router: Router,

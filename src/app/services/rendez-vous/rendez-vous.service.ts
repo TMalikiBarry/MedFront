@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from "../../../environments/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {ApiResponseInterface} from "../../models/api-response.interface";
@@ -18,7 +18,7 @@ export class RendezVousService {
     return this.http.get<any>(this.API_URL+this.ENDPOINT_RDV+"/all")
   }
 
-  getAllRdvPagination(page: number = 0, size: number = 5,lastname ?: string ,firstName ?: string, telephone ?: string ,serviceId ?: number ,endDate ?: string){
+  getAllRdvPagination(page: number = 0, size: number = 10, lastname ?: string, firstName ?: string, telephone ?: string, serviceId ?: number, endDate ?: string) {
     let params = new HttpParams();
     params = params.append('page', page.toString());
     params = params.append('size', size.toString());

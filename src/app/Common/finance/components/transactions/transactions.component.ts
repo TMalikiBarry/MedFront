@@ -32,7 +32,7 @@ export class TransactionsComponent {
   paginatedData!: Page<PrestationInterface>;
   patientPers!: PersonneInterface;
   pageIndex: number = 0;
-  pageSize: number = 5;
+  pageSize: number = 10;
 
   // prestationsList: PrestationInterface[] = [];
   listOfPole!: PoleInterface[];
@@ -60,7 +60,7 @@ export class TransactionsComponent {
   }
 
   getPrestationsByPage(page: number = 0,
-                       size: number = 5,
+                       size: number = 10,
                        firstName?: string,
                        lastName?: string,
                        serviceId?: number,
