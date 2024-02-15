@@ -14,9 +14,17 @@ export class TransactionService {
 
   constructor(private http : HttpClient) { }
 
-  saveTransaction(data: any, moyen: string) {
+  saveTransaction(data: any, moyen?: string) {
     let params = new HttpParams();
-    params = params.append('moyen', moyen.toString());
+    if(moyen)
+      params = params.append('moyen', moyen.toString());
     return this.http.post<ApiResponseInterface>(this.API_URL+"/transactions", data , {params : params})
+  }
+  getAllTransaction(){
+    return this.http.get<ApiResponseInterface>(this.API_URL+"/transactions/all")
+  }
+
+  getAllCountTransaction(){
+    return this.http.get(this.API_URL+"/transactions/countAll")
   }
 }
