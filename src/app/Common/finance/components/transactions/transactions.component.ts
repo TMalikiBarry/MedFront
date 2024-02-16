@@ -63,7 +63,7 @@ export class TransactionsComponent {
     this.getCountTransMoyen()
     this.loadPatients();
     this.getAllTransaction();
-    this.getPrestationsByPage();
+    this.getTransactionByPage();
     this.createCanvasFigures();
   }
 
