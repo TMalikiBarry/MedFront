@@ -16,7 +16,7 @@ import {DossierMedicalService} from "src/app/services/dossier-medical/dossier-me
 import {PersonneInterface} from "src/app/models/personne.interface";
 import {PoleInterface} from "src/app/models/pole.interface";
 import {FacturationComponent} from "../../dialogs/facturation/facturation.component";
-import {PersonnelInterface} from "../../../../models/personnel.interface";
+import {PersonnelInterface} from "src/app/models/personnel.interface";
 
 @Component({
   selector: 'app-prestation',

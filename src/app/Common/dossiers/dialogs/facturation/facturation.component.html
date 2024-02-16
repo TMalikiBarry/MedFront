@@ -90,8 +90,10 @@
   </div>
 
   <div *nzModalFooter class="footer-btn">
-    <button nz-button class="annuler" (click)="handleCancel()">Annuler</button>
-    <button nz-button (click)="handleOk()" [nzLoading]="isConfirmLoading">{{btnText}}</button>
+    <button (click)="handleCancel()" class="basic-button" nz-button>Annuler</button>
+    <button (click)="handleOk()" [nzLoading]="isConfirmLoading" class="basic-button my-primary-button"
+            nz-button>{{ btnText }}
+    </button>
   </div>
 </div>
 

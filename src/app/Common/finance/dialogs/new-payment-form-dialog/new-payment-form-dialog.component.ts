@@ -1,21 +1,20 @@
-import { Component } from '@angular/core';
-import {listService, my_prescription, Service} from "../../../../models/Utils/constants";
+import {Component} from '@angular/core';
+import {listService, my_prescription, Service} from "src/app/models/Utils/constants";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
-import {UtilsService} from "../../../../services/utils/utils.service";
-import {PrestationService} from "../../../../services/prestation/prestation.service";
-import {ServiceInterface} from "../../../../models/service.interface";
-import {PoleInterface} from "../../../../models/pole.interface";
-import {DossierMedicalService} from "../../../../services/dossier-medical/dossier-medical.service";
-import {CliniqueServiceService} from "../../../../services/service/clinique-service.service";
-import {NotifService} from "../../../../services/notification/notif.service";
-import {PrestationInterface} from "../../../../models/prestation.interface";
-import {PersonneInterface} from "../../../../models/personne.interface";
+import {UtilsService} from "src/app/services/utils/utils.service";
+import {PrestationService} from "src/app/services/prestation/prestation.service";
+import {ServiceInterface} from "src/app/models/service.interface";
+import {PoleInterface} from "src/app/models/pole.interface";
+import {DossierMedicalService} from "src/app/services/dossier-medical/dossier-medical.service";
+import {CliniqueServiceService} from "src/app/services/service/clinique-service.service";
+import {NotifService} from "src/app/services/notification/notif.service";
+import {PrestationInterface} from "src/app/models/prestation.interface";
+import {PersonneInterface} from "src/app/models/personne.interface";
 import {
   NouveauPatientComponent
 } from "../../../personnes/dialogs/nouveau-patient-form-dialog/nouveau-patient.component";
-import {DossierMedicalInterface} from "../../../../models/dossier-medical.interface";
-import {listPrestations} from "../../../../models/Utils/prestations";
+import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface";
 
 @Component({
   selector: 'app-new-payment-form-dialog',

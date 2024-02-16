@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {AuthInterface} from "../../../models/auth.interface";
+import {AuthInterface} from "src/app/models/auth.interface";
 
 @Component({
   selector: 'app-common-navbar',

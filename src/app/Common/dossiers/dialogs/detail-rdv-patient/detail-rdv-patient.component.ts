@@ -1,12 +1,9 @@
-import { Component } from '@angular/core';
-import {PersonnelInterface} from "../../../../models/personnel.interface";
+import {Component} from '@angular/core';
+import {PersonnelInterface} from "src/app/models/personnel.interface";
 import {NzModalRef} from "ng-zorro-antd/modal";
 import {FormBuilder} from "@angular/forms";
-import {PatientService} from "../../../../services/patient/patient.service";
-import {PersonneInterface} from "../../../../models/personne.interface";
-import {RendezVousInterface} from "../../../../models/rendez-vous.interface";
-import {DossierMedicalInterface} from "../../../../models/dossier-medical.interface";
-import {AccesInterface} from "../../../../models/acces.interface";
+import {PatientService} from "src/app/services/patient/patient.service";
+import {PersonneInterface} from "src/app/models/personne.interface";
 
 @Component({
   selector: 'app-detail-rdv-patient',

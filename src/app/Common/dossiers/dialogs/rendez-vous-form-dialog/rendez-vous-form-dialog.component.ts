@@ -1,20 +1,20 @@
 import {Component} from '@angular/core';
-import {listService, Service} from "../../../../models/Utils/constants";
+import {listService, Service} from "src/app/models/Utils/constants";
 import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
 import {FormBuilder} from "@angular/forms";
-import {Poles} from "../../../../models/Utils/poles";
-import {PersonnelInterface} from "../../../../models/personnel.interface";
-import {PatientInterface} from "../../../../models/patient.interface";
-import {RendezVousInterface} from "../../../../models/rendez-vous.interface";
-import {RendezVousService} from "../../../../services/rendez-vous/rendez-vous.service";
-import {PoleService} from "../../../../services/pole/pole.service";
-import {CliniqueServiceService} from "../../../../services/service/clinique-service.service";
-import {PersonnelService} from "../../../../services/personnel/personnel.service";
-import {PatientService} from "../../../../services/patient/patient.service";
+import {Poles} from "src/app/models/Utils/poles";
+import {PersonnelInterface} from "src/app/models/personnel.interface";
+import {PatientInterface} from "src/app/models/patient.interface";
+import {RendezVousInterface} from "src/app/models/rendez-vous.interface";
+import {RendezVousService} from "src/app/services/rendez-vous/rendez-vous.service";
+import {PoleService} from "src/app/services/pole/pole.service";
+import {CliniqueServiceService} from "src/app/services/service/clinique-service.service";
+import {PersonnelService} from "src/app/services/personnel/personnel.service";
+import {PatientService} from "src/app/services/patient/patient.service";
 import {
   NouveauPatientComponent
 } from "../../../personnes/dialogs/nouveau-patient-form-dialog/nouveau-patient.component";
-import {NotifService} from "../../../../services/notification/notif.service";
+import {NotifService} from "src/app/services/notification/notif.service";
 
 @Component({
   selector: 'app-rendez-vous-form-dialog',

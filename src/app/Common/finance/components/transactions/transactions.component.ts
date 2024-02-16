@@ -1,24 +1,24 @@
 import {Component} from '@angular/core';
-import {ServiceInterface} from "../../../../models/service.interface";
-import {DossierMedicalInterface} from "../../../../models/dossier-medical.interface";
-import {Page} from "../../../../models/pagination.interface";
-import {PrestationInterface} from "../../../../models/prestation.interface";
-import {PersonneInterface} from "../../../../models/personne.interface";
-import {PoleInterface} from "../../../../models/pole.interface";
+import {ServiceInterface} from "src/app/models/service.interface";
+import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface";
+import {Page} from "src/app/models/pagination.interface";
+import {PrestationInterface} from "src/app/models/prestation.interface";
+import {PersonneInterface} from "src/app/models/personne.interface";
+import {PoleInterface} from "src/app/models/pole.interface";
 import {NzModalService} from "ng-zorro-antd/modal";
-import {PrestationService} from "../../../../services/prestation/prestation.service";
-import {CliniqueServiceService} from "../../../../services/service/clinique-service.service";
-import {DossierMedicalService} from "../../../../services/dossier-medical/dossier-medical.service";
+import {PrestationService} from "src/app/services/prestation/prestation.service";
+import {CliniqueServiceService} from "src/app/services/service/clinique-service.service";
+import {DossierMedicalService} from "src/app/services/dossier-medical/dossier-medical.service";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
 import {
   PrestationFormDialogComponent
 } from "../../../dossiers/dialogs/prestation-form-dialog/prestation-form-dialog.component";
 import {NewPaymentFormDialogComponent} from "../../dialogs/new-payment-form-dialog/new-payment-form-dialog.component";
 import {FacturationComponent} from "../../../dossiers/dialogs/facturation/facturation.component";
-import {PersonnelInterface} from "../../../../models/personnel.interface";
-import {TransactionService} from "../../../../services/transaction/transaction.service";
+import {PersonnelInterface} from "src/app/models/personnel.interface";
+import {TransactionService} from "src/app/services/transaction/transaction.service";
 import * as Chart from "chart.js/auto";
-import {TransactionInterface} from "../../../../models/transaction.interface";
+import {TransactionInterface} from "src/app/models/transaction.interface";
 
 @Component({
   selector: 'app-transactions',

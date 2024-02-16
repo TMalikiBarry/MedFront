@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {NzModalRef} from 'ng-zorro-antd/modal';
-import {PatientInterface} from '../../../../models/patient.interface';
-import {PersonneService} from '../../../../services/Personne/personne.service';
-import {PatientService} from '../../../../services/patient/patient.service';
+import {PatientInterface} from 'src/app/models/patient.interface';
+import {PersonneService} from 'src/app/services/Personne/personne.service';
+import {PatientService} from 'src/app/services/patient/patient.service';
 
 @Component({
   selector: 'app-dossiers-medicaux',

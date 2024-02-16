@@ -1,18 +1,18 @@
 import {Component, OnInit} from '@angular/core';
 import {NzModalRef} from "ng-zorro-antd/modal";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {TransactionService} from "../../../../services/transaction/transaction.service";
-import {PrestationInterface} from "../../../../models/prestation.interface";
-import {ApiResponseInterface} from "../../../../models/api-response.interface";
-import {ParametreService} from "../../../../services/parametre/parametre.service";
-import {ParametreInterface} from "../../../../models/parametre.interface";
-import {ServiceInterface} from "../../../../models/service.interface";
-import {DossierMedicalInterface} from "../../../../models/dossier-medical.interface";
-import {PoleInterface} from "../../../../models/pole.interface";
-import {PersonneInterface} from "../../../../models/personne.interface";
-import {DossierMedicalService} from "../../../../services/dossier-medical/dossier-medical.service";
-import {CliniqueServiceService} from "../../../../services/service/clinique-service.service";
-import {NotifService} from "../../../../services/notification/notif.service";
+import {TransactionService} from "src/app/services/transaction/transaction.service";
+import {PrestationInterface} from "src/app/models/prestation.interface";
+import {ApiResponseInterface} from "src/app/models/api-response.interface";
+import {ParametreService} from "src/app/services/parametre/parametre.service";
+import {ParametreInterface} from "src/app/models/parametre.interface";
+import {ServiceInterface} from "src/app/models/service.interface";
+import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface";
+import {PoleInterface} from "src/app/models/pole.interface";
+import {PersonneInterface} from "src/app/models/personne.interface";
+import {DossierMedicalService} from "src/app/services/dossier-medical/dossier-medical.service";
+import {CliniqueServiceService} from "src/app/services/service/clinique-service.service";
+import {NotifService} from "src/app/services/notification/notif.service";
 
 
 declare global {
@@ -48,7 +48,7 @@ export class FacturationComponent implements OnInit{
   titleForm = "Facturation";
   isConfirmLoading = false;
   formDesc = "Veuillez remplir ce formulaire pour effectuer une facturation";
-  btnText = "Enregistrer";
+  btnText = "Payer";
   parametres !: ParametreInterface[]
   agency_code  = 'CGFB23069'
   domain_name = 'gutouch.net';
@@ -150,7 +150,7 @@ export class FacturationComponent implements OnInit{
   }
 
   makePayment(): void {
-    this.FacForm.controls['prestation'].setValue(this.data.id)
+    this.FacForm.controls['prestation'].setValue(this.data)
     console.log(this.FacForm.value)
     let trans = this.FacForm.value
     let moyen = ''

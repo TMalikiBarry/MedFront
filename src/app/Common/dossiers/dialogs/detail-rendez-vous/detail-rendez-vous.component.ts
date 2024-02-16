@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import { Poles} from "../../../../models/Utils/poles";
-import {Prestations} from "../../../../models/Utils/prestations";
+import {Poles} from "src/app/models/Utils/poles";
+import {Prestations} from "src/app/models/Utils/prestations";
 import {NzModalRef} from "ng-zorro-antd/modal";
 import {FormBuilder} from "@angular/forms";
-import {Service} from "../../../../models/Utils/constants";
-import {PersonnelInterface} from "../../../../models/personnel.interface";
-import {PoleService} from "../../../../services/pole/pole.service";
-import {CliniqueServiceService} from "../../../../services/service/clinique-service.service";
-import {PrestationService} from "../../../../services/prestation/prestation.service";
-import {PersonnelService} from "../../../../services/personnel/personnel.service";
-import {RendezVousService} from "../../../../services/rendez-vous/rendez-vous.service";
+import {Service} from "src/app/models/Utils/constants";
+import {PersonnelInterface} from "src/app/models/personnel.interface";
+import {PoleService} from "src/app/services/pole/pole.service";
+import {CliniqueServiceService} from "src/app/services/service/clinique-service.service";
+import {PrestationService} from "src/app/services/prestation/prestation.service";
+import {PersonnelService} from "src/app/services/personnel/personnel.service";
+import {RendezVousService} from "src/app/services/rendez-vous/rendez-vous.service";
 
 @Component({
   selector: 'app-detail-rendez-vous',

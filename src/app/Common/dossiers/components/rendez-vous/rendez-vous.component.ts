@@ -1,18 +1,18 @@
 import {Component} from '@angular/core';
 import {NzModalService} from "ng-zorro-antd/modal";
 import {RendezVousFormDialogComponent} from "../../dialogs/rendez-vous-form-dialog/rendez-vous-form-dialog.component";
-import {PrestationInterface} from "../../../../models/prestation.interface";
+import {PrestationInterface} from "src/app/models/prestation.interface";
 import {PrestationFormDialogComponent} from "../../dialogs/prestation-form-dialog/prestation-form-dialog.component";
-import {PatientInterface} from "../../../../models/patient.interface";
-import {RendezVousService} from "../../../../services/rendez-vous/rendez-vous.service";
-import {CliniqueServiceService} from "../../../../services/service/clinique-service.service";
+import {PatientInterface} from "src/app/models/patient.interface";
+import {RendezVousService} from "src/app/services/rendez-vous/rendez-vous.service";
+import {CliniqueServiceService} from "src/app/services/service/clinique-service.service";
 import {DetailRdvPatientComponent} from "../../dialogs/detail-rdv-patient/detail-rdv-patient.component";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
-import {Page} from "../../../../models/pagination.interface";
-import {RendezVousInterface} from "../../../../models/rendez-vous.interface";
-import {NotifService} from "../../../../services/notification/notif.service";
-import {ServiceInterface} from "../../../../models/service.interface";
-import {PoleInterface} from "../../../../models/pole.interface";
+import {Page} from "src/app/models/pagination.interface";
+import {RendezVousInterface} from "src/app/models/rendez-vous.interface";
+import {NotifService} from "src/app/services/notification/notif.service";
+import {ServiceInterface} from "src/app/models/service.interface";
+import {PoleInterface} from "src/app/models/pole.interface";
 
 @Component({
   selector: 'app-rendez-vous',

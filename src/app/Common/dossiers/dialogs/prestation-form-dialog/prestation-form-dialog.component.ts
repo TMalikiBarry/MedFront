@@ -15,7 +15,7 @@ import {PersonneInterface} from "src/app/models/personne.interface";
 import {
   NouveauPatientComponent
 } from "../../../personnes/dialogs/nouveau-patient-form-dialog/nouveau-patient.component";
-import {PoleInterface} from "../../../../models/pole.interface";
+import {PoleInterface} from "src/app/models/pole.interface";
 
 @Component({
   selector: 'app-prestation-form-dialog',

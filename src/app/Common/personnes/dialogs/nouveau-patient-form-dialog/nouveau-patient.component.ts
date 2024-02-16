@@ -4,13 +4,13 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PatientService} from 'src/app/services/patient/patient.service';
 import {NzModalRef} from "ng-zorro-antd/modal";
-import {PersonneService} from "../../../../services/Personne/personne.service";
-import {PersonneInterface} from "../../../../models/personne.interface";
-import {PatientInterface} from "../../../../models/patient.interface";
-import {RendezVousInterface} from "../../../../models/rendez-vous.interface";
-import {PersonnelInterface} from "../../../../models/personnel.interface";
-import {DossierMedicalInterface} from "../../../../models/dossier-medical.interface";
-import {NotifService} from "../../../../services/notification/notif.service";
+import {PersonneService} from "src/app/services/Personne/personne.service";
+import {PersonneInterface} from "src/app/models/personne.interface";
+import {PatientInterface} from "src/app/models/patient.interface";
+import {RendezVousInterface} from "src/app/models/rendez-vous.interface";
+import {PersonnelInterface} from "src/app/models/personnel.interface";
+import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface";
+import {NotifService} from "src/app/services/notification/notif.service";
 
 @Component({
   selector: 'app-nouveau-patient-form-dialog',

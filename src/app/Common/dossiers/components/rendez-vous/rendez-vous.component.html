@@ -81,7 +81,7 @@
 <!--        <td><strong>{{ getHour(rdv.dateRv) }}H{{ getMinutes(rdv.dateRv)}}</strong></td>-->
         <td>{{ formatDateString(rdv.dateRv) }}</td>
         <td><strong>{{ rdv.patient.personne.id}}</strong> - {{ rdv.patient.personne.prenom }} {{rdv.patient.personne.nom}}</td>
-        <td>{{ rdv.patient.personne.telephone }}</td>
+        <td>{{ rdv.patient.personne.telephone | prettyPhoneNumber }}</td>
         <td>{{ rdv.service.nom }}</td>
         <td><nz-badge nzStatus="processing" nzText="Non Confirmee"></nz-badge></td>
         <td class="icon-table"> <img (click)="detailRdv(rdv)" src="assets/icon/eye.svg" alt="modifier"> <img (click)="detailPatient(rdv.patient)" src="assets/icon/Icone%20user.svg" alt="patient"> <img (click)="deleteRdv(rdv.id)" src="assets/icon/trash.svg" alt="delete"></td>
