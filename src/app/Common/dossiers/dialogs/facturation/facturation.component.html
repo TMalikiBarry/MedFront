@@ -61,7 +61,7 @@
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez renseigner le montant!">
             <p class="input-label">Montant</p>
-            <nz-input-group>
+            <nz-input-group nzSuffix=" F CFA">
               <input formControlName="amount" nz-input placeholder="Renseignez le montant" type="text"/>
             </nz-input-group>
           </nz-form-control>
@@ -69,7 +69,7 @@
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez renseigner le diagnostic!">
             <p class="input-label">Prise en charge</p>
-            <nz-input-group>
+            <nz-input-group nzSuffix=" %">
               <input formControlName="couverture" nz-input placeholder="Renseignez la valeur de la prise en charge"
                      type="text"/>
             </nz-input-group>
@@ -79,7 +79,7 @@
       <nz-form-item>
         <nz-form-control nzErrorTip="Veuillez renseigner le diagnostic!">
           <p class="input-label">Montant Final à payer</p>
-          <nz-input-group>
+          <nz-input-group nzSuffix=" F CFA">
             <input formControlName="transactionAmount" nz-input placeholder="Renseignez le montant final alors"
                    type="text"/>
           </nz-input-group>

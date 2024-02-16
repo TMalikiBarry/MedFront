@@ -15,11 +15,11 @@ export class PatientService {
   private readonly urlDossier = `${environment.apiURL}/dossierMedical`;
   constructor(private http: HttpClient) { }
 
-  save(patient: any): Observable<ApiResponseInterface>{
-    const dossier: DossierMedicalInterface = {
-      patient,
-      statut: "ACTIF"
-    }
+  save(dossier: DossierMedicalInterface): Observable<ApiResponseInterface> {
+    /*    const dossier: DossierMedicalInterface = {
+          patient,
+          statut: "ACTIF"
+        }*/
     return this.http.post<ApiResponseInterface>(this.urlDossier, dossier);
   }
 

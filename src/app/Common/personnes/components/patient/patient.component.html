@@ -63,7 +63,7 @@
         </div>
         <div class="card-right">
            <div class="card-title">
-             <h3 class="title">Données relatives aux visites</h3>
+             <h3 class="title">Données relatives aux patients</h3>
 
              <div class="chart">
                  <canvas id="genrePatient" style="max-width: 400px; max-height: 400px">{{chartGenrePatient}}</canvas>
@@ -84,8 +84,12 @@
 
         <div class="filterButton">
           <a>
-            <button class="my-primary-button basic-button" nz-button nzSize="large"
-                    routerLink="/admin/personnes/create-patient">
+            <!--            <button class="my-primary-button basic-button" nz-button nzSize="large"
+                                routerLink="/admin/personnes/create-patient">
+                          <span nz-icon nzType="plus"></span>
+                          Nouveau Patient
+                        </button>-->
+            <button (click)="addNewPatient()" class="my-primary-button basic-button" nz-button nzSize="large">
               <span nz-icon nzType="plus"></span>
               Nouveau Patient
             </button>
@@ -125,7 +129,7 @@
             </td>
             <td>
               <div [ngClass]="{'displayString' : !patient.contactEnCasUrgent}">
-                {{ patient.contactEnCasUrgent! | displayString }}
+                {{ (patient.contactEnCasUrgent! | prettyPhoneNumber) | displayString }}
               </div>
             </td>
 

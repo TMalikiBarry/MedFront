@@ -107,7 +107,6 @@
       <thead>
       <tr>
         <!--          <th>ID</th>-->
-        <th>Reference</th>
         <th>Date</th>
         <th>Patient</th>
         <th>Moyen</th>
@@ -120,8 +119,6 @@
       </thead>
       <tbody>
       <tr *ngFor="let paiement of paiementTable.data">
-        <td>{{ paiement.referencePartenaire }}
-        </td>
         <td>{{ formatDateString(paiement.dateCreation!) }}</td>
         <td *ngIf="paiement.prestation.dossierMedical?.patient">
           <span

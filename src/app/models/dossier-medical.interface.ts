@@ -6,4 +6,6 @@ export interface DossierMedicalInterface {
   statut?: string;
   prestations?: PrestationInterface[];
   patient?: PatientInterface;
+  allergies?: string;
+  maladies?: string;
 }

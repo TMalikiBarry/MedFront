@@ -81,25 +81,28 @@ export class TransactionsComponent {
             label: "Momo",
             data: ['401','560', '312', '102', '92',
               '411', '600'],
+            borderColor: '#266141',
             backgroundColor: '#266141'
           },
           {
             label: "Paiement Espece",
             data: ['302', '170', '503', '120', '467',
               '176', '512'],
-            backgroundColor: '#84BE38'
+            backgroundColor: '#84BE38',
+            borderColor: '#84BE38',
           },
           {
             label: "Prise en Charger",
             data: ['320', '110', '240', '200', '167',
               '20', '200'],
-            backgroundColor: '#FDCD51'
+            backgroundColor: '#FDCD51',
+            borderColor: '#FDCD51',
           }
         ]
       },
-      options: {
-        aspectRatio:1.8
-      }
+      // options: {
+      //   aspectRatio:1.8
+      // }
     });
 
     //this.getAllTransaction();

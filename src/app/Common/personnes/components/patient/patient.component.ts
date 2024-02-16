@@ -67,20 +67,20 @@ export class PatientComponent implements OnInit {
         datasets: [
           {
             label: "Inscrits",
-            data: ['467','576', '572', '79', '92',
-              '574', '573'],
+            data: ['16', '27', '37', '7', '9',
+              '6', '13'],
             backgroundColor: '#266141'
           },
           {
             label: "Venus",
-            data: ['542', '542', '536', '327', '17',
-              '0.00', '538'],
+            data: ['10', '14', '6', '5', '8',
+              '12', '10'],
             backgroundColor: '#84BE38'
           }
         ]
       },
       options: {
-        aspectRatio:1.8
+        aspectRatio: 1.87
       }
 
     });
@@ -132,8 +132,9 @@ export class PatientComponent implements OnInit {
       nzClosable: false,
       nzWidth: 750
     }).afterClose.subscribe(
-      ()=>{
-        this.loadPatients()
+      (result) => {
+        if (result)
+          this.loadPatients()
       }
     );
   }

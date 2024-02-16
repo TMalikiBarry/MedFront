@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NzModalRef} from "ng-zorro-antd/modal";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {TransactionService} from "../../../../services/transaction/transaction.service";
 import {PrestationInterface} from "../../../../models/prestation.interface";
 import {ApiResponseInterface} from "../../../../models/api-response.interface";
@@ -93,9 +93,9 @@ export class FacturationComponent implements OnInit{
 
   ];
 
-  FacForm = this.fb.group({
+  FacForm: FormGroup = this.fb.group({
     prestation : '',
-    dossier: 0,
+    dossier: '',
     service: '',
     amount: '',
     referentielPartenaire: '',
@@ -150,12 +150,12 @@ export class FacturationComponent implements OnInit{
   }
 
   makePayment(): void {
-    this.FacForm.controls.prestation.setValue(this.data)
+    this.FacForm.controls['prestation'].setValue(this.data.id)
     console.log(this.FacForm.value)
     let trans = this.FacForm.value
     let moyen = ''
-    if(this.FacForm.controls.moyenPayment.value){
-      moyen = this.FacForm.controls.moyenPayment.value
+    if (this.FacForm.controls['moyenPayment'].value) {
+      moyen = this.FacForm.controls['moyenPayment'].value
     }
 
     // Appeler le service pour créer la transaction
@@ -278,9 +278,11 @@ export class FacturationComponent implements OnInit{
     this.dossierMApi.getAll().subscribe({
       next: result => {
         this.listOfDossierMedical = result.filter(dossier => !!dossier.patient?.personne);
-        const patient = this.modal.getConfig().nzData;
-        if (patient) {
-          this.dossierData = this.listOfDossierMedical.find(d => d.patient?.id === patient.id)!;
+        const prestation: PrestationInterface = this.modal.getConfig().nzData;
+        if (prestation) {
+          this.dossierData = this.listOfDossierMedical.find(d => d.id === prestation.dossierMedical!.id)!;
+          this.FacForm.controls['prestation'].setValue(prestation.id!);
+          this.FacForm.controls['service'].setValue(prestation.service!.id);
         } else if (patientId) {
           this.dossierData = this.listOfDossierMedical.find(d => d.patient?.id === patientId)!;
         }

@@ -10,6 +10,7 @@ import {PatientInterface} from "../../../../models/patient.interface";
 import {RendezVousInterface} from "../../../../models/rendez-vous.interface";
 import {PersonnelInterface} from "../../../../models/personnel.interface";
 import {DossierMedicalInterface} from "../../../../models/dossier-medical.interface";
+import {NotifService} from "../../../../services/notification/notif.service";
 
 @Component({
   selector: 'app-nouveau-patient-form-dialog',
@@ -26,7 +27,8 @@ export class NouveauPatientComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private modalRef : NzModalRef,
               private apiPersonne : PersonneService,
-              private patientService: PatientService) {
+              private patientService: PatientService,
+              private notify: NotifService) {
     this.patientForm = this.fb.group({
       genre: ['', Validators.required],
       prenom: ['', Validators.required],
@@ -39,7 +41,8 @@ export class NouveauPatientComponent implements OnInit {
       contactUrgence: ['', Validators.required],
       medecinTraitant: [''],
       ficheAccessible: [''],
-      allergies: ['']
+      allergies: [''],
+      maladies: [''],
     });
 
     const today = new Date();
@@ -66,20 +69,21 @@ export class NouveauPatientComponent implements OnInit {
       const patientData = this.patientForm.value;
       let personneForm = this.createPersonneForm(patientData)
       let patientForm = <PatientInterface>this.createPatientForm(patientData, personneForm)
-      this.patientService.save(patientForm).subscribe({
+      const dossier: DossierMedicalInterface = {
+        patient: patientForm,
+        maladies: patientData.maladies,
+        allergies: patientData.allergies,
+
+        statut: "ACTIF"
+      }
+      this.patientService.save(dossier).subscribe({
         next : res1 => {
-          this.patient = res1.reponse.patient
-          console.log(res1)
-          this.modalRef.close(res1.reponse.patient.id)
+          this.patient = res1.reponse.patient;
+          console.log(res1);
+          this.notify.snackMessage(`Le patient ${personneForm.prenom} ${personneForm.nom} a été ajouté`,
+            3000, "success");
+          this.modalRef.close(res1.reponse.patient.id);
         }
-      })
-
-      this.apiPersonne.savePersonne(personneForm).subscribe({
-        next : res => {
-          console.log(res)
-          this.personne = <PersonneInterface>res.reponse
-        }
-
       })
 
       // this.personne.nom = this.patientForm.controls['nom'].value
