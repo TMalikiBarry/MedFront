@@ -79,30 +79,35 @@ export class TransactionsComponent {
         datasets: [
           {
             label: "Momo",
-            data: ['401','560', '312', '102', '92',
-              '411', '600'],
+            data: ['401000','415000', '380000', '365000', '421000',
+              '411000', '400000'],
             borderColor: '#266141',
             backgroundColor: '#266141'
           },
           {
             label: "Paiement Espece",
-            data: ['302', '170', '503', '120', '467',
-              '176', '512'],
+            data: ['302000', '350000', '340000', '340000', '310000',
+              '360000', '360000'],
             backgroundColor: '#84BE38',
             borderColor: '#84BE38',
           },
           {
             label: "Prise en Charger",
-            data: ['320', '110', '240', '200', '167',
-              '20', '200'],
+            data: ['290000', '310000', '300000', '280000', '275000',
+              '250000', '270000'],
             backgroundColor: '#FDCD51',
             borderColor: '#FDCD51',
           }
         ]
       },
-      // options: {
-      //   aspectRatio:1.8
-      // }
+      options: {
+        aspectRatio: 1.8,
+        plugins: {
+          legend: {
+            display: false // Supprimer la légende
+          }
+        }
+      }
     });
 
     //this.getAllTransaction();
