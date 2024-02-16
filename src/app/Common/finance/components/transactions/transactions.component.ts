@@ -17,6 +17,7 @@ import {NewPaymentFormDialogComponent} from "../../dialogs/new-payment-form-dial
 import {FacturationComponent} from "../../../dossiers/dialogs/facturation/facturation.component";
 import {PersonnelInterface} from "../../../../models/personnel.interface";
 import {TransactionService} from "../../../../services/transaction/transaction.service";
+import {TransactionInterface} from "../../../../models/transaction.interface";
 
 @Component({
   selector: 'app-transactions',
@@ -30,7 +31,7 @@ export class TransactionsComponent {
   serviceId!: number;
   listOfService!: ServiceInterface[];
   listOfDossierMedical!: DossierMedicalInterface[];
-  paginatedData!: Page<PrestationInterface>;
+  paginatedData!: Page<TransactionInterface>;
   patientPers!: PersonneInterface;
   pageIndex: number = 0;
   pageSize: number = 5;
@@ -57,36 +58,35 @@ export class TransactionsComponent {
           );
       },
     });
+    this.getCountTransMoyen()
     this.loadPatients();
-    this.getAllTransaction();
-    this.getPrestationsByPage();
+    //this.getAllTransaction();
+    this.getTransactionByPage();
+    this.getCountPaiementEspece();
   }
 
-  getPrestationsByPage(page: number = 0,
-                       size: number = 10,
-                       firstName?: string,
-                       lastName?: string,
-                       serviceId?: number,
-                       startDate?: string,
-                       endDate?: string) {
-    this.api.getPaginatedFilteredData(page, size, firstName, lastName, serviceId,
-      startDate, endDate).subscribe({
+  getTransactionByPage(page: number = 0,
+                       size: number = 10){
+    this.apiTransaction.getAllTransactionPage(page, size).subscribe({
       next: response => {
-        console.log("Liste des prestations ", response);
+        console.log("Liste des transactions ", response);
         this.paginatedData = response;
 
         // SET STATS
-        if (!firstName && !lastName && !serviceId && !startDate && !endDate) {
+        let allTransaction = this.paginatedData.content
+
+        //let TransCash = allTransaction.filter(transaction => transaction.moyenPayment.toString() === 'CASH')
+        let TransPrise = allTransaction.filter(transaction => transaction.moyenPayment.toString() === 'ASSURANCE')
+        let TransPartiel = allTransaction.filter(transaction => transaction.moyenPayment.toString() === 'ASSURANCE')
           // Total Paiement
           this.numberStats[0] = this.paginatedData.totalElements;
           // Paiement espece
-          this.numberStats[1] = this.paginatedData.totalElements;
+          //this.numberStats[1] = TransCash.length;
           // Prise en charge
-          this.numberStats[2] = this.numberStats[0] - this.numberStats[2]
+          this.numberStats[2] = TransPrise.length
           // payement partiel
-          this.numberStats[3] = this.numberStats[2]
+          this.numberStats[3] = TransPartiel.length
           // this.prestationsList = this.paginatedData.content;
-        }
 
       }
     })
@@ -111,10 +111,7 @@ export class TransactionsComponent {
       prenom = this.patientPers.prenom;
       nom = this.patientPers.nom;
     }
-    this.getPrestationsByPage(this.pageIndex, params.pageSize,
-      prenom!, nom!, this.serviceId,
-      startDate,
-      endDate)
+    this.getTransactionByPage(this.pageIndex, params.pageSize)
   }
 
   filterData() {
@@ -130,8 +127,7 @@ export class TransactionsComponent {
       prenom = this.patientPers.prenom;
       nom = this.patientPers.nom;
     }
-    this.getPrestationsByPage(this.pageIndex, this.pageSize,
-      prenom!, nom!, this.serviceId, startDate, endDate)
+    this.getTransactionByPage(this.pageIndex, this.pageSize)
   }
 
   /*
@@ -150,7 +146,7 @@ export class TransactionsComponent {
       nzClosable: false,
     }).afterClose.subscribe(
       ()=>{
-        this.getPrestationsByPage()
+        this.getTransactionByPage()
       }
     );
   }
@@ -162,7 +158,7 @@ export class TransactionsComponent {
       nzClosable: false,
     }).afterClose.subscribe(
       ()=>{
-        this.getPrestationsByPage()
+        this.getTransactionByPage()
       }
     );
 
@@ -221,7 +217,7 @@ export class TransactionsComponent {
       nzData : prestation,
     }).afterClose.subscribe(
       ()=>{
-        this.getPrestationsByPage()
+        this.getTransactionByPage()
       }
     );
   }
@@ -243,6 +239,22 @@ export class TransactionsComponent {
     this.apiTransaction.getAllTransaction().subscribe({
       next : value => {
         console.log(value)
+      }
+    })
+  }
+
+  private getCountTransMoyen() {
+    this.apiTransaction.getCountTransactionByMoyen().subscribe({
+      next : value => {
+        console.log(value)
+      }
+    })
+  }
+
+  private getCountPaiementEspece() {
+    this.apiTransaction.getCountTransactionCash().subscribe({
+      next : value => {
+        this.numberStats[1] = value.reponse
       }
     })
   }
