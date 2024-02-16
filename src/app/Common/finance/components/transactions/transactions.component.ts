@@ -17,6 +17,7 @@ import {NewPaymentFormDialogComponent} from "../../dialogs/new-payment-form-dial
 import {FacturationComponent} from "../../../dossiers/dialogs/facturation/facturation.component";
 import {PersonnelInterface} from "../../../../models/personnel.interface";
 import {TransactionService} from "../../../../services/transaction/transaction.service";
+import * as Chart from "chart.js/auto";
 
 @Component({
   selector: 'app-transactions',
@@ -28,6 +29,7 @@ export class TransactionsComponent {
   descSats = ["Total des paiements","Paiement en espéces","Prise en charge", "Payée partiellement"]
   choosenDate!: Date[];
   serviceId!: number;
+  chartTrans!: any;
   listOfService!: ServiceInterface[];
   listOfDossierMedical!: DossierMedicalInterface[];
   paginatedData!: Page<PrestationInterface>;
@@ -60,6 +62,44 @@ export class TransactionsComponent {
     this.loadPatients();
     this.getAllTransaction();
     this.getPrestationsByPage();
+    this.createCanvasFigures();
+  }
+
+  createCanvasFigures() {
+    // const canvasPatientsStats = document.getElementById('patientsStats')
+
+    this.chartTrans = new Chart.Chart("TransStats", {
+      type: 'line', //this denotes tha type of chart
+
+      data: {// values on X-Axis
+        labels: ['Lundi', 'Mardi','Mercredi',
+          'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
+        datasets: [
+          {
+            label: "Momo",
+            data: ['401','560', '312', '102', '92',
+              '411', '600'],
+            backgroundColor: '#266141'
+          },
+          {
+            label: "Paiement Espece",
+            data: ['302', '170', '503', '120', '467',
+              '176', '512'],
+            backgroundColor: '#84BE38'
+          },
+          {
+            label: "Prise en Charger",
+            data: ['320', '110', '240', '200', '167',
+              '20', '200'],
+            backgroundColor: '#FDCD51'
+          }
+        ]
+      },
+      options: {
+        aspectRatio:1.8
+      }
+    });
+
   }
 
   getPrestationsByPage(page: number = 0,

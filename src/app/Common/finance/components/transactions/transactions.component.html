@@ -24,6 +24,11 @@
         <nz-badge nzStatus="processing"></nz-badge> espece
         <nz-badge nzStatus="warning"></nz-badge> Prise en charge
       </div>
+      <div class="chart">
+        <div>
+          <canvas id="TransStats">{{chartTrans}}</canvas>
+        </div>
+      </div>
     </div>
     <div class="statsLayout">
       <div *ngFor="let stat of numberStats; let i = index"  class="myCardStats">
