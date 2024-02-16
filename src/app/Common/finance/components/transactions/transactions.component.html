@@ -120,27 +120,25 @@
       </thead>
       <tbody>
       <tr *ngFor="let paiement of paiementTable.data">
-        <td>{{ paiement.service?.nom }} <span
-          class="service-pole">{{ ' - (' + paiement.service?.pole?.nom + ')' }}</span>
+        <td>{{ paiement.referencePartenaire }}
         </td>
         <td>{{ formatDateString(paiement.dateCreation!) }}</td>
-        <td>
+        <td *ngIf="paiement.prestation.dossierMedical?.patient">
           <span
-            class="my-patient-id"> {{ paiement.dossierMedical?.patient?.id }}
-          </span>{{ ' - ' + getPatientName(paiement.dossierMedical!) }}
+            class="my-patient-id"> {{ paiement.prestation.dossierMedical?.patient?.id }}
+          </span>{{ ' - ' + getPatientName(paiement.prestation.dossierMedical!) }}
         </td>
         <td>
-          <div [ngClass]="{'displayString' : !paiement.diagnostic}">
-            {{ paiement.diagnostic! | displayString }}
-          </div>
+            {{ paiement.moyenPayment }}
         </td>
         <td>
-          {{ paiement.montant | currency: 'XOF': 'symbol': '1.':'fr-FR' }}
+          {{ paiement.amount | currency: 'XOF': 'symbol': '1.':'fr-FR' }}
         </td>
         <td>
-          <div [ngClass]="{'displayString' : !paiement.personnel?.personne}">
-            {{ getPersonnelName(paiement.personnel)! | displayString }}
-          </div>
+          {{ paiement.prestation.service?.nom }}
+<!--          <div [ngClass]="{'displayString' : !paiement.personnel?.personne}">-->
+<!--            {{ getPersonnelName(paiement.personnel)! | displayString }}-->
+<!--          </div>-->
         </td>
         <td>
           <a [nzDropdownMenu]="nonPayeFacture" nzTrigger="click" nz-dropdown>

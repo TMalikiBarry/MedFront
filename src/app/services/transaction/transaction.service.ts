@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {environment} from "../../../environments/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {ApiResponseInterface} from "../../models/api-response.interface";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +24,27 @@ export class TransactionService {
   getAllTransaction(){
     return this.http.get<ApiResponseInterface>(this.API_URL+"/transactions/all")
   }
+  getAllTransactionPage(page: number = 0,
+                        size: number = 10) :Observable<any> {
+    let params = new HttpParams()
+      .append('page', page.toString())
+      .append('size', size.toString());
+    return this.http.get(this.API_URL+"/transactions", {params: params})
+  }
 
   getAllCountTransaction(){
     return this.http.get(this.API_URL+"/transactions/countAll")
+  }
+
+  getCountTransactionByMoyen(){
+    let params = new HttpParams()
+      .append('paymentMethods','ORANGE_MONEY,WAVE,FREE_MONEY,CASH')
+    return this.http.get(this.API_URL+"/transactions/countByPaymentMethods", {params: params})
+  }
+
+  getCountTransactionCash(){
+    let params = new HttpParams()
+      .append('paymentMethods','CASH')
+    return this.http.get<ApiResponseInterface>(this.API_URL+"/transactions/countByPaymentMethods", {params: params})
   }
 }
