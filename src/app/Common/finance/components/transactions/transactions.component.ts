@@ -82,7 +82,8 @@ export class TransactionsComponent {
             data: ['401000','415000', '380000', '365000', '421000',
               '411000', '400000'],
             borderColor: '#266141',
-            backgroundColor: '#266141'
+            backgroundColor: '#266141',
+            tension: .42
           },
           {
             label: "Paiement Espece",
@@ -90,6 +91,7 @@ export class TransactionsComponent {
               '360000', '360000'],
             backgroundColor: '#84BE38',
             borderColor: '#84BE38',
+            tension: .42
           },
           {
             label: "Prise en Charger",
@@ -97,6 +99,7 @@ export class TransactionsComponent {
               '250000', '270000'],
             backgroundColor: '#FDCD51',
             borderColor: '#FDCD51',
+            tension: .42
           }
         ]
       },
