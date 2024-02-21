@@ -14,45 +14,13 @@
           <span>Dashboard</span>
         </a>
       </li>
-      <!--<li nz-menu-item>
-        <span nz-icon nzType="desktop"></span>
-        <span>Option 2</span>
-      </li>-->
 
-<!--      <li nz-submenu
-          [(nzOpen)]="openMap['organisation']"
-          (nzOpenChange)="openHandler('organisation')"
-          [nzTitle]="titleOrganisation">
-        <ul>
-
-        </ul>
-      </li>-->
 
       <li nz-submenu
           [(nzOpen)]="openMap['personnes']"
           (nzOpenChange)="openHandler('personnes')"
           [nzTitle]="titlePersonnes">
         <ul>
-          <!--
-
-          <li nz-menu-item>
-            <a routerLink="/admin/personnes/fiche-medicale" class="selectedLink">
-              <img
-                [src]="'assets/from_figma/'+(router.url.endsWith('/personnes/fiche-medicale')? 'fiche_medicale_green.svg': 'fiche_medicale.svg')"
-                alt="Fiches-medicales">
-              <span>Fiches Médicales</span>
-            </a>
-          </li>
-          <li nz-menu-item>
-            <a routerLink="/admin/personnes/dossiers-medicaux" class="selectedLink">
-              <img
-                [src]="'assets/from_figma/'+(router.url.endsWith('/personnes/dossiers-medicaux')? 'dossiers_medicaux_green.svg': 'Dossier.svg')"
-                alt="Dossiers-medicaux">
-              <span>Dossiers Médicaux</span>
-            </a>
-          </li>
-
-          -->
           <li nz-menu-item>
             <a routerLink="/admin/personnes/patients" class="selectedLink">
               <img

@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {ApiResponseInterface} from "../../models/api-response.interface";
 import {DossierMedicalInterface} from "../../models/dossier-medical.interface";
 import {PatientInterface} from "../../models/patient.interface";
+import {WeeklyPatientStat} from "../../models/weekly-patient-stat";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ export class PatientService {
 
   private readonly url = `${environment.apiURL}/patients`;
   private readonly urlDossier = `${environment.apiURL}/dossierMedical`;
+  private readonly patientStatUrl = `${environment.apiURL}/patients/stats`;
+  private readonly rdvStatUrl = `${environment.apiURL}/rendezVous/stats`;
   constructor(private http: HttpClient) { }
 
   save(dossier: DossierMedicalInterface): Observable<ApiResponseInterface> {
@@ -41,6 +44,14 @@ export class PatientService {
     return this.http.put<ApiResponseInterface>(this.url,data);
   }
   getPatientById(patientId: number): Observable<PatientInterface> {
-    return this.http.get<PatientInterface>(`${this.url}${patientId}`);
+    return this.http.get<PatientInterface>(`${this.url}/${patientId}`);
+  }
+
+  getWeeklyPatientsInscrits(): Observable<WeeklyPatientStat> {
+    return this.http.get<WeeklyPatientStat>(this.patientStatUrl);
+  }
+
+  getWeeklyPatientsVenus(): Observable<WeeklyPatientStat> {
+    return this.http.get<WeeklyPatientStat>(this.rdvStatUrl);
   }
 }

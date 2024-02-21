@@ -1,6 +1,8 @@
 <div class="mainbody">
     <div class="headerLayout">
+      <nz-input-group [nzPrefix]="suffixIconSearch">
         <input nz-input placeholder="Rechercher par patient, prestation" type="text"/>
+      </nz-input-group>
 
       <div class="headerActions">
         <img alt="notif" src="assets/from_figma/notification_icon.svg" width="17.5">
@@ -39,16 +41,6 @@
                                    </svg>
                                    <span>Sortie</span>
                            </div>-->
-                           <div class="dropdowns">
-                                   <nz-dropdown-menu class="dropdown">
-                                           <span>Service 1</span>
-                                           <span>Service 2</span>
-                                   </nz-dropdown-menu>
-                                   <nz-dropdown-menu class="dropdown">
-                                           <span>Salle 1</span>
-                                           <span>Salle 2</span>
-                                   </nz-dropdown-menu>
-                           </div>
 
                    </div>
 
@@ -64,9 +56,36 @@
         <div class="card-right">
            <div class="card-title">
              <h3 class="title">Données relatives aux patients</h3>
+             <div class="legends">
+               <div class="legend">
+                 <svg fill="none" height="11" viewBox="0 0 10 11" width="10" xmlns="http://www.w3.org/2000/svg">
+                   <circle cx="5" cy="5.5" fill="#84BE38" r="5"/>
+                 </svg>
+                 <span>Hommes</span>
+               </div>
+               <div class="legend">
+                 <svg fill="none" height="11" viewBox="0 0 10 11" width="10" xmlns="http://www.w3.org/2000/svg">
+                   <circle cx="5" cy="5.5" fill="#266141" r="5"/>
+                 </svg>
+                 <span>Femmes</span>
+               </div>
+               <div class="legend">
+                 <svg fill="none" height="11" viewBox="0 0 10 11" width="10" xmlns="http://www.w3.org/2000/svg">
+                   <circle cx="5" cy="5.5" fill="#FDCD51" r="5"/>
+                 </svg>
+                 <span>Garçons</span>
+               </div>
+               <div class="legend">
+                 <svg fill="none" height="11" viewBox="0 0 10 11" width="10" xmlns="http://www.w3.org/2000/svg">
+                   <circle cx="5" cy="5.5" fill="#ffebbe" r="5"/>
+                 </svg>
+                 <span>Filles</span>
+               </div>
 
+
+             </div>
              <div class="chart">
-                 <canvas id="genrePatient" style="max-width: 400px; max-height: 400px">{{chartGenrePatient}}</canvas>
+               <canvas id="genrePatient" style="width: 310px; height: 310px">{{ chartGenrePatient }}</canvas>
              </div>
            </div>
 

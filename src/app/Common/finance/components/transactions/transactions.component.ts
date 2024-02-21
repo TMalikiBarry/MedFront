@@ -83,7 +83,9 @@ export class TransactionsComponent {
               '411000', '400000'],
             borderColor: '#266141',
             backgroundColor: '#266141',
-            tension: .42
+            tension: .42,
+            // pointRadius: [5, 5, 10, 5, 5, 5, 5], // Point central (Mercredi) avec un rayon plus grand pour indiquer l'extréma local
+            // pointStyle: ['circle', 'circle', 'rect', 'circle', 'circle', 'circle', 'circle'], // Point central (Mercredi) de forme rectangulaire
           },
           {
             label: "Paiement Espece",

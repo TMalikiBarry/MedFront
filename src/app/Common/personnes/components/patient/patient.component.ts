@@ -10,6 +10,8 @@ import {NouveauPatientComponent} from "../../dialogs/nouveau-patient-form-dialog
 import {ActivatedRoute, Router} from "@angular/router";
 import {PersonneInterface} from "src/app/models/personne.interface";
 import * as Chart from 'chart.js/auto';
+import {WeeklyPatientStat} from "src/app/models/weekly-patient-stat";
+import {UtilsService} from "../../../../services/utils/utils.service";
 
 @Component({
   selector: 'app-patient',
@@ -20,7 +22,9 @@ export class PatientComponent implements OnInit {
   patients!: PatientInterface[];
   choosenDate!: Date[];
   chartPatient!: any;
+
   chartGenrePatient!: any;
+
   serviceId!: number;
   // listOfService!: ServiceInterface[];
   // listOfDossierMedical!: DossierMedicalInterface[];
@@ -28,64 +32,69 @@ export class PatientComponent implements OnInit {
   // patientPers!: PersonneInterface;
   // pageIndex: number = 0;
   // pageSize: number = 10;
+  private patientsInscrits!: WeeklyPatientStat;
+  private patientsVenus!: WeeklyPatientStat;
+
   constructor(private patientService: PatientService,
               private modalService: NzModalService,
               private router: Router,
               private route: ActivatedRoute,
-
-
+              private utils: UtilsService,
   ) {}
 
   ngOnInit() {
     this.loadPatients();
-    this.createCanvasFigures();
+    this.initialiseChartsData();
   }
 
-  loadPatients() {
-    this.patientService.getAll().subscribe({
-     next: patients => {
-        this.patients = patients;
-        console.log('Recuperation de patient ', patients);
-        },
-    error: (error) => {
-       console.error('Erreur lors de la récupération des patients', error);
-      // Gérez l'erreur selon vos besoins
-    }
-  }
-    );
-  }
-
-  createCanvasFigures() {
-    // const canvasPatientsStats = document.getElementById('patientsStats')
+  initialiseChartsData() {
 
     this.chartPatient = new Chart.Chart("patientsStats", {
       type: 'bar', //this denotes tha type of chart
 
       data: {// values on X-Axis
-        labels: ['Dim', 'Lun', 'Mar','Mer',
-          'Jeu', 'Ven', 'Sam'],
+        labels: ['Lundi', 'Mardi', 'Mercredi',
+          'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
         datasets: [
           {
             label: "Inscrits",
-            data: ['16', '27', '37', '7', '9',
-              '6', '13'],
-            backgroundColor: '#266141'
+            data: ['0', '0', '0', '0', '0',
+              '0', '0'],
+            backgroundColor: '#266141',
+            borderWidth: .75 // Ajustez l'épaisseur de la bordure pour contrôler la largeur de la barre
           },
           {
             label: "Venus",
-            data: ['10', '14', '6', '5', '8',
-              '12', '10'],
-            backgroundColor: '#84BE38'
+            data: ['0', '0', '0', '0', '0',
+              '0', '0'],
+            backgroundColor: '#84BE38',
+            borderWidth: .75 // Ajustez l'épaisseur de la bordure pour contrôler la largeur de la barre
           }
         ]
       },
       options: {
-        aspectRatio: 1.87
+        aspectRatio: 1.87,
+        plugins: {
+          legend: {
+            display: false // Désactive l'affichage de la légende
+          }
+        },
+        layout: {
+          padding: {
+            // Ajustement de l'espacement entre le bord du graphique et les barres
+            left: 10,
+            right: 10,
+            top: 10,
+            bottom: 10
+          }
+        },
+        responsive: true,
+        // barPercentage: 0.7 // Réglage de la largeur des barres
       }
 
     });
 
-    this.chartGenrePatient = new Chart.Chart( "genrePatient", {
+    this.chartGenrePatient = new Chart.Chart("genrePatient", {
         type: 'doughnut',
         data: {
           labels: [
@@ -96,7 +105,7 @@ export class PatientComponent implements OnInit {
           ],
           datasets: [{
             // label: 'My First Dataset',
-            data: [100, 150, 190, 180],
+            data: [5, 5, 5, 5],
             backgroundColor: [
               '#266141',
               '#84BE38',
@@ -105,26 +114,87 @@ export class PatientComponent implements OnInit {
             ],
             hoverOffset: 35
           }]
+        },
+      options: {
+        plugins: {
+          legend: {
+            display: false // Désactive l'affichage de la légende
+          }
+        },
         }
       }
+    );
+  }
 
+  loadPatients() {
+    this.getChartData(true);
+    this.patientService.getAll().subscribe({
+        next: patients => {
+          this.patients = patients;
+          console.log('Recuperation de patient ', patients);
+          this.updateChartGenreData(patients);
+
+        },
+        error: (error) => {
+          console.error('Erreur lors de la récupération des patients', error);
+          // Gérez l'erreur selon vos besoins
+        }
+      }
+    );
+  }
+
+  updateChartGenreData(patients: PatientInterface[]) {
+    let hommes = 0;
+    let femmes = 0;
+    let garcons = 0;
+    let filles = 0;
+
+// Parcourir la liste des patients et mettre à jour les compteurs
+    this.patients.forEach(patient => {
+      const genre = patient.personne.genre.toLowerCase();
+      const age = this.utils.getAge(patient.personne.datenaissance!);
+
+      if (['m', 'h'].some(g => genre.startsWith(g))) {
+        if (age >= 18) {
+          hommes++;
+        } else {
+          garcons++;
+        }
+      } else if (age >= 18) {
+        femmes++;
+      } else {
+        filles++;
+      }
+    });
+
+// Mettre à jour les données du graphique
+    this.chartGenrePatient.data.datasets[0].data = [hommes, femmes, garcons, filles];
+    this.chartGenrePatient.update();
+  }
+
+  getChartData(lastWeek: boolean = false) {
+    this.patientService.getWeeklyPatientsInscrits().subscribe(
+      result => {
+        this.patientsInscrits = result
+        this.patientService.getWeeklyPatientsVenus().subscribe(
+          result => {
+            this.patientsVenus = result;
+            this.updatePatientStatsChart(lastWeek, this.patientsInscrits, this.patientsVenus);
+          }
+        )
+      }
     )
-
   }
 
-  getDayInfo(dateString: string): { id: number, label: string } {
-    // Créer un objet Date à partir de la chaîne de date
-    const date = new Date(dateString);
+  updatePatientStatsChart(lastWeek: boolean = false, patientsInscrits: WeeklyPatientStat, patientsVenus?: WeeklyPatientStat): void {
 
-    // Jours de la semaine
-    const daysOfWeek = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+    this.chartPatient.data.datasets[0].data = lastWeek ? patientsInscrits.previousWeekCounts : patientsInscrits.currentWeekCounts;
+    if (patientsVenus)
+      this.chartPatient.data.datasets[1].data = lastWeek ? patientsVenus.previousWeekCounts : patientsInscrits.currentWeekCounts;
 
-    // Index du jour de la semaine (0 pour Dimanche, 1 pour Lundi, ..., 6 pour Samedi)
-    const dayIndex = date.getDay();
-
-    // Renvoyer un objet avec l'index et le nom du jour
-    return { id: dayIndex, label: daysOfWeek[dayIndex] };
+    this.chartPatient.update(); // Mettez à jour le graphique
   }
+
 
   addNewPatient() {
     this.modalService.create({
@@ -160,7 +230,7 @@ export class PatientComponent implements OnInit {
 
     // Si 'dateNaissance' a une valeur non nulle et définie
     if (personne.datenaissance) {
-      const birthDate = new Date(personne.datenaissance);
+      /*const birthDate = new Date(personne.datenaissance);
       const today = new Date();
       let age = today.getFullYear() - birthDate.getFullYear();
       const m = today.getMonth() - birthDate.getMonth();
@@ -170,9 +240,9 @@ export class PatientComponent implements OnInit {
       // soustraire 1 de l'âge
       if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
         age--;
-      }
+      }*/
 
-      return `${age} ans`;
+      return `${this.utils.getAge(personne.datenaissance)} ans`;
     }
     return undefined
 

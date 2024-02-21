@@ -11,6 +11,7 @@ import {RendezVousInterface} from "src/app/models/rendez-vous.interface";
 import {PersonnelInterface} from "src/app/models/personnel.interface";
 import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface";
 import {NotifService} from "src/app/services/notification/notif.service";
+import {UtilsService} from "../../../../services/utils/utils.service";
 
 @Component({
   selector: 'app-nouveau-patient-form-dialog',
@@ -26,6 +27,7 @@ export class NouveauPatientComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private modalRef : NzModalRef,
+              private utils: UtilsService,
               private apiPersonne : PersonneService,
               private patientService: PatientService,
               private notify: NotifService) {
@@ -117,21 +119,6 @@ export class NouveauPatientComponent implements OnInit {
      }
   }
 
-  getAge(dateNaissance: string | Date): string {
-    const birthDate = new Date(dateNaissance);
-    const today = new Date();
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const m = today.getMonth() - birthDate.getMonth();
-
-    // Si le mois actuel est avant le mois de naissance,
-    // ou si c'est le mois de naissance mais que le jour actuel est avant le jour de naissance,
-    // soustraire 1 de l'âge
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
-    }
-
-    return age.toString();
-  }
 
   createPersonneForm(formData : any): PersonneInterface
 /*    {
@@ -161,7 +148,7 @@ export class NouveauPatientComponent implements OnInit {
       genre: formData.genre,
       nom: formData.nom,
       prenom: formData.prenom,
-      age: this.getAge(formData.dateNaissance),
+      age: this.utils.getAge(formData.dateNaissance).toString(),
       telephone: formData.telephone,
       email: formData.email,
       datenaissance: formData.dateNaissance,
