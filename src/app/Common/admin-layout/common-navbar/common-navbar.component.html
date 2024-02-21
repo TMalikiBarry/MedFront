@@ -248,40 +248,54 @@
 
 <ng-template #titlePersonnes>
 <!--  <span nz-icon nzType="user" [nzTheme]="router.url.includes('/personnes/') ? 'fill': 'outline'"></span>-->
-  <img
-    [src]="'assets/from_figma/' + (router.url.includes('/personnes/') ? 'Personnes_full_white.svg' : 'Personnes.svg')"
-    alt="Dossiers" class="module_logo" width="16.5">
-  <span>Patients</span>
+  <div [ngClass]="{'selected-module': router.url.includes('/personnes/'), 'module-tag': !router.url.includes('/personnes/')}">
+    <img
+      [src]="'assets/from_figma/' + (router.url.includes('/personnes/') ? 'Personnes_full_white.svg' : 'Personnes.svg')"
+      alt="Dossiers" class="module_logo" width="16.5">
+    <span>Patients</span>
+  </div>
+
 </ng-template>
 
 <ng-template #titleFinance>
   <!--  <span nz-icon nzType="user" [nzTheme]="router.url.includes('/personnes/') ? 'fill': 'outline'"></span>-->
-  <img
-    [src]="'assets/from_figma/' + (router.url.includes('/finance/') ? 'Finance_full_white.svg' : 'Finance.svg')"
-    alt="Dossiers" class="module_logo" width="16.5">
-  <span>Finance</span>
+  <div [ngClass]="{'selected-module': router.url.includes('/finance/'), 'module-tag': !router.url.includes('/finance/')}">
+    <img
+      [src]="'assets/from_figma/' + (router.url.includes('/finance/') ? 'Finance_full_white.svg' : 'Finance.svg')"
+      alt="Dossiers" class="module_logo" width="16.5">
+    <span>Finance</span>
+  </div>
+
 </ng-template>
 
 <ng-template #titleSecurite>
 <!--  <span nz-icon nzType="team" [nzTheme]="router.url.includes('/securite/') ? 'fill': 'outline'"></span>-->
-  <img
-    [src]="'assets/from_figma/' + (router.url.includes('/securite/') ? 'Securite_full_white.svg' : 'Securite.svg')"
-    alt="Dossiers" class="module_logo" width="16.5">
-  <span>Securite</span>
+  <div [ngClass]="{'selected-module': router.url.includes('/securite/'), 'module-tag': !router.url.includes('/securite/')}">
+    <img
+      [src]="'assets/from_figma/' + (router.url.includes('/securite/') ? 'Securite_full_white.svg' : 'Securite.svg')"
+      alt="Dossiers" class="module_logo" width="16.5">
+    <span>Securite</span>
+  </div>
 </ng-template>
 
 <ng-template #titleDossiers>
 <!--  <span nz-icon nzType="folder" [nzTheme]="router.url.includes('/dossiers/') ? 'fill': 'outline'"></span>-->
-  <img
-    [src]="'assets/from_figma/' + (router.url.includes('/dossiers/') ? 'Dossier_full_white.svg' : 'Dossier.svg')"
-    alt="Dossiers" class="module_logo" width="16.5">
-  <span>Prestations</span>
+  <div [ngClass]="{'selected-module': router.url.includes('/dossiers/'), 'module-tag': !router.url.includes('/dossiers/')}">
+    <img
+      [src]="'assets/from_figma/' + (router.url.includes('/dossiers/') ? 'Dossier_full_white.svg' : 'Dossier.svg')"
+      alt="Dossiers" class="module_logo" width="16.5">
+    <span>Prestations</span>
+  </div>
+
 </ng-template>
 
 <ng-template #titleParametre>
 <!--  <span nz-icon nzType="team" [nzTheme]="router.url.includes('/parametre/') ? 'fill': 'outline'"></span>-->
-  <img
-    [src]="'assets/from_figma/' + (router.url.includes('/parametre/') ? 'Parametre_full_white.svg' : 'Parametre.svg')"
-    alt="Dossiers" class="module_logo" width="16.5">
-  <span>Paramètres</span>
+  <div [ngClass]="{'selected-module': router.url.includes('/parametre/'), 'module-tag': !router.url.includes('/parametre/')}">
+    <img
+      [src]="'assets/from_figma/' + (router.url.includes('/parametre/') ? 'Parametre_full_white.svg' : 'Parametre.svg')"
+      alt="Dossiers" class="module_logo" width="16.5">
+    <span>Paramètres</span>
+  </div>
+
 </ng-template>
