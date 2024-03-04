@@ -33,148 +33,97 @@
     max-height: 30rem
 
 
-  .card
-     border-radius: 8px
-     border: 0.5px solid #EAECF0
-     background: var(--Primary, #FFF)
-     width: 48%
-     height: 500px
-     flex-shrink: 0
-     &-title
-      width: 100%
-      display: flex
-      flex-direction: column
-      margin: 2% 0 0 2%  // Ajout de la marge à gauche pour espacement
-      .title
-        color: var(--Couleur-texte, #252525)
-        font-family: Inter, sans-serif
-        font-size: 16px
-        font-style: normal
-        font-weight: 600
-        line-height: 40px
+    .card
+      border-radius: 8px
+      border: 0.5px solid #EAECF0
+      background: var(--Primary, #FFF)
+      width: 48%
+      height: 500px
+      flex-shrink: 0
 
-      .legends
+      &-title
+        width: 100%
         display: flex
-        gap: 1rem
-        margin: 2% 0 0 2%  // Ajout de la marge à gauche pour espacement
+        flex-direction: column
+        margin: 2% 0 0 2%
+        // Ajout de la marge à gauche pour espacement
+        .title
+          color: var(--Couleur-texte, #252525)
+          font-family: Inter, sans-serif
+          font-size: 16px
+          font-style: normal
+          font-weight: 600
+          line-height: 40px
 
-        .legend
-          display: flex
-          align-items: center
+        .make-spaceBetween
+          .legends
+            display: flex
+            gap: 1rem
+            margin: 2% 0 0 2%
+            padding-bottom: 1rem
 
-          svg
-            margin-right: 0.5rem
+            .legend
+              display: flex
+              align-items: center
 
-          span
-            margin-right: 1rem
+              svg
+                margin-right: 0.5rem
 
-        .select-week
-          align-items: center
-          align-self: end
+              span
+                margin-right: 1rem
 
-        .chart
-          align-self: center
-          padding: 3rem
-          width: max-content
+            .select-week
+              align-items: center
+              align-self: end
 
-  .card-right
+
+    .card-right
       border-radius: 8px
       border: 0.5px solid #EAECF0
       background: var(--Primary, #FFF)
       width: 49%
       height: 500px
       flex-shrink: 0
-      margin-left: 1rem  // Ajout de la marge à gauche pour espacement
+      margin-left: 1rem
+      // Ajout de la marge à gauche pour espacement
 
-  &-title
-      width: 100%
-      display: flex
-      flex-direction: column
-
-      .title
-        color: var(--Couleur-texte, #252525)
-        font-family: Inter, sans-serif
-        font-size: 16px
-        font-style: normal
-        font-weight: 600
-        line-height: 40px
-
-      .legends
+      card-title
+        width: 100%
         display: flex
-        gap: 1rem
+        flex-direction: column
 
-        .legend
+        .title
+          color: var(--Couleur-texte, #252525)
+          font-family: Inter, sans-serif
+          font-size: 16px
+          font-style: normal
+          font-weight: 600
+          line-height: 40px
+
+        .chart
+          width: 60%
+          align-self: center
+          padding: 3rem
+          height: 20rem
+          transform: scale(0.4)
+
+          canvas
+            transform: scale(0.6)
+
+        .legends
           display: flex
-          align-items: center
+          gap: 1rem
 
-          svg
-            margin-right: 0.5rem
+          .legend
+            display: flex
+            align-items: center
 
-          span
-            margin-right: 1rem
+            svg
+              margin-right: 0.5rem
+
+            span
+              margin-right: 1rem
 
 
-
-  .dataLayout
-    border-radius: 0.5rem
-    border: 0.5px solid #EAECF0
-    background-color: #FFFFFF
-    padding: 1rem
-
-    > p:nth-child(1)
-      font-family: 'Inter', sans-serif
-      font-size: 1rem
-      font-weight: 600
-      line-height: 2.5rem
-      color: #252525
-      margin-bottom: -0.5rem
-
-    .controllers
-      display: grid
-      grid-template-columns: repeat(7, 1fr)
-      grid-template-rows: repeat(2, 2rem)
-      grid-column-gap: 6px
-      margin-bottom: 2rem
-
-      .ant-input-affix-wrapper
-        width: 90% !important
-        padding: 4px 11px
-        font-size: 14px
-        line-height: 1.5715
-        background-color: #fff
-        border-radius: 0.5625rem !important
-        border: 1px solid #EAECF0 !important
-
-      .searchInput
-        grid-area: 2 / 1 / 3 / 3
-
-      .dateDesc
-        grid-area: 1 / 3 / 2 / 4
-
-      .searchByDate
-        grid-area: 2 / 3 / 3 / 5
-
-        nz-date-picker
-          width: 90%
-
-      .serviceDesc
-        grid-area: 1 / 5 / 2 / 6
-
-      .searchByService
-        grid-area: 2 / 5 / 3 / 7
-
-        nz-select
-          width: 90%
-
-      .filterButton
-        grid-area: 2 / 7 / 3 / 8
-
-        .filter-form-button
-          border-radius: 0.25rem
-          background-color: #84BE38
-          color: #ECF2FF
-          width: 100%
-          box-shadow: 0 1px 2px 0 rgba(16, 24, 40, 0.05)
-
-    .ant-table-thead
-      font-weight: 600
+.ant-select
+  margin-right: 1.5rem

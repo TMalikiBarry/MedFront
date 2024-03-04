@@ -6,6 +6,6 @@ export interface AuthInterface {
   role: string;
   token: string;
   fullName: string;
-  person: PersonneInterface;
+  personne: PersonneInterface;
   password: string;
 }

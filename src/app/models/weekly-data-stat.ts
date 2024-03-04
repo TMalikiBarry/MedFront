@@ -1,4 +1,4 @@
-export interface WeeklyPatientStat {
+export interface WeeklyDataStat {
   currentWeekCounts: string[];
   previousWeekCounts: string[];
 }

@@ -3,7 +3,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {PrestationInterface} from "../../models/prestation.interface";
 import {Observable} from "rxjs";
 import {ApiResponseInterface} from "../../models/api-response.interface";
-import {environment} from "../../../environments/environment.prod";
+import {environment} from "src/environments/environment.prod";
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,7 @@ export class PrestationService {
     params = params.append('size', size.toString());
 
     // Envoi de la requête GET avec les paramètres de pagination
-    return this.http.get(this.url, { params: params });
+    return this.http.get(this.url, {params});
   }
 
   getPaginatedFilteredData(page: number = 0,
@@ -56,7 +56,7 @@ export class PrestationService {
       params = params.append('endDate', endDate);
     }
 
-    return this.http.get(this.url, { params: params });
+    return this.http.get(this.url, {params});
   }
 
   getAll(){

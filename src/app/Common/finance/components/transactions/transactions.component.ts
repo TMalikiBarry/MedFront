@@ -147,7 +147,6 @@ export class TransactionsComponent {
     })
   }
   onQueryParamsChange(params: NzTableQueryParams): void {
-    console.log(" onQueryParamsChange FUNCTIONS ", params);
     this.pageIndex = params.pageIndex -1;
     this.pageSize = params.pageSize
     /*const { pageSize, pageIndex} = params;

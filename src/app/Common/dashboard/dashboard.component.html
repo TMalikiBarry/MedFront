@@ -1,1 +1,93 @@
-<p>dashboard works!</p>
+<div class="welcome-title">
+  <span>Bienvenue, </span><span
+  *ngIf="currentUser ">{{ currentUser.personne!.prenom |titlecase }} {{ currentUser.personne.nom |uppercase }}</span>
+</div>
+<div class="make-spaceBetween">
+  <div class="patients-stat">
+    <div class="statsLayout">
+      <div *ngFor="let stat of numberStats; let i = index" class="myCardStats width-10">
+        <div class="logoStats"><img [src]="'assets/from_figma/logO-for-' + descSats[i] +'.svg'" alt="stats" width="35">
+        </div>
+
+        <div class="numberStats"><p>{{ stat }}</p></div>
+        <div class="descStats"><p>{{ descSats[i] | titlecase }}</p></div>
+
+      </div>
+    </div>
+    <div class="for-a-card">
+      <div class="make-spaceBetween">
+        <p>Flux hebdomadaire des patients</p>
+        <div class="graph-legends">
+          <div class="legend">
+            <svg fill="none" height="11" viewBox="0 0 10 11" width="10" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="5" cy="5.5" fill="#84BE38" r="5"/>
+            </svg>
+            <span>Déjà enregistrés</span>
+          </div>
+          <div class="legend">
+            <svg fill="none" height="11" viewBox="0 0 10 11" width="10" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="5" cy="5.5" fill="#266141" r="5"/>
+            </svg>
+            <span>Nouveaux</span>
+          </div>
+        </div>
+      </div>
+      <canvas id="dashB_patientsStats">{{ chartPatient }}</canvas>
+    </div>
+  </div>
+  <div class="for-a-card width_perc-40 new-patients-list">
+    <div class="make-spaceBetween">
+      <p>Les nouveaux patients</p>
+      <span nz-tooltip nzTooltipTitle="Voir la liste des patients" routerLink="/admin/personnes/patients">
+        Tout voir <img alt="Tout voir" src="assets/from_figma/see_more.svg" width="4.5">
+      </span>
+    </div>
+    <div *ngFor="let patient of patientList" class="new-patient-card">
+      <div class="avatar-card"><img alt="default avatar" src="assets/from_figma/avatar_default.svg"></div>
+      <p class="name-card">{{ patient.personne.prenom |titlecase }} {{ patient.personne.nom | uppercase }}</p>
+      <div class="details-card">
+        {{ getGenre(patient) }}, {{ utils.getAge(patient.personne.datenaissance!) }} ans &nbsp;&nbsp;
+        <img alt="calendrier" src="assets/from_figma/calendar_xsmall.svg"> {{ patient.dateCreation! | timeAgo }},&nbsp;
+        {{ patient.dateCreation! | date: "HH'h'mm" }}
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="make-spaceBetween">
+  <div class="for-a-card rdv-card">
+    <div class="make-spaceBetween">
+      <p>Les rendez-vous du jour</p>
+      <span nz-tooltip nzTooltipTitle="Voir la liste des rendez-vous" routerLink="/admin/dossiers/rendez-vous">
+        Tout voir <img alt="Tout voir" src="assets/from_figma/see_more.svg" width="4.5">
+      </span>
+    </div>
+    <div class="make-spaceBetween">
+      <div [ngStyle]="{ width: '45%', height: '90%', border: '1px solid #d9d9d9', borderRadius: '8px' }">
+        <nz-calendar [nzDisabledDate]="disabledDate" [nzFullscreen]="false"
+                     [nzMode]="'month'"></nz-calendar>
+      </div>
+      <div [ngStyle]="{ width: '53%', height: '20rem', overflowX: 'auto'}">
+        <div *ngFor="let patient of patientList" class="new-patient-card add-border">
+          <div class="avatar-card"><img alt="default avatar" src="assets/from_figma/avatar_default.svg"></div>
+          <p class="name-card">{{ patient.personne.prenom |titlecase }} {{ patient.personne.nom | uppercase }}</p>
+          <div class="details-card">
+            {{ getGenre(patient) }}, {{ utils.getAge(patient.personne.datenaissance!) }} ans &nbsp;&nbsp;
+            <img alt="calendrier" src="assets/from_figma/calendar_xsmall.svg"> {{ patient.dateCreation! | timeAgo }},&nbsp;
+            {{ patient.dateCreation! | date: "HH'h'mm" }}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="for-a-card width_perc-40 transaction-graph-card">
+    <div class="make-spaceBetween">
+      <p>Flux hebdomadaire des transactions</p>
+      <span nz-tooltip nzTooltipTitle="Voir la liste des patients" routerLink="/admin/finance/transactions">
+        Tout voir <img alt="Tout voir" src="assets/from_figma/see_more.svg" width="4.5">
+      </span>
+    </div>
+    <canvas id="transactionsStats">{{ chartTransaction }}</canvas>
+  </div>
+</div>

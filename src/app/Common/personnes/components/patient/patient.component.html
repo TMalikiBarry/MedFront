@@ -22,26 +22,35 @@
         <div class="card">
            <div class="card-title">
                    <h3 class="title">Flux hebdomadaire des patients</h3>
-                   <div class="legends">
-                           <div class="legend">
-                                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="11" viewBox="0 0 10 11" fill="none">
-                                           <circle cx="5" cy="5.5" r="5" fill="#84BE38"/>
-                                   </svg>
-                                   <span>Patients inscrits</span>
-                           </div>
-                           <div class="legend">
-                                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="11" viewBox="0 0 10 11" fill="none">
-                                           <circle cx="5" cy="5.5" r="5" fill="#266141"/>
-                                   </svg>
-                                   <span>Patients venus</span>
-                           </div>
-<!--                           <div class="legend">
-                                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="11" viewBox="0 0 10 11" fill="none">
-                                           <circle cx="5" cy="5.5" r="5" fill="#FDCD51"/>
-                                   </svg>
-                                   <span>Sortie</span>
-                           </div>-->
+             <div class="make-spaceBetween">
+               <div class="legends">
+                 <div class="legend">
+                   <svg fill="none" height="11" viewBox="0 0 10 11" width="10" xmlns="http://www.w3.org/2000/svg">
+                     <circle cx="5" cy="5.5" fill="#84BE38" r="5"/>
+                   </svg>
+                   <span>Patients inscrits</span>
+                 </div>
+                 <div class="legend">
+                   <svg fill="none" height="11" viewBox="0 0 10 11" width="10" xmlns="http://www.w3.org/2000/svg">
+                     <circle cx="5" cy="5.5" fill="#266141" r="5"/>
+                   </svg>
+                   <span>Patients venus</span>
+                 </div>
+                 <!--                           <div class="legend">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="11" viewBox="0 0 10 11" fill="none">
+                                                            <circle cx="5" cy="5.5" r="5" fill="#FDCD51"/>
+                                                    </svg>
+                                                    <span>Sortie</span>
+                                            </div>-->
 
+               </div>
+               <nz-select
+                 (ngModelChange)="OnWeekChange($event)"
+                 [(ngModel)]="isLastWeek"
+               >
+                 <nz-option [nzValue]="true" nzLabel="Semaine en cours"></nz-option>
+                 <nz-option [nzValue]="false" nzLabel="Semaine dernière"></nz-option>
+               </nz-select>
                    </div>
 
            </div>
@@ -56,36 +65,38 @@
         <div class="card-right">
            <div class="card-title">
              <h3 class="title">Données relatives aux patients</h3>
-             <div class="legends">
-               <div class="legend">
-                 <svg fill="none" height="11" viewBox="0 0 10 11" width="10" xmlns="http://www.w3.org/2000/svg">
-                   <circle cx="5" cy="5.5" fill="#84BE38" r="5"/>
-                 </svg>
-                 <span>Hommes</span>
-               </div>
-               <div class="legend">
-                 <svg fill="none" height="11" viewBox="0 0 10 11" width="10" xmlns="http://www.w3.org/2000/svg">
-                   <circle cx="5" cy="5.5" fill="#266141" r="5"/>
-                 </svg>
-                 <span>Femmes</span>
-               </div>
-               <div class="legend">
-                 <svg fill="none" height="11" viewBox="0 0 10 11" width="10" xmlns="http://www.w3.org/2000/svg">
-                   <circle cx="5" cy="5.5" fill="#FDCD51" r="5"/>
-                 </svg>
-                 <span>Garçons</span>
-               </div>
-               <div class="legend">
-                 <svg fill="none" height="11" viewBox="0 0 10 11" width="10" xmlns="http://www.w3.org/2000/svg">
-                   <circle cx="5" cy="5.5" fill="#ffebbe" r="5"/>
-                 </svg>
-                 <span>Filles</span>
-               </div>
+             <div class="make-spaceBetween">
+               <div class="legends">
+                 <div class="legend">
+                   <svg fill="none" height="11" viewBox="0 0 10 11" width="10" xmlns="http://www.w3.org/2000/svg">
+                     <circle cx="5" cy="5.5" fill="#84BE38" r="5"/>
+                   </svg>
+                   <span>Hommes</span>
+                 </div>
+                 <div class="legend">
+                   <svg fill="none" height="11" viewBox="0 0 10 11" width="10" xmlns="http://www.w3.org/2000/svg">
+                     <circle cx="5" cy="5.5" fill="#266141" r="5"/>
+                   </svg>
+                   <span>Femmes</span>
+                 </div>
+                 <div class="legend">
+                   <svg fill="none" height="11" viewBox="0 0 10 11" width="10" xmlns="http://www.w3.org/2000/svg">
+                     <circle cx="5" cy="5.5" fill="#FDCD51" r="5"/>
+                   </svg>
+                   <span>Garçons</span>
+                 </div>
+                 <div class="legend">
+                   <svg fill="none" height="11" viewBox="0 0 10 11" width="10" xmlns="http://www.w3.org/2000/svg">
+                     <circle cx="5" cy="5.5" fill="#ffebbe" r="5"/>
+                   </svg>
+                   <span>Filles</span>
+                 </div>
 
 
+               </div>
              </div>
              <div class="chart">
-               <canvas id="genrePatient" style="width: 310px; height: 310px">{{ chartGenrePatient }}</canvas>
+               <canvas height="350" id="genrePatient" width="350">{{ chartGenrePatient }}</canvas>
              </div>
            </div>
 

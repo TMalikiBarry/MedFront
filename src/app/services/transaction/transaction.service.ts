@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
-import {environment} from "../../../environments/environment";
+import {Injectable} from '@angular/core';
+import {environment} from "src/environments/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {ApiResponseInterface} from "../../models/api-response.interface";
 import {Observable} from "rxjs";
+import {MoyenPayment} from "../../models/transaction.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,14 @@ export class TransactionService {
       .append('page', page.toString())
       .append('size', size.toString());
     return this.http.get(this.API_URL+"/transactions", {params: params})
+  }
+
+  getWeeklyTransactionAmountStats(moyenPayment?: MoyenPayment): Observable<any> {
+    let params = new HttpParams();
+    if (moyenPayment) {
+      params = params.append("moyenPayment", moyenPayment);
+    }
+    return this.http.get(`${this.API_URL}/transactions/stats`, {params});
   }
 
   getAllCountTransaction(){

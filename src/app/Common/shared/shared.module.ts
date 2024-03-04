@@ -26,15 +26,18 @@ import {NzToolTipModule} from "ng-zorro-antd/tooltip";
 import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
 import {NzRadioModule} from "ng-zorro-antd/radio";
 import {PrettyPhoneNumberPipe} from "../../pipes/pretty-phone-number/pretty-phone-number.pipe";
+import {TimeAgoPipe} from "../../pipes/TimeAgo/time-ago.pipe";
 
 
 @NgModule({
   declarations: [
     DisplayNonNullStringPipe,
+    TimeAgoPipe,
   ],
   exports: [
     CommonModule,
     DisplayNonNullStringPipe,
+    TimeAgoPipe,
     PrettyPhoneNumberPipe,
     NzLayoutModule,
     NzMenuModule,

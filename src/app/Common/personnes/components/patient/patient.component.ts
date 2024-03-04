@@ -10,7 +10,7 @@ import {NouveauPatientComponent} from "../../dialogs/nouveau-patient-form-dialog
 import {ActivatedRoute, Router} from "@angular/router";
 import {PersonneInterface} from "src/app/models/personne.interface";
 import * as Chart from 'chart.js/auto';
-import {WeeklyPatientStat} from "src/app/models/weekly-patient-stat";
+import {WeeklyDataStat} from "src/app/models/weekly-data-stat";
 import {UtilsService} from "../../../../services/utils/utils.service";
 
 @Component({
@@ -31,9 +31,10 @@ export class PatientComponent implements OnInit {
   // paginatedData!: Page<PatientInterface>;
   // patientPers!: PersonneInterface;
   // pageIndex: number = 0;
+  isLastWeek = false;
   // pageSize: number = 10;
-  private patientsInscrits!: WeeklyPatientStat;
-  private patientsVenus!: WeeklyPatientStat;
+  private patientsInscrits!: WeeklyDataStat;
+  private patientsVenus!: WeeklyDataStat;
 
   constructor(private patientService: PatientService,
               private modalService: NzModalService,
@@ -105,7 +106,7 @@ export class PatientComponent implements OnInit {
           ],
           datasets: [{
             // label: 'My First Dataset',
-            data: [5, 5, 5, 5],
+            data: ["5", "5", "5", "5"],
             backgroundColor: [
               '#266141',
               '#84BE38',
@@ -121,6 +122,7 @@ export class PatientComponent implements OnInit {
             display: false // Désactive l'affichage de la légende
           }
         },
+        maintainAspectRatio: false
         }
       }
     );
@@ -186,7 +188,7 @@ export class PatientComponent implements OnInit {
     )
   }
 
-  updatePatientStatsChart(lastWeek: boolean = false, patientsInscrits: WeeklyPatientStat, patientsVenus?: WeeklyPatientStat): void {
+  updatePatientStatsChart(lastWeek: boolean = false, patientsInscrits: WeeklyDataStat, patientsVenus?: WeeklyDataStat): void {
 
     this.chartPatient.data.datasets[0].data = lastWeek ? patientsInscrits.previousWeekCounts : patientsInscrits.currentWeekCounts;
     if (patientsVenus)
@@ -224,9 +226,9 @@ export class PatientComponent implements OnInit {
 
   getAgeDescription(personne: PersonneInterface): string | undefined {
     // Si le champ 'age' est présent
-    if (personne.age && personne.age !== "NaN") {
-      return `${personne.age} ans`;
-    }
+    // if (personne.age && personne.age !== "NaN") {
+    //   return `${personne.age} ans`;
+    // }
 
     // Si 'dateNaissance' a une valeur non nulle et définie
     if (personne.datenaissance) {
@@ -255,5 +257,9 @@ export class PatientComponent implements OnInit {
       // Redirection vers le dossier médical avec l'ID du patient
       this.router.navigateByUrl('/admin/personnes/dossiers-medicaux', patientId);
     }
+  }
+
+  OnWeekChange(event: any) {
+    console.log('EVENT SELECT ', event);
   }
 }

@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {environment} from "../../../environments/environment.prod";
+import {environment} from "src/environments/environment.prod";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ApiResponseInterface} from "../../models/api-response.interface";
 import {DossierMedicalInterface} from "../../models/dossier-medical.interface";
 import {PatientInterface} from "../../models/patient.interface";
-import {WeeklyPatientStat} from "../../models/weekly-patient-stat";
+import {WeeklyDataStat} from "../../models/weekly-data-stat";
 
 @Injectable({
   providedIn: 'root'
@@ -47,11 +47,11 @@ export class PatientService {
     return this.http.get<PatientInterface>(`${this.url}/${patientId}`);
   }
 
-  getWeeklyPatientsInscrits(): Observable<WeeklyPatientStat> {
-    return this.http.get<WeeklyPatientStat>(this.patientStatUrl);
+  getWeeklyPatientsInscrits(): Observable<WeeklyDataStat> {
+    return this.http.get<WeeklyDataStat>(this.patientStatUrl);
   }
 
-  getWeeklyPatientsVenus(): Observable<WeeklyPatientStat> {
-    return this.http.get<WeeklyPatientStat>(this.rdvStatUrl);
+  getWeeklyPatientsVenus(): Observable<WeeklyDataStat> {
+    return this.http.get<WeeklyDataStat>(this.rdvStatUrl);
   }
 }
