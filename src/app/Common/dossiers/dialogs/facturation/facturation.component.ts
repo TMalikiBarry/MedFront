@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NzModalRef} from "ng-zorro-antd/modal";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {TransactionService} from "src/app/services/transaction/transaction.service";
 import {PrestationInterface} from "src/app/models/prestation.interface";
 import {ApiResponseInterface} from "src/app/models/api-response.interface";
@@ -13,6 +13,7 @@ import {PersonneInterface} from "src/app/models/personne.interface";
 import {DossierMedicalService} from "src/app/services/dossier-medical/dossier-medical.service";
 import {CliniqueServiceService} from "src/app/services/service/clinique-service.service";
 import {NotifService} from "src/app/services/notification/notif.service";
+import {Observable} from "rxjs";
 
 
 declare global {
@@ -58,7 +59,6 @@ export class FacturationComponent implements OnInit{
 
   myServicesList!: ServiceInterface[];
   listOfDossierMedical!: DossierMedicalInterface[];
-  listPrescription!: any;
   listOfPole!: PoleInterface[];
 
   // TODO a revoir
@@ -93,17 +93,13 @@ export class FacturationComponent implements OnInit{
 
   ];
 
-  FacForm: FormGroup = this.fb.group({
-    prestation : '',
-    dossier: '',
-    service: '',
-    amount: '',
-    referentielPartenaire: '',
-    couverture: '',
-    moyenPayment : '',
-    transactionAmount: '',
-    transactionType : 'ENCAISSEMENT'
-  })
+  nomAssuranceCtrl!: FormControl;
+  tauxAssuranceCtrl!: FormControl;
+  showAssuranceForm$!: Observable<boolean>;
+  moyenPaiementCtrl!: FormControl;
+  showMoyenPaiementCtrl$!: Observable<boolean>
+
+  FacForm!: FormGroup;
 
   constructor(private modal: NzModalRef,
               private parametreService : ParametreService,
@@ -113,9 +109,11 @@ export class FacturationComponent implements OnInit{
               private serviceApi: CliniqueServiceService,
               private notify: NotifService) {
   }
+
   ngOnInit(): void {
     this.data = this.modal.getConfig().nzData as PrestationInterface
-    console.log("Data "+this.data)
+    console.log("Data " + this.data);
+    this.initFormControls();
     this.loadParametre();
     this.loadTouchPayScript();
     this.loadPatients();
@@ -136,6 +134,33 @@ export class FacturationComponent implements OnInit{
       error: () => {
         this.modal.close();
       }
+    })
+  }
+
+  initFormControls() {
+    this.nomAssuranceCtrl = this.fb.control('');
+    this.tauxAssuranceCtrl = this.fb.control('');
+    /*
+        this.assuranceForm = this.fb.group({
+          referentielPartenaire: this.nomAssuranceCtrl,
+          couverture: this.tauxAssuranceCtrl
+        });
+    */
+    this.moyenPaiementCtrl = this.fb.control('', Validators.required)
+
+    this.FacForm = this.fb.group({
+      estAssure: '',
+      parUnTiers: '',
+      referentielPartenaire: this.nomAssuranceCtrl,
+      couverture: this.tauxAssuranceCtrl,
+      prestation: '',
+      dossier: '',
+      service: '',
+      amount: '',
+      // assurance: this.assuranceForm,
+      moyenPayment: this.moyenPaiementCtrl,
+      transactionAmount: '',
+      transactionType: 'ENCAISSEMENT'
     })
   }
 

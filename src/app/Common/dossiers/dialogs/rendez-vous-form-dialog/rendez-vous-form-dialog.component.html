@@ -46,7 +46,7 @@
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
             <p class="input-label">Poles</p>
-            <nz-select (ngModelChange)="showEvent($event)" nzShowSearch nzPlaceHolder="Choissez un pole" formControlName="pole">
+            <nz-select formControlName="pole" nzPlaceHolder="Choissez un pole" nzShowSearch>
               <nz-option nzLabel="----"></nz-option>
               <nz-option
                 *ngFor="let pole of listOfPole"
@@ -72,7 +72,7 @@
         <nz-form-item>
           <nz-form-control>
             <p class="input-label">Date et Heure du RDV</p>
-            <nz-date-picker nzPlaceHolder="Choissez la date" nzShowTime
+            <nz-date-picker [nzDisabledDate]="disabledDate" nzPlaceHolder="Choissez la date" nzShowTime
                             nzFormat="dd-MM-YYYY HH:mm:ss" formControlName="dateRv"></nz-date-picker>
           </nz-form-control>
         </nz-form-item>
@@ -94,7 +94,7 @@
 
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
-            <p class="input-label">Note</p>
+            <p class="input-label">Notes & Remarques</p>
             <textarea
               nz-input
               formControlName="remarques"

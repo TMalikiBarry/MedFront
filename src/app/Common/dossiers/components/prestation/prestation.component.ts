@@ -141,6 +141,7 @@ export class PrestationComponent implements OnInit{
       nzContent: PrestationFormDialogComponent,
       nzWidth: 650,
       nzClosable: false,
+      nzCentered: true,
     }).afterClose.subscribe(
       ()=>{
         this.getPrestationsByPage()
@@ -152,6 +153,7 @@ export class PrestationComponent implements OnInit{
     this.modalService.create({
       nzContent: NewPaymentFormDialogComponent,
       nzClosable: false,
+      nzCentered: true,
     }).afterClose.subscribe(
       ()=>{
         this.getPrestationsByPage()
@@ -211,7 +213,8 @@ export class PrestationComponent implements OnInit{
       nzContent : FacturationComponent,
       nzClosable: false,
       nzData : prestation,
-      nzWidth: 650
+      nzWidth: 650,
+      nzCentered: true
     }).afterClose.subscribe(
       ()=>{
         this.getPrestationsByPage()

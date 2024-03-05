@@ -59,7 +59,7 @@
               <input class="input" formControlName="email" id="email" name="email" required type="text">
             </div>
             <div class="nom">
-              <label class="label" for="contactUrgence">Contact d'urgence</label>
+              <label class="label" for="contactUrgence">Téléphone contact d'urgence</label>
               <input class="input" formControlName="contactUrgence" id="contactUrgence" name="contactUrgence"
                      required type="text">
             </div>
@@ -138,7 +138,7 @@
   </div>
   <div *nzModalFooter>
     <button nz-button class="my-default-button basic-button" (click)="handleCancel()">Annuler</button>
-    <button (click)="enregistrerPatient()"
+    <button (click)="enregistrerPatient()" [nzLoading]="isConfirmLoading"
             [ngClass]="{'buttonIsDisabled': patientForm.invalid, 'basic-button' : true, 'my-primary-button': patientForm.valid}"
             [nzTooltipTitle]="patientForm.invalid ? 'Veuillez bien remplir le formulaire': 'Enregistrer'" nz-button
             nz-tooltip>

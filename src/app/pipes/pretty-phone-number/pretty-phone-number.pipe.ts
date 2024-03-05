@@ -9,13 +9,14 @@ export class PrettyPhoneNumberPipe implements PipeTransform {
   transform(value: any): string {
     // Vérifier si la valeur est un numéro de téléphone valide
     if (!value || typeof value !== 'string') {
-      return value;
+      return '';
     }
 
     // Supprimer tous les caractères non numériques et espaces
     // let phoneNumber = value.replace(/\D/g, '');
     let phoneNumber = value.replace(/[^\d\s]/g, '');
-
+    if (!phoneNumber)
+      return ''
     // Vérifier si l'indicatif régional est présent
     if (['+221', '00221', '221'].some(indic => phoneNumber.startsWith(indic))) {
       phoneNumber = this.removeCountryCodePrefix(phoneNumber)

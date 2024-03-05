@@ -24,6 +24,7 @@ export class NouveauPatientComponent implements OnInit {
   patient !: PatientInterface
   maxDate: string;
   titleForm: string = "Nouveau Patient";
+  isConfirmLoading = false;
 
   constructor(private fb: FormBuilder,
               private modalRef : NzModalRef,
@@ -68,6 +69,7 @@ export class NouveauPatientComponent implements OnInit {
 
   enregistrerPatient() {
     if (this.patientForm.valid) {
+      this.isConfirmLoading = true;
       const patientData = this.patientForm.value;
       let personneForm = this.createPersonneForm(patientData)
       let patientForm = <PatientInterface>this.createPatientForm(patientData, personneForm)
@@ -85,7 +87,8 @@ export class NouveauPatientComponent implements OnInit {
           this.notify.snackMessage(`Le patient ${personneForm.prenom} ${personneForm.nom} a été ajouté`,
             3000, "success");
           this.modalRef.close(res1.reponse.patient.id);
-        }
+        },
+        complete: () => this.isConfirmLoading = false,
       })
 
       // this.personne.nom = this.patientForm.controls['nom'].value

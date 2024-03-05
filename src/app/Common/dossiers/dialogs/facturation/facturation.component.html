@@ -36,28 +36,7 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div class="make-spaceBetween">
-        <nz-form-item>
-          <nz-form-control nzErrorTip="Veuillez choisir le patient!">
-            <p class="input-label">Moyen de payment</p>
-            <nz-select nzShowSearch nzPlaceHolder="Choissez un le moyen de payment" formControlName="moyenPayment">
-              <nz-option nzLabel="----"></nz-option>
-              <nz-option
-                *ngFor="let mode of listMoyenPayment"
-                [nzLabel]="mode.libelle" [nzValue]="mode.code"></nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-control nzErrorTip="Veuillez renseigner le diagnostic!">
-            <p class="input-label">Assurance</p>
-            <nz-input-group>
-              <input formControlName="referentielPartenaire" nz-input placeholder="Renseignez l'assurance" type="text"/>
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-      <div class="make-spaceBetween">
+      <div class="make-me-flex">
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez renseigner le montant!">
             <p class="input-label">Montant</p>
@@ -66,23 +45,65 @@
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
+
+        <div class="weird-div">
+          <!--          <p>{{'êtes-' |titlecase}}vous assuré ? </p>-->
+          <p>Est-il assuré ? </p>
+          <nz-radio-group formControlName="estAssure">
+            <label [nzValue]="true" nz-radio>Oui</label>
+            <label [nzValue]="false" nz-radio>Non</label>
+            <!--      <label nz-radio nzValue="C">Option C</label>-->
+          </nz-radio-group>
+        </div>
+
+      </div>
+      <div class="make-spaceBetween">
         <nz-form-item>
-          <nz-form-control nzErrorTip="Veuillez renseigner le diagnostic!">
+          <nz-form-control nzErrorTip="Veuillez renseigner le nom de l'assurance!">
+            <p class="input-label">Assurance</p>
+            <nz-input-group>
+              <input [formControl]="nomAssuranceCtrl" nz-input placeholder="Renseignez l'assurance" type="text"/>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Veuillez renseigner la prise en charge!">
             <p class="input-label">Prise en charge</p>
             <nz-input-group nzSuffix=" %">
-              <input formControlName="couverture" nz-input placeholder="Renseignez la valeur de la prise en charge"
+              <input [formControl]="tauxAssuranceCtrl" nz-input placeholder="Renseignez la valeur de la prise en charge"
+                     type="text"/>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="make-spaceBetween">
+        <div class="weird-div">
+          <p>Tiers payant généralisé</p>
+          <nz-radio-group formControlName="parUnTiers">
+            <label [nzValue]="true" nz-radio>Oui</label>
+            <label [nzValue]="false" nz-radio>Non</label>
+            <!--      <label nz-radio nzValue="C">Option C</label>-->
+          </nz-radio-group>
+        </div>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Veuillez renseigner le diagnostic!">
+            <p class="input-label">Montant Final à payer</p>
+            <nz-input-group nzSuffix=" F CFA">
+              <input formControlName="transactionAmount" nz-input placeholder="Renseignez le montant final alors"
                      type="text"/>
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
       </div>
       <nz-form-item>
-        <nz-form-control nzErrorTip="Veuillez renseigner le diagnostic!">
-          <p class="input-label">Montant Final à payer</p>
-          <nz-input-group nzSuffix=" F CFA">
-            <input formControlName="transactionAmount" nz-input placeholder="Renseignez le montant final alors"
-                   type="text"/>
-          </nz-input-group>
+        <nz-form-control nzErrorTip="Veuillez choisir le patient!">
+          <p class="input-label">Moyen de payment</p>
+          <nz-select formControlName="moyenPayment" nzPlaceHolder="Choissez un le moyen de payment" nzShowSearch>
+            <nz-option nzLabel="----"></nz-option>
+            <nz-option
+              *ngFor="let mode of listMoyenPayment"
+              [nzLabel]="mode.libelle" [nzValue]="mode.code"></nz-option>
+          </nz-select>
         </nz-form-control>
       </nz-form-item>
 

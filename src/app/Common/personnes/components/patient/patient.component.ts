@@ -129,7 +129,7 @@ export class PatientComponent implements OnInit {
   }
 
   loadPatients() {
-    this.getChartData(true);
+    this.getChartData(this.isLastWeek);
     this.patientService.getAll().subscribe({
         next: patients => {
           this.patients = patients;
@@ -198,11 +198,16 @@ export class PatientComponent implements OnInit {
   }
 
 
+  OnWeekChange(event: any) {
+    this.getChartData(event);
+  }
+
   addNewPatient() {
     this.modalService.create({
       nzContent: NouveauPatientComponent,
       nzClosable: false,
-      nzWidth: 750
+      nzWidth: 750,
+      nzCentered: true,
     }).afterClose.subscribe(
       (result) => {
         if (result)
@@ -216,6 +221,7 @@ export class PatientComponent implements OnInit {
       nzContent: PrestationFormDialogComponent,
       nzData: data,
       nzClosable: false,
+      nzCentered: true,
     }).afterClose.subscribe(
       (result) => {
         if (result === 'toPrestations')
@@ -223,26 +229,10 @@ export class PatientComponent implements OnInit {
       }
     );
   }
-
   getAgeDescription(personne: PersonneInterface): string | undefined {
-    // Si le champ 'age' est présent
-    // if (personne.age && personne.age !== "NaN") {
-    //   return `${personne.age} ans`;
-    // }
 
     // Si 'dateNaissance' a une valeur non nulle et définie
     if (personne.datenaissance) {
-      /*const birthDate = new Date(personne.datenaissance);
-      const today = new Date();
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const m = today.getMonth() - birthDate.getMonth();
-
-      // Si le mois actuel est avant le mois de naissance,
-      // ou si c'est le mois de naissance mais que le jour actuel est avant le jour de naissance,
-      // soustraire 1 de l'âge
-      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }*/
 
       return `${this.utils.getAge(personne.datenaissance)} ans`;
     }
@@ -250,6 +240,7 @@ export class PatientComponent implements OnInit {
 
     // Si aucune des conditions n'est remplie, la fonction ne renvoie rien
   }
+
   redirectToDossierMedical() {
     // Assurez-vous que vous avez l'ID du patient disponible
     const patientId = this.route.snapshot.params['id']; // Assurez-vous que 'id' correspond au nom du paramètre dans votre route
@@ -257,9 +248,5 @@ export class PatientComponent implements OnInit {
       // Redirection vers le dossier médical avec l'ID du patient
       this.router.navigateByUrl('/admin/personnes/dossiers-medicaux', patientId);
     }
-  }
-
-  OnWeekChange(event: any) {
-    console.log('EVENT SELECT ', event);
   }
 }

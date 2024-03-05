@@ -10,9 +10,9 @@ import {MoyenPayment} from "../../models/transaction.interface";
 })
 export class TransactionService {
 
-  readonly API_URL = environment.apiURL
+  private readonly API_URL = environment.apiURL
 
-  readonly ENDPOINT_TRANSACTION = "/transactions/"
+  private readonly ENDPOINT_TRANSACTION = "/transactions/"
 
   constructor(private http : HttpClient) { }
 
@@ -36,7 +36,7 @@ export class TransactionService {
   getWeeklyTransactionAmountStats(moyenPayment?: MoyenPayment): Observable<any> {
     let params = new HttpParams();
     if (moyenPayment) {
-      params = params.append("moyenPayment", moyenPayment);
+      params = params.append("moyenPaiement", moyenPayment);
     }
     return this.http.get(`${this.API_URL}/transactions/stats`, {params});
   }

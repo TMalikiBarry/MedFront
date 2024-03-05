@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {listService, Service} from "src/app/models/Utils/constants";
 import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
 import {FormBuilder} from "@angular/forms";
@@ -21,7 +21,7 @@ import {NotifService} from "src/app/services/notification/notif.service";
   templateUrl: './rendez-vous-form-dialog.component.html',
   styleUrls: ['./rendez-vous-form-dialog.component.sass']
 })
-export class RendezVousFormDialogComponent {
+export class RendezVousFormDialogComponent implements OnInit {
 
   titleForm = "Nouveau Rendez-vous";
   formDesc = "Veuillez remplir ce formulaire pour ajouter un rendez-vous";
@@ -90,6 +90,11 @@ export class RendezVousFormDialogComponent {
     }
   }
 
+  disabledDate = (current: Date): boolean => {
+    const today = new Date();
+    // Renvoie true si la date actuelle est antérieure à aujourd'hui
+    return current.getTime() <= today.getTime();
+  };
 
   handleCancel() {
     this.modal.close();
@@ -98,7 +103,8 @@ export class RendezVousFormDialogComponent {
   handleOk() {
     const formData = this.RvForm.value;
     const rv = this.createRdvFromForm(formData);
-    console.log(rv)
+    console.log(rv);
+    this.isConfirmLoading = true;
     if(this.data){
       this.updateRdv(rv)
     }else{
@@ -113,15 +119,6 @@ export class RendezVousFormDialogComponent {
         complete: () => {this.isConfirmLoading = false}
       });
     }
-  }
-
-  triggerFileUpload() {
-    document.getElementById('file_uploader')!.click();
-  }
-
-
-  onChange(result: Date): void {
-    console.log('onChange: ', result);
   }
 
   getDay(dateString : string): Date {
@@ -198,6 +195,7 @@ export class RendezVousFormDialogComponent {
       nzContent: NouveauPatientComponent,
       nzClosable: false,
       nzWidth: 800,
+      nzCentered: true,
     })
     dialog.afterClose.subscribe((result: any) => {
       console.log('Données reçues du modal :', result);

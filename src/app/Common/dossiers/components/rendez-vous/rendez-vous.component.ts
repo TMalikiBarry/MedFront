@@ -84,6 +84,7 @@ export class RendezVousComponent {
     this.modalService.create({
       nzContent: PrestationFormDialogComponent,
       nzClosable: false,
+      nzCentered: true,
     }).afterClose.subscribe(
       ()=>{
         this.getAllRdv()
@@ -112,7 +113,8 @@ export class RendezVousComponent {
     const dialog = this.modalService.create({
       nzContent: RendezVousFormDialogComponent,
       nzClosable: false,
-      nzWidth: '40rem'
+      nzWidth: '40rem',
+      nzCentered: true,
     })
     dialog.afterClose.subscribe(() => {
       this.getRdvByPage();
@@ -124,7 +126,8 @@ export class RendezVousComponent {
       nzContent: RendezVousFormDialogComponent,
       nzData : data,
       nzClosable: false,
-      nzWidth:'50rem'
+      nzWidth: '50rem',
+      nzCentered: true,
     });
     dialog.afterClose.subscribe(() => {
       this.getRdvByPage();
@@ -180,7 +183,8 @@ export class RendezVousComponent {
       nzContent: DetailRdvPatientComponent,
       nzData : patient,
       nzClosable: false,
-      nzWidth:'50rem'
+      nzWidth: '50rem',
+      nzCentered: true,
     });
     dialog.afterClose.subscribe(() => {
       this.getRdvByPage();

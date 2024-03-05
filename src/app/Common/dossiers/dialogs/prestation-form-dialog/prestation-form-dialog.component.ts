@@ -182,7 +182,8 @@ export class PrestationFormDialogComponent implements OnInit{
     this.modalService.create({
       nzContent: NouveauPatientComponent,
       nzClosable: false,
-      nzWidth: 700
+      nzWidth: 700,
+      nzCentered: true
     }).afterClose.subscribe((result: any) => {
       this.dossierData = undefined;
       console.log('Données reçues du modal :', result);

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ServiceInterface} from "src/app/models/service.interface";
 import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface";
 import {Page} from "src/app/models/pagination.interface";
@@ -13,19 +13,18 @@ import {NzTableQueryParams} from "ng-zorro-antd/table";
 import {
   PrestationFormDialogComponent
 } from "../../../dossiers/dialogs/prestation-form-dialog/prestation-form-dialog.component";
-import {NewPaymentFormDialogComponent} from "../../dialogs/new-payment-form-dialog/new-payment-form-dialog.component";
-import {FacturationComponent} from "../../../dossiers/dialogs/facturation/facturation.component";
 import {PersonnelInterface} from "src/app/models/personnel.interface";
 import {TransactionService} from "src/app/services/transaction/transaction.service";
 import * as Chart from "chart.js/auto";
 import {TransactionInterface} from "src/app/models/transaction.interface";
+import {WeeklyTransactionAmountStatInterface} from "../../../../models/weekly-transaction-amount-stat.interface";
 
 @Component({
   selector: 'app-transactions',
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.sass']
 })
-export class TransactionsComponent {
+export class TransactionsComponent implements OnInit {
   numberStats = [3, 0, 2, 0];
   descSats = ["Total des paiements","Paiement en espéces","Prise en charge", "Payée partiellement"]
   choosenDate!: Date[];
@@ -37,18 +36,20 @@ export class TransactionsComponent {
   patientPers!: PersonneInterface;
   pageIndex: number = 0;
   pageSize: number = 10;
+  isLastWeek = false;
 
   // prestationsList: PrestationInterface[] = [];
   listOfPole!: PoleInterface[];
 
   constructor(private modalService: NzModalService,
-              private api: PrestationService,
+              private apiPrestation: PrestationService,
               private apiTransaction : TransactionService,
               private serviceApi: CliniqueServiceService,
               private dossierMApi: DossierMedicalService) {
   }
 
   ngOnInit(): void {
+    this.createCanvasFigures();
     // this.listOfService = <ServiceInterface[]>listService;
     this.serviceApi.getAllService().subscribe({
       next: result => {
@@ -63,8 +64,8 @@ export class TransactionsComponent {
     this.getCountTransMoyen()
     this.loadPatients();
     this.getAllTransaction();
-    this.getTransactionByPage();
-    this.createCanvasFigures();
+    this.getTransactionByPage(this.pageIndex, this.pageSize, true);
+
   }
 
   createCanvasFigures() {
@@ -78,9 +79,9 @@ export class TransactionsComponent {
           'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
         datasets: [
           {
-            label: "Momo",
-            data: ['401000','415000', '380000', '365000', '421000',
-              '411000', '400000'],
+            label: "Orange Money",
+            data: ['4010', '4150', '3800', '3650', '4210',
+              '4110', '4000'],
             borderColor: '#266141',
             backgroundColor: '#266141',
             tension: .42,
@@ -88,17 +89,17 @@ export class TransactionsComponent {
             // pointStyle: ['circle', 'circle', 'rect', 'circle', 'circle', 'circle', 'circle'], // Point central (Mercredi) de forme rectangulaire
           },
           {
-            label: "Paiement Espece",
-            data: ['302000', '350000', '340000', '340000', '310000',
-              '360000', '360000'],
+            label: "Wave",
+            data: ['3020', '3500', '3400', '3400', '3100',
+              '3600', '3600'],
             backgroundColor: '#84BE38',
             borderColor: '#84BE38',
             tension: .42
           },
           {
-            label: "Prise en Charger",
-            data: ['290000', '310000', '300000', '280000', '275000',
-              '250000', '270000'],
+            label: "Paiement en espece",
+            data: ['2900', '3100', '3000', '2800', '2750',
+              '2500', '2700'],
             backgroundColor: '#FDCD51',
             borderColor: '#FDCD51',
             tension: .42
@@ -115,13 +116,38 @@ export class TransactionsComponent {
       }
     });
 
-    //this.getAllTransaction();
-    this.getTransactionByPage();
-    this.getCountPaiementEspece();
+  }
+
+  getChartData(lastWeek: boolean = false) {
+    this.apiTransaction.getWeeklyTransactionAmountStats().subscribe({
+      next: result => {
+        const res: WeeklyTransactionAmountStatInterface = <WeeklyTransactionAmountStatInterface>result;
+        this.updateTransactionStats(lastWeek, res);
+      }
+    })
+  }
+
+  updateTransactionStats(lastWeek: boolean = false, transactionStats: WeeklyTransactionAmountStatInterface) {
+    this.chartTrans.data.datasets[0].data = lastWeek ? transactionStats.omTransactionStats.previousWeekCounts :
+      transactionStats.omTransactionStats.currentWeekCounts;
+    this.chartTrans.data.datasets[1].data = lastWeek ? transactionStats.waveTransactionStats.previousWeekCounts :
+      transactionStats.waveTransactionStats.currentWeekCounts;
+    this.chartTrans.data.datasets[2].data = lastWeek ? transactionStats.cashTransactionStats.previousWeekCounts :
+      transactionStats.cashTransactionStats.currentWeekCounts;
+    this.chartTrans.update();
+  }
+
+  OnWeekChange(event: any) {
+    this.getChartData(event);
   }
 
   getTransactionByPage(page: number = 0,
-                       size: number = 10){
+                       size: number = 10, loadChartData: boolean = false) {
+
+    if (loadChartData) {
+      this.getChartData(this.isLastWeek)
+    }
+
     this.apiTransaction.getAllTransactionPage(page, size).subscribe({
       next: response => {
         console.log("Liste des transactions ", response);
@@ -198,24 +224,12 @@ export class TransactionsComponent {
       nzContent: PrestationFormDialogComponent,
       nzWidth: 900,
       nzClosable: false,
+      nzCentered: true,
     }).afterClose.subscribe(
       ()=>{
-        this.getTransactionByPage()
+        this.getTransactionByPage(this.pageIndex, this.pageSize, true)
       }
     );
-  }
-
-  addNewPaiment() {
-    this.modalService.create({
-      nzContent: NewPaymentFormDialogComponent,
-      nzWidth: 800,
-      nzClosable: false,
-    }).afterClose.subscribe(
-      ()=>{
-        this.getTransactionByPage()
-      }
-    );
-
   }
 
   loadPatients() {
@@ -263,18 +277,6 @@ export class TransactionsComponent {
       console.log(`MY EVENT ${context}`, event);
       this.getPrestationsByPage(event);
     }*/
-  facturer(prestation: PrestationInterface) {
-    console.log(prestation)
-    this.modalService.create({
-      nzContent : FacturationComponent,
-      nzClosable: false,
-      nzData : prestation,
-    }).afterClose.subscribe(
-      ()=>{
-        this.getTransactionByPage()
-      }
-    );
-  }
   getPersonnelName(personnel: PersonnelInterface | undefined) {
     const personne = personnel ? personnel.personne : undefined
     return personne ? `${personne.prenom} ${personne.nom}` : undefined;
