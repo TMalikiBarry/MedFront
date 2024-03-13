@@ -12,6 +12,9 @@ import {PersonneInterface} from "src/app/models/personne.interface";
 import * as Chart from 'chart.js/auto';
 import {WeeklyDataStat} from "src/app/models/weekly-data-stat";
 import {UtilsService} from "../../../../services/utils/utils.service";
+import {NzMarks} from "ng-zorro-antd/slider";
+import {Page} from "../../../../models/pagination.interface";
+import {NzTableQueryParams} from "ng-zorro-antd/table";
 
 @Component({
   selector: 'app-patient',
@@ -22,6 +25,8 @@ export class PatientComponent implements OnInit {
   patients!: PatientInterface[];
   choosenDate!: Date[];
   chartPatient!: any;
+  pageIndex: number = 0;
+  pageSize: number = 10;
 
   chartGenrePatient!: any;
 
@@ -35,6 +40,27 @@ export class PatientComponent implements OnInit {
   // pageSize: number = 10;
   private patientsInscrits!: WeeklyDataStat;
   private patientsVenus!: WeeklyDataStat;
+  patientPers!: PersonneInterface;
+  ageRange = [0, 130];
+  marks: NzMarks = {
+    5: '5',
+    18: {
+      style: {
+        color: '#266141',
+        fontSize: '10px',
+        fontWeight: '300'
+      },
+      label: '<code>Adulte</code>'
+    },
+    30: '30',
+    40: '40',
+    60: '60',
+    80: '80',
+    100: '100',
+    120: '120',
+  };
+
+  paginatedData!: Page<PatientInterface>;
 
   constructor(private patientService: PatientService,
               private modalService: NzModalService,
@@ -45,6 +71,7 @@ export class PatientComponent implements OnInit {
 
   ngOnInit() {
     this.loadPatients();
+    this.getPatientByPage();
     this.initialiseChartsData();
   }
 
@@ -126,6 +153,48 @@ export class PatientComponent implements OnInit {
         }
       }
     );
+  }
+
+  getPatientByPage(page: number = 0, size: number = 10, firstName?: string, lastName?: string,
+                   ageRange?: number[], telephone?: string, startDate?: Date, endDate?: Date,
+                   status?: string, genre?: string) {
+
+    this.patientService.getPaginatedFilteredData(page, size, firstName, lastName,
+      ageRange, telephone, startDate, endDate, status, genre).subscribe({
+      next: response => {
+        this.paginatedData = response;
+
+      }
+    })
+  }
+
+  onQueryParamsChange(params: NzTableQueryParams): void {
+    this.pageIndex = params.pageIndex - 1;
+    this.pageSize = params.pageSize;
+
+    this.filterData();
+  }
+
+
+  filterData() {
+    let startDate = undefined;
+    let endDate = undefined;
+    if (this.choosenDate) {
+      startDate = this.choosenDate[0] ? this.choosenDate[0] : undefined;
+      endDate = this.choosenDate[1] ? this.choosenDate[1] : undefined;
+    }
+    let prenom = null;
+    let nom = null;
+    let telephone = null;
+
+    if (this.patientPers) {
+      prenom = this.patientPers.prenom;
+      nom = this.patientPers.nom;
+      telephone = this.patientPers.telephone
+    }
+
+    this.getPatientByPage(this.pageIndex, this.pageSize, prenom!, nom!,
+      this.ageRange, telephone!, startDate, endDate)
   }
 
   loadPatients() {
@@ -231,6 +300,9 @@ export class PatientComponent implements OnInit {
       }
     );
   }
+
+
+  //TODO  à revoir
   getAgeDescription(personne: PersonneInterface): string | undefined {
 
     // Si 'dateNaissance' a une valeur non nulle et définie
@@ -255,4 +327,9 @@ export class PatientComponent implements OnInit {
   log(msg: any) {
     console.log(msg)
   }
+
+  getPatienInfos(patient: PatientInterface): string {
+    return `${patient.personne.prenom} ${patient.personne.nom} - ${patient.personne.telephone}`;
+  }
+
 }

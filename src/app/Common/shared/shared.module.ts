@@ -27,6 +27,7 @@ import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
 import {NzRadioModule} from "ng-zorro-antd/radio";
 import {PrettyPhoneNumberPipe} from "../../pipes/pretty-phone-number/pretty-phone-number.pipe";
 import {TimeAgoPipe} from "../../pipes/TimeAgo/time-ago.pipe";
+import {NzSliderModule} from "ng-zorro-antd/slider";
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import {TimeAgoPipe} from "../../pipes/TimeAgo/time-ago.pipe";
     NzToolTipModule,
     NzMessageModule,
     ReactiveFormsModule,
+    NzSliderModule,
     NzButtonModule,
     NzTableModule,
     NzCalendarModule,

@@ -6,6 +6,7 @@ import {ApiResponseInterface} from "../../models/api-response.interface";
 import {DossierMedicalInterface} from "../../models/dossier-medical.interface";
 import {PatientInterface} from "../../models/patient.interface";
 import {WeeklyDataStat} from "../../models/weekly-data-stat";
+import {Page} from "../../models/pagination.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -26,14 +27,46 @@ export class PatientService {
     return this.http.post<ApiResponseInterface>(this.urlDossier, dossier);
   }
 
-  getPaginatedData(page: number = 0, size: number = 10): Observable<any> {
-    // Création des paramètres de la requête
-    let params = new HttpParams();
-    params = params.append('page', page.toString());
-    params = params.append('size', size.toString());
+  getPaginatedFilteredData(page: number = 0, size: number = 10, firstName?: string, lastName?: string,
+                           ageRange?: number[], telephone?: string, startDate?: Date, endDate?: Date,
+                           status?: string, genre?: string) {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
 
-    // Envoi de la requête GET avec les paramètres de pagination
-    return this.http.get(this.url, { params: params });
+    if (firstName) {
+      params = params.set('firstName', firstName);
+    }
+    if (lastName) {
+      params = params.set('lastName', lastName);
+    }
+    let ageMin = 0;
+    let ageMax = 140;
+    if (ageRange) {
+      ageMin = ageRange [0];
+      ageMax = ageRange [1];
+
+    }
+    params = params.set('ageMin', ageMin);
+    params = params.set('ageMax', ageMax);
+
+    if (telephone) {
+      params = params.set('telephone', telephone);
+    }
+    if (status) {
+      params = params.set('status', status);
+    }
+    if (genre) {
+      params = params.set('genre', genre);
+    }
+    if (startDate) {
+      params = params.set('startDate', startDate.toISOString());
+    }
+    if (endDate) {
+      params = params.set('endDate', endDate.toISOString());
+    }
+
+    return this.http.get<Page<PatientInterface>>(this.url, {params});
   }
 
   getAll(){

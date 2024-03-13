@@ -68,6 +68,7 @@ export class PrestationComponent implements OnInit{
                        serviceId?: number,
                        startDate?: string,
                        endDate?: string) {
+
     this.api.getPaginatedFilteredData(page, size, firstName, lastName, serviceId,
       startDate, endDate).subscribe({
       next: response => {
@@ -92,22 +93,7 @@ export class PrestationComponent implements OnInit{
     const currentSort = sort.find(item => item.value !== null);
     const sortField = (currentSort && currentSort.key) || null;
     const sortOrder = (currentSort && currentSort.value) || null;*/
-    let startDate = undefined;
-    let endDate = undefined;
-    if (this.choosenDate) {
-      startDate = this.choosenDate[0] ? this.choosenDate[0].toISOString(): undefined;
-      endDate = this.choosenDate[1] ? this.choosenDate[1].toISOString(): undefined;
-    }
-    let prenom = null;
-    let nom = null;
-    if (this.patientPers){
-      prenom = this.patientPers.prenom;
-      nom = this.patientPers.nom;
-    }
-    this.getPrestationsByPage(this.pageIndex, params.pageSize,
-      prenom!, nom!, this.serviceId,
-      startDate,
-      endDate)
+    this.filterData();
   }
 
   filterData() {

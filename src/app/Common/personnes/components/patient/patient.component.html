@@ -19,32 +19,55 @@
     </div>
 
     <div class="dataLayout">
-      <p>Listes des patients</p>
-      <div class="controllers">
-        <div class="searchInput">
-          <nz-input-group [nzPrefix]="suffixIconSearch">
-            <input nz-input placeholder="Rechercher par nom, id " type="text"/>
-          </nz-input-group>
+      <div class="headerData make-spaceBetween">
+        <p>Listes des patients</p>
+        <button (click)="addNewPatient()" class="my-primary-button basic-button" nz-button nzSize="large">
+          <span nz-icon nzType="plus"></span>
+          Nouveau Patient
+        </button>
+      </div>
+      <div class="filterpatients">
+        <div class="personal-infos">
+          <nz-select [(ngModel)]="patientPers" nzAllowClear nzPlaceHolder="Rechercher par prénom, nom ou numéro tel. "
+                     nzShowSearch>
+            <nz-option nzLabel="----"></nz-option>
+            <nz-option
+              *ngFor="let patient of patients"
+              [nzLabel]="getPatienInfos(patient)"
+              [nzValue]="patient?.personne">
+
+            </nz-option>
+            <!--          <ng-template #customizeOption let-selected>
+                        {{ selected?.prenom + ' ' + selected?.nom }}
+                        <span class="phone-display">- {{ selected?.telephone }}</span>
+                      </ng-template>-->
+          </nz-select>
         </div>
-
-        <div class="filterButton">
-          <a>
-            <!--            <button class="my-primary-button basic-button" nz-button nzSize="large"
-                                routerLink="/admin/personnes/create-patient">
-                          <span nz-icon nzType="plus"></span>
-                          Nouveau Patient
-                        </button>-->
-            <button (click)="addNewPatient()" class="my-primary-button basic-button" nz-button nzSize="large">
-              <span nz-icon nzType="plus"></span>
-              Nouveau Patient
-            </button>
-          </a>
-
-
-
+        <div class="descrip-date">Date d'inscription</div>
+        <div class="date-filter">
+          <nz-range-picker [(ngModel)]="choosenDate" nzFormat="dd/MM/YYYY"></nz-range-picker>
+        </div>
+        <div class="descrip-age">Age</div>
+        <div class="age-filter">
+          <nz-slider [(ngModel)]="ageRange" [nzMarks]="marks" [nzMax]="130" [nzMin]="0" nzIncluded nzRange></nz-slider>
+        </div>
+        <div class="button-action">
+          <button (click)="filterData()" class="filter-form-button" nz-button>Filtrer</button>
         </div>
       </div>
-      <nz-table #patientsTable [nzData]="patients" [nzPageSize]="10">
+
+      <!--      <nz-table #patientsTable-->
+      <!--                [nzData]="patients"-->
+      <!--                [nzPageSize]="10"-->
+      <!--      >-->
+      <nz-table #patientsTable (nzQueryParams)="onQueryParamsChange($event)"
+                *ngIf="paginatedData"
+                [nzData]="paginatedData.content"
+                [nzFrontPagination]="false"
+                [nzPageIndex]="paginatedData.pageable.pageNumber +1"
+                [nzPageSize]="paginatedData.pageable.pageSize"
+                [nzTotal]="paginatedData.totalElements"
+      >
         <thead>
           <tr>
             <th>Nom du patient</th>
@@ -102,11 +125,18 @@
               <ul nz-menu>
 
                 <li (click)="redirectToDossierMedical()" class="selectedLink" nz-menu-item>
-                    <span>Dossier medical</span>
+                  <span>Détails</span>
+                </li>
+                <li (click)="addNewPrestation(patient)" class="selectedLink" nz-menu-item>
+                  <span>Modifier</span>
                 </li>
                 <li (click)="addNewPrestation(patient)" class="selectedLink" nz-menu-item>
                   <span>Nouvelle prestation</span>
                 </li>
+                <li (click)="addNewPrestation(patient)" class="selectedLink" nz-menu-item>
+                  <span>Nouveau rendez-vous</span>
+                </li>
+
               </ul>
             </nz-dropdown-menu>
 
@@ -134,12 +164,6 @@
               </svg>
               <span>Patients venus</span>
             </div>
-            <!--                           <div class="legend">
-                                               <svg xmlns="http://www.w3.org/2000/svg" width="10" height="11" viewBox="0 0 10 11" fill="none">
-                                                       <circle cx="5" cy="5.5" r="5" fill="#FDCD51"/>
-                                               </svg>
-                                               <span>Sortie</span>
-                                       </div>-->
 
           </div>
           <nz-select
