@@ -115,7 +115,10 @@ export class RendezVousFormDialogComponent implements OnInit {
           console.log('RendezVous enregistrée avec succès ', response);
           this.notification.snackMessage(`Rendez-vous ajouté avec succés`, 3000, 'success')
         },
-        error: (error) => console.error('Erreur lors de l\'enregistrement', error),
+        error: (error) => {
+          console.log(error);
+          this.isConfirmLoading = false;
+        },
         complete: () => {this.isConfirmLoading = false}
       });
     }
@@ -185,7 +188,10 @@ export class RendezVousFormDialogComponent implements OnInit {
         this.notification.snackMessage(`Rendez-vous mis à jour avec succés`, 3000, 'success')
         console.log('RendezVous mis a jour avec succès ', response);
       },
-      error: (error) => console.error('Erreur lors de la mise a jour', error),
+      error: (error) => {
+        console.log(error);
+        this.isConfirmLoading = false;
+      },
       complete: () => {this.isConfirmLoading = false}
     });
   }

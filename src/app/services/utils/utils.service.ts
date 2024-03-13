@@ -37,6 +37,24 @@ export class UtilsService {
     return age;
   }
 
+  isAPhoneNumber(value: string): boolean {
+    // Supprimer tous les caractères non numériques ou non espace
+    if (!value) return false;
+    let phoneNumber = value.replace(/[^\d\s]/g, '');
+    return !!phoneNumber.trim();
+  }
+
+  isValidPhoneNumber(value: string) {
+    // Supprimer tous les caractères non numériques ou non espace
+    let phoneNumber = value.replace(/[^\d\s]/g, '');
+
+    // Expression régulière pour valider le numéro de téléphone
+    let phoneNumberPattern = /^(?:\+|00)?(221|33)?7[0-9]{8}$/;
+
+    // Vérifier si le numéro de téléphone correspond au modèle
+    return phoneNumberPattern.test(phoneNumber);
+  }
+
   removeSpace(value: string): string {
     return value.trim().replace(/\s/g, '_');
   }

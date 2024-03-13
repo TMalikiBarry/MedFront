@@ -124,7 +124,10 @@ export class PrestationFormDialogComponent implements OnInit{
           this.handleCancel('toPrestations');
 
         },
-        error: (error) => console.error('Erreur lors de l\'enregistrement de la prestation', error),
+        error: (error) => {
+          console.log(error);
+          this.isConfirmLoading = false;
+        },
         complete: () => {this.isConfirmLoading = false}
       });
     }

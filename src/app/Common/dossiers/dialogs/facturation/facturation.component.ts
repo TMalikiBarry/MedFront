@@ -308,6 +308,8 @@ export class FacturationComponent implements OnInit{
           this.dossierData = this.listOfDossierMedical.find(d => d.id === prestation.dossierMedical!.id)!;
           this.FacForm.controls['prestation'].setValue(prestation.id!);
           this.FacForm.controls['service'].setValue(prestation.service!.id);
+          this.FacForm.controls['amount'].setValue(prestation.montant);
+          this.FacForm.controls['transactionAmount'].setValue(prestation.montant);
         } else if (patientId) {
           this.dossierData = this.listOfDossierMedical.find(d => d.patient?.id === patientId)!;
         }

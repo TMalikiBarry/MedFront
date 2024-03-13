@@ -19,35 +19,35 @@
         <div class="form">
 
             <div class="gender">
-              <label class="label">Genre</label>
+              <label class="label">Genre<sup>*</sup>:</label>
               <div>
-                <input class="check" type="radio" id="male" name="genre" value="Homme" formControlName="genre">
+                <input class="check" formControlName="genre" id="male" name="genre" type="radio" value="M">
                 <label for="male">Homme</label>
               </div>
               <div>
-                <input class="check" type="radio" id="female" name="genre" value="Femme" formControlName="genre">
+                <input class="check" formControlName="genre" id="female" name="genre" type="radio" value="F">
                 <label for="female">Femme</label>
               </div>
             </div>
 
             <div class="name">
               <div class="prenom">
-                <label class="label" for="prenom">Prénom</label>
+                <label class="label" for="prenom">Prénom<sup>*</sup></label>
                 <input class="input" type="text" id="prenom" name="prenom" formControlName="prenom" required>
               </div>
               <div class="nom">
-                <label class="label" for="nom">Nom</label>
+                <label class="label" for="nom">Nom<sup>*</sup></label>
                 <input class="input" type="text" id="nom" name="nom" formControlName="nom" required>
               </div>
             </div>
 
             <div class="phone-date">
               <div class="phone">
-                <label class="label" for="phone">Téléphone</label>
+                <label class="label" for="phone">Téléphone<sup>*</sup></label>
                 <input class="input" type="text" id="phone" name="phone" formControlName="telephone" required>
               </div>
               <div class="date">
-                <label class="label" for="date">Date de naissance</label>
+                <label class="label" for="date">Date de naissance<sup>*</sup></label>
                 <input [max]="maxDate" class="input" formControlName="dateNaissance" id="date" name="date" required
                        type="date">
               </div>
@@ -55,11 +55,11 @@
 
           <div class="name">
             <div class="prenom">
-              <label class="label" for="email">Email</label>
+              <label class="label" for="email">Email<sup>*</sup></label>
               <input class="input" formControlName="email" id="email" name="email" required type="text">
             </div>
             <div class="nom">
-              <label class="label" for="contactUrgence">Téléphone contact d'urgence</label>
+              <label class="label" for="contactUrgence">Téléphone contact d'urgence<sup>*</sup></label>
               <input class="input" formControlName="contactUrgence" id="contactUrgence" name="contactUrgence"
                      required type="text">
             </div>
@@ -68,7 +68,7 @@
           <div class="blood-address">
               <div class="blood">
                 <label class="label" for="blood">Groupe sanguin</label>
-                <select class="input" name="blood" id="blood" formControlName="groupeSanguin" required>
+                <select class="input" formControlName="groupeSanguin" id="blood" name="blood">
                   <option value="A+">A+</option>
                   <option value="A-">A-</option>
                   <option value="B+">B+</option>
@@ -80,28 +80,10 @@
                 </select>
               </div>
               <div class="address">
-                <label class="label" for="address">Adresse</label>
+                <label class="label" for="address">Adresse<sup>*</sup></label>
                 <input class="input" type="text" id="address" name="address" formControlName="adresse" required>
               </div>
             </div>
-
-          <!--
-                      <div class="medecin-fiche">
-                        <div class="medecin">
-                          <label class="label" for="medecin">Médecin traitant</label>
-                          <input class="input" type="text" id="medecin" name="medecin" formControlName="medecinTraitant" required>
-                        </div>
-                        <div class="fiche">
-                          <label class="label" for="fiche">Fiche accessible pour</label>
-                          <select class="input" name="fiche" id="fiche" formControlName="ficheAccessible" required>
-                            <option value="Tout le monde">Tout le monde</option>
-                            <option value="Moi">Moi</option>
-                            <option value="Moi et mon médecin">Moi et mon médecin</option>
-                          </select>
-                        </div>
-
-                  </div>
-          -->
 
 
         </div>

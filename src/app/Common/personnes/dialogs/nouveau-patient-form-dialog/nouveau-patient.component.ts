@@ -1,7 +1,7 @@
 // nouveau-patient-form-dialog.component.ts
 
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PatientService} from 'src/app/services/patient/patient.service';
 import {NzModalRef} from "ng-zorro-antd/modal";
 import {PersonneService} from "src/app/services/Personne/personne.service";
@@ -36,12 +36,12 @@ export class NouveauPatientComponent implements OnInit {
       genre: ['', Validators.required],
       prenom: ['', Validators.required],
       nom: ['', Validators.required],
-      telephone: ['', Validators.required],
+      telephone: ['', [Validators.required, Validators.pattern('^(\\+|00)?(221)?7[0-9]{8}$')]],
       dateNaissance: ['', Validators.required],
-      groupeSanguin: ['', Validators.required],
+      groupeSanguin: [''],
       adresse: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      contactUrgence: ['', Validators.required],
+      contactUrgence: ['', [Validators.required, Validators.pattern('^(\\+|00)?(221)?7[0-9]{8}$')]],
       medecinTraitant: [''],
       ficheAccessible: [''],
       allergies: [''],
@@ -87,6 +87,10 @@ export class NouveauPatientComponent implements OnInit {
           this.notify.snackMessage(`Le patient ${personneForm.prenom} ${personneForm.nom} a été ajouté`,
             3000, "success");
           this.modalRef.close(res1.reponse.patient.id);
+        },
+        error: (error) => {
+          console.log(error);
+          this.isConfirmLoading = false;
         },
         complete: () => this.isConfirmLoading = false,
       })
@@ -181,5 +185,21 @@ export class NouveauPatientComponent implements OnInit {
 
   handleCancel() {
       this.modalRef.close();
+  }
+
+  getFormControlErrorText(ctrl: AbstractControl): string {
+    if (ctrl.hasError('required')) {
+      return 'Ce champ est requis';
+    } else if (ctrl.hasError('email')) {
+      return 'veuillez renseignez un format d\'email correct';
+    } else if (ctrl.hasError('pattern')) {
+      return 'Ce format de numéro de téléphone n\'est pas pris en compte';
+    } else if (ctrl.hasError('minlength')) {
+      return 'Champ doit contenir au minimum ' + ctrl.errors!['minlength']['requiredLength'] + ' caracteres';
+    } else if (ctrl.hasError('maxlength')) {
+      return 'Champ doit contenir au maximum ' + ctrl.errors!['maxlength']['requiredLength'] + ' caracteres';
+    } else {
+      return 'Ce champ contient une erreur';
+    }
   }
 }

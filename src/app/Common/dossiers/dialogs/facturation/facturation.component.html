@@ -31,7 +31,8 @@
               <nz-option nzLabel="----"></nz-option>
               <nz-option
                 *ngFor="let dossier of listOfDossierMedical"
-                [nzLabel]="getPatientFullName(dossier)" [nzValue]="dossier.id"></nz-option>
+                [nzLabel]="getPatientFullName(dossier)+ ' - '+ dossier.patient?.personne!.telephone"
+                [nzValue]="dossier.id"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>

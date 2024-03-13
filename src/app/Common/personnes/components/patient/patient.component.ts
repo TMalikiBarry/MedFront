@@ -40,7 +40,7 @@ export class PatientComponent implements OnInit {
               private modalService: NzModalService,
               private router: Router,
               private route: ActivatedRoute,
-              private utils: UtilsService,
+              public utils: UtilsService,
   ) {}
 
   ngOnInit() {
@@ -153,10 +153,11 @@ export class PatientComponent implements OnInit {
 
 // Parcourir la liste des patients et mettre à jour les compteurs
     this.patients.forEach(patient => {
-      const genre = patient.personne.genre.toLowerCase();
+      // const genre = patient.personne.genre;
       const age = this.utils.getAge(patient.personne.datenaissance!);
 
-      if (['m', 'h'].some(g => genre.startsWith(g))) {
+      // let isHomme= ['m', 'h'].some(g => genre.startsWith(g));
+      if (patient.personne.genre == 'M') {
         if (age >= 18) {
           hommes++;
         } else {
@@ -179,8 +180,9 @@ export class PatientComponent implements OnInit {
       result => {
         this.patientsInscrits = result
         this.patientService.getWeeklyPatientsVenus().subscribe(
-          result => {
-            this.patientsVenus = result;
+          res => {
+            this.patientsVenus = res;
+
             this.updatePatientStatsChart(lastWeek, this.patientsInscrits, this.patientsVenus);
           }
         )
@@ -192,7 +194,7 @@ export class PatientComponent implements OnInit {
 
     this.chartPatient.data.datasets[0].data = lastWeek ? patientsInscrits.previousWeekCounts : patientsInscrits.currentWeekCounts;
     if (patientsVenus)
-      this.chartPatient.data.datasets[1].data = lastWeek ? patientsVenus.previousWeekCounts : patientsInscrits.currentWeekCounts;
+      this.chartPatient.data.datasets[1].data = lastWeek ? patientsVenus.previousWeekCounts : patientsVenus.currentWeekCounts;
 
     this.chartPatient.update(); // Mettez à jour le graphique
   }
@@ -248,5 +250,9 @@ export class PatientComponent implements OnInit {
       // Redirection vers le dossier médical avec l'ID du patient
       this.router.navigateByUrl('/admin/personnes/dossiers-medicaux', patientId);
     }
+  }
+
+  log(msg: any) {
+    console.log(msg)
   }
 }
