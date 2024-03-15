@@ -192,9 +192,11 @@ export class PatientComponent implements OnInit {
       nom = this.patientPers.nom;
       telephone = this.patientPers.telephone
     }
-
+    console.log('RECUPERER LES DONNEES');
     this.getPatientByPage(this.pageIndex, this.pageSize, prenom!, nom!,
-      this.ageRange, telephone!, startDate, endDate)
+      this.ageRange, telephone!, startDate, endDate);
+    console.log('BIEN RECU LES DONNEES');
+
   }
 
   loadPatients() {
@@ -203,7 +205,7 @@ export class PatientComponent implements OnInit {
         next: patients => {
           this.patients = patients;
           console.log('Recuperation de patient ', patients);
-          this.updateChartGenreData(patients);
+          this.updateChartGenreData();
 
         },
         error: (error) => {
@@ -214,7 +216,7 @@ export class PatientComponent implements OnInit {
     );
   }
 
-  updateChartGenreData(patients: PatientInterface[]) {
+  updateChartGenreData() {
     let hommes = 0;
     let femmes = 0;
     let garcons = 0;
@@ -282,10 +284,30 @@ export class PatientComponent implements OnInit {
     }).afterClose.subscribe(
       (result) => {
         if (result)
-          this.loadPatients()
+          // this.loadPatients()
+          // this.getPatientByPage(this.pageIndex, this.pageSize);
+          this.filterData();
       }
     );
   }
+
+  updatePatient(idPatient: number) {
+    this.modalService.create({
+      nzContent: NouveauPatientComponent,
+      nzClosable: false,
+      nzWidth: 750,
+      nzCentered: true,
+      nzData: idPatient
+    }).afterClose.subscribe(
+      (result) => {
+        if (result)
+          // this.loadPatients()
+          // this.getPatientByPage(this.pageIndex, this.pageSize);
+          this.filterData();
+      }
+    );
+  }
+
 
   addNewPrestation(data: PatientInterface) {
     this.modalService.create({
@@ -332,4 +354,6 @@ export class PatientComponent implements OnInit {
     return `${patient.personne.prenom} ${patient.personne.nom} - ${patient.personne.telephone}`;
   }
 
+  addNewRDV(patient: PatientInterface) {
+  }
 }

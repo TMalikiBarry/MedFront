@@ -55,7 +55,7 @@ export class DetailRdvPatientComponent {
     const formData = this.RvForm.value;
     let patient = this.createPatientFromForm(formData);
     console.log(patient)
-    this.api.UpddatePatient(patient).subscribe({
+    this.api.updatePatient(patient).subscribe({
       next: (response) => {
         this.modal.close();
         console.log('Patient mis a jour avec succès ', response);

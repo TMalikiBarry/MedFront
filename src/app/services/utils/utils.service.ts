@@ -55,6 +55,10 @@ export class UtilsService {
     return phoneNumberPattern.test(phoneNumber);
   }
 
+  numberIsDefined(value: number): boolean {
+    return [null, undefined, 0].every(v => value !== v);
+  }
+
   removeSpace(value: string): string {
     return value.trim().replace(/\s/g, '_');
   }

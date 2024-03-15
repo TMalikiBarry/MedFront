@@ -73,9 +73,18 @@ export class PatientService {
     return  this.http.get<any>(this.url+"/all")
   }
 
-  UpddatePatient(data : any){
+  getDossierByPatientId(patientId: number): Observable<DossierMedicalInterface> {
+    return this.http.get<DossierMedicalInterface>(`${this.urlDossier}/patient/${patientId}`);
+  }
+
+  updatePatient(data: any) {
     return this.http.put<ApiResponseInterface>(this.url,data);
   }
+
+  update(dossier: DossierMedicalInterface) {
+    return this.http.patch<DossierMedicalInterface>(this.urlDossier, dossier);
+  }
+
   getPatientById(patientId: number): Observable<PatientInterface> {
     return this.http.get<PatientInterface>(`${this.url}/${patientId}`);
   }

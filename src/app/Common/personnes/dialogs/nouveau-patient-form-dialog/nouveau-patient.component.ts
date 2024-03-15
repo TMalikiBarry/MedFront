@@ -4,14 +4,12 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PatientService} from 'src/app/services/patient/patient.service';
 import {NzModalRef} from "ng-zorro-antd/modal";
-import {PersonneService} from "src/app/services/Personne/personne.service";
 import {PersonneInterface} from "src/app/models/personne.interface";
 import {PatientInterface} from "src/app/models/patient.interface";
-import {RendezVousInterface} from "src/app/models/rendez-vous.interface";
-import {PersonnelInterface} from "src/app/models/personnel.interface";
 import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface";
 import {NotifService} from "src/app/services/notification/notif.service";
 import {UtilsService} from "../../../../services/utils/utils.service";
+
 
 @Component({
   selector: 'app-nouveau-patient-form-dialog',
@@ -25,11 +23,11 @@ export class NouveauPatientComponent implements OnInit {
   maxDate: string;
   titleForm: string = "Nouveau Patient";
   isConfirmLoading = false;
+  dossierToUpdate!: DossierMedicalInterface;
 
   constructor(private fb: FormBuilder,
               private modalRef : NzModalRef,
               private utils: UtilsService,
-              private apiPersonne : PersonneService,
               private patientService: PatientService,
               private notify: NotifService) {
     this.patientForm = this.fb.group({
@@ -37,13 +35,12 @@ export class NouveauPatientComponent implements OnInit {
       prenom: ['', Validators.required],
       nom: ['', Validators.required],
       telephone: ['', [Validators.required, Validators.pattern('^(\\+|00)?(221)?7[0-9]{8}$')]],
-      dateNaissance: ['', Validators.required],
+      datenaissance: ['', Validators.required],
       groupeSanguin: [''],
       adresse: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      contactUrgence: ['', [Validators.required, Validators.pattern('^(\\+|00)?(221)?7[0-9]{8}$')]],
-      medecinTraitant: [''],
-      ficheAccessible: [''],
+      contactEnCasUrgent: ['', [Validators.required, Validators.pattern('^(\\+|00)?(221)?7[0-9]{8}$')]],
+
       allergies: [''],
       maladies: [''],
     });
@@ -53,18 +50,15 @@ export class NouveauPatientComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Vous pouvez retirer ce bloc car le formulaire a déjà été initialisé dans le constructeur
-    // this.patientForm = this.fb.group({
-    //   genre: ['', Validators.required],
-    //   prenom: ['', Validators.required],
-    //   nom: ['', Validators.required],
-    //   telephone: ['', Validators.required],
-    //   dateNaissance: ['', Validators.required],
-    //   groupeSanguin: ['', Validators.required],
-    //   adresse: ['', Validators.required],
-    //   medecinTraitant: ['', Validators.required],
-    //   ficheAccessible: ['', Validators.required]
-    // });
+    try {
+      const patientID: number = <number>this.modalRef.getConfig().nzData;
+
+      if (patientID)
+        this.loadPatientForUpdate(patientID);
+    } catch (s) {
+      console.error(s)
+    }
+
   }
 
   enregistrerPatient() {
@@ -77,8 +71,27 @@ export class NouveauPatientComponent implements OnInit {
         patient: patientForm,
         maladies: patientData.maladies,
         allergies: patientData.allergies,
+        statut: "ACTIF",
+      }
+      if (this.dossierToUpdate) {
+        dossier.id = this.dossierToUpdate.id;
+        dossier.dateCreation = this.dossierToUpdate.dateCreation;
+        dossier.supprime = this.dossierToUpdate.supprime;
+        dossier.statut = this.dossierToUpdate.statut;
+        dossier.prestations = this.dossierToUpdate.prestations;
+        if (dossier.patient) {
+          dossier.patient.id = this.dossierToUpdate.patient?.id;
+          dossier.patient.donneurOrgane = this.dossierToUpdate.patient?.donneurOrgane!;
+          dossier.patient.dateCreation = this.dossierToUpdate.patient?.dateCreation;
+          dossier.patient.status = this.dossierToUpdate.patient?.status;
+          dossier.patient.supprime = this.dossierToUpdate.patient?.supprime;
+          dossier.patient.personne.id = this.dossierToUpdate.patient?.personne?.id;
+          dossier.patient.personne.dateCreation = this.dossierToUpdate.patient?.personne?.dateCreation;
+          dossier.patient.personne.supprime = this.dossierToUpdate.patient?.personne?.supprime;
+        }
 
-        statut: "ACTIF"
+        this.updatePatient(dossier);
+        return;
       }
       this.patientService.save(dossier).subscribe({
         next : res1 => {
@@ -91,96 +104,85 @@ export class NouveauPatientComponent implements OnInit {
         error: (error) => {
           console.log(error);
           this.isConfirmLoading = false;
+          if (error.status == 401)
+            this.modalRef.close();
         },
         complete: () => this.isConfirmLoading = false,
       })
 
-      // this.personne.nom = this.patientForm.controls['nom'].value
-      // this.personne.prenom = this.patientForm.controls['prenom'].value
-      // this.personne.genre = this.patientForm.controls['genre'].value
-      // this.personne.telephone = this.patientForm.controls['telephone'].value
-      // this.personne.adresse = this.patientForm.controls['adresse'].value
-
-
       this.patient = patientData
 
-      console.log("Patient "+ this.patient)
-
-    //   // Appelez le service pour ajouter le patient
-    //   this.patientService.save(patientData).subscribe(
-    //     (response) => {
-    //       // Gérez la réponse ici, par exemple, affichez un message de succès
-    //       console.log('Patient ajouté avec succès', response);
-    //       this.modalRef.close(response.reponse)
-    //
-    //       // Réinitialisez le formulaire après avoir ajouté le patient
-    //       this.patientForm.reset();
-    //     },
-    //     (error) => {
-    //       // Gérez les erreurs ici, par exemple, affichez un message d'erreur
-    //       console.error('Erreur lors de l\'ajout du patient', error);
-    //     }
-    //   );
-    // } else {
-    //   // Le formulaire est invalide, affichez un message ou effectuez une action appropriée
-     }
+    } else {
+      this.notify.snackMessage(`Certains champs sont mal renseignés `, 3000, "error");
+    }
   }
 
-
   createPersonneForm(formData : any): PersonneInterface
-/*    {
-    id ?: number;
-    nom: string;
-    prenom: string;
-    adresse: string;
-    genre: string;
-    hasAlreadyConnected?: boolean;
-    telephone: string;
-    email?: string;
-    datenaissance: string;
-    numeroCNI?: string;
-    numeroPassport?: string ;
-    age?: string;
-    otp?: string|null;
-    dategenerationOTP?: string|null;
-    dateValidationOTP?: string|null;
-    acces?: AccesInterface;
-    supprime?: boolean
-    dateCreation?: string | null,
-    dateModification ?: string | null
-  } */
   {
     return {
       adresse: formData.adresse,
       genre: formData.genre,
       nom: formData.nom,
       prenom: formData.prenom,
-      age: this.utils.getAge(formData.dateNaissance).toString(),
+      age: this.utils.getAge(formData.datenaissance).toString(),
       telephone: formData.telephone,
       email: formData.email,
-      datenaissance: formData.dateNaissance,
+      datenaissance: formData.datenaissance,
       hasAlreadyConnected: false,
     };
   }
 
-  createPatientForm(formData : any, personne: PersonneInterface):{
-    dateCreation ?: Date
-    dateModification ?: Date
-    groupeSanguin : string
-    donneurOrgane : Boolean
-    contactEnCasUrgent : string
-    rendezVous ?: RendezVousInterface[]
-    personne ?: PersonneInterface
-    personnel ?: PersonnelInterface
-    dossiermedical ?: DossierMedicalInterface[]
-    status ?: string
-  } {
+  createPatientForm(formData: any, personne: PersonneInterface): PatientInterface {
     return {
-      contactEnCasUrgent: formData.contactUrgence,
+      contactEnCasUrgent: formData.contactEnCasUrgent,
       donneurOrgane: false,
+      status: 'ACTIF',
       groupeSanguin: formData.groupeSanguin,
       personne
     };
+  }
+
+  private loadPatientForUpdate(patientID: number) {
+
+    this.titleForm = 'Modifier Patient';
+    this.patientService.getDossierByPatientId(patientID).subscribe({
+      next: dossier => {
+        this.dossierToUpdate = dossier;
+
+        this.patientForm.controls['genre'].setValue(dossier.patient?.personne.genre);
+        this.patientForm.controls['prenom'].setValue(dossier.patient?.personne.prenom);
+        this.patientForm.controls['nom'].setValue(dossier.patient?.personne.nom);
+        this.patientForm.controls['telephone'].setValue(dossier.patient?.personne.telephone);
+        this.patientForm.controls['email'].setValue(dossier.patient?.personne.email);
+        this.patientForm.controls['adresse'].setValue(dossier.patient?.personne.adresse);
+        this.patientForm.controls['datenaissance'].setValue(dossier.patient?.personne.datenaissance);
+        this.patientForm.controls['contactEnCasUrgent'].setValue(dossier.patient?.contactEnCasUrgent);
+        this.patientForm.controls['groupeSanguin'].setValue(dossier.patient?.groupeSanguin);
+        this.patientForm.controls['allergies'].setValue(dossier.allergies);
+        this.patientForm.controls['maladies'].setValue(dossier.maladies);
+        // this.patientForm.setValue(dossier.patient?.personne!);
+        // this.patientForm.setValue(dossier.patient!);
+        // this.patientForm.setValue(dossier);
+      }
+    })
+  }
+
+  private updatePatient(dossier: DossierMedicalInterface) {
+
+    this.patientService.update(dossier).subscribe({
+      next: () => {
+        this.notify.snackMessage(`Modification effectuée avec succés `, 3000, "success");
+        this.patientForm.reset();
+        this.modalRef.close('update-success');
+      },
+      error: (error) => {
+        console.log(error);
+        this.isConfirmLoading = false;
+        if (error.status == 401)
+          this.modalRef.close();
+      },
+      complete: () => this.isConfirmLoading = false,
+    })
   }
 
   handleCancel() {
@@ -202,4 +204,6 @@ export class NouveauPatientComponent implements OnInit {
       return 'Ce champ contient une erreur';
     }
   }
+
+
 }

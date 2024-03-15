@@ -127,13 +127,13 @@
                 <li (click)="redirectToDossierMedical()" class="selectedLink" nz-menu-item>
                   <span>Détails</span>
                 </li>
-                <li (click)="addNewPrestation(patient)" class="selectedLink" nz-menu-item>
+                <li (click)="updatePatient(patient.id!)" class="selectedLink" nz-menu-item>
                   <span>Modifier</span>
                 </li>
                 <li (click)="addNewPrestation(patient)" class="selectedLink" nz-menu-item>
                   <span>Nouvelle prestation</span>
                 </li>
-                <li (click)="addNewPrestation(patient)" class="selectedLink" nz-menu-item>
+                <li (click)="addNewRDV(patient)" class="selectedLink" nz-menu-item>
                   <span>Nouveau rendez-vous</span>
                 </li>
 
@@ -154,13 +154,13 @@
           <div class="legends">
             <div class="legend">
               <svg fill="none" height="11" viewBox="0 0 10 11" width="10" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="5" cy="5.5" fill="#84BE38" r="5"/>
+                <circle cx="5" cy="5.5" fill="#266141" r="5"/>
               </svg>
               <span>Patients inscrits</span>
             </div>
             <div class="legend">
               <svg fill="none" height="11" viewBox="0 0 10 11" width="10" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="5" cy="5.5" fill="#266141" r="5"/>
+                <circle cx="5" cy="5.5" fill="#84BE38" r="5"/>
               </svg>
               <span>Patients venus</span>
             </div>

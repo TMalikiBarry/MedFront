@@ -10,4 +10,5 @@ export interface ServiceInterface extends EntiteBase{
   equipement?: string;
   prestations?: PrestationInterface[];
   pole?: PoleInterface;
+  cout?: number;
 }

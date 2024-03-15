@@ -142,7 +142,7 @@ export class PrestationFormDialogComponent implements OnInit{
   }
 
   createPrestationFromForm(formData: any): PrestationInterface {
-    const cout  = this.listOfService.find(s => s.id === formData.service)?.cout ?? 12000;
+    const cout = this.myServicesList.find(s => s.id === formData.service)?.cout ?? 12000;
     return {
       cout, // Supposé fixe, peut être ajusté en fonction de la logique de votre application
       montant: cout,

@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment} from "src/environments/environment.prod";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {PatientInterface} from "../../models/patient.interface";
 import {Observable} from "rxjs";
-import {ApiResponseInterface} from "../../models/api-response.interface";
 import {DossierMedicalInterface} from "../../models/dossier-medical.interface";
 
 @Injectable({
@@ -14,10 +12,12 @@ export class DossierMedicalService {
   url = `${environment.apiURL}/dossierMedical`;
   constructor(private http: HttpClient) { }
 
-  save(patient: PatientInterface): Observable<ApiResponseInterface>{
+  /*
+    save(patient: PatientInterface): Observable<ApiResponseInterface>{
 
-    return this.http.post<ApiResponseInterface>(this.url, patient);
-  }
+      return this.http.post<ApiResponseInterface>(this.url, patient);
+    }
+  */
 
   getPaginatedData(page: number = 0, size: number = 10): Observable<any> {
     // Création des paramètres de la requête
