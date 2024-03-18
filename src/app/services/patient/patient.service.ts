@@ -7,6 +7,7 @@ import {DossierMedicalInterface} from "../../models/dossier-medical.interface";
 import {PatientInterface} from "../../models/patient.interface";
 import {WeeklyDataStat} from "../../models/weekly-data-stat";
 import {Page} from "../../models/pagination.interface";
+import {UtilsService} from "../utils/utils.service";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,9 @@ export class PatientService {
   private readonly urlDossier = `${environment.apiURL}/dossierMedical`;
   private readonly patientStatUrl = `${environment.apiURL}/patients/stats`;
   private readonly rdvStatUrl = `${environment.apiURL}/rendezVous/stats`;
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient, private utils: UtilsService) {
+  }
 
   save(dossier: DossierMedicalInterface): Observable<ApiResponseInterface> {
     /*    const dossier: DossierMedicalInterface = {
@@ -28,8 +31,8 @@ export class PatientService {
   }
 
   getPaginatedFilteredData(page: number = 0, size: number = 10, firstName?: string, lastName?: string,
-                           ageRange?: number[], telephone?: string, startDate?: Date, endDate?: Date,
-                           status?: string, genre?: string) {
+                           telephone?: string, startDate?: Date, endDate?: Date,
+                           status?: string, genre?: string, ageMin?: number, ageMax?: number) {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
@@ -40,15 +43,20 @@ export class PatientService {
     if (lastName) {
       params = params.set('lastName', lastName);
     }
-    let ageMin = 0;
-    let ageMax = 140;
-    if (ageRange) {
+
+    if (this.utils.numberIsDefined(ageMin!)) {
+      params = params.set('ageMin', ageMin!);
+    }
+
+    if (this.utils.numberIsDefined(ageMax!)) {
+      params = params.set('ageMax', ageMax!);
+    }
+
+    /*if (ageRange) {
       ageMin = ageRange [0];
       ageMax = ageRange [1];
 
-    }
-    params = params.set('ageMin', ageMin);
-    params = params.set('ageMax', ageMax);
+    }*/
 
     if (telephone) {
       params = params.set('telephone', telephone);

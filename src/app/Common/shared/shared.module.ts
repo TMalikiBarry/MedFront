@@ -28,12 +28,15 @@ import {NzRadioModule} from "ng-zorro-antd/radio";
 import {PrettyPhoneNumberPipe} from "../../pipes/pretty-phone-number/pretty-phone-number.pipe";
 import {TimeAgoPipe} from "../../pipes/TimeAgo/time-ago.pipe";
 import {NzSliderModule} from "ng-zorro-antd/slider";
+import {NzInputNumberModule} from "ng-zorro-antd/input-number";
+import {AppPositiveNumberDirective} from "../../directives/appPositiveNumber/app-positive-number.directive";
 
 
 @NgModule({
   declarations: [
     DisplayNonNullStringPipe,
     TimeAgoPipe,
+    AppPositiveNumberDirective,
   ],
   exports: [
     CommonModule,
@@ -53,6 +56,7 @@ import {NzSliderModule} from "ng-zorro-antd/slider";
     NzFormModule,
     NzCheckboxModule,
     NzInputModule,
+    NzInputNumberModule,
     NzToolTipModule,
     NzMessageModule,
     ReactiveFormsModule,
@@ -65,7 +69,8 @@ import {NzSliderModule} from "ng-zorro-antd/slider";
     NzPaginationModule,
     NzPopoverModule,
     NzPopconfirmModule,
-    NzRadioModule
+    NzRadioModule,
+    AppPositiveNumberDirective
   ],
   // Pour StandAlone Pipe
   imports: [

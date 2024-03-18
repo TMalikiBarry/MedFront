@@ -55,8 +55,11 @@ export class UtilsService {
     return phoneNumberPattern.test(phoneNumber);
   }
 
+  numberHasValue(value: number): boolean {
+    return [null, undefined, 0].every(v => value != v);
+  }
   numberIsDefined(value: number): boolean {
-    return [null, undefined, 0].every(v => value !== v);
+    return value !== null && value !== undefined;
   }
 
   removeSpace(value: string): string {

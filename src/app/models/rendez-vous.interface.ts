@@ -5,7 +5,7 @@ import {PatientInterface} from "./patient.interface";
 export interface RendezVousInterface {
   id?: number
   dateRv : Date;
-  statut ?: string;
+  statut?: RDVStatus;
   duree ?: number;
   remarques ?: string;
   rappels ?: string;
@@ -13,4 +13,10 @@ export interface RendezVousInterface {
   patient : PatientInterface;
   service : ServiceInterface;
   personnelCreateur ?: PersonnelInterface
+}
+
+export enum RDVStatus {
+  CREATED = 'CREATED',
+  VALIDATED = 'VALIDATED',
+  CANCELED = 'CANCELED'
 }

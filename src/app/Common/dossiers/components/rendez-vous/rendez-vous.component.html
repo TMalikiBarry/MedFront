@@ -16,35 +16,45 @@
       </div>
     </div>
   </div>
-<!--  <div class="statsLayout">-->
-<!--    <div *ngFor="let stat of numberStats; let i = index" class="myCardStats">-->
-<!--      <div class="logoStats"><img alt="stats" src="assets/from_figma/stats-icon.svg" width="35"></div>-->
 
-<!--      <div class="numberStats"><p>{{ stat }}</p></div>-->
-<!--      <div class="descStats"><p>{{ descSats[i] }}</p></div>-->
-
-<!--    </div>-->
-<!--  </div>-->
-  <div class="div-btn">
-    <button (click)="addRdv()" class="btn" nz-button nzType="primary" nzSize="large" nzShape="round">
-      <span nz-icon nzType="plus"></span>
-      Nouveau rendez-vous
-    </button>
-  </div>
+  <!--  <div class="div-btn">
+      <button (click)="addRdv()" class="btn" nz-button nzType="primary" nzSize="large" nzShape="round">
+        <span nz-icon nzType="plus"></span>
+        Nouveau rendez-vous
+      </button>
+    </div>-->
   <div class="dataLayout">
-    <p>Listes des rendez-vous</p>
-    <div class="controllers">
-      <div class="searchInput">
-        <nz-input-group [nzPrefix]="suffixIconSearch">
-          <input [(ngModel)]="filtrePatient" nz-input placeholder="Rechercher par nom, telephone patient " type="text"/>
-        </nz-input-group>
+    <div class="headerData make-spaceBetween">
+      <p>Listes des Rendez-vous</p>
+      <button (click)="addRdv()" class="basic-button my-primary-button" nz-button nzShape="round" nzType="primary">
+        <span nz-icon nzType="plus"></span>
+        Nouveau rendez-vous
+      </button>
+    </div>
+    <div class="rdvFilter">
+      <div class="rdv-patient-filter">
+        <nz-select [(ngModel)]="patientPers" nzAllowClear nzPlaceHolder="Choissez un patient" nzShowSearch>
+          <nz-option nzLabel="----"></nz-option>
+          <nz-option
+            *ngFor="let patient of listOfPatients"
+            [nzLabel]="getPatientInfos(patient)"
+            [nzValue]="patient?.personne">
+
+          </nz-option>
+          <!--          <ng-template #customizeOption let-selected>
+                      {{ selected?.prenom + ' ' + selected?.nom }}
+                      <span class="phone-display">- {{ selected?.telephone }}</span>
+                    </ng-template>-->
+        </nz-select>
       </div>
-      <div class="searchByDate">
-        <nz-date-picker nzFormat="dd-MM-YYYY"  (ngModelChange)="onChange($event)" [(ngModel)]="date"></nz-date-picker>
+      <div class="rdv-date-desc"><p>Date du Rendez-vous</p></div>
+      <div class="rdv-date-filter">
+        <nz-range-picker [(ngModel)]="choosenDate" nzFormat="dd/MM/YYYY"></nz-range-picker>
       </div>
-      <div class="searchByService">
-        <nz-select (ngModelChange)="showEvent($event)" [(ngModel)]="serviceId" nzPlaceHolder="Choissez un service"
-                   nzShowSearch>
+      <div class="rdv-service-desc"><p>Service</p></div>
+      <div class="rdv-service-filter">
+        <nz-select [(ngModel)]="serviceId" nzAllowClear
+                   nzPlaceHolder="Choissez un service" nzShowSearch>
           <nz-option nzLabel="----"></nz-option>
           <nz-option-group *ngFor="let pole of listOfPole" [nzLabel]="pole.nom">
             <nz-option
@@ -53,7 +63,15 @@
           </nz-option-group>
         </nz-select>
       </div>
-      <div class="filterButton">
+      <div class="rdv-status-desc">Statut</div>
+      <div class="rdv-status-filter">
+        <nz-select [(ngModel)]="rdvStatut" nzAllowClear nzPlaceHolder="Choisissez un statut" nzShowSearch>
+          <nz-option nzLabel="----"></nz-option>
+          <nz-option *ngFor="let status of rdvStatusList" [nzLabel]="getStatusLabel(status)"
+                     [nzValue]="status"></nz-option>
+        </nz-select>
+      </div>
+      <div class="filter-button">
         <button (click)="filtre()" class="filter-form-button" nz-button>Filtrer</button>
       </div>
     </div>

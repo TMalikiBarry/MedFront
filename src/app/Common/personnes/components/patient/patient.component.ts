@@ -12,7 +12,6 @@ import {PersonneInterface} from "src/app/models/personne.interface";
 import * as Chart from 'chart.js/auto';
 import {WeeklyDataStat} from "src/app/models/weekly-data-stat";
 import {UtilsService} from "../../../../services/utils/utils.service";
-import {NzMarks} from "ng-zorro-antd/slider";
 import {Page} from "../../../../models/pagination.interface";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
 
@@ -31,17 +30,14 @@ export class PatientComponent implements OnInit {
   chartGenrePatient!: any;
 
   serviceId!: number;
-  // listOfService!: ServiceInterface[];
-  // listOfDossierMedical!: DossierMedicalInterface[];
-  // paginatedData!: Page<PatientInterface>;
-  // patientPers!: PersonneInterface;
-  // pageIndex: number = 0;
+
   isLastWeek = false;
-  // pageSize: number = 10;
+  ageMin!: number;
+  ageMax!: number;
   private patientsInscrits!: WeeklyDataStat;
   private patientsVenus!: WeeklyDataStat;
   patientPers!: PersonneInterface;
-  ageRange = [0, 130];
+  /*ageRange = [0, 130];
   marks: NzMarks = {
     5: '5',
     18: {
@@ -58,7 +54,7 @@ export class PatientComponent implements OnInit {
     80: '80',
     100: '100',
     120: '120',
-  };
+  };*/
 
   paginatedData!: Page<PatientInterface>;
 
@@ -155,12 +151,13 @@ export class PatientComponent implements OnInit {
     );
   }
 
-  getPatientByPage(page: number = 0, size: number = 10, firstName?: string, lastName?: string,
-                   ageRange?: number[], telephone?: string, startDate?: Date, endDate?: Date,
-                   status?: string, genre?: string) {
+  getPatientByPage(page: number = 0, size: number = 10, firstName?: string, lastName?: string, telephone?: string,
+                   startDate?: Date, endDate?: Date, status?: string, genre?: string) {
 
     this.patientService.getPaginatedFilteredData(page, size, firstName, lastName,
-      ageRange, telephone, startDate, endDate, status, genre).subscribe({
+      telephone, startDate, endDate, status, genre,
+      this.ageMin, this.ageMax)
+      .subscribe({
       next: response => {
         this.paginatedData = response;
 
@@ -194,7 +191,7 @@ export class PatientComponent implements OnInit {
     }
     console.log('RECUPERER LES DONNEES');
     this.getPatientByPage(this.pageIndex, this.pageSize, prenom!, nom!,
-      this.ageRange, telephone!, startDate, endDate);
+      telephone!, startDate, endDate);
     console.log('BIEN RECU LES DONNEES');
 
   }
@@ -355,5 +352,18 @@ export class PatientComponent implements OnInit {
   }
 
   addNewRDV(patient: PatientInterface) {
+  }
+
+  handleExtremum(type: 'min' | 'max', event: any) {
+    const ageDiff = this.ageMax - this.ageMin;
+    if (type === 'min') {
+      if (this.ageMin < 0)
+        this.ageMin = 0
+      this.ageMax = ageDiff < 1 ? this.ageMin + 1 : this.ageMax;
+    } else {
+      if (this.ageMax < 1)
+        this.ageMax = 1
+      this.ageMin = ageDiff <= 0 ? this.ageMax - 1 : this.ageMin;
+    }
   }
 }

@@ -47,9 +47,13 @@
         <div class="date-filter">
           <nz-range-picker [(ngModel)]="choosenDate" nzFormat="dd/MM/YYYY"></nz-range-picker>
         </div>
-        <div class="descrip-age">Age</div>
+        <div class="descrip-age">Tranche d'Age (en an)</div>
         <div class="age-filter">
-          <nz-slider [(ngModel)]="ageRange" [nzMarks]="marks" [nzMax]="130" [nzMin]="0" nzIncluded nzRange></nz-slider>
+          <!--          <nz-slider [(ngModel)]="ageRange" [nzMarks]="marks" [nzMax]="130" [nzMin]="0" nzIncluded nzRange></nz-slider>-->
+          <nz-input-number (ngModelChange)="handleExtremum('min', $event)" [(ngModel)]="ageMin"
+                           [nzMax]="ageMax-1" [nzMin]="0" [nzStep]="1" nzPlaceHolder="Minimum"></nz-input-number>
+          <nz-input-number (ngModelChange)="handleExtremum('max', $event)" [(ngModel)]="ageMax"
+                           [nzMax]="150" [nzMin]="ageMin+1" [nzStep]="1" nzPlaceHolder="Maximum"></nz-input-number>
         </div>
         <div class="button-action">
           <button (click)="filterData()" class="filter-form-button" nz-button>Filtrer</button>
@@ -104,7 +108,7 @@
             <!--            <td> {{ getAgeDescription(patient.personne)  }}</td>-->
 
             <td>
-              <div [ngClass]="{'displayString' : !getAgeDescription(patient.personne)}">
+              <div [ngClass]="{'displayString' : !patient.personne.datenaissance}">
                 {{ getAgeDescription(patient.personne) | displayString }}
               </div>
             </td>

@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {environment} from "src/environments/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {ApiResponseInterface} from "../../models/api-response.interface";
+import {PatientInterface} from "../../models/patient.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -18,21 +19,30 @@ export class RendezVousService {
     return this.http.get<any>(this.API_URL+this.ENDPOINT_RDV+"/all")
   }
 
-  getAllRdvPagination(page: number = 0, size: number = 10, lastname ?: string, firstName ?: string, telephone ?: string, serviceId ?: number, endDate ?: string) {
-    let params = new HttpParams();
-    params = params.append('page', page.toString());
-    params = params.append('size', size.toString());
+  getAllRdvPagination(page: number = 0, size: number = 10, firstName ?: string, lastname ?: string,
+                      statut ?: string, serviceId ?: number, startDate?: string, endDate?: string) {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
 
     if(lastname)
       params = params.append('lastname',lastname.toString())
+
     if(firstName)
       params = params.append('firstName',firstName.toString())
-    if(telephone)
-      params = params.append('telephone',telephone.toString())
+
+    if (statut)
+      params = params.append('statut', statut.toString())
+
     if(serviceId)
       params = params.append('serviceId',serviceId)
+
+    if (startDate)
+      params = params.append('startDate', startDate)
+
     if(endDate)
-      params = params.append('startDate',endDate)
+      params = params.append('endDate', endDate)
+
     return this.http.get<any>(this.API_URL+this.ENDPOINT_RDV,{ params: params })
   }
 
@@ -47,6 +57,10 @@ export class RendezVousService {
 
   saveRdv(data : any){
     return this.http.post<ApiResponseInterface>(this.API_URL+this.ENDPOINT_RDV, data);
+  }
+
+  getAllPatients() {
+    return this.http.get<PatientInterface[]>(`${this.API_URL}/patients/all`)
   }
 
   updateRdv(data : any){
