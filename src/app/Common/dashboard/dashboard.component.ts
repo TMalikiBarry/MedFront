@@ -81,6 +81,13 @@ export class DashboardComponent implements OnInit {
         },
         responsive: true,
         // barPercentage: 0.7 // Réglage de la largeur des barres
+
+        scales: {
+          y: {
+            min: 0, // Définit le minimum de l'axe des ordonnées à zéro
+            // D'autres configurations d'échelle si nécessaire...
+          }
+        }
       }
 
     });

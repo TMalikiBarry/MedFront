@@ -175,6 +175,7 @@ export class FacturationComponent implements OnInit{
   }
 
   makePayment(): void {
+    this.isConfirmLoading = true;
     this.FacForm.controls['prestation'].setValue(this.data)
     console.log(this.FacForm.value)
     let trans = this.FacForm.value
@@ -185,11 +186,20 @@ export class FacturationComponent implements OnInit{
 
     // Appeler le service pour créer la transaction
     this.transactionService.saveTransaction(trans, moyen).subscribe(
-      (response : ApiResponseInterface) => {
-        let transaction = response.reponse
-        if(moyen != "CASH")
-          this.touchPay(transaction)
-        this.modal.close()
+      {
+        next: (response: ApiResponseInterface) => {
+          let transaction = response.reponse
+          if (moyen != "CASH")
+            this.touchPay(transaction)
+          this.modal.close()
+        },
+        error: (error) => {
+          console.log(error);
+          this.isConfirmLoading = false;
+        },
+        complete: () => {
+          this.isConfirmLoading = false
+        }
       }
     );
   }

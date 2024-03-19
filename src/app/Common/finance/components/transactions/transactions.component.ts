@@ -6,7 +6,6 @@ import {PrestationInterface} from "src/app/models/prestation.interface";
 import {PersonneInterface} from "src/app/models/personne.interface";
 import {PoleInterface} from "src/app/models/pole.interface";
 import {NzModalService} from "ng-zorro-antd/modal";
-import {PrestationService} from "src/app/services/prestation/prestation.service";
 import {CliniqueServiceService} from "src/app/services/service/clinique-service.service";
 import {DossierMedicalService} from "src/app/services/dossier-medical/dossier-medical.service";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
@@ -42,7 +41,6 @@ export class TransactionsComponent implements OnInit {
   listOfPole!: PoleInterface[];
 
   constructor(private modalService: NzModalService,
-              private apiPrestation: PrestationService,
               private apiTransaction : TransactionService,
               private serviceApi: CliniqueServiceService,
               private dossierMApi: DossierMedicalService) {
@@ -80,8 +78,7 @@ export class TransactionsComponent implements OnInit {
         datasets: [
           {
             label: "Orange Money",
-            data: ['4010', '4150', '3800', '3650', '4210',
-              '4110', '4000'],
+            data: ['0', '0', '0', '0', '0', '0', '0'],
             borderColor: '#266141',
             backgroundColor: '#266141',
             tension: .42,
@@ -90,16 +87,14 @@ export class TransactionsComponent implements OnInit {
           },
           {
             label: "Wave",
-            data: ['3020', '3500', '3400', '3400', '3100',
-              '3600', '3600'],
+            data: ['0', '0', '0', '0', '0', '0', '0'],
             backgroundColor: '#84BE38',
             borderColor: '#84BE38',
             tension: .42
           },
           {
             label: "Paiement en espece",
-            data: ['2900', '3100', '3000', '2800', '2750',
-              '2500', '2700'],
+            data: ['0', '0', '0', '0', '0', '0', '0'],
             backgroundColor: '#FDCD51',
             borderColor: '#FDCD51',
             tension: .42
@@ -111,6 +106,12 @@ export class TransactionsComponent implements OnInit {
         plugins: {
           legend: {
             display: false // Supprimer la légende
+          }
+        },
+        scales: {
+          y: {
+            min: 0, // Définit le minimum de l'axe des ordonnées à zéro
+            // D'autres configurations d'échelle si nécessaire...
           }
         }
       }

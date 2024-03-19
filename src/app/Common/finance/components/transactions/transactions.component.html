@@ -68,47 +68,7 @@
 <!--        </button>-->
       </div>
     </div>
-<!--    <div class="controllers">-->
-<!--      <div class="searchInput">-->
-<!--        <nz-select nzAllowClear nzShowSearch nzPlaceHolder="Choissez un patient" [(ngModel)]="patientPers">-->
-<!--          <nz-option nzLabel="&#45;&#45;&#45;&#45;"></nz-option>-->
-<!--          <nz-option-->
-<!--            *ngFor="let dossier of listOfDossierMedical"-->
-<!--            [nzLabel]="getPatientName(dossier) +' - '+ dossier.patient?.personne?.telephone"-->
-<!--            [nzValue]="dossier.patient?.personne">-->
 
-<!--          </nz-option>-->
-<!--          &lt;!&ndash;          <ng-template #customizeOption let-selected>-->
-<!--                      {{ selected?.prenom + ' ' + selected?.nom }}-->
-<!--                      <span class="phone-display">- {{ selected?.telephone }}</span>-->
-<!--                    </ng-template>&ndash;&gt;-->
-<!--        </nz-select>-->
-<!--        &lt;!&ndash;-->
-<!--                <nz-input-group [nzPrefix]="suffixIconSearch">-->
-<!--                  <input nz-input placeholder="Rechercher par patient " type="text"/>-->
-<!--                </nz-input-group>-->
-<!--        &ndash;&gt;-->
-<!--      </div>-->
-<!--      <div class="dateDesc"><p>Date</p></div>-->
-<!--      <div class="searchByDate">-->
-<!--        <nz-range-picker nzFormat="dd/MM/YYYY" [(ngModel)]="choosenDate"></nz-range-picker>-->
-<!--      </div>-->
-<!--      <div class="serviceDesc"><p>Service</p></div>-->
-<!--      <div class="searchByService">-->
-<!--        <nz-select [(ngModel)]="serviceId" nzPlaceHolder="Choissez un service"-->
-<!--                   nzShowSearch nzAllowClear>-->
-<!--          <nz-option nzLabel="&#45;&#45;&#45;&#45;"></nz-option>-->
-<!--          <nz-option-group *ngFor="let pole of listOfPole" [nzLabel]="pole.nom">-->
-<!--            <nz-option-->
-<!--              *ngFor="let service of getAllServicesByPole(pole)"-->
-<!--              [nzLabel]="service.nom!" [nzValue]="service.id"></nz-option>-->
-<!--          </nz-option-group>-->
-<!--        </nz-select>-->
-<!--      </div>-->
-<!--      <div class="filterButton">-->
-<!--        <button class="filter-form-button" nz-button (click)="filterData()">Filtrer</button>-->
-<!--      </div>-->
-<!--    </div>-->
     <nz-table #paiementTable *ngIf="paginatedData"
               [nzData]="paginatedData.content"
               [nzPageSize]="paginatedData.pageable.pageSize"

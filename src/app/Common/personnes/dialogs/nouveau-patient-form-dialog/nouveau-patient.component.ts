@@ -59,6 +59,8 @@ export class NouveauPatientComponent implements OnInit {
       console.error(s)
     }
 
+    this.initializeObservables();
+
   }
 
   enregistrerPatient() {
@@ -205,5 +207,43 @@ export class NouveauPatientComponent implements OnInit {
     }
   }
 
+  initializeObservables() {
+    this.patientForm.controls['telephone'].valueChanges.subscribe((value: string) => {
+
+      let formattedNumber = '';
+      if (['00221', '+221', '221'].some(v => value.startsWith(v))) {
+        formattedNumber = this.removeCountryCodePrefix(value).replace(/\s+/g, '')
+          .replace(/^(\d{3})(\d{2})(\d{3})(\d{2})(\d{2})$/, '+$1 $2 $3 $4 $5')
+      } else {
+        formattedNumber = value!.replace(/\s+/g, '')
+          .replace(/^(\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4')
+      }
+
+      if (value !== formattedNumber) {
+        this.patientForm.controls['telephone'].patchValue(formattedNumber, {emitEvent: false});
+      }
+    })
+
+    this.patientForm.controls['contactEnCasUrgent'].valueChanges.subscribe((value: string) => {
+
+      let formattedNumber = '';
+      if (['00221', '+221', '221'].some(v => value.startsWith(v))) {
+        formattedNumber = this.removeCountryCodePrefix(value).replace(/\s+/g, '')
+          .replace(/^(\d{3})(\d{2})(\d{3})(\d{2})(\d{2})$/, '+$1 $2 $3 $4 $5')
+      } else {
+        formattedNumber = value!.replace(/\s+/g, '')
+          .replace(/^(\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4')
+      }
+
+      if (value !== formattedNumber) {
+        this.patientForm.controls['contactEnCasUrgent'].patchValue(formattedNumber, {emitEvent: false});
+      }
+    })
+  }
+
+  private removeCountryCodePrefix(value: string): string {
+    // Supprime le préfixe "+" ou "00" s'il est présent au début de la chaîne
+    return value.replace(/^(\+|00)/, '');
+  }
 
 }
