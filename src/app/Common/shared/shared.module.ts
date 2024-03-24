@@ -30,6 +30,7 @@ import {TimeAgoPipe} from "../../pipes/TimeAgo/time-ago.pipe";
 import {NzSliderModule} from "ng-zorro-antd/slider";
 import {NzInputNumberModule} from "ng-zorro-antd/input-number";
 import {AppPositiveNumberDirective} from "../../directives/appPositiveNumber/app-positive-number.directive";
+import {FormatAgePipe} from '../../pipes/format-age/format-age.pipe';
 
 
 @NgModule({
@@ -37,12 +38,14 @@ import {AppPositiveNumberDirective} from "../../directives/appPositiveNumber/app
     DisplayNonNullStringPipe,
     TimeAgoPipe,
     AppPositiveNumberDirective,
+    FormatAgePipe,
   ],
   exports: [
     CommonModule,
     DisplayNonNullStringPipe,
     TimeAgoPipe,
     PrettyPhoneNumberPipe,
+    FormatAgePipe,
     NzLayoutModule,
     NzMenuModule,
     NzIconModule,

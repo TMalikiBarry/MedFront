@@ -3,7 +3,10 @@ import {environment} from "src/environments/environment.prod";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {ApiResponseInterface} from "../../models/api-response.interface";
 import {Observable} from "rxjs";
-import {MoyenPayment} from "../../models/transaction.interface";
+import {MoyenPayment, TransactionInterface} from "../../models/transaction.interface";
+import {PrestationInterface} from "../../models/prestation.interface";
+import {UtilsService} from "../utils/utils.service";
+import {Page} from "../../models/pagination.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +17,8 @@ export class TransactionService {
 
   private readonly ENDPOINT_TRANSACTION = "/transactions/"
 
-  constructor(private http : HttpClient) { }
+  constructor(private http: HttpClient, private utils: UtilsService) {
+  }
 
   saveTransaction(data: any, moyen?: string) {
     let params = new HttpParams();
@@ -25,12 +29,28 @@ export class TransactionService {
   getAllTransaction(){
     return this.http.get<ApiResponseInterface>(this.API_URL+"/transactions/all")
   }
-  getAllTransactionPage(page: number = 0,
-                        size: number = 10) :Observable<any> {
+
+  getAllTransactionPage(page: number = 0, size: number = 10, id?: number, prestationID?: number, dossierMedicID?: number,
+                        serviceID?: number, montantMin?: number, montantMax?: number, status?: string,
+                        moyenPaiement?: string, startDate?: string, endDate?: string) {
+
     let params = new HttpParams()
       .append('page', page.toString())
       .append('size', size.toString());
-    return this.http.get(this.API_URL+"/transactions", {params: params})
+
+    // Ajouter les paramètres facultatifs s'ils sont définis
+    if (this.utils.numberIsDefined(id!)) params = params.append('id', id!.toString());
+    if (this.utils.numberIsDefined(prestationID!)) params = params.append('prestationID', prestationID!.toString());
+    if (this.utils.numberIsDefined(dossierMedicID!)) params = params.append('dossierMedicID', dossierMedicID!.toString());
+    if (this.utils.numberIsDefined(serviceID!)) params = params.append('serviceID', serviceID!.toString());
+    if (this.utils.numberIsDefined(montantMin!)) params = params.append('montantMin', montantMin!.toString());
+    if (this.utils.numberIsDefined(montantMax!)) params = params.append('montantMax', montantMax!.toString());
+    if (status) params = params.append('status', status);
+    if (moyenPaiement) params = params.append('moyenPaiement', moyenPaiement);
+    if (startDate) params = params.append('startDate', startDate);
+    if (endDate) params = params.append('endDate', endDate);
+
+    return this.http.get<Page<TransactionInterface>>(this.API_URL + "/transactions", {params: params});
   }
 
   getWeeklyTransactionAmountStats(moyenPayment?: MoyenPayment): Observable<any> {
@@ -43,6 +63,10 @@ export class TransactionService {
 
   getAllCountTransaction(){
     return this.http.get(this.API_URL+"/transactions/countAll")
+  }
+
+  getAllPrestations() {
+    return this.http.get<PrestationInterface[]>(`${this.API_URL}/prestation/all`)
   }
 
   getCountTransactionByMoyen(){

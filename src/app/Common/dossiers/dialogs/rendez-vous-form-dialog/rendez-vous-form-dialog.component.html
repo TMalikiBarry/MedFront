@@ -21,15 +21,15 @@
               </nz-select>
           </nz-form-control>
         </nz-form-item>
-<!--        <nz-form-item>-->
-<!--          <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">-->
-<!--            <p class="input-label">Presence</p>-->
-<!--            <nz-select nzShowSearch nzPlaceHolder="Choissez l'option" formControlName="presence">-->
-<!--              <nz-option nzLabel="Confirmee" nzValue="Confirmee"></nz-option>-->
-<!--              <nz-option nzLabel="Non confirmee" nzValue="Non Confirmee"></nz-option>-->
-<!--            </nz-select>-->
-<!--          </nz-form-control>-->
-<!--        </nz-form-item>-->
+        <!--        <nz-form-item>
+                  <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
+                    <p class="input-label">Presence</p>
+                    <nz-select nzShowSearch nzPlaceHolder="Choissez l'option" formControlName="presence">
+                      <nz-option nzLabel="Confirmee" nzValue="Confirmee"></nz-option>
+                      <nz-option nzLabel="Non confirmee" nzValue="Non Confirmee"></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>-->
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
             <p class="input-label">Medecins</p>
@@ -37,33 +37,36 @@
               <nz-option nzLabel="----"></nz-option>
               <nz-option
                 *ngFor="let medecin of listOfMedecin"
-                [nzLabel]="medecin.personne.nom" [nzValue]="medecin.id" ></nz-option>
+                [nzLabel]="medecin.personne.prenom + medecin.personne.nom" [nzValue]="medecin.id"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
       </div>
 
       <div class="make-spaceBetween">
+
         <nz-form-item>
-          <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
-            <p class="input-label">Poles</p>
-            <nz-select formControlName="pole" nzPlaceHolder="Choissez un pole" nzShowSearch>
+          <nz-form-control nzErrorTip="Veuillez choisir un service!">
+            <p class="input-label">Service</p>
+            <nz-select formControlName="service" nzAllowClear nzPlaceHolder="Choissez un service" nzShowSearch>
               <nz-option nzLabel="----"></nz-option>
-              <nz-option
-                *ngFor="let pole of listOfPole"
-                [nzLabel]="pole.nom" [nzValue]="pole.id"></nz-option>
+              <nz-option-group *ngFor="let pole of listOfPole" [nzLabel]="pole.nom">
+                <nz-option
+                  *ngFor="let service of getAllServicesByPole(pole)"
+                  [nzLabel]="service.nom!" [nzValue]="service.id"></nz-option>
+              </nz-option-group>
+
             </nz-select>
           </nz-form-control>
         </nz-form-item>
-
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
-            <p class="input-label">Services</p>
-            <nz-select nzShowSearch nzPlaceHolder="Choissez un service" formControlName="service">
-              <nz-option nzLabel="----"></nz-option>
-              <nz-option
-                *ngFor="let service of filtreService"
-                [nzLabel]="service.nom" [nzValue]="service.id"></nz-option>
+            <p class="input-label">Duree</p>
+            <nz-select formControlName="duree" nzPlaceHolder="Choissez la duree" nzShowSearch>
+              <nz-option nzLabel="15 minutes" nzValue="15"></nz-option>
+              <nz-option nzLabel="30 minutes" nzValue="30"></nz-option>
+              <nz-option nzLabel="45 minutes" nzValue="45"></nz-option>
+              <nz-option nzLabel="60 minutes" nzValue="60"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -80,21 +83,6 @@
 
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
-            <p class="input-label">Duree</p>
-            <nz-select nzShowSearch nzPlaceHolder="Choissez la duree" formControlName="duree">
-              <nz-option nzLabel="15 minutes" nzValue="15"></nz-option>
-              <nz-option nzLabel="30 minutes" nzValue="30"></nz-option>
-              <nz-option nzLabel="45 minutes" nzValue="45"></nz-option>
-              <nz-option nzLabel="60 minutes" nzValue="60"></nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-
-      <div class="make-spaceBetween">
-
-        <nz-form-item>
-          <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
             <p class="input-label">Notes & Remarques</p>
             <textarea
               nz-input
@@ -104,7 +92,9 @@
             ></textarea>
           </nz-form-control>
         </nz-form-item>
+
       </div>
+
 
     </form>
   </div>

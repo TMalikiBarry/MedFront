@@ -14,6 +14,7 @@ import {NotifService} from "src/app/services/notification/notif.service";
 import {ServiceInterface} from "src/app/models/service.interface";
 import {PoleInterface} from "src/app/models/pole.interface";
 import {PersonneInterface} from "../../../../models/personne.interface";
+import {CancelRdvDialogComponent} from "../../dialogs/cancel-rdv-dialog/cancel-rdv-dialog.component";
 
 @Component({
   selector: 'app-rendez-vous',
@@ -53,7 +54,7 @@ export class RendezVousComponent implements OnInit {
       case RDVStatus.CANCELED:
         return 'Annulé';
       default:
-        return '';
+        return 'Créé';
     }
   }
 
@@ -289,5 +290,24 @@ export class RendezVousComponent implements OnInit {
     return this.listOfService.filter(s => s.pole?.id === pole.id);
   }
 
+  isValidated(rdvStatus: RDVStatus): boolean {
+    // return [RDVStatus.CREATED, RDVStatus.CANCELED].indexOf(rdvStatus) === -1
+    return rdvStatus === RDVStatus.VALIDATED;
+  }
 
+
+  cancelRDV(rdv: RendezVousInterface) {
+    if (this.isValidated(rdv.statut!)) return;
+
+    const dialog = this.modalService.create({
+      nzContent: CancelRdvDialogComponent,
+      nzData: rdv,
+      nzClosable: false,
+      nzWidth: '50rem',
+      nzCentered: true,
+    });
+    dialog.afterClose.subscribe(() => {
+      this.getRdvByPage();
+    })
+  }
 }

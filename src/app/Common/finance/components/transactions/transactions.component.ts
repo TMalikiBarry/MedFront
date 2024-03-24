@@ -15,8 +15,9 @@ import {
 import {PersonnelInterface} from "src/app/models/personnel.interface";
 import {TransactionService} from "src/app/services/transaction/transaction.service";
 import * as Chart from "chart.js/auto";
-import {TransactionInterface} from "src/app/models/transaction.interface";
+import {MoyenPaymentFilter, TransactionInterface, TransactionStatusFilter} from "src/app/models/transaction.interface";
 import {WeeklyTransactionAmountStatInterface} from "../../../../models/weekly-transaction-amount-stat.interface";
+import {UtilsService} from "../../../../services/utils/utils.service";
 
 @Component({
   selector: 'app-transactions',
@@ -24,26 +25,35 @@ import {WeeklyTransactionAmountStatInterface} from "../../../../models/weekly-tr
   styleUrls: ['./transactions.component.sass']
 })
 export class TransactionsComponent implements OnInit {
-  numberStats = [3, 0, 2, 0];
+  numberStats = [0, 0, 0, 0];
   descSats = ["Total des paiements","Paiement en espéces","Prise en charge", "Payée partiellement"]
   choosenDate!: Date[];
+  moyenPaymentEnum = MoyenPaymentFilter;
+  selectedMoyenPayment!: MoyenPaymentFilter;
+  transactionStatusEnum = TransactionStatusFilter;
+  selectedTransactionStatus!: TransactionStatusFilter;
   serviceId!: number;
   chartTrans!: any;
   listOfService!: ServiceInterface[];
   listOfDossierMedical!: DossierMedicalInterface[];
   paginatedData!: Page<TransactionInterface>;
   patientPers!: PersonneInterface;
+  choosenPrestation!: PrestationInterface;
   pageIndex: number = 0;
   pageSize: number = 10;
   isLastWeek = false;
+  montantMin!: number;
+  montantMax!: number;
 
   // prestationsList: PrestationInterface[] = [];
   listOfPole!: PoleInterface[];
+  listPrestation!: PrestationInterface[];
 
   constructor(private modalService: NzModalService,
               private apiTransaction : TransactionService,
               private serviceApi: CliniqueServiceService,
-              private dossierMApi: DossierMedicalService) {
+              private dossierMApi: DossierMedicalService,
+              public utils: UtilsService) {
   }
 
   ngOnInit(): void {
@@ -61,7 +71,8 @@ export class TransactionsComponent implements OnInit {
     });
     this.getCountTransMoyen()
     this.loadPatients();
-    this.getAllTransaction();
+    this.loadPrestations();
+    // this.getAllTransaction();
     this.getTransactionByPage(this.pageIndex, this.pageSize, true);
 
   }
@@ -112,6 +123,11 @@ export class TransactionsComponent implements OnInit {
           y: {
             min: 0, // Définit le minimum de l'axe des ordonnées à zéro
             // D'autres configurations d'échelle si nécessaire...
+            type: 'linear', // Utiliser une échelle linéaire
+            ticks: {
+              // stepSize: 1, // Taille du pas de l'axe des ordonnées
+              precision: 0 // Précision des étiquettes (aucune décimale)
+            }
           }
         }
       }
@@ -148,8 +164,18 @@ export class TransactionsComponent implements OnInit {
     if (loadChartData) {
       this.getChartData(this.isLastWeek)
     }
+    let startDate = undefined;
+    let endDate = undefined;
 
-    this.apiTransaction.getAllTransactionPage(page, size).subscribe({
+    if (this.choosenDate) {
+      startDate = this.choosenDate[0] ? this.choosenDate[0].toISOString() : undefined;
+      endDate = this.choosenDate[1] ? this.choosenDate[1].toISOString() : undefined;
+    }
+
+    this.apiTransaction.getAllTransactionPage(page, size, undefined, this.choosenPrestation?.id,
+      undefined, this.serviceId, this.montantMin, this.montantMax,
+      this.selectedTransactionStatus, this.selectedMoyenPayment, startDate, endDate)
+      .subscribe({
       next: response => {
         console.log("Liste des transactions ", response);
         this.paginatedData = response;
@@ -179,46 +205,18 @@ export class TransactionsComponent implements OnInit {
     /*const { pageSize, pageIndex} = params;
     const currentSort = sort.find(item => item.value !== null);
     const sortField = (currentSort && currentSort.key) || null;
-    const sortOrder = (currentSort && currentSort.value) || null;*/
-    let startDate = undefined;
-    let endDate = undefined;
-    if (this.choosenDate) {
-      startDate = this.choosenDate[0] ? this.choosenDate[0].toISOString(): undefined;
-      endDate = this.choosenDate[1] ? this.choosenDate[1].toISOString(): undefined;
-    }
-    let prenom = null;
+    const sortOrder = (currentSort && currentSort.value) || null;    let prenom = null;
     let nom = null;
     if (this.patientPers){
       prenom = this.patientPers.prenom;
       nom = this.patientPers.nom;
-    }
-    this.getTransactionByPage(this.pageIndex, params.pageSize)
+    }*/
+    this.filterData()
   }
 
   filterData() {
-    let startDate = undefined;
-    let endDate = undefined;
-    if (this.choosenDate) {
-      startDate = this.choosenDate[0] ? this.choosenDate[0].toISOString(): undefined;
-      endDate = this.choosenDate[1] ? this.choosenDate[1].toISOString(): undefined;
-    }
-    let prenom = null;
-    let nom = null;
-    if (this.patientPers){
-      prenom = this.patientPers.prenom;
-      nom = this.patientPers.nom;
-    }
     this.getTransactionByPage(this.pageIndex, this.pageSize)
   }
-
-  /*
-    onChange(result: Date): void {
-      if (typeof result == 'object')
-        console.log('onChange: ', result.toISOString());
-      console.log('SELECTION: ', result)
-    }
-  */
-
 
   addNewPrestation() {
     this.modalService.create({
@@ -292,13 +290,15 @@ export class TransactionsComponent implements OnInit {
 
   }
 
-  private getAllTransaction() {
-    this.apiTransaction.getAllTransaction().subscribe({
-      next : value => {
-        console.log(value)
-      }
-    })
-  }
+  /*
+    private getAllTransaction() {
+      this.apiTransaction.getAllTransaction().subscribe({
+        next : value => {
+          console.log(value)
+        }
+      })
+    }
+  */
 
   private getCountTransMoyen() {
     this.apiTransaction.getCountTransactionByMoyen().subscribe({
@@ -308,11 +308,41 @@ export class TransactionsComponent implements OnInit {
     })
   }
 
+  formatPrestation(p: PrestationInterface) {
+    return `${p.id} - ${this.getPatientInfos(p.dossierMedical?.patient?.personne!)} -- ${p.service?.nom}`;
+  }
+
+  handleExtremumMontant(type: 'min' | 'max', event: any) {
+    console.log('CHOISI NUMBER ', event);
+    const montantDiff = this.montantMax - this.montantMin;
+    if (type === 'min') {
+      if (this.montantMin < 0)
+        this.montantMin = 0
+      this.montantMax = montantDiff < 500 ? this.montantMin + 500 : this.montantMax;
+    } else {
+      if (this.montantMax < 500)
+        this.montantMax = 1000
+      this.montantMin = montantDiff <= 0 ? this.montantMax - 500 : this.montantMin;
+    }
+  }
+
+
+
   private getCountPaiementEspece() {
     this.apiTransaction.getCountTransactionCash().subscribe({
       next : value => {
         this.numberStats[1] = value.reponse
       }
+    })
+  }
+
+  private getPatientInfos(p: PersonneInterface) {
+    return `${this.utils.getInitials(p.prenom)} ${p.nom.toUpperCase()} - ${p.telephone}`;
+  }
+
+  private loadPrestations() {
+    this.apiTransaction.getAllPrestations().subscribe({
+      next: (data) => this.listPrestation = data,
     })
   }
 }

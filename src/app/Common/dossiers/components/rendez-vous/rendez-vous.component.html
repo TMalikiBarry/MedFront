@@ -100,9 +100,36 @@
         <td>{{ formatDateString(rdv.dateRv) }}</td>
         <td><strong>{{ rdv.patient.personne.id}}</strong> - {{ rdv.patient.personne.prenom }} {{rdv.patient.personne.nom}}</td>
         <td>{{ rdv.patient.personne.telephone | prettyPhoneNumber }}</td>
-        <td>{{ rdv.service.nom }}</td>
+        <td>
+          {{ rdv.service.nom }}
+          <span class="service-pole">{{ ' - (' + rdv.service.pole!.nom + ')' }}</span>
+        </td>
         <td><nz-badge nzStatus="processing" nzText="Non Confirmee"></nz-badge></td>
-        <td class="icon-table"> <img (click)="detailRdv(rdv)" src="assets/icon/eye.svg" alt="modifier"> <img (click)="detailPatient(rdv.patient)" src="assets/icon/Icone%20user.svg" alt="patient"> <img (click)="deleteRdv(rdv.id)" src="assets/icon/trash.svg" alt="delete"></td>
+        <td class="icon-table">
+          <img (click)="detailRdv(rdv)" alt="modifier" nz-tooltip nzTooltipTitle="Voir détails ou modifier"
+               src="assets/icon/eye.svg">
+          <img (click)="detailPatient(rdv.patient)" alt="patient" nz-tooltip
+               nzTooltipTitle="Voir détails Patient" src="assets/icon/Icone%20user.svg">
+          <img (click)="deleteRdv(rdv.id)" alt="delete" nz-tooltip nzTooltipTitle="Supprimer"
+               src="assets/icon/trash.svg">
+          <img (click)="cancelRDV(rdv)" [nzTooltipTitle]="isValidated(rdv.statut!)? 'Valider': 'Annuler'" [src]="'assets/from_figma/'+(isValidated(rdv.statut!)? 'confirm-yes.svg': 'confirm-no.svg')"
+               alt="Arrow Down" nz-tooltip
+               width="17">
+
+          <!--<nz-dropdown-menu #AnnulerRDV="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item>
+              <span>Pourquoi voulez-vous annuler ce rendez-vous ?</span>
+            </li>
+            <li nz-menu-item>
+              <textarea class="input" [(ngModel)]="rdvMotif" required></textarea>
+            </li>
+            <li nz-menu-item class="cancel-li">
+              <button class="cancel-rdv basic-button" (click)="cancelRDV(rdv)"> Annuler le rendez-vous</button>
+            </li>
+          </ul>
+        </nz-dropdown-menu>-->
+        </td>
       </tr>
       </tbody>
 
@@ -133,13 +160,4 @@
   </ul>
 </nz-dropdown-menu>
 
-<nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
-  <ul nz-menu>
-    <li class="selectedLink" nz-menu-item>
-      <span>Facturer la prestation</span>
-    </li>
-    <li class="selectedLink" nz-menu-item>
-      <span>Voir le contenu de la prestation</span>
-    </li>
-  </ul>
-</nz-dropdown-menu>
+

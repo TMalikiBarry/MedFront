@@ -1,13 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {listService, Service} from "src/app/models/Utils/constants";
 import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
 import {FormBuilder} from "@angular/forms";
-import {Poles} from "src/app/models/Utils/poles";
 import {PersonnelInterface} from "src/app/models/personnel.interface";
 import {PatientInterface} from "src/app/models/patient.interface";
 import {RendezVousInterface} from "src/app/models/rendez-vous.interface";
 import {RendezVousService} from "src/app/services/rendez-vous/rendez-vous.service";
-import {PoleService} from "src/app/services/pole/pole.service";
 import {CliniqueServiceService} from "src/app/services/service/clinique-service.service";
 import {PersonnelService} from "src/app/services/personnel/personnel.service";
 import {PatientService} from "src/app/services/patient/patient.service";
@@ -15,6 +12,8 @@ import {
   NouveauPatientComponent
 } from "../../../personnes/dialogs/nouveau-patient-form-dialog/nouveau-patient.component";
 import {NotifService} from "src/app/services/notification/notif.service";
+import {ServiceInterface} from "../../../../models/service.interface";
+import {PoleInterface} from "../../../../models/pole.interface";
 
 @Component({
   selector: 'app-rendez-vous-form-dialog',
@@ -29,34 +28,32 @@ export class RendezVousFormDialogComponent implements OnInit {
   date !: string
   isConfirmLoading = false;
   listOfMedecin!: PersonnelInterface[];
-  listOfPole!: Poles[];
-  listService!: Service[];
+  myServicesList!: ServiceInterface[];
+
+  listOfPole!: PoleInterface[];
   listOfPatient !: PatientInterface[]
   rendezVous !: RendezVousInterface;
-  filtreService !: Service[]
+  // filtreService !: Service[]
   data: any
 
   selectedDataFromSecondDialog: any;
 
   RvForm = this.fb.group({
     medecin: '',
-    pole: '',
+    // pole: '',
     service: '',
     dateRv: '',
     patient: '',
     presence: '',
     duree: '',
     remarques: '',
-    rappels: '',
-    resultat: ''
   })
   poleSelect: any;
 
   constructor(private modal: NzModalRef,
               private modalService: NzModalService,
               private api: RendezVousService,
-              private apiPole: PoleService,
-              private apiService: CliniqueServiceService,
+              private serviceApi: CliniqueServiceService,
               private apiPatient: PatientService,
               private apiRdv: RendezVousService,
               private apiPersonnel: PersonnelService,
@@ -70,6 +67,7 @@ export class RendezVousFormDialogComponent implements OnInit {
     console.log(this.data)
 
     if(this.data){
+      this.titleForm = 'Modifier Rendez-vous'
 
       this.RvForm.controls.patient.setValue(this.data.patient.id)
       // const formattedDate = this.formatCustomDate(this.data.dateRv);
@@ -81,8 +79,8 @@ export class RendezVousFormDialogComponent implements OnInit {
       //this.RvForm.controls.dateRv.setValue(this.data.dateRv)
       this.RvForm.controls.medecin.setValue(this.data.personnel.id)
       this.RvForm.controls.service.setValue(this.data.service.id)
-      this.RvForm.controls.pole.setValue(this.data.service.pole.id)
-      this.RvForm.controls.duree.setValue(this.data.duree.toString())
+      // this.RvForm.controls.pole.setValue(this.data.service.pole.id)
+      if (this.data.duree) this.RvForm.controls.duree.setValue(this.data.duree.toString());
       //this.RvForm.controls.number.setValue(this.data.patient.personne.telephone)
       this.RvForm.controls.remarques.setValue(this.data.remarques)
       this.RvForm.controls.presence.setValue("Non Confirmee")
@@ -106,6 +104,10 @@ export class RendezVousFormDialogComponent implements OnInit {
     console.log(rv);
     this.isConfirmLoading = true;
     if(this.data){
+      rv.dateCreation = this.data.dateCreation;
+      rv.supprime = this.data.supprime;
+      rv.statut = this.data.statut;
+      rv.motif = this.data.motif;
       this.updateRdv(rv)
     }else{
       this.api.saveRdv(rv).subscribe({
@@ -128,55 +130,25 @@ export class RendezVousFormDialogComponent implements OnInit {
     return new Date(dateString);
   }
 
-  createRdvFromForm(formData: any): {
-    id : any
-    dateRv: any;
-    remarques: any;
-    patient: { id: any };
-    rappels: string;
-    service: { id: any };
-    duree: number;
-    personnel: { id: any }
-  } {
+  createRdvFromForm(formData: any): RendezVousInterface {
+    const choosenPatient: PatientInterface = this.listOfPatient
+      .find(p => p.id == formData.patient)!;
+
+    const choosenPersonnel: PersonnelInterface = this.listOfMedecin
+      .find(m => m.id == formData.medecin)!;
+
     return {
-      id : null,
       dateRv: formData.dateRv,
       duree: formData.duree,
-      patient: {id : formData.patient},
-      rappels: "",
+      patient: choosenPatient,
       remarques: formData.remarques,
       service: {id : formData.service},
-      personnel : {id : formData.medecin}
+      personnel: choosenPersonnel
     };
   }
 
-  private load() {
-    this.apiPole.getAllPole().subscribe({
-      next : res => {
-        this.listOfPole = res.reponse
-        console.log(this.listOfPole)
-      }
-    })
-    this.apiPatient.getAll().subscribe({
-      next : res => {
-        this.listOfPatient = res as PatientInterface[]
-      }
-    })
-
-    this.apiPersonnel.getAllPersonnel().subscribe({
-      next : res => {
-        this.listOfMedecin = res.reponse
-      }
-    })
-
-    this.apiService.getAllService().subscribe({
-      next : res => {
-        this.listService = res.reponse
-        this.filtreService = res.reponse
-        console.log(listService)
-      }
-    })
-
+  getAllServicesByPole(pole: PoleInterface): ServiceInterface [] {
+    return this.myServicesList.filter(s => s.pole?.id === pole.id);
   }
 
   private updateRdv(rv: any) {
@@ -210,10 +182,45 @@ export class RendezVousFormDialogComponent implements OnInit {
     });
   }
 
-  showEvent(event: any) {
-    console.log(event)
-    let idpole = event
-    this.RvForm.controls.service.setValue(null)
-    this.filtreService = this.listService.filter(service => service.pole?.id === idpole)
+  private load() {
+    /*
+        this.apiPole.getAllPole().subscribe({
+          next : res => {
+            this.listOfPole = res.reponse
+            console.log(this.listOfPole)
+          }
+        })
+    */
+    this.apiPatient.getAll().subscribe({
+      next : res => {
+        this.listOfPatient = res as PatientInterface[]
+      }
+    })
+
+    this.apiPersonnel.getAllPersonnel().subscribe({
+      next : res => {
+        this.listOfMedecin = res.reponse
+      }
+    })
+
+    this.serviceApi.getAllService().subscribe({
+      next: result => {
+        this.myServicesList = result.reponse as ServiceInterface[];
+        /*this.listOfPole = this.myServicesList.map(s => {
+          // return this.listOfPole.some( p => p.id == s.pole?.id) ? s.pole : undefined
+          return s.pole!
+        });*/
+        this.listOfPole = this.myServicesList
+          .map(s => s.pole!) // Créez un tableau de tous les pôles
+          .filter((pole, index, self) =>
+            pole && self.findIndex(p => p.id === pole.id) === index
+          ); // Filtrez pour ne garder que les pôles uniques
+
+      },
+      error: () => {
+        this.modal.close();
+      }
+    })
+
   }
 }

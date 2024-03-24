@@ -1,11 +1,13 @@
 import {ServiceInterface} from "./service.interface";
 import {PersonnelInterface} from "./personnel.interface";
 import {PatientInterface} from "./patient.interface";
+import {EntiteBase} from "./entite-base";
 
-export interface RendezVousInterface {
+export interface RendezVousInterface extends EntiteBase {
   id?: number
   dateRv : Date;
   statut?: RDVStatus;
+  motif?: string;
   duree ?: number;
   remarques ?: string;
   rappels ?: string;

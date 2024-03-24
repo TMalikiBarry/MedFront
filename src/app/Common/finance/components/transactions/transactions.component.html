@@ -68,7 +68,58 @@
 <!--        </button>-->
       </div>
     </div>
+    <div class="transac-filter">
+      <div class="transac-patient-desc">Choisissez une Prestation</div>
+      <div class="transac-patient">
+        <nz-select [(ngModel)]="choosenPrestation" nzAllowClear nzPlaceHolder="Par nom ou téléphone ou service"
+                   nzShowSearch>
+          <nz-option nzLabel="----"></nz-option>
+          <nz-option
+            *ngFor="let p of listPrestation"
+            [nzLabel]="formatPrestation(p)"
+            [nzValue]="p">
 
+          </nz-option>
+        </nz-select>
+
+      </div>
+
+      <div class="transac-date-desc">Date de transaction</div>
+      <div class="transac-date">
+        <nz-range-picker [(ngModel)]="choosenDate" [nzPlaceHolder]="['Début', 'Fin']"
+                         nzFormat="dd/MM/YYYY"></nz-range-picker>
+      </div>
+
+      <div class="transac-moyen-desc">Moyen de Paiement</div>
+      <div class="transac-moyen">
+        <nz-select [(ngModel)]="selectedMoyenPayment" nzPlaceHolder="Sélectionnez un moyen de paiement">
+          <nz-option nzLabel="----"></nz-option>
+          <nz-option *ngFor="let moyen of moyenPaymentEnum | keyvalue" [nzLabel]="moyen.value"
+                     [nzValue]="moyen.key"></nz-option>
+        </nz-select>
+      </div>
+
+      <div class="transac-status-desc">Statut</div>
+      <div class="transac-status">
+        <nz-select [(ngModel)]="selectedTransactionStatus" nzPlaceHolder="Sélectionnez un statut de transaction">
+          <nz-option nzLabel="----"></nz-option>
+          <nz-option *ngFor="let status of transactionStatusEnum | keyvalue" [nzLabel]="status.value"
+                     [nzValue]="status.key"></nz-option>
+        </nz-select>
+      </div>
+
+      <div class="transac-montant-desc">Montant compris entre :</div>
+      <div class="transac-montant">
+        <nz-input-number (ngModelChange)="handleExtremumMontant('min', $event)" [(ngModel)]="montantMin"
+                         [nzMax]="montantMax-500" [nzMin]="0" [nzStep]="500" nzPlaceHolder="Minimum"></nz-input-number>
+        <nz-input-number (ngModelChange)="handleExtremumMontant('max', $event)" [(ngModel)]="montantMax"
+                         [nzMin]="montantMin+500" [nzStep]="500" nzPlaceHolder="Maximum"></nz-input-number>
+      </div>
+
+      <div class="transac-button">
+        <button (click)="filterData()" class="filter-form-button" nz-button>Filtrer</button>
+      </div>
+    </div>
     <nz-table #paiementTable *ngIf="paginatedData"
               [nzData]="paginatedData.content"
               [nzPageSize]="paginatedData.pageable.pageSize"
@@ -105,26 +156,17 @@
           {{ paiement.amount | currency: 'XOF': 'symbol': '1.':'fr-FR' }}
         </td>
         <td>
-          {{ paiement.prestation.service?.nom }}
-<!--          <div [ngClass]="{'displayString' : !paiement.personnel?.personne}">-->
-<!--            {{ getPersonnelName(paiement.personnel)! | displayString }}-->
-<!--          </div>-->
+          <span
+            class="my-patient-id"> {{ paiement.prestation.id }}
+          </span>{{ ' - ' + paiement.prestation.service?.nom }}
         </td>
-        <td>
-          <a [nzDropdownMenu]="nonPayeFacture" nzTrigger="click" nz-dropdown>
-            <img alt="Arrow Down" src="assets/from_figma/actionsOnRow.svg">
-          </a>
+        <td class="space-evenly">
+          <img alt="Voir détails" nz-tooltip nzTooltipTitle="Voir détails facure" src="assets/from_figma/see-details-action.svg"
+               width="20">
+          <img alt="Rembouser" nz-tooltip nzTooltipTitle="Rembourser" src="assets/from_figma/remboursement.svg"
+               width="20">
+
         </td>
-        <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
-          <ul nz-menu>
-<!--            <li (click)="facturer(paiement)" class="selectedLink" nz-menu-item>-->
-<!--              <span>Facturer</span>-->
-<!--            </li>-->
-<!--            <li class="selectedLink" nz-menu-item>-->
-<!--              <span>Détails</span>-->
-<!--            </li>-->
-          </ul>
-        </nz-dropdown-menu>
       </tr>
       </tbody>
 

@@ -51,7 +51,7 @@
             <td>{{ patient.dateCreation | date: 'dd/MM/yyyy HH:mm' }}</td>
             <td>{{ patient.personne.nom }} {{ patient.personne.prenom }}</td>
             <td>
-                {{ patient.personnel!.personne.prenom}} {{ patient.personnel!.personne.nom }}
+              {{ patient.personnel!.personne!.prenom! }} {{ patient.personnel!.personne!.nom }}
             </td>
 
 

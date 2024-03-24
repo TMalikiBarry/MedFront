@@ -34,12 +34,14 @@ export class NouveauPatientComponent implements OnInit {
       genre: ['', Validators.required],
       prenom: ['', Validators.required],
       nom: ['', Validators.required],
-      telephone: ['', [Validators.required, Validators.pattern('^(\\+|00)?(221)?7[0-9]{8}$')]],
+      // telephone: ['', [Validators.required, Validators.pattern('^(\\+|00)?(221)?7[0-9]{8}$')]],
+      telephone: ['', [Validators.required, Validators.pattern(/^(?:([+0])221\s)?(7[0-9])\s(\d{3})\s(\d{2})\s(\d{2})$/)]],
       datenaissance: ['', Validators.required],
       groupeSanguin: [''],
       adresse: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      contactEnCasUrgent: ['', [Validators.required, Validators.pattern('^(\\+|00)?(221)?7[0-9]{8}$')]],
+      // contactEnCasUrgent: ['', [Validators.required, Validators.pattern('^(\\+|00)?(221)?7[0-9]{8}$')]],
+      contactEnCasUrgent: ['', [Validators.required, Validators.pattern(/^(?:([+0])221\s)?(7[0-9])\s(\d{3})\s(\d{2})\s(\d{2})$/)]],
 
       allergies: [''],
       maladies: [''],
@@ -87,9 +89,12 @@ export class NouveauPatientComponent implements OnInit {
           dossier.patient.dateCreation = this.dossierToUpdate.patient?.dateCreation;
           dossier.patient.status = this.dossierToUpdate.patient?.status;
           dossier.patient.supprime = this.dossierToUpdate.patient?.supprime;
-          dossier.patient.personne.id = this.dossierToUpdate.patient?.personne?.id;
-          dossier.patient.personne.dateCreation = this.dossierToUpdate.patient?.personne?.dateCreation;
-          dossier.patient.personne.supprime = this.dossierToUpdate.patient?.personne?.supprime;
+          if (dossier.patient.personne) {
+            dossier.patient.personne.id = this.dossierToUpdate.patient?.personne?.id;
+            dossier.patient.personne.dateCreation = this.dossierToUpdate.patient?.personne?.dateCreation;
+            dossier.patient.personne.supprime = this.dossierToUpdate.patient?.personne?.supprime;
+          }
+
         }
 
         this.updatePatient(dossier);
@@ -127,7 +132,7 @@ export class NouveauPatientComponent implements OnInit {
       nom: formData.nom,
       prenom: formData.prenom,
       age: this.utils.getAge(formData.datenaissance).toString(),
-      telephone: formData.telephone,
+      telephone: formData.telephone.replace(/\s+/g, ''),
       email: formData.email,
       datenaissance: formData.datenaissance,
       hasAlreadyConnected: false,
@@ -136,7 +141,7 @@ export class NouveauPatientComponent implements OnInit {
 
   createPatientForm(formData: any, personne: PersonneInterface): PatientInterface {
     return {
-      contactEnCasUrgent: formData.contactEnCasUrgent,
+      contactEnCasUrgent: formData.contactEnCasUrgent.replace(/\s+/g, ''),
       donneurOrgane: false,
       status: 'ACTIF',
       groupeSanguin: formData.groupeSanguin,
@@ -151,13 +156,13 @@ export class NouveauPatientComponent implements OnInit {
       next: dossier => {
         this.dossierToUpdate = dossier;
 
-        this.patientForm.controls['genre'].setValue(dossier.patient?.personne.genre);
-        this.patientForm.controls['prenom'].setValue(dossier.patient?.personne.prenom);
-        this.patientForm.controls['nom'].setValue(dossier.patient?.personne.nom);
-        this.patientForm.controls['telephone'].setValue(dossier.patient?.personne.telephone);
-        this.patientForm.controls['email'].setValue(dossier.patient?.personne.email);
-        this.patientForm.controls['adresse'].setValue(dossier.patient?.personne.adresse);
-        this.patientForm.controls['datenaissance'].setValue(dossier.patient?.personne.datenaissance);
+        this.patientForm.controls['genre'].setValue(dossier.patient?.personne?.genre);
+        this.patientForm.controls['prenom'].setValue(dossier.patient?.personne?.prenom);
+        this.patientForm.controls['nom'].setValue(dossier.patient?.personne?.nom);
+        this.patientForm.controls['telephone'].setValue(dossier.patient?.personne?.telephone);
+        this.patientForm.controls['email'].setValue(dossier.patient?.personne?.email);
+        this.patientForm.controls['adresse'].setValue(dossier.patient?.personne?.adresse);
+        this.patientForm.controls['datenaissance'].setValue(dossier.patient?.personne?.datenaissance);
         this.patientForm.controls['contactEnCasUrgent'].setValue(dossier.patient?.contactEnCasUrgent);
         this.patientForm.controls['groupeSanguin'].setValue(dossier.patient?.groupeSanguin);
         this.patientForm.controls['allergies'].setValue(dossier.allergies);

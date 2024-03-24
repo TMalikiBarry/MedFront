@@ -17,6 +17,17 @@ export interface TransactionInterface extends EntiteBase{
 
 }
 
+export enum MoyenPaymentFilter {
+  ORANGE_MONEY = 'Orange Money',
+  WAVE = 'Wave',
+  FREE_MONEY = 'Free Money',
+  CASH_TOUCHPOINT = 'Cash Touchpoint',
+  CHEQUE = 'Chèque',
+  CARTE_BANCAIRE = 'Carte Bancaire',
+  ASSURANCE = 'Assurance',
+  CASH = 'Cash'
+}
+
 export enum MoyenPayment{
   ORANGE_MONEY = "ORANGE_MONEY",
   WAVE = "WAVE",
@@ -26,6 +37,13 @@ export enum MoyenPayment{
   VIREMENT = "VIREMENT",
   ASSURANCE = "ASSURANCE",
   ESPECE = "ESPECE"
+}
+
+export enum TransactionStatusFilter {
+  INITIATED = 'Initié',
+  SUCCESS = 'Succès',
+  FAILED = 'Echec',
+  PENDING = 'En cours'
 }
 
 export enum TransactionStatus{

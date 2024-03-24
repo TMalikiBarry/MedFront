@@ -1,10 +1,5 @@
-import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor, HttpErrorResponse
-} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {catchError, Observable, throwError} from 'rxjs';
 import {AuthService} from "../services/authentication/auth.service";
 import * as JWTUtils from 'jwt-decode';
@@ -47,7 +42,7 @@ export class GeneralHttpInterceptor implements HttpInterceptor {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong.
       console.error(`Backend returned code ${error.status}, body was:`);
-      console.dir(error.error);
+      console.dir(error);
     }
 
     if ([401, 403].indexOf(error.status) !== -1) {

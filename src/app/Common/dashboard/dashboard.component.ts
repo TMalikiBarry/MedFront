@@ -84,8 +84,12 @@ export class DashboardComponent implements OnInit {
 
         scales: {
           y: {
-            min: 0, // Définit le minimum de l'axe des ordonnées à zéro
-            // D'autres configurations d'échelle si nécessaire...
+            min: 0,
+            type: 'linear', // Utiliser une échelle linéaire
+            ticks: {
+              // stepSize: 1, // Taille du pas de l'axe des ordonnées
+              precision: 0 // Précision des étiquettes (aucune décimale)
+            }
           }
         }
       }
@@ -124,6 +128,16 @@ export class DashboardComponent implements OnInit {
           }
         },
         responsive: true,
+        scales: {
+          y: {
+            min: 0,
+            type: 'linear', // Utiliser une échelle linéaire
+            ticks: {
+              // stepSize: 1, // Taille du pas de l'axe des ordonnées
+              precision: 0 // Précision des étiquettes (aucune décimale)
+            }
+          }
+        }
         // barPercentage: 0.7 // Réglage de la largeur des barres
       }
 

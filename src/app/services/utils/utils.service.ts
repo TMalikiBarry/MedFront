@@ -7,6 +7,10 @@ export class UtilsService {
 
   constructor() { }
 
+  getInitials(firstName: string): string {
+    return firstName.split(' ').map(word => word.charAt(0).toUpperCase() + '.').join(' ');
+  }
+
   getDayInfo(dateString: string): { id: number, label: string } {
     // Créer un objet Date à partir de la chaîne de date
     const date = new Date(dateString);

@@ -355,4 +355,5 @@ export class FacturationComponent implements OnInit{
   getAllServicesByPole(pole: PoleInterface): ServiceInterface [] {
     return this.myServicesList.filter(s => s.pole?.id === pole.id);
   }
+
 }

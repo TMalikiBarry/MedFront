@@ -86,7 +86,7 @@
           <th>Service</th>
           <th>Diagnostic</th>
           <th>Montant</th>
-          <th>Médecin</th>
+          <!--          <th>Médecin</th>-->
           <!--          <th>{{ 'état' | titlecase }} de la facturation</th>-->
           <th>Actions</th>
           <!-- Ajoutez d'autres colonnes si nécessaire -->
@@ -99,8 +99,10 @@
           <td><span
             class="my-patient-id"> {{ prestation.dossierMedical?.patient?.id }}</span>{{ ' - ' + getPatientName(prestation.dossierMedical!) }}
           </td>
-          <td>{{ prestation.service?.nom }} <span
-            class="service-pole">{{ ' - (' + prestation.service?.pole?.nom + ')' }}</span></td>
+          <td>
+            {{ prestation.service?.nom }}
+            <span class="service-pole">{{ ' - (' + prestation.service?.pole?.nom + ')' }}</span>
+          </td>
           <td>
             <div [ngClass]="{'displayString' : !prestation.diagnostic}">
               {{ prestation.diagnostic! | displayString }}
@@ -109,23 +111,31 @@
           <td>
             {{ prestation.montant | currency: 'XOF': 'symbol': '1.':'fr-FR' }}
           </td>
-          <td>
-            <div [ngClass]="{'displayString' : !prestation.personnel?.personne}">
-              {{ getPersonnelName(prestation.personnel)! | displayString }}
-            </div>
-          </td>
+          <!--          <td>
+                      <div [ngClass]="{'displayString' : !prestation.personnel?.personne}">
+                        {{ getPersonnelName(prestation.personnel)! | displayString }}
+                      </div>
+                    </td>-->
           <!--
           <td>
             <nz-badge nzStatus="error" nzText="Non facturé"></nz-badge>
           </td>
           -->
-          <td>
+          <!--<td>
             <a [nzDropdownMenu]="nonPayeFacture" nzTrigger="click" nz-dropdown>
               <img alt="Arrow Down" src="assets/from_figma/actionsOnRow.svg">
             </a>
+          </td>-->
+          <td class="space-evenly some-min-width-10">
+            <img alt="Voir détails" nz-tooltip nzTooltipTitle="Voir détails" src="assets/from_figma/see-details-action.svg"
+                 width="17">
+            <img alt="Modifier" nz-tooltip nzTooltipTitle="Modifier" src="assets/from_figma/edit-action.svg" width="17">
+            <img alt="supprimer" nz-tooltip nzTooltipTitle="Supprimer" src="assets/icon/trash.svg" width="17">
+            <img (click)="facturer(prestation)" alt="Facturer" nz-tooltip nzTooltipTitle="Factuter"
+                 src="assets/from_figma/facturer.svg" width="17">
+
           </td>
-          <!--        <td>{{ prestation.diagnostic }}</td>-->
-          <!--        <td>{{ prestation.conclusion }}</td>-->
+
           <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
             <ul nz-menu>
               <li (click)="facturer(prestation)" class="selectedLink" nz-menu-item>

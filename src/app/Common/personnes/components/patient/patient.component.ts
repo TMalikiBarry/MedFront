@@ -113,6 +113,16 @@ export class PatientComponent implements OnInit {
           }
         },
         responsive: true,
+        scales: {
+          y: {
+            min: 0,
+            type: 'linear', // Utiliser une échelle linéaire
+            ticks: {
+              // stepSize: 1, // Taille du pas de l'axe des ordonnées
+              precision: 0 // Précision des étiquettes (aucune décimale)
+            }
+          }
+        }
         // barPercentage: 0.7 // Réglage de la largeur des barres
       }
 
@@ -355,6 +365,7 @@ export class PatientComponent implements OnInit {
   }
 
   handleExtremum(type: 'min' | 'max', event: any) {
+    console.log('INPUT VALUE ', event)
     const ageDiff = this.ageMax - this.ageMin;
     if (type === 'min') {
       if (this.ageMin < 0)

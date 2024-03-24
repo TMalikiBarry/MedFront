@@ -7,9 +7,9 @@ export interface PatientInterface {
   id?: number
   dateCreation ?: Date
   dateModification ?: Date
-  groupeSanguin : string
-  donneurOrgane : Boolean
-  contactEnCasUrgent : string
+  groupeSanguin?: string
+  donneurOrgane?: Boolean
+  contactEnCasUrgent?: string
   rendezVous ?: RendezVousInterface[]
   personne : PersonneInterface
   personnel? : PersonnelInterface

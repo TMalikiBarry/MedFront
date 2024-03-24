@@ -51,9 +51,11 @@
         <div class="age-filter">
           <!--          <nz-slider [(ngModel)]="ageRange" [nzMarks]="marks" [nzMax]="130" [nzMin]="0" nzIncluded nzRange></nz-slider>-->
           <nz-input-number (ngModelChange)="handleExtremum('min', $event)" [(ngModel)]="ageMin"
+                           [nzInputMode]="'numeric'"
                            [nzMax]="ageMax-1" [nzMin]="0" [nzStep]="1" nzPlaceHolder="Minimum"></nz-input-number>
           <nz-input-number (ngModelChange)="handleExtremum('max', $event)" [(ngModel)]="ageMax"
-                           [nzMax]="150" [nzMin]="ageMin+1" [nzStep]="1" nzPlaceHolder="Maximum"></nz-input-number>
+                           [nzInputMode]="'numeric'"
+                           [nzMin]="ageMin+1" [nzStep]="1" nzPlaceHolder="Maximum"></nz-input-number>
         </div>
         <div class="button-action">
           <button (click)="filterData()" class="filter-form-button" nz-button>Filtrer</button>
@@ -77,7 +79,6 @@
             <th>Nom du patient</th>
             <th>Telephone</th>
             <th>Email</th>
-            <th>Tel. Urgence</th>
             <!--            <th>Derniere visite</th>-->
             <th>Age</th>
             <th>Adresse</th>
@@ -99,17 +100,12 @@
                 {{ patient.personne.email! | displayString }}
               </div>
             </td>
-            <td>
-              <div [ngClass]="{'displayString' : !utils.isAPhoneNumber(patient.contactEnCasUrgent)}">
-                {{ (patient.contactEnCasUrgent! | prettyPhoneNumber) | displayString }}
-              </div>
-            </td>
 
             <!--            <td> {{ getAgeDescription(patient.personne)  }}</td>-->
 
             <td>
               <div [ngClass]="{'displayString' : !patient.personne.datenaissance}">
-                {{ getAgeDescription(patient.personne) | displayString }}
+                {{ (patient.personne.datenaissance| formatAge)| displayString }}
               </div>
             </td>
 
@@ -118,31 +114,45 @@
                 {{ patient.personne.adresse! | displayString }}
               </div>
             </td>
-            <td>
+            <td class="space-evenly some-min-width-12">
+              <img alt="Voir détails" nz-tooltip nzTooltipTitle="Voir détails Dossier Médical" src="assets/from_figma/see-details-action.svg"
+                   width="17">
+              <img (click)="updatePatient(patient.id!)" alt="Modifier" nz-tooltip
+                   nzTooltipTitle="Modifier" src="assets/from_figma/edit-action.svg" width="17">
+              <img alt="supprimer" nz-tooltip nzTooltipTitle="Supprimer" src="assets/icon/trash.svg" width="20">
+              <img (click)="addNewPrestation(patient)" alt="Facturer"
+                   nz-tooltip nzTooltipTitle="Nouvelle Prestation" src="assets/from_figma/new-prestation.svg" width="20">
+              <img (click)="addNewRDV(patient)" alt="Facturer"
+                   nz-tooltip nzTooltipTitle="Nouveau Rendez-vous" src="assets/from_figma/new-rdv.svg" width="20">
+
+            </td>
+            <!--<td>
               <a [nzDropdownMenu]="nonPayeFacture" nz-dropdown nzPlacement="bottomCenter" nzTrigger="click">
                 <img alt="Arrow Down" src="assets/from_figma/actionsOnRow.svg">
               </a>
-            </td>
+            </td>-->
             <!--        <td>{{ prestation.diagnostic }}</td>-->
             <!--        <td>{{ prestation.conclusion }}</td>-->
-            <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
-              <ul nz-menu>
+            <!--
+                        <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
+                          <ul nz-menu>
 
-                <li (click)="redirectToDossierMedical()" class="selectedLink" nz-menu-item>
-                  <span>Détails</span>
-                </li>
-                <li (click)="updatePatient(patient.id!)" class="selectedLink" nz-menu-item>
-                  <span>Modifier</span>
-                </li>
-                <li (click)="addNewPrestation(patient)" class="selectedLink" nz-menu-item>
-                  <span>Nouvelle prestation</span>
-                </li>
-                <li (click)="addNewRDV(patient)" class="selectedLink" nz-menu-item>
-                  <span>Nouveau rendez-vous</span>
-                </li>
+                            <li (click)="redirectToDossierMedical()" class="selectedLink" nz-menu-item>
+                              <span>Détails</span>
+                            </li>
+                            <li (click)="updatePatient(patient.id!)" class="selectedLink" nz-menu-item>
+                              <span>Modifier</span>
+                            </li>
+                            <li (click)="addNewPrestation(patient)" class="selectedLink" nz-menu-item>
+                              <span>Nouvelle prestation</span>
+                            </li>
+                            <li (click)="addNewRDV(patient)" class="selectedLink" nz-menu-item>
+                              <span>Nouveau rendez-vous</span>
+                            </li>
 
-              </ul>
-            </nz-dropdown-menu>
+                          </ul>
+                        </nz-dropdown-menu>
+            -->
 
           </tr>
         </tbody>
@@ -222,7 +232,7 @@
           </div>
         </div>
         <div class="chart">
-          <canvas height="350" id="genrePatient" width="350">{{ chartGenrePatient }}</canvas>
+          <canvas height="350" id="genrePatient" style="margin: 15px" width="350">{{ chartGenrePatient }}</canvas>
         </div>
       </div>
 
