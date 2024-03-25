@@ -134,6 +134,20 @@ export class PrestationComponent implements OnInit{
     );
   }
 
+  updatePrestation(prestation: PrestationInterface) {
+    this.modalService.create({
+      nzContent: PrestationFormDialogComponent,
+      nzWidth: 650,
+      nzData: prestation,
+      nzClosable: false,
+      nzCentered: true,
+    }).afterClose.subscribe(
+      () => {
+        this.getPrestationsByPage()
+      }
+    );
+  }
+
   addNewPayment() {
     this.modalService.create({
       nzContent: NewPaymentFormDialogComponent,
@@ -218,4 +232,6 @@ export class PrestationComponent implements OnInit{
   displaySelected(event: any) {
     console.log(event)
   }
+
+
 }

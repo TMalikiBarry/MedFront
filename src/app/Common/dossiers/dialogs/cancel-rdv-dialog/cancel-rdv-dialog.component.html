@@ -1,0 +1,18 @@
+<div *nzModalTitle class="make-spaceBetween">
+  <p>Pourquoi comptez-vous annuler ce rendez-vous</p>
+  <img (click)="handleCancel()" alt="Fermer le form" src="assets/from_figma/close_modal.svg">
+</div>
+
+<textarea [(ngModel)]="rdvMotif" class="input" required></textarea>
+
+<div *nzModalFooter>
+  <button (click)="handleCancel()" class="my-default-button basic-button" nz-button>Fermer</button>
+  <button (click)="cancelRDV()"
+          [disabled]="!rdvMotif"
+          [ngClass]="{'buttonIsDisabled': !rdvMotif, 'basic-button' : true, 'my-primary-button': !!rdvMotif}"
+          [nzLoading]="isConfirmLoading"
+          [nzTooltipTitle]="!rdvMotif ? 'Veuillez renseigner le motif de l\'annulation': 'Valider'" nz-button
+          nz-tooltip>
+    Je valide
+  </button>
+</div>

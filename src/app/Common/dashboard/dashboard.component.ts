@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit {
           'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
         datasets: [
           {
-            label: "Anciens",
+            label: "Patients Venus",
             data: ['10', '13', '6', '8', '9',
               '5', '6'],
             backgroundColor: '#266141',
@@ -52,7 +52,7 @@ export class DashboardComponent implements OnInit {
             tension: .43
             // borderWidth: .75 // Ajustez l'épaisseur de la bordure pour contrôler la largeur de la barre
           },
-          {
+          /*{
             label: "Nouveaux",
             data: ['3', '1', '0', '4', '0',
               '0', '6'],
@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit {
             borderColor: '#84BE38',
             tension: .43
             // borderWidth: .75 // Ajustez l'épaisseur de la bordure pour contrôler la largeur de la barre
-          }
+          }*/
         ]
       },
       options: {

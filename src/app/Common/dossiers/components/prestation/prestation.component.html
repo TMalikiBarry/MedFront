@@ -99,7 +99,7 @@
           <td><span
             class="my-patient-id"> {{ prestation.dossierMedical?.patient?.id }}</span>{{ ' - ' + getPatientName(prestation.dossierMedical!) }}
           </td>
-          <td>
+          <td class="max-width-20">
             {{ prestation.service?.nom }}
             <span class="service-pole">{{ ' - (' + prestation.service?.pole?.nom + ')' }}</span>
           </td>
@@ -129,7 +129,8 @@
           <td class="space-evenly some-min-width-10">
             <img alt="Voir détails" nz-tooltip nzTooltipTitle="Voir détails" src="assets/from_figma/see-details-action.svg"
                  width="17">
-            <img alt="Modifier" nz-tooltip nzTooltipTitle="Modifier" src="assets/from_figma/edit-action.svg" width="17">
+            <img (click)="updatePrestation(prestation)" alt="Modifier" nz-tooltip
+                 nzTooltipTitle="Modifier" src="assets/from_figma/edit-action.svg" width="17">
             <img alt="supprimer" nz-tooltip nzTooltipTitle="Supprimer" src="assets/icon/trash.svg" width="17">
             <img (click)="facturer(prestation)" alt="Facturer" nz-tooltip nzTooltipTitle="Factuter"
                  src="assets/from_figma/facturer.svg" width="17">

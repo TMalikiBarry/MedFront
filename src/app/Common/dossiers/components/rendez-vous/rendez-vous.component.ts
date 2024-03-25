@@ -165,18 +165,7 @@ export class RendezVousComponent implements OnInit {
     console.log(event)
   }
 
-  addNewPrestation() {
-    this.modalService.create({
-      nzContent: PrestationFormDialogComponent,
-      nzClosable: false,
-      nzCentered: true,
-    }).afterClose.subscribe(
-      ()=>{
-        this.getAllRdv()
-      }
-    );
-
-  }
+  protected readonly RDVStatus = RDVStatus;
 
   private loadPatients() {
     this.api.getAllPatients().subscribe({
@@ -198,18 +187,34 @@ export class RendezVousComponent implements OnInit {
     return `${day}/${month}/${year} ${hour}:${minute}`;
   }
 
+  addNewPrestation() {
+    this.modalService.create({
+      nzContent: PrestationFormDialogComponent,
+      nzClosable: false,
+      nzCentered: true,
+    }).afterClose.subscribe(
+      (result) => {
+        if (result == 'toPrestations') {
+
+        } else {
+          this.filtre();
+        }
+      }
+    );
+
+  }
+
   addRdv() {
     const dialog = this.modalService.create({
       nzContent: RendezVousFormDialogComponent,
       nzClosable: false,
-      nzWidth: '40rem',
+      nzWidth: '15rem',
       nzCentered: true,
     })
     dialog.afterClose.subscribe(() => {
       this.getRdvByPage();
     });
   }
-
   detailRdv(data : any) {
     const dialog = this.modalService.create({
       nzContent: RendezVousFormDialogComponent,
@@ -295,19 +300,61 @@ export class RendezVousComponent implements OnInit {
     return rdvStatus === RDVStatus.VALIDATED;
   }
 
+  cancelRDV(rdv: RendezVousInterface, type?: 'V' | 'C') {
+    if (type && type == 'C') {
+      const dialog = this.modalService.create({
+        nzContent: CancelRdvDialogComponent,
+        nzData: rdv,
+        nzClosable: false,
+        nzWidth: '50rem',
+        nzCentered: true,
+      });
+      dialog.afterClose.subscribe(() => {
+        this.filtre();
+      })
+    } else if (type && type == 'V') {
+      rdv.motif = undefined;
+      rdv.statut = RDVStatus.VALIDATED;
+      this.api.updateRdv(rdv).subscribe({
+        next: value => {
+          // this.apiRdv.getAllRdv();
+          this.notification.snackMessage(
+            `Rendez-vous confirmé avec succés pour le patient ${rdv.patient.personne.prenom} ${rdv.patient.personne.nom}`,
+            3000, 'success');
+          this.filtre();
+        }
+      })
+    }
 
-  cancelRDV(rdv: RendezVousInterface) {
-    if (this.isValidated(rdv.statut!)) return;
 
-    const dialog = this.modalService.create({
-      nzContent: CancelRdvDialogComponent,
-      nzData: rdv,
-      nzClosable: false,
-      nzWidth: '50rem',
-      nzCentered: true,
-    });
-    dialog.afterClose.subscribe(() => {
-      this.getRdvByPage();
-    })
+  }
+
+  getType(rdvStatus: RDVStatus) {
+    // if (rdvStatus === RDVStatus.VALIDATED) return 'C';
+    // if (rdvStatus === RDVStatus.CANCELED) return 'V';
+    // return undefined;
+    return this.isValidated(rdvStatus) ? 'C' : 'V'
+  }
+
+  getStatusInfo(status: RDVStatus): { color: string; text: string } {
+    let color = '#5D6273';
+    let text = 'à confirmer';
+
+    switch (status) {
+      case RDVStatus.CREATED:
+        color = '#5D6273';
+        text = 'à confirmer';
+        break;
+      case RDVStatus.VALIDATED:
+        color = '#84BE38';
+        text = 'confirmé';
+        break;
+      case RDVStatus.CANCELED:
+        color = '#A81735';
+        text = 'annulé';
+        break;
+    }
+
+    return {color, text};
   }
 }

@@ -100,11 +100,17 @@
         <td>{{ formatDateString(rdv.dateRv) }}</td>
         <td><strong>{{ rdv.patient.personne.id}}</strong> - {{ rdv.patient.personne.prenom }} {{rdv.patient.personne.nom}}</td>
         <td>{{ rdv.patient.personne.telephone | prettyPhoneNumber }}</td>
-        <td>
+        <td class="max-width-20">
           {{ rdv.service.nom }}
           <span class="service-pole">{{ ' - (' + rdv.service.pole!.nom + ')' }}</span>
         </td>
-        <td><nz-badge nzStatus="processing" nzText="Non Confirmee"></nz-badge></td>
+        <td>
+          <!--          <nz-badge nzStatus="processing" nzText="Non Confirmee"></nz-badge>-->
+          <nz-badge [nzColor]="getStatusInfo(rdv.statut!).color">
+            <span
+              [ngStyle]="{'color': getStatusInfo(rdv.statut!).color}">{{ getStatusInfo(rdv.statut!).text |titlecase }}</span>
+          </nz-badge>
+        </td>
         <td class="icon-table">
           <img (click)="detailRdv(rdv)" alt="modifier" nz-tooltip nzTooltipTitle="Voir détails ou modifier"
                src="assets/icon/eye.svg">
@@ -112,23 +118,12 @@
                nzTooltipTitle="Voir détails Patient" src="assets/icon/Icone%20user.svg">
           <img (click)="deleteRdv(rdv.id)" alt="delete" nz-tooltip nzTooltipTitle="Supprimer"
                src="assets/icon/trash.svg">
-          <img (click)="cancelRDV(rdv)" [nzTooltipTitle]="isValidated(rdv.statut!)? 'Valider': 'Annuler'" [src]="'assets/from_figma/'+(isValidated(rdv.statut!)? 'confirm-yes.svg': 'confirm-no.svg')"
-               alt="Arrow Down" nz-tooltip
-               width="17">
-
-          <!--<nz-dropdown-menu #AnnulerRDV="nzDropdownMenu">
-          <ul nz-menu>
-            <li nz-menu-item>
-              <span>Pourquoi voulez-vous annuler ce rendez-vous ?</span>
-            </li>
-            <li nz-menu-item>
-              <textarea class="input" [(ngModel)]="rdvMotif" required></textarea>
-            </li>
-            <li nz-menu-item class="cancel-li">
-              <button class="cancel-rdv basic-button" (click)="cancelRDV(rdv)"> Annuler le rendez-vous</button>
-            </li>
-          </ul>
-        </nz-dropdown-menu>-->
+          <img (click)="cancelRDV(rdv, getType(rdv.statut!))"
+               [nzTooltipTitle]="isValidated(rdv.statut!)? 'Annuler': 'Valider'"
+               [src]="'assets/from_figma/'+(isValidated(rdv.statut!)? 'confirm-no.svg': 'confirm-yes.svg')"
+               alt="Arrow Down" nz-tooltip width="17">
+          <img (click)="cancelRDV(rdv, 'C')" *ngIf="rdv.statut === RDVStatus.CREATED" alt="ANNULER"
+               nz-tooltip nzTooltipTitle="Annuler" src="assets/from_figma/confirm-no.svg" width="17">
         </td>
       </tr>
       </tbody>

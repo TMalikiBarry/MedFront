@@ -30,6 +30,7 @@ export class NouveauPatientComponent implements OnInit {
               private utils: UtilsService,
               private patientService: PatientService,
               private notify: NotifService) {
+
     this.patientForm = this.fb.group({
       genre: ['', Validators.required],
       prenom: ['', Validators.required],

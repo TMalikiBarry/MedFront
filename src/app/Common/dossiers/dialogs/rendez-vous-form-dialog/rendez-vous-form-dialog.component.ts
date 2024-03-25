@@ -113,7 +113,7 @@ export class RendezVousFormDialogComponent implements OnInit {
       this.api.saveRdv(rv).subscribe({
         next: (response) => {
           this.modal.close();
-          this.apiRdv.getAllRdv();
+          // this.apiRdv.getAllRdv();
           console.log('RendezVous enregistrée avec succès ', response);
           this.notification.snackMessage(`Rendez-vous ajouté avec succés`, 3000, 'success')
         },
@@ -156,7 +156,7 @@ export class RendezVousFormDialogComponent implements OnInit {
     this.api.updateRdv(rv).subscribe({
       next: (response) => {
         this.modal.close();
-        this.apiRdv.getAllRdv();
+        // this.apiRdv.getAllRdv();
         this.notification.snackMessage(`Rendez-vous mis à jour avec succés`, 3000, 'success')
         console.log('RendezVous mis a jour avec succès ', response);
       },
