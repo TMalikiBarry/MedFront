@@ -8,7 +8,6 @@ import {PrestationFormDialogComponent} from './dialogs/prestation-form-dialog/pr
 
 import {RendezVousFormDialogComponent} from './dialogs/rendez-vous-form-dialog/rendez-vous-form-dialog.component';
 import {DetailRendezVousComponent} from './dialogs/detail-rendez-vous/detail-rendez-vous.component';
-import {DetailRdvPatientComponent} from './dialogs/detail-rdv-patient/detail-rdv-patient.component';
 import {FacturationComponent} from './dialogs/facturation/facturation.component';
 import {PaymentSuccessComponent} from '../finance/dialogs/payment-success/payment-success.component';
 import {PaymentFailedComponent} from '../finance/dialogs/payment-failed/payment-failed.component';
@@ -22,7 +21,6 @@ import {CancelRdvDialogComponent} from './dialogs/cancel-rdv-dialog/cancel-rdv-d
     PrestationFormDialogComponent,
     RendezVousFormDialogComponent,
     DetailRendezVousComponent,
-    DetailRdvPatientComponent,
     FacturationComponent,
     PaymentSuccessComponent,
     PaymentFailedComponent,

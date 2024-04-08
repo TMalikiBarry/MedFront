@@ -4,11 +4,17 @@ import {TransactionsComponent} from "./components/transactions/transactions.comp
 import {authGuard} from "../../guards/auth.guard";
 import {PaymentSuccessComponent} from "./dialogs/payment-success/payment-success.component";
 import {PaymentFailedComponent} from "./dialogs/payment-failed/payment-failed.component";
+import {DetailFactureComponent} from "./components/detail-facture/detail-facture.component";
 
 const routes: Routes = [
   {
     path: 'transactions',
     component:TransactionsComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'transactions/:id',
+    component: DetailFactureComponent,
     canActivate: [authGuard]
   },
   {

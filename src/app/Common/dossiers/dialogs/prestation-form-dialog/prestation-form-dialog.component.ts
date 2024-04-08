@@ -3,7 +3,7 @@ import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {listService, my_prescription, Service} from "src/app/models/Utils/constants";
 import {UtilsService} from "src/app/services/utils/utils.service";
-import {PrestationInterface} from "src/app/models/prestation.interface";
+import {PrestationInterface, PrestationStatut} from "src/app/models/prestation.interface";
 import {PrestationService} from "src/app/services/prestation/prestation.service";
 import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface";
 import {DossierMedicalService} from "src/app/services/dossier-medical/dossier-medical.service";
@@ -34,6 +34,7 @@ export class PrestationFormDialogComponent implements OnInit{
   listOfDossierMedical!: DossierMedicalInterface[];
   listPrescription!: any;
   listOfPole!: PoleInterface[];
+  prestationToUpdate!: PrestationInterface;
 
   prestationForm: FormGroup = this.fb.group({
     service: ['', Validators.required],
@@ -59,6 +60,14 @@ export class PrestationFormDialogComponent implements OnInit{
     this.listOfService = listService;
     this.listPrescription = my_prescription;
     this.loadPatients();
+    const data = this.modal.getConfig().nzData;
+    if (data && data.context && data.context === 'PUT_PRESTATION') {
+      this.prestationToUpdate = data;
+      this.titleForm = 'Modification Prestation'
+      this.formDesc = this.formDesc.replace('ajouter une', 'modifier la');
+      this.setForm();
+    }
+
     this.serviceApi.getAllService().subscribe({
       next: result => {
         this.myServicesList = result.reponse as ServiceInterface[];
@@ -84,7 +93,7 @@ export class PrestationFormDialogComponent implements OnInit{
       next: result => {
         this.listOfDossierMedical = result.filter(dossier => !!dossier.patient?.personne);
         const patient = this.modal.getConfig().nzData;
-        if (patient) {
+        if (patient && patient.contactEnCasUrgent) {
           this.dossierData = this.listOfDossierMedical.find(d => d.patient?.id === patient.id)!;
         } else if (patientId) {
           this.dossierData = this.listOfDossierMedical.find(d => d.patient?.id === patientId)!;
@@ -96,11 +105,6 @@ export class PrestationFormDialogComponent implements OnInit{
     });
   }
 
-  handleCancel(code?: string) {
-    this.modal.close(code);
-  }
-
-
   addPrestation() {
 
     if (this.prestationForm.valid) {
@@ -108,15 +112,22 @@ export class PrestationFormDialogComponent implements OnInit{
       const formData = this.prestationForm.value;
 
       const prestation = this.createPrestationFromForm(formData);
+      if (this.prestationToUpdate) {
+        prestation.id = this.prestationToUpdate.id;
+        prestation.personnel = this.prestationToUpdate.personnel;
+        prestation.dateCreation = this.prestationToUpdate.dateCreation;
+        prestation.supprime = this.prestationToUpdate.supprime;
+
+        this.updatePrestation(prestation);
+        return;
+      }
 
       this.api.save(prestation).subscribe({
         next: (response) => {
-          console.log('TYPE DE ', typeof Number(formData.dossier));
-          console.log('NOMBRE CHOISI ', Number(formData.dossier));
+
           this.notify.snackMessage(
             `Prestation pour le patient ${this.getPatientFullName(Number(formData.dossier), 'adding')} ajouté avec succès`,
             3000, 'success');
-          console.log('Prestation enregistrée avec succès ', response);
           this.prestationForm.reset();
           if (this.dossierData)  {
             this.prestationForm.controls['dossier'].setValue(this.dossierData.id);
@@ -133,6 +144,33 @@ export class PrestationFormDialogComponent implements OnInit{
     }
   }
 
+  handleCancel(code?: string) {
+    this.modal.close(code);
+  }
+
+  createPrestationFromForm(formData: any): PrestationInterface {
+    const cout = this.myServicesList.find(s => s.id === formData.service)?.cout ?? 10000;
+    return {
+      cout,
+      montant: cout,
+      prestationStatut: PrestationStatut.NOTPAID,
+      prerequisities: formData.prerequis, // Peut être ajusté ou récupéré du formulaire si nécessaire
+      diagnostic: formData.diagnostic,
+      conclusion: formData.conclusion,
+      //personnel: { id: 3 },
+      dossierMedical: {id: formData.dossier}, // L'ID doit correspondre à la logique de l'application
+      service: { id: formData.service } // Supposé que le service dans le formulaire est l'ID
+    };
+  }
+
+  private setForm() {
+    this.prestationForm.controls['dossier'].setValue(this.prestationToUpdate.dossierMedical?.id);
+    this.prestationForm.controls['service'].setValue(this.prestationToUpdate.service?.id);
+    if (this.prestationToUpdate.diagnostic) this.prestationForm.controls['diagnostic'].setValue(this.prestationToUpdate.diagnostic);
+    if (this.prestationToUpdate.prerequisities) this.prestationForm.controls['prerequis'].setValue(this.prestationToUpdate.prerequisities);
+    if (this.prestationToUpdate.conclusion) this.prestationForm.controls['conclusion'].setValue(this.prestationToUpdate.conclusion);
+  }
+
   triggerFileUpload() {
     document.getElementById('file_uploader')!.click();
   }
@@ -141,18 +179,22 @@ export class PrestationFormDialogComponent implements OnInit{
     console.log('EVENEMENT RECUPERER FICHIER ', event);
   }
 
-  createPrestationFromForm(formData: any): PrestationInterface {
-    const cout = this.myServicesList.find(s => s.id === formData.service)?.cout ?? 12000;
-    return {
-      cout, // Supposé fixe, peut être ajusté en fonction de la logique de votre application
-      montant: cout,
-      prerequisities: formData.prerequis, // Peut être ajusté ou récupéré du formulaire si nécessaire
-      diagnostic: formData.diagnostic,
-      conclusion: formData.conclusion,
-      //personnel: { id: 3 }, // L'ID doit correspondre à la logique de votre application
-      dossierMedical: { id: formData.dossier }, // L'ID doit correspondre à la logique de votre application
-      service: { id: formData.service } // Supposé que le service dans le formulaire est l'ID
-    };
+  private updatePrestation(prestation: PrestationInterface) {
+    this.api.update(prestation).subscribe({
+      next: value => {
+        this.notify.snackMessage(
+          `Prestation pour le patient ${this.getPatientFullName(value.dossierMedical!)} modifié avec succès`,
+          3000, 'success');
+        this.handleCancel();
+      },
+      error: (error) => {
+        console.log(error);
+        this.isConfirmLoading = false;
+      },
+      complete: () => {
+        this.isConfirmLoading = false
+      }
+    })
   }
 
   getPatientFullName(dossier: DossierMedicalInterface | number, context ?: string):string {
@@ -177,9 +219,6 @@ export class PrestationFormDialogComponent implements OnInit{
     // return 'Default Name'
   }
 
-  displayEvent(event: Event) {
-    console.log(event);
-  }
 
   addNewPatient() {
     this.modalService.create({
@@ -198,4 +237,6 @@ export class PrestationFormDialogComponent implements OnInit{
   getAllServicesByPole(pole: PoleInterface): ServiceInterface [] {
     return this.myServicesList.filter(s => s.pole?.id === pole.id);
   }
+
+
 }

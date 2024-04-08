@@ -1,0 +1,140 @@
+<div class="welcome-title">
+ <span nz-tooltip nzTooltipPlacement="bottom"
+       nzTooltipTitle="Se rendre à la page prestations"
+       routerLink="/admin/dossiers/prestation">
+        Prestations /
+ </span>
+  <span>Détail Transaction</span>
+</div>
+<div *ngIf="currentTransaction" class="facture-card">
+  <div class="make-spaceBetween">
+    <div class="big-title">{{ isSuccess() ? 'Facture' : 'Détail de la Transaction' }}</div>
+    <div [ngStyle]="{maxWidth: '12rem', borderRadius: '4px', padding: '.5rem 1rem',
+         backgroundColor: getTransactionInfo().bgColor, color: getTransactionInfo().color}"
+         class="row-status">
+      <span [ngStyle]="{width: '3px', height: '3px', borderRadius: '12px', marginRight: '.2rem',
+      color: getTransactionInfo().color}">◉</span>
+      {{ getTransactionInfo().text| titlecase }}
+    </div>
+  </div>
+  <div class="personne-details">
+    <div class="make-spaceBetween">
+      <span>Patient</span>
+      <span>
+        {{ getPrenom(currentTransaction.prestation.dossierMedical?.patient?.personne!)|titlecase }}
+        {{ getNom(currentTransaction.prestation.dossierMedical?.patient?.personne!)|uppercase }}
+      </span>
+    </div>
+    <div class="make-spaceBetween">
+      <span>Médecin</span>
+      <span *ngIf="currentTransaction.prestation.personnel else Introuvable">
+        {{ getPrenom(currentTransaction.prestation.personnel.personne!)|titlecase }}
+        {{ getNom(currentTransaction.prestation.personnel.personne!)|uppercase }}
+      </span>
+
+    </div>
+    <div class="make-spaceBetween">
+      <span>{{ 'émetteur'|titlecase }}</span>
+      <span>
+        {{ getPrenom(currentTransaction.personnel.personne!)|titlecase }}
+        {{ getNom(currentTransaction.personnel.personne!)|uppercase }}
+      </span>
+    </div>
+    <div class="make-spaceBetween">
+      <span>Date d'émission</span>
+      <span>{{ currentTransaction.dateCreation | date: "EEE MMM dd, yyyy 'à' hh:mm" }}</span>
+    </div>
+  </div>
+  <div class="facture-display">
+    <div class="fac-prestation-desc text-desc">
+      <img alt="check" src="assets/from_figma/Checkbox.svg">&nbsp;Prestation
+    </div>
+    <div class="fac-prestation-data text-data">
+      <img alt="check" src="assets/from_figma/Checkbox.svg" width="20">&nbsp;
+      <div>{{ currentTransaction.prestation.service?.nom }}
+        <span class="service-pole">{{ ' - (' + currentTransaction.prestation.service?.pole?.nom + ')' }}</span></div>
+    </div>
+    <div class="fac-date-prestation-desc text-desc">Date prestation</div>
+    <div class="fac-date-prestation-data text-data">
+      {{ currentTransaction.prestation.dateCreation | date: "EEE MMM dd, yyyy 'à' hh:mm:ss" }}
+    </div>
+    <div class="fac-remise-desc text-desc">Remise (en %)</div>
+    <div class="fac-remise-data text-data">{{ currentTransaction.couverture ?? 0 }}%</div>
+    <div class="fac-transacamount-desc text-desc">{{ isSuccess() ? 'Montant payé' : 'Montant Prest.' }}</div>
+    <div class="fac-transacamount-data text-data">
+      {{ (isSuccess() ? currentTransaction.amount : currentTransaction.transactionAmount)| currency: 'XOF': 'symbol': '1.':'fr-FR' }}
+    </div>
+    <div class="fac-moyenpaiment-desc text-desc">{{ getTextDesc() }}</div>
+    <div class="fac-moyenpaiment-data text-data">{{ getLibelleByCode() }}</div>
+  </div>
+
+  <div *ngIf="isSuccess()" class="facture-to-print">
+    <!--    <img src="assets/from_figma/Facture-touchmed-to-pay-1.svg" alt="La facture">-->
+    <div class="my-facture" id="element-a-imprimer">
+      <img alt="logo Touchmed" class="logoTouch" src="assets/from_figma/logo_dark.svg">
+      <div class="super-grid-details">
+        <div class="for-patient">Informations sur le patient</div>
+        <div class="p-name-desc desc-style">Nom complet</div>
+        <div class="p-name-data data-style">
+          {{ getPrenom(patientPersonne)|titlecase }} &nbsp;
+          {{ getNom(patientPersonne)|uppercase }}
+        </div>
+        <div class="p-tel-desc desc-style">Numéro Téléphone</div>
+        <div class="p-tel-data data-style">{{ patientPersonne.telephone | prettyPhoneNumber }}</div>
+        <div class="p-mail-desc desc-style">Adresse Email</div>
+        <div class="p-mail-data data-style">{{ patientPersonne.email }}</div>
+        <div class="p-adresse-desc desc-style">Adresse Physique</div>
+        <div class="p-adresse-data data-style">{{ patientPersonne.adresse }}</div>
+      </div>
+      <div class="for-prestation">
+        <div class="for-medecin">Informations sur la prestation</div>
+        <div class="med-name-desc desc-style">Nom du médecin</div>
+        <div class="med-name-data data-style">
+          <span *ngIf="currentTransaction.prestation.personnel else Introuvable">
+            {{ getPrenom(currentTransaction.prestation.personnel.personne!)|titlecase }}
+            {{ getNom(currentTransaction.prestation.personnel.personne!)|uppercase }}
+          </span>
+        </div>
+        <div class="service-desc desc-style">Service offert</div>
+        <div class="service-data data-style">{{ prestation.service?.nom }}</div>
+        <div class="pole-desc desc-style">Pôle concerné</div>
+        <div class="pole-data data-style">{{ prestation.service?.pole?.nom }}</div>
+        <div class="presta-date-desc desc-style">Date de la prestation</div>
+        <div
+          class="presta-date-data data-style">{{ prestation.dateCreation |  date: "EEEE, MMMM dd, yyyy 'à' hh:mm a" }}
+        </div>
+        <div class="remise-desc desc-style">Remise/Couverture</div>
+        <div class="remise-data data-style">{{ currentTransaction.couverture ?? 0 }}%</div>
+        <div class="montant-paye-desc desc-style">Montant Payé</div>
+        <div class="montant-paye-data data-style">
+          {{ currentTransaction.transactionAmount | currency: 'XOF': 'symbol': '1.':'fr-FR' }}
+        </div>
+        <div class="moyenpaiement-desc desc-style">{{ getTextDesc() }}</div>
+        <div class="moyenpaiement-data data-style">{{ getLibelleByCode() }}</div>
+        <div class="date-paiement-desc desc-style">Date de paiement</div>
+        <div
+          class="date-paiement-data data-style">{{ currentTransaction.dateCreation | date: "EEE MMM dd, yyyy 'à' hh:mm:ss" }}
+        </div>
+      </div>
+
+    </div>
+    <div class="button-actions">
+      <!--      <button (click)="printFacture()">
+              <img src="assets/from_figma/printer.svg" alt="print">
+              Imprimer
+            </button>-->
+      <button (click)="generatePDFAndDownload()">
+        <img alt="Download" src="assets/from_figma/download.svg">
+        Télécharger la facture sous format PDF
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<ng-template #Introuvable>
+  <span class="introuvable">
+    Non renseigné
+  </span>
+</ng-template>
+

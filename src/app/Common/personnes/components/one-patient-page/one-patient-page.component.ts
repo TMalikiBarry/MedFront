@@ -54,6 +54,4 @@ export class OnePatientPageComponent implements OnInit {
   modifier() {
   }
 
-  toPatientPage() {
-  }
 }

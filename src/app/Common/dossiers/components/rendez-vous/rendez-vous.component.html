@@ -23,6 +23,16 @@
         Nouveau rendez-vous
       </button>
     </div>-->
+  <div class="statsLayout">
+    <div *ngFor="let stat of numberStats; let i = index" class="myCardStats">
+      <div class="logoStats"><img [src]="'assets/from_figma/rdv'+svgList[i]+'.svg'" alt="stats" width="35"></div>
+
+      <div class="numberStats"><p [ngStyle]="{color: colorStats[i]}">{{ stat }}</p></div>
+      <div class="descStats"><p [ngStyle]="{color: colorStats[i]}">{{ descSats[i] }}</p></div>
+
+    </div>
+  </div>
+
   <div class="dataLayout">
     <div class="headerData make-spaceBetween">
       <p>Listes des Rendez-vous</p>
@@ -87,7 +97,7 @@
       <tr>
         <th>Date Rendez-Vous</th>
         <th>Patient</th>
-        <th>Telephone</th>
+        <!--        <th>Telephone</th>-->
         <th>Service</th>
         <th>Statut</th>
         <th>Actions</th>
@@ -97,38 +107,89 @@
       <tbody>
       <tr *ngFor="let rdv of paginatedData.content">
 <!--        <td><strong>{{ getHour(rdv.dateRv) }}H{{ getMinutes(rdv.dateRv)}}</strong></td>-->
-        <td>{{ formatDateString(rdv.dateRv) }}</td>
+        <td>{{ rdv.dateRv| date: "EEE 'le' dd MMM yyyy 'à' hh:mm:ss" }}</td>
         <td><strong>{{ rdv.patient.personne.id}}</strong> - {{ rdv.patient.personne.prenom }} {{rdv.patient.personne.nom}}</td>
-        <td>{{ rdv.patient.personne.telephone | prettyPhoneNumber }}</td>
+        <!--        <td>{{ rdv.patient.personne.telephone | prettyPhoneNumber }}</td>-->
         <td class="max-width-20">
           {{ rdv.service.nom }}
           <span class="service-pole">{{ ' - (' + rdv.service.pole!.nom + ')' }}</span>
         </td>
-        <td>
+        <td class="width-5">
           <!--          <nz-badge nzStatus="processing" nzText="Non Confirmee"></nz-badge>-->
           <nz-badge [nzColor]="getStatusInfo(rdv.statut!).color">
             <span
               [ngStyle]="{'color': getStatusInfo(rdv.statut!).color}">{{ getStatusInfo(rdv.statut!).text |titlecase }}</span>
           </nz-badge>
         </td>
-        <td class="icon-table">
-          <img (click)="detailRdv(rdv)" alt="modifier" nz-tooltip nzTooltipTitle="Voir détails ou modifier"
-               src="assets/icon/eye.svg">
-          <img (click)="detailPatient(rdv.patient)" alt="patient" nz-tooltip
-               nzTooltipTitle="Voir détails Patient" src="assets/icon/Icone%20user.svg">
-          <img (click)="deleteRdv(rdv.id)" alt="delete" nz-tooltip nzTooltipTitle="Supprimer"
-               src="assets/icon/trash.svg">
-          <img (click)="cancelRDV(rdv, getType(rdv.statut!))"
-               [nzTooltipTitle]="isValidated(rdv.statut!)? 'Annuler': 'Valider'"
-               [src]="'assets/from_figma/'+(isValidated(rdv.statut!)? 'confirm-no.svg': 'confirm-yes.svg')"
+        <td class="icon-table some-min-width-10">
+          <img (click)="seeDetails(rdv)" alt="modifier" nz-tooltip nzTooltipTitle="Voir détails"
+               src="assets/from_figma/see-details-action.svg">
+          <!--<img (click)="detailPatient(rdv.patient)" alt="patient" nz-tooltip
+               nzTooltipTitle="Voir détails Patient" src="assets/icon/Icone%20user.svg">-->
+          <img (click)="updateRdv(rdv)" [nzTooltipTitle]="isCreated(rdv.statut!) ? 'Modifier': 'Modification non autorisée'"
+               [src]="'assets/from_figma/edit-action'+(isCreated(rdv.statut!)?'': '_blocked')+'.svg'"
+               [style.cursor]="isCreated(rdv.statut!)? 'pointer' : 'not-allowed'" alt="Modifier"
+               nz-tooltip>
+
+          <img (click)="cancelOrValidateRDV(rdv, 'V')" [nzTooltipTitle]="isValidated(rdv.statut!)? 'Déjà confirmé': 'Confirmer'"
+               [src]="'assets/from_figma/confirm-yes'+(isValidated(rdv.statut!)?'_blocked':'')+ '.svg'"
+               [style.cursor]="isValidated(rdv.statut!)?'not-allowed':'pointer'"
                alt="Arrow Down" nz-tooltip width="17">
-          <img (click)="cancelRDV(rdv, 'C')" *ngIf="rdv.statut === RDVStatus.CREATED" alt="ANNULER"
-               nz-tooltip nzTooltipTitle="Annuler" src="assets/from_figma/confirm-no.svg" width="17">
+          <img (click)="cancelOrValidateRDV(rdv, 'C')" [nzTooltipTitle]="isCanceled(rdv.statut!)? 'Déjà annulé': 'Annuler'"
+               [src]="'assets/from_figma/confirm-no'+(isCanceled(rdv.statut!)?'_blocked':'')+ '.svg'" [style.cursor]="isCanceled(rdv.statut!)?'not-allowed':'pointer'" alt="ANNULER"
+               nz-tooltip width="17">
         </td>
       </tr>
       </tbody>
 
     </nz-table>
+  </div>
+
+  <div class="for-graphs make-spaceBetween">
+    <div class="for-bar-graph for-a-card">
+      <div class="title">
+        Évolution hebdomadaire des rendez-vous
+      </div>
+      <div class="make-spaceBetween">
+        <div class="legende">
+          <nz-badge nzColor="#5D6273"></nz-badge>
+          <span [style.color]="'#5D6273'">{{ 'à confirmer' | titlecase }}</span>
+          <nz-badge nzColor="#20AC2E"></nz-badge>
+          <span [style.color]="'#20AC2E'">Confirmé</span>
+          <nz-badge nzColor="#A81735"></nz-badge>
+          <span [style.color]="'#A81735'">Annulé</span>
+        </div>
+        <nz-select
+          (ngModelChange)="OnWeekChange($event)"
+          [(ngModel)]="isLastWeek"
+        >
+          <nz-option [nzValue]="false" nzLabel="Semaine en cours"></nz-option>
+          <nz-option [nzValue]="true" nzLabel="Semaine dernière"></nz-option>
+        </nz-select>
+      </div>
+
+      <div class="graph-bar-chart">
+        <canvas id="weeklyRDVStats">{{ barGraph }}</canvas>
+      </div>
+    </div>
+    <div class="for-disc-graph for-a-card">
+      <div class="title">
+        Répartition des statuts des rendez-vous
+      </div>
+      <div class="legende">
+        <nz-badge nzColor="#5D6273"></nz-badge>
+        <span [style.color]="'#5D6273'">{{ 'à confirmer' | titlecase }}</span>
+        <nz-badge nzColor="#20AC2E"></nz-badge>
+        <span [style.color]="'#20AC2E'">Confirmé</span>
+        <nz-badge nzColor="#A81735"></nz-badge>
+        <span [style.color]="'#A81735'">Annulé</span>
+      </div>
+
+      <div class="graph-disc-chart">
+        <canvas id="discRDVStatusGraph">{{ doughnutGraph }}</canvas>
+      </div>
+
+    </div>
 
   </div>
 </div>

@@ -3,6 +3,8 @@ import {environment} from "src/environments/environment.prod";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {ApiResponseInterface} from "../../models/api-response.interface";
 import {PatientInterface} from "../../models/patient.interface";
+import {Observable} from "rxjs";
+import {WeeklyRDVStats} from "../../models/rendez-vous.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +55,14 @@ export class RendezVousService {
 
   getRdvById(id : number){
     return this.http.get<ApiResponseInterface>(this.API_URL+this.ENDPOINT_RDV+"/"+id);
+  }
+
+  countByStatus(): Observable<number[]> {
+    return this.http.get<number[]>(this.API_URL + this.ENDPOINT_RDV + '/countByStatus')
+  }
+
+  countWeeklyForAll(): Observable<WeeklyRDVStats> {
+    return this.http.get<WeeklyRDVStats>(this.API_URL + this.ENDPOINT_RDV + '/countWeeklyForAll')
   }
 
   saveRdv(data : any){

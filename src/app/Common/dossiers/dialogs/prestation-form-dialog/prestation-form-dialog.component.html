@@ -20,7 +20,7 @@
             <nz-option-group *ngFor="let pole of listOfPole" [nzLabel]="pole.nom">
               <nz-option
                 *ngFor="let service of getAllServicesByPole(pole)"
-                [nzLabel]="service.nom!" [nzValue]="service.id"></nz-option>
+                [nzLabel]="service.nom!+' - ' + service.cout" [nzValue]="service.id"></nz-option>
             </nz-option-group>
 
           </nz-select>
@@ -86,19 +86,6 @@
         </nz-form-control>
       </nz-form-item>
     </div>
-<!--
-    <nz-form-item>
-      <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
-        <p class="input-label">Prescriptions</p>
-        <nz-select nzShowSearch nzPlaceHolder="Choissez les prescriptions" formControlName="prescription">
-          <nz-option nzLabel="&#45;&#45;&#45;&#45;"></nz-option>
-          <nz-option
-            *ngFor="let medicament of listPrescription"
-            [nzLabel]="medicament.libelle" [nzValue]="medicament"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
--->
 
   </form>
 </div>

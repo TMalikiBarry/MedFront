@@ -12,28 +12,36 @@
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez choisir un service!">
             <p class="input-label">Service</p>
-            <nz-select formControlName="service" nzAllowClear nzPlaceHolder="Choissez un service" nzShowSearch>
-              <nz-option nzLabel="----"></nz-option>
-              <nz-option-group *ngFor="let pole of listOfPole" [nzLabel]="pole.nom">
-                <nz-option
-                  *ngFor="let service of getAllServicesByPole(pole)"
-                  [nzLabel]="service.nom!" [nzValue]="service.id"></nz-option>
-              </nz-option-group>
+            <!--
+                        <nz-select formControlName="service" nzAllowClear nzPlaceHolder="Choissez un service" nzShowSearch>
+                          <nz-option nzLabel="&#45;&#45;&#45;&#45;"></nz-option>
+                          <nz-option-group *ngFor="let pole of listOfPole" [nzLabel]="pole.nom">
+                            <nz-option
+                              *ngFor="let service of getAllServicesByPole(pole)"
+                              [nzLabel]="service.nom!" [nzValue]="service.id"></nz-option>
+                          </nz-option-group>
 
-            </nz-select>
+                        </nz-select>
+            -->
+            <nz-input-group nz-tooltip nzTooltipTitle="Service Concerné">
+              <input formControlName="service" nz-input placeholder="Renseignez le Service" type="text"/>
+            </nz-input-group>
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez Choisir un patient">
             <p class="input-label">Patient</p>
-            <nz-select formControlName="dossier" nzAllowClear nzPlaceHolder="Choissez un patient"
-                       nzShowSearch>
-              <nz-option nzLabel="----"></nz-option>
-              <nz-option
-                *ngFor="let dossier of listOfDossierMedical"
-                [nzLabel]="getPatientFullName(dossier)+ ' - '+ dossier.patient?.personne!.telephone"
-                [nzValue]="dossier.id"></nz-option>
-            </nz-select>
+            <!--            <nz-select formControlName="dossier" nzAllowClear nzPlaceHolder="Choissez un patient"-->
+            <!--                       nzShowSearch>-->
+            <!--              <nz-option nzLabel="&#45;&#45;&#45;&#45;"></nz-option>-->
+            <!--              <nz-option-->
+            <!--                *ngFor="let dossier of listOfDossierMedical"-->
+            <!--                [nzLabel]="getPatientFullName(dossier)+ ' - '+ dossier.patient?.personne!.telephone"-->
+            <!--                [nzValue]="dossier.id"></nz-option>-->
+            <!--            </nz-select>-->
+            <nz-input-group nz-tooltip nzTooltipTitle="Patient Concerné">
+              <input formControlName="dossier" nz-input placeholder="Renseignez le dossier" type="text"/>
+            </nz-input-group>
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -69,10 +77,11 @@
         </nz-form-item>
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez renseigner la prise en charge!">
-            <p class="input-label">Prise en charge</p>
+            <p class="input-label">Prise en charge <code><small>(entre 0 et 100)</small></code></p>
             <nz-input-group nzSuffix=" %">
               <input [formControl]="tauxAssuranceCtrl" nz-input placeholder="Renseignez la valeur de la prise en charge"
-                     type="text"/>
+                     [max]="100" [maxlength]="3" [min]="0" type="number"/>
+
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
@@ -97,12 +106,13 @@
         </nz-form-item>
       </div>
       <nz-form-item>
-        <nz-form-control nzErrorTip="Veuillez choisir le patient!">
-          <p class="input-label">Moyen de payment</p>
+        <nz-form-control nzErrorTip="Veuillez choisir le moyen depaiement!">
+          <nz-form-label [nzRequired]="FacForm.controls['moyenPayment'].hasValidator(ValidatorsFront.required)"
+                         class="input-label">Moyen de payment
+          </nz-form-label>
           <nz-select formControlName="moyenPayment" nzPlaceHolder="Choissez un le moyen de payment" nzShowSearch>
             <nz-option nzLabel="----"></nz-option>
-            <nz-option
-              *ngFor="let mode of listMoyenPayment"
+            <nz-option *ngFor="let mode of listMoyenPayment"
               [nzLabel]="mode.libelle" [nzValue]="mode.code"></nz-option>
           </nz-select>
         </nz-form-control>
@@ -113,8 +123,13 @@
 
   <div *nzModalFooter class="footer-btn">
     <button (click)="handleCancel()" class="basic-button" nz-button>Annuler</button>
-    <button (click)="handleOk()" [nzLoading]="isConfirmLoading" class="basic-button my-primary-button"
-            nz-button>{{ btnText }}
+    <button (click)="handleOk()" [disabled]="FacForm.invalid"
+            [ngClass]="{'buttonIsDisabled': FacForm.invalid, 'basic-button' : true,
+            'my-primary-button': FacForm.valid}"
+            [nzLoading]="isConfirmLoading"
+            [nzTooltipTitle]="FacForm.invalid ? 'Veuillez bien remplir le formulaire': 'Enregistrer'" nz-button
+            nz-tooltip>
+      {{ btnText }}
     </button>
   </div>
 </div>

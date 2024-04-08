@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
@@ -6,7 +6,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   templateUrl: './payment-success.component.html',
   styleUrls: ['./payment-success.component.sass']
 })
-export class PaymentSuccessComponent {
+export class PaymentSuccessComponent implements OnInit {
 
   paymentToken!: string;
   commandNumber!: string;

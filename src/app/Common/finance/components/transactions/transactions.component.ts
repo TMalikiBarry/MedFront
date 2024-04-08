@@ -15,7 +15,12 @@ import {
 import {PersonnelInterface} from "src/app/models/personnel.interface";
 import {TransactionService} from "src/app/services/transaction/transaction.service";
 import * as Chart from "chart.js/auto";
-import {MoyenPaymentFilter, TransactionInterface, TransactionStatusFilter} from "src/app/models/transaction.interface";
+import {
+  MoyenPaymentFilter,
+  TransactionInterface,
+  TransactionStatus,
+  TransactionStatusFilter
+} from "src/app/models/transaction.interface";
 import {WeeklyTransactionAmountStatInterface} from "../../../../models/weekly-transaction-amount-stat.interface";
 import {UtilsService} from "../../../../services/utils/utils.service";
 
@@ -26,7 +31,9 @@ import {UtilsService} from "../../../../services/utils/utils.service";
 })
 export class TransactionsComponent implements OnInit {
   numberStats = [0, 0, 0, 0];
-  descSats = ["Total des paiements","Paiement en espéces","Prise en charge", "Payée partiellement"]
+  descSats = ["Total de paiements", "Paiements initiés", "Paiements en succès", "Paiements échoués"]
+  colorStats = ['black', '#5D6273', '#20AC2E', '#A81735'];
+  svgList = ['', '_initie', '_success', '_failed']
   choosenDate!: Date[];
   moyenPaymentEnum = MoyenPaymentFilter;
   selectedMoyenPayment!: MoyenPaymentFilter;
@@ -59,17 +66,9 @@ export class TransactionsComponent implements OnInit {
   ngOnInit(): void {
     this.createCanvasFigures();
     // this.listOfService = <ServiceInterface[]>listService;
-    this.serviceApi.getAllService().subscribe({
-      next: result => {
-        this.listOfService = result.reponse as ServiceInterface[];
-        this.listOfPole = this.listOfService
-          .map(s => s.pole!) // Créez un tableau de tous les pôles
-          .filter((pole, index, self) =>
-            pole && self.findIndex(p => p.id === pole.id) === index
-          );
-      },
-    });
-    this.getCountTransMoyen()
+    this.getServicesAndPoles();
+    this.countTransactionByStatus();
+    this.getCountTransMoyen();
     this.loadPatients();
     this.loadPrestations();
     // this.getAllTransaction();
@@ -135,6 +134,19 @@ export class TransactionsComponent implements OnInit {
 
   }
 
+  getServicesAndPoles() {
+    this.serviceApi.getAllService().subscribe({
+      next: result => {
+        this.listOfService = result.reponse as ServiceInterface[];
+        this.listOfPole = this.listOfService
+          .map(s => s.pole!) // Créez un tableau de tous les pôles
+          .filter((pole, index, self) =>
+            pole && self.findIndex(p => p.id === pole.id) === index
+          );
+      },
+    });
+  }
+
   getChartData(lastWeek: boolean = false) {
     this.apiTransaction.getWeeklyTransactionAmountStats().subscribe({
       next: result => {
@@ -158,6 +170,11 @@ export class TransactionsComponent implements OnInit {
     this.getChartData(event);
   }
 
+  countTransactionByStatus() {
+    this.apiTransaction.countByStatus().subscribe(
+      value => this.numberStats = value,
+    )
+  }
   getTransactionByPage(page: number = 0,
                        size: number = 10, loadChartData: boolean = false) {
 
@@ -181,7 +198,7 @@ export class TransactionsComponent implements OnInit {
         this.paginatedData = response;
 
         // SET STATS
-        let allTransaction = this.paginatedData.content
+        /*let allTransaction = this.paginatedData.content
 
         //let TransCash = allTransaction.filter(transaction => transaction.moyenPayment.toString() === 'CASH')
         let TransPrise = allTransaction.filter(transaction => transaction.moyenPayment.toString() === 'ASSURANCE')
@@ -194,7 +211,7 @@ export class TransactionsComponent implements OnInit {
           this.numberStats[2] = TransPrise.length
           // payement partiel
           this.numberStats[3] = TransPartiel.length
-          // this.prestationsList = this.paginatedData.content;
+          // this.prestationsList = this.paginatedData.content;*/
 
       }
     })
@@ -345,4 +362,36 @@ export class TransactionsComponent implements OnInit {
       next: (data) => this.listPrestation = data,
     })
   }
+
+  voirFacture(paiement: TransactionInterface) {
+
+  }
+
+  getStatusInfo(status: TransactionStatus): { color: string; text: string } {
+    let color = '#5D6273';
+    let text = 'initié';
+
+    switch (status) {
+      case TransactionStatus.INITIATED:
+        color = '#5D6273';
+        text = 'initié';
+        break;
+      case TransactionStatus.SUCCESS:
+        color = '#20AC2E';
+        text = 'succès';
+        break;
+      case TransactionStatus.FAILED:
+        color = '#A81735';
+        text = 'échec';
+        break;
+
+      case TransactionStatus.PENDING:
+        color = '#4c4efd';
+        text = 'en cours';
+        break;
+    }
+
+    return {color, text};
+  }
+
 }

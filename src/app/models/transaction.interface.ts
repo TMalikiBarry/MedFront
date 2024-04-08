@@ -6,6 +6,7 @@ export interface TransactionInterface extends EntiteBase{
   id : number;
   token : string;
   amount : number;
+  couverture?: number;
   totalAmount : number;
   moyenPayment : MoyenPayment;
   transactionType : TransactionType;

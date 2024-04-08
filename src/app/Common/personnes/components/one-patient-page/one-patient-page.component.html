@@ -1,10 +1,12 @@
 <div class="make-spaceBetween">
-  <p><span (click)="toPatientPage()" nz-tooltip nzTooltipPlacement="bottom"
-           nzTooltipTitle="Se rendre à la page patients"
-           routerLink="/admin/personnes/patients">
-    Patient /
-  </span>
-    <span>{{ contextPage }}</span></p>
+  <p>
+    <span nz-tooltip nzTooltipPlacement="bottom"
+          nzTooltipTitle="Se rendre à la page patients"
+          routerLink="/admin/personnes/patients">
+        Patient /
+    </span>
+    <span>{{ contextPage }}</span>
+  </p>
   <!--  <button (click)="enregistrer()"
             [ngClass]="{'buttonIsDisabled': patientForm.invalid, 'basic-button' : true, 'my-primary-button': patientForm.valid}"
             [nzTooltipTitle]="patientForm.invalid ? 'Veuillez bien remplir le formulaire': 'Enregistrer'" nz-button

@@ -1,107 +1,105 @@
-<div class="modal">
-  <div *nzModalTitle class="make-spaceBetween">
-    <p>{{titleForm}}</p>
-    <img src="assets/from_figma/close_modal.svg" alt="Fermer le form" (click)="handleCancel()">
+<div *nzModalTitle class="make-spaceBetween">
+  <p>{{ titleForm }}</p>
+  <img (click)="handleCancel()" alt="Fermer le form" src="assets/from_figma/close_modal.svg">
+</div>
+<div>
+  <div class="make-spaceBetween add-some-margin">
+    <div class="connect-phrase"> Les informations complètes sur le rendez-vous</div>
+    <div [ngStyle]="{maxWidth: '12rem', borderRadius: '4px', padding: '.5rem 1rem',
+         backgroundColor: getStatusInfo().bgColor, color: getStatusInfo().color}"
+         class="row-status">
+      <span [ngStyle]="{width: '3px', height: '3px', borderRadius: '12px', marginRight: '.2rem',
+      color: getStatusInfo().color}">◉</span>
+      {{ getStatusInfo().text| titlecase }}
+    </div>
   </div>
 
-  <div>
-    <form nz-form [formGroup]="RvForm" class="login-form" >
-      <p class="connect-phrase">{{formDesc}}</p>
-
-      <div class="make-spaceBetween">
-        <nz-form-item>
-          <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
-            <p class="input-label">Nom Patient</p>
-            <input nz-input placeholder="Nom patient" type="text" formControlName="patient" />
-          </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item>
-          <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
-            <p class="input-label">Telephone</p>
-            <input nz-input placeholder="Telephone" type="number" formControlName="number" />
-          </nz-form-control>
-        </nz-form-item>
+  <div class="details-body">
+    <div class="make-spaceBetween">
+      <div class="left-side">
+        <div class="data-description"> Nom Complet du patient</div>
+        <div class="data-value">
+          {{ getPrenom(patientPers) | titlecase }}
+          {{ getNom(patientPers) | uppercase }}
+        </div>
       </div>
-
-      <div class="make-spaceBetween">
-        <nz-form-item>
-          <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
-            <p class="input-label">Services</p>
-            <nz-select nzShowSearch nzPlaceHolder="Choissez un service" formControlName="service">
-              <nz-option nzLabel="----"></nz-option>
-              <nz-option
-                *ngFor="let service of listOfServices"
-                [nzLabel]="service.nom" [nzValue]="service"></nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item>
-          <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
-            <p class="input-label">Medecins</p>
-            <nz-select nzShowSearch nzPlaceHolder="Choissez un medecin" formControlName="medecin">
-              <nz-option nzLabel="----"></nz-option>
-              <nz-option
-                *ngFor="let medecin of listOfMedecin"
-                [nzLabel]="medecin.personne.nom" [nzValue]="medecin"></nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
+      <div class="right-side">
+        <div class="data-description">Num. Tél. du patient</div>
+        <div class="data-value">{{ patientPers.telephone | prettyPhoneNumber }}</div>
       </div>
-
-      <div class="make-spaceBetween">
-        <nz-form-item>
-          <nz-form-control>
-            <p class="input-label">Date et Heure du RDV</p>
-            <nz-date-picker nzPlaceHolder="Choissez la date" nzShowTime
-                            nzFormat="dd-MM-YYYY HH:mm:ss" formControlName="date"></nz-date-picker>
-          </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item>
-          <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
-            <p class="input-label">Presence</p>
-            <nz-select nzShowSearch nzPlaceHolder="Choissez l'option" formControlName="presence">
-              <nz-option nzLabel="Confirmee" nzValue="Confirmee"></nz-option>
-              <nz-option nzLabel="Non confirmee" nzValue="Non Confirmee"></nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
+    </div>
+    <div class="make-spaceBetween">
+      <div class="left-side">
+        <div class="data-description">Adresse Physique du patient</div>
+        <div class="data-value">{{ patientPers.adresse }}</div>
       </div>
-
-      <div class="make-spaceBetween">
-
-        <nz-form-item>
-          <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
-            <p class="input-label">Notes & Remarques</p>
-            <textarea rows="3" formControlName="note"></textarea>
-          </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item>
-          <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
-            <p class="input-label">Paiement</p>
-            <nz-badge nzStatus="warning" nzText="Non facture"></nz-badge>
-          </nz-form-control>
-        </nz-form-item>
-
+      <div class="right-side">
+        <div class="data-description">Adresse email du patient</div>
+        <div class="data-value">{{ patientPers.email }}</div>
       </div>
+    </div>
+    <div class="make-spaceBetween">
+      <div class="left-side">
+        <div class="data-description">Nom complet du médecin</div>
+        <div class="data-value">
+          {{ getPrenom(medecinPers) | titlecase }}
+          {{ getNom(medecinPers) | uppercase }}
+        </div>
+      </div>
+      <div class="right-side">
+        <div class="data-description">Service - pôle</div>
+        <div class="data-value">
+          {{ data.service.nom }}
+          <span class="service-pole">{{ ' - (' + data.service.pole?.nom + ')' }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="make-spaceBetween">
+      <div class="left-side">
+        <div class="data-description">Date du rendez-vous</div>
+        <div class="data-value">
+          {{ data.dateRv | date: "EEEE, 'le' dd MMMM yyyy 'à' hh:mm" }}
+        </div>
+      </div>
+      <div class="right-side">
+        <div class="data-description">Durée du rendez-vous</div>
+        <div *ngIf="data.dateRv else Introuvable" class="data-value">{{ data.duree }} min</div>
+      </div>
+    </div>
+    <div class="make-spaceBetween">
+      <div class="left-side">
+        <div class="data-description">Créé par</div>
+        <div *ngIf="createurPers else Introuvable" class="data-value">
+          {{ getPrenom(createurPers) | titlecase }}
+          {{ getNom(createurPers) | uppercase }}
+        </div>
+      </div>
+      <div class="right-side">
+        <div class="data-description">Créé le</div>
+        <div class="data-value">
+          {{ data.dateCreation | date: "EEEE, 'le' dd MMMM yyyy 'à' hh:mm:ss" }}
+        </div>
+      </div>
+    </div>
 
-    </form>
+    <div class="make-spaceBetween">
+      <div class="left-side">
+        <div class="data-description">Notes & Remarques</div>
+        <div class="long-text-input">{{ getRemarques() }}</div>
+      </div>
+      <div *ngIf="isCanceled()" class="right-side">
+        <div class="data-description">Motif</div>
+        <div class="long-text-input">{{ data.motif }}</div>
+      </div>
+    </div>
+
   </div>
 
-  <div *nzModalFooter class="footer-btn">
-    <button nz-button nzType="default" (click)="handleCancel()">Annuler</button>
-    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">{{btnText}}</button>
-  </div>
 </div>
 
-
-<ng-template #addSuffixUserIcon>
-  <div class="mySuffixTemp">
-    <img src="assets/from_figma/import_logo.svg" alt="Importer" class="svg-icon">
-    <span>Importer</span>
+<ng-template #Introuvable>
+  <div class="introuvable">
+    Non renseigné
   </div>
-
 </ng-template>

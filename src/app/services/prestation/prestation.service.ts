@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {PrestationInterface} from "../../models/prestation.interface";
+import {PrestationInterface, WeeklyPrestationStats} from "../../models/prestation.interface";
 import {Observable} from "rxjs";
 import {ApiResponseInterface} from "../../models/api-response.interface";
 import {environment} from "src/environments/environment.prod";
@@ -16,6 +16,10 @@ export class PrestationService {
   save(prestation: PrestationInterface): Observable<ApiResponseInterface>{
 
     return this.http.post<ApiResponseInterface>(this.url, prestation);
+  }
+
+  update(prestation: PrestationInterface) {
+    return this.http.patch<PrestationInterface>(this.url, prestation);
   }
 
   getPaginatedData(page: number = 0, size: number = 10): Observable<any> {
@@ -62,4 +66,14 @@ export class PrestationService {
   getAll(){
     return this.http.get<ApiResponseInterface>(this.url+"/all")
   }
+
+  countByStatus(): Observable<number[]> {
+    return this.http.get<number[]>(this.url + '/countByStatus')
+  }
+
+  countWeeklyForAll(): Observable<WeeklyPrestationStats> {
+    return this.http.get<WeeklyPrestationStats>(this.url + '/countWeeklyForAll')
+  }
+
+
 }

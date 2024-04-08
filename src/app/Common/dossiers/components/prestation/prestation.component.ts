@@ -2,12 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {NzModalService} from "ng-zorro-antd/modal";
 import {PrestationFormDialogComponent} from "../../dialogs/prestation-form-dialog/prestation-form-dialog.component";
 import {PrestationService} from "src/app/services/prestation/prestation.service";
-import {PrestationInterface} from "src/app/models/prestation.interface";
+import {PrestationInterface, PrestationStatut, WeeklyPrestationStats} from "src/app/models/prestation.interface";
 
 import {Page} from "src/app/models/pagination.interface";
-import {
-  NewPaymentFormDialogComponent
-} from "../../../finance/dialogs/new-payment-form-dialog/new-payment-form-dialog.component";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
 import {CliniqueServiceService} from "src/app/services/service/clinique-service.service";
 import {ServiceInterface} from "src/app/models/service.interface";
@@ -16,6 +13,8 @@ import {DossierMedicalService} from "src/app/services/dossier-medical/dossier-me
 import {PersonneInterface} from "src/app/models/personne.interface";
 import {PoleInterface} from "src/app/models/pole.interface";
 import {FacturationComponent} from "../../dialogs/facturation/facturation.component";
+import {NotifService} from "../../../../services/notification/notif.service";
+import * as Chart from "chart.js/auto";
 
 @Component({
   selector: 'app-prestation',
@@ -25,7 +24,9 @@ import {FacturationComponent} from "../../dialogs/facturation/facturation.compon
 export class PrestationComponent implements OnInit{
 
   numberStats = [3, 0, 2, 0];
-  descSats = ["Prestations","Prestation facturée","Prestations non facturées", "Partiellement payée"]
+  descSats = ["Prestations", "Prestations non payées", "Prestations payées", "Prestations annulées"]
+  colorStats = ['black', '#5D6273', '#20AC2E', '#A81735'];
+  svgList = ['', '_notpaid', '_paid', '_canceled'];
   choosenDate!: Date[];
   serviceId!: number;
   listOfService!: ServiceInterface[];
@@ -34,30 +35,38 @@ export class PrestationComponent implements OnInit{
   patientPers!: PersonneInterface;
   pageIndex: number = 0;
   pageSize: number = 10;
+  barGraph: any;
+  doughnutGraph: any;
+  isLastWeek: boolean = false;
 
   // prestationsList: PrestationInterface[] = [];
   listOfPole!: PoleInterface[];
+  private wBarFlowStats!: WeeklyPrestationStats;
 
   constructor(private modalService: NzModalService,
               private api: PrestationService,
               private serviceApi: CliniqueServiceService,
-              private dossierMApi: DossierMedicalService) {
+              private dossierMApi: DossierMedicalService,
+              private notify: NotifService) {
   }
 
   ngOnInit(): void {
     // this.listOfService = <ServiceInterface[]>listService;
-    this.serviceApi.getAllService().subscribe({
-      next: result => {
-        this.listOfService = result.reponse as ServiceInterface[];
-        this.listOfPole = this.listOfService
-          .map(s => s.pole!) // Créez un tableau de tous les pôles
-          .filter((pole, index, self) =>
-            pole && self.findIndex(p => p.id === pole.id) === index
-          );
-      },
-    });
+    this.getServicesAndPoles();
+    this.initialiseCanvasGraphs();
+    this.getGraphData();
+    this.countByStatus();
     this.loadPatients();
     this.getPrestationsByPage();
+  }
+
+  countByStatus() {
+    this.api.countByStatus().subscribe(
+      value => {
+        this.numberStats = value;
+        this.updateDiscFlowStatus(value.slice(-3));
+      },
+    )
   }
 
   getPrestationsByPage(page: number = 0,
@@ -76,9 +85,7 @@ export class PrestationComponent implements OnInit{
 
         // SET STATS
         if (!firstName && !lastName && !serviceId && !startDate && !endDate) {
-          this.numberStats[0] = this.paginatedData.totalElements;
-          this.numberStats[2] = this.paginatedData.totalElements;
-          this.numberStats[1] = this.numberStats[0] - this.numberStats[2]
+          this.countByStatus();
           // this.prestationsList = this.paginatedData.content;
         }
 
@@ -95,19 +102,26 @@ export class PrestationComponent implements OnInit{
     this.filterData();
   }
 
-  filterData() {
+  filterData(recount?: boolean) {
     let startDate = undefined;
     let endDate = undefined;
     if (this.choosenDate) {
       startDate = this.choosenDate[0] ? this.choosenDate[0].toISOString(): undefined;
       endDate = this.choosenDate[1] ? this.choosenDate[1].toISOString(): undefined;
     }
+
     let prenom = null;
     let nom = null;
     if (this.patientPers){
       prenom = this.patientPers.prenom;
       nom = this.patientPers.nom;
     }
+
+    if (recount) {
+      this.countByStatus();
+      this.getGraphData(this.isLastWeek);
+    }
+
     this.getPrestationsByPage(this.pageIndex, this.pageSize,
       prenom!, nom!, this.serviceId, startDate, endDate)
   }
@@ -120,6 +134,20 @@ export class PrestationComponent implements OnInit{
   }
 */
 
+  getServicesAndPoles() {
+    this.serviceApi.getAllService().subscribe({
+      next: result => {
+        this.listOfService = result.reponse as ServiceInterface[];
+        console.log('LES SERVICES ', this.listOfService);
+        console.log('LES POLES ', this.listOfService.map(s => s.pole!));
+        this.listOfPole = this.listOfService
+          .map(s => s.pole!) // Créez un tableau de tous les pôles
+          .filter((pole, index, self) =>
+            pole && self.findIndex(p => p.id === pole.id) === index
+          );
+      },
+    });
+  }
 
   addNewPrestation() {
     this.modalService.create({
@@ -129,37 +157,67 @@ export class PrestationComponent implements OnInit{
       nzCentered: true,
     }).afterClose.subscribe(
       ()=>{
-        this.getPrestationsByPage()
+        this.getPrestationsByPage();
+        this.getGraphData(this.isLastWeek);
       }
     );
   }
 
+  // TODO Finaliser UPDATE PRESTATION
   updatePrestation(prestation: PrestationInterface) {
+    if (!this.isNotPaid(prestation)) return;
     this.modalService.create({
       nzContent: PrestationFormDialogComponent,
       nzWidth: 650,
-      nzData: prestation,
+      nzData: {
+        ...prestation,
+        context: 'PUT_PRESTATION'
+      },
       nzClosable: false,
       nzCentered: true,
     }).afterClose.subscribe(
       () => {
-        this.getPrestationsByPage()
+        this.filterData();
       }
     );
   }
 
-  addNewPayment() {
-    this.modalService.create({
-      nzContent: NewPaymentFormDialogComponent,
-      nzClosable: false,
-      nzCentered: true,
-    }).afterClose.subscribe(
-      ()=>{
-        this.getPrestationsByPage()
+  cancelPrestation(p: PrestationInterface) {
+    if (this.isCanceled(p)) {
+      p.prestationStatut = PrestationStatut.NOTPAID;
+    } else if (this.isNotPaid(p)) {
+      p.prestationStatut = PrestationStatut.CANCELED;
+    }
+    this.api.update(p).subscribe({
+      next: p => {
+        let verb = 'validé';
+        if (this.isCanceled(p)) {
+          verb = 'annulé'
+        } else if (this.isNotPaid(p)) {
+          verb = 'validé';
+        }
+        this.notify.snackMessage(
+          `La prestation pour le patient ${this.getPatientName(p.dossierMedical!)} a été ${verb} avec succès`,
+          2000, 'success');
+        this.filterData(true);
       }
-    );
-
+    });
   }
+
+  /*
+    addNewPayment() {
+      this.modalService.create({
+        nzContent: NewPaymentFormDialogComponent,
+        nzClosable: false,
+        nzCentered: true,
+      }).afterClose.subscribe(
+        ()=>{
+          this.getPrestationsByPage()
+        }
+      );
+
+    }
+  */
 
   loadPatients() {
     this.dossierMApi.getAll().subscribe({
@@ -169,14 +227,216 @@ export class PrestationComponent implements OnInit{
     });
   }
 
-  getPatientID(prestation: PrestationInterface): number {
-    return ( prestation.id!*17*1000 + prestation.dossierMedical?.id!*19*10 + prestation.dossierMedical?.patient?.id!)
-  }
+  /*  getPatientID(prestation: PrestationInterface): number {
+      return ( prestation.id!*17*1000 + prestation.dossierMedical?.id!*19*10 + prestation.dossierMedical?.patient?.id!)
+    }*/
 
   getPatientName(dossierMedical: DossierMedicalInterface):string {
     return `${dossierMedical?.patient?.personne.prenom} ${dossierMedical?.patient?.personne.nom}`
   }
   // TODO METTRE DANS UN PIPE POUR GENERALISER SON UTILISATION DANS LES AUTRES COMPONENTS
+
+  getAllServicesByPole(pole: PoleInterface): ServiceInterface [] {
+    return this.listOfService.filter(s => s.pole?.id === pole.id);
+  }
+
+
+/*  getData(event: any, context: string) {
+    console.log(`MY EVENT ${context}`, event);
+    this.getPrestationsByPage(event);
+  }*/
+
+  facturer(prestation: PrestationInterface) {
+    if (!this.isNotPaid(prestation)) return;
+    console.log(prestation)
+    this.modalService.create({
+      nzContent : FacturationComponent,
+      nzClosable: false,
+      nzData : prestation,
+      nzWidth: 650,
+      nzCentered: true
+    }).afterClose.subscribe(
+      ()=>{
+        this.getPrestationsByPage();
+        this.getGraphData(this.isLastWeek);
+      }
+    );
+  }
+  /*
+    getPersonnelName(personnel: PersonnelInterface | undefined) {
+      const personne = personnel ? personnel.personne : undefined
+      return personne ? `${personne.prenom} ${personne.nom}` : undefined;
+
+    }
+  */
+  initialiseCanvasGraphs() {
+    this.barGraph = new Chart.Chart("weeklyPrestationStats", {
+      type: 'bar', //this denotes tha type of chart
+
+      data: {// values on X-Axis
+        labels: ['Lundi', 'Mardi', 'Mercredi',
+          'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
+        datasets: [
+          {
+            label: "Pas Payés",
+            data: ['0', '0', '0', '0', '0',
+              '0', '0'],
+            backgroundColor: '#5D6273',
+            borderWidth: .75 // Ajustez l'épaisseur de la bordure pour contrôler la largeur de la barre
+          },
+          {
+            label: "Payés",
+            data: ['0', '0', '0', '0', '0',
+              '0', '0'],
+            backgroundColor: '#84BE38',
+            borderWidth: .75 // Ajustez l'épaisseur de la bordure pour contrôler la largeur de la barre
+          },
+          {
+            label: "Annulés",
+            data: ['0', '0', '0', '0', '0',
+              '0', '0'],
+            backgroundColor: '#A81735',
+            borderWidth: .75 // Ajustez l'épaisseur de la bordure pour contrôler la largeur de la barre
+          }
+        ]
+      },
+      options: {
+        aspectRatio: 1.87,
+        plugins: {
+          legend: {
+            display: false // Désactive l'affichage de la légende
+          }
+        },
+        layout: {
+          padding: {
+            // Ajustement de l'espacement entre le bord du graphique et les barres
+            left: 10,
+            right: 10,
+            top: 10,
+            bottom: 10
+          }
+        },
+        responsive: true,
+        scales: {
+          y: {
+            min: 0,
+            type: 'linear', // Utiliser une échelle linéaire
+            ticks: {
+              // stepSize: 1, // Taille du pas de l'axe des ordonnées
+              precision: 0 // Précision des étiquettes (aucune décimale)
+            }
+          }
+        }
+        // barPercentage: 0.7 // Réglage de la largeur des barres
+      }
+
+    });
+
+    this.doughnutGraph = new Chart.Chart("discPrestationStatusGraph", {
+        type: 'doughnut',
+        data: {
+          labels: [
+            'Pas Payés',
+            'Payés',
+            'Annulés',
+          ],
+          datasets: [{
+            // label: 'My First Dataset',
+            data: ["5", "5", "5"],
+            backgroundColor: [
+              '#5D6273',
+              '#84BE38',
+              '#A81735',
+            ],
+            hoverOffset: 35
+          }]
+        },
+        options: {
+          plugins: {
+            legend: {
+              display: false // Désactive l'affichage de la légende
+            }
+          },
+          maintainAspectRatio: false
+        }
+      }
+    );
+  }
+
+  getGraphData(lastWeek: boolean = false) {
+    this.api.countWeeklyForAll().subscribe(
+      result => {
+        this.wBarFlowStats = result;
+        this.updateGraphStats(lastWeek, result);
+      }
+    );
+  }
+
+
+  updateGraphStats(lastWeek: boolean = false, weeklyPrestationStats: WeeklyPrestationStats) {
+    this.barGraph.data.datasets[0].data = lastWeek ?
+      weeklyPrestationStats.notPaidPrestationStats.previousWeekCounts : weeklyPrestationStats.notPaidPrestationStats.currentWeekCounts;
+    this.barGraph.data.datasets[1].data = lastWeek ?
+      weeklyPrestationStats.paidPrestationStats.previousWeekCounts : weeklyPrestationStats.paidPrestationStats.currentWeekCounts;
+    this.barGraph.data.datasets[2].data = lastWeek ?
+      weeklyPrestationStats.canceledPrestationStats.previousWeekCounts : weeklyPrestationStats.canceledPrestationStats.currentWeekCounts;
+    this.barGraph.update();
+  }
+
+  updateDiscFlowStatus(discData: number[]) {
+    this.doughnutGraph.data.datasets[0].data = discData;
+    this.doughnutGraph.update();
+  }
+
+
+  getStatusInfo(statut: PrestationStatut): { color: string; text: string } {
+    let color = '#5D6273';
+    let text = 'à payer';
+
+    switch (statut) {
+      case PrestationStatut.NOTPAID:
+        color = '#5D6273';
+        text = 'à payer';
+        break;
+      case PrestationStatut.PAID:
+        color = '#84BE38';
+        text = 'payé';
+        break;
+      case PrestationStatut.CANCELED:
+        color = '#A81735';
+        text = 'annulé';
+        break;
+    }
+
+    return {color, text};
+  }
+
+
+  isPaid(prestation: PrestationInterface) {
+    return prestation.prestationStatut === 'PAID';
+  }
+
+  isCanceled(prestation: PrestationInterface) {
+    return prestation.prestationStatut === 'CANCELED';
+  }
+
+  isNotPaid(p: PrestationInterface) {
+    return p.prestationStatut === 'NOTPAID';
+  }
+
+  getContext(prestation: PrestationInterface): { message: string; svgName: string } {
+    let message = '', svgName = '';
+    if (this.isCanceled(prestation)) {
+      message = 'Valider';
+      svgName = 'confirm-yes.svg';
+    }
+    if (this.isNotPaid(prestation)) {
+      message = 'Annuler';
+      svgName = 'confirm-no.svg';
+    }
+    return {message, svgName}
+  }
+
 
   formatDateString(inputDateStr: Date | string): string {
     const inputDate = new Date(inputDateStr);
@@ -197,41 +457,7 @@ export class PrestationComponent implements OnInit{
     });
   }
 
-
-  getAllServicesByPole(pole: PoleInterface): ServiceInterface [] {
-    return this.listOfService.filter(s => s.pole?.id === pole.id);
+  OnWeekChange($event: any) {
+    this.updateGraphStats($event, this.wBarFlowStats)
   }
-
-/*  getData(event: any, context: string) {
-    console.log(`MY EVENT ${context}`, event);
-    this.getPrestationsByPage(event);
-  }*/
-  facturer(prestation: PrestationInterface) {
-    console.log(prestation)
-    this.modalService.create({
-      nzContent : FacturationComponent,
-      nzClosable: false,
-      nzData : prestation,
-      nzWidth: 650,
-      nzCentered: true
-    }).afterClose.subscribe(
-      ()=>{
-        this.getPrestationsByPage()
-      }
-    );
-  }
-
-  /*
-    getPersonnelName(personnel: PersonnelInterface | undefined) {
-      const personne = personnel ? personnel.personne : undefined
-      return personne ? `${personne.prenom} ${personne.nom}` : undefined;
-
-    }
-  */
-
-  displaySelected(event: any) {
-    console.log(event)
-  }
-
-
 }

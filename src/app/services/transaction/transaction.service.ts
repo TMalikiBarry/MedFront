@@ -3,7 +3,7 @@ import {environment} from "src/environments/environment.prod";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {ApiResponseInterface} from "../../models/api-response.interface";
 import {Observable} from "rxjs";
-import {MoyenPayment, TransactionInterface} from "../../models/transaction.interface";
+import {MoyenPayment, TransactionInterface, TransactionStatus} from "../../models/transaction.interface";
 import {PrestationInterface} from "../../models/prestation.interface";
 import {UtilsService} from "../utils/utils.service";
 import {Page} from "../../models/pagination.interface";
@@ -75,9 +75,18 @@ export class TransactionService {
     return this.http.get(this.API_URL+"/transactions/countByPaymentMethods", {params: params})
   }
 
+  getTransactionByID(id: number) {
+    return this.http.get<TransactionInterface>(`${this.API_URL}${this.ENDPOINT_TRANSACTION}${id}`)
+  }
   getCountTransactionCash(){
     let params = new HttpParams()
       .append('paymentMethods','CASH')
     return this.http.get<ApiResponseInterface>(this.API_URL+"/transactions/countByPaymentMethods", {params: params})
+  }
+
+  countByStatus(status?: TransactionStatus): Observable<number[]> {
+    let params = new HttpParams();
+    if (status) params = params.append('statutTransaction', status)
+    return this.http.get<number[]>(this.API_URL + '/transactions/countByStatus', {params})
   }
 }

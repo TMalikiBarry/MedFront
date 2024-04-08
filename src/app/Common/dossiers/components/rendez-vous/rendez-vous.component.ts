@@ -6,15 +6,16 @@ import {PrestationFormDialogComponent} from "../../dialogs/prestation-form-dialo
 import {PatientInterface} from "src/app/models/patient.interface";
 import {RendezVousService} from "src/app/services/rendez-vous/rendez-vous.service";
 import {CliniqueServiceService} from "src/app/services/service/clinique-service.service";
-import {DetailRdvPatientComponent} from "../../dialogs/detail-rdv-patient/detail-rdv-patient.component";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
 import {Page} from "src/app/models/pagination.interface";
-import {RDVStatus, RendezVousInterface} from "src/app/models/rendez-vous.interface";
+import {RDVStatus, RendezVousInterface, WeeklyRDVStats} from "src/app/models/rendez-vous.interface";
 import {NotifService} from "src/app/services/notification/notif.service";
 import {ServiceInterface} from "src/app/models/service.interface";
 import {PoleInterface} from "src/app/models/pole.interface";
 import {PersonneInterface} from "../../../../models/personne.interface";
 import {CancelRdvDialogComponent} from "../../dialogs/cancel-rdv-dialog/cancel-rdv-dialog.component";
+import * as Chart from "chart.js/auto";
+import {DetailRendezVousComponent} from "../../dialogs/detail-rendez-vous/detail-rendez-vous.component";
 
 @Component({
   selector: 'app-rendez-vous',
@@ -22,6 +23,11 @@ import {CancelRdvDialogComponent} from "../../dialogs/cancel-rdv-dialog/cancel-r
   styleUrls: ['./rendez-vous.component.sass']
 })
 export class RendezVousComponent implements OnInit {
+
+  numberStats = [0, 0, 0, 0];
+  descSats = ["Rendez-vous", "Rendez-vous à confirmer", "Rendez-vous confirmés", "Rendez-vous annulés"]
+  colorStats = ['black', '#5D6273', '#20AC2E', '#A81735'];
+  svgList = ['', '_created', '_validated', '_canceled'];
 
   listDataMapToday!:Page<RendezVousInterface>;
 
@@ -39,6 +45,12 @@ export class RendezVousComponent implements OnInit {
   paginatedData!: Page<RendezVousInterface>;
   prestationsList: PrestationInterface[] = [];
   patientPers!: PersonneInterface;
+  isLastWeek = false;
+
+  barGraph: any;
+  doughnutGraph: any;
+  private wBarFlowStats!: WeeklyRDVStats;
+
 
   // Chemin vers l'icône dans le dossier des actifs
   customIconPath = 'assets/icon/calendar_small.svg';
@@ -67,8 +79,21 @@ export class RendezVousComponent implements OnInit {
   ngOnInit(): void {
     this.getAllService();
     //this.getAllRdv();
+    this.getGraphData();
     this.getRdvByPage();
+    this.initialiseCanvasGraphs();
+    this.countByStatus();
     this.loadPatients();
+  }
+
+  countByStatus() {
+    this.api.countByStatus().subscribe(
+      value => {
+        this.numberStats = value;
+        this.updateDiscFlowStatus(value.slice(-3));
+
+      },
+    )
   }
 
   getRdvByPage(page: number = 0, size: number = 10, firstName?: string, lastName?: string,
@@ -99,14 +124,6 @@ export class RendezVousComponent implements OnInit {
       }
     })
   }
-  getAllRdv() {
-    this.api.getAllRdv().subscribe({
-      next: response => {
-        console.log("Liste des rdv ", response);
-        this.listDataMapToday = response
-      }
-    })
-  }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
     this.pageIndex = params.pageIndex - 1;
@@ -120,22 +137,6 @@ export class RendezVousComponent implements OnInit {
   }
 
   filtre() {
-    /*let date = ''
-    if(this.date){
-      date = this.formatCustomDate(this.date)
-    }
-    this.api.getAllRdvPagination(0, 5,this.filtrePatient, this.filtrePatient,this.filtrePatient,this.serviceId,date).subscribe({
-      next: response => {
-        console.log("Liste des rdv filter page ", response);
-        console.log(response)
-        this.paginatedData = response;
-        this.prestationsList = this.paginatedData.content;
-        this.pageSize = this.paginatedData.pageable.pageSize;
-        this.pageIndex = this.paginatedData.pageable.pageNumber + 1;
-        this.total = this.paginatedData.totalElements;
-        this.loading = false;
-      }
-    })*/
     let startDate = undefined;
     let endDate = undefined;
     if (this.choosenDate) {
@@ -156,14 +157,7 @@ export class RendezVousComponent implements OnInit {
     return `${patient.personne.prenom} ${patient.personne.nom} - ${patient.personne.telephone}`
   }
 
-  onChange(result: Date): void {
-    console.log('onChange: ', result);
-  }
 
-
-  showEvent(event: any) {
-    console.log(event)
-  }
 
   protected readonly RDVStatus = RDVStatus;
 
@@ -173,18 +167,6 @@ export class RendezVousComponent implements OnInit {
         this.listOfPatients = result.filter(patient => !!patient.personne);
       }
     })
-  }
-  // TODO METTRE DANS UN PIPE POUR GENERALISER SON UTILISATION DANS LES AUTRES COMPONENTS
-
-  formatDateString(inputDateStr: Date | string): string {
-    const inputDate = new Date(inputDateStr);
-    const day = inputDate.getDate().toString().padStart(2, '0');
-    const month = (inputDate.getMonth() + 1).toString().padStart(2, '0'); // getMonth() renvoie un mois indexé à 0
-    const year = inputDate.getFullYear();
-    const hour = inputDate.getHours().toString().padStart(2, '0');
-    const minute = inputDate.getMinutes().toString().padStart(2, '0');
-
-    return `${day}/${month}/${year} ${hour}:${minute}`;
   }
 
   addNewPrestation() {
@@ -196,8 +178,6 @@ export class RendezVousComponent implements OnInit {
       (result) => {
         if (result == 'toPrestations') {
 
-        } else {
-          this.filtre();
         }
       }
     );
@@ -208,14 +188,19 @@ export class RendezVousComponent implements OnInit {
     const dialog = this.modalService.create({
       nzContent: RendezVousFormDialogComponent,
       nzClosable: false,
-      nzWidth: '15rem',
+      nzWidth: '40rem',
       nzCentered: true,
     })
     dialog.afterClose.subscribe(() => {
       this.getRdvByPage();
+      this.countByStatus();
+      this.getGraphData(this.isLastWeek);
     });
   }
-  detailRdv(data : any) {
+
+  updateRdv(data: RendezVousInterface) {
+    if (!this.isCreated(data.statut!)) return;
+
     const dialog = this.modalService.create({
       nzContent: RendezVousFormDialogComponent,
       nzData : data,
@@ -225,74 +210,150 @@ export class RendezVousComponent implements OnInit {
     });
     dialog.afterClose.subscribe(() => {
       this.getRdvByPage();
+      this.getGraphData(this.isLastWeek);
     })
   }
 
-  getDayOfMonth(dateString : string): number {
-    const dateObject: Date = new Date(dateString);
-    return dateObject.getDate();
-  }
-
-  getMonthOfYear(dateString : string): number {
-    const dateObject: Date = new Date(dateString);
-    return dateObject.getMonth();
-  }
-
-  getYear(dateString : string):number {
-    const dateObject : Date = new Date(dateString);
-    return dateObject.getFullYear()
-  }
-
-  getHour(dateString: Date): number {
-    const dateObject: Date = new Date(dateString);
-    return dateObject.getHours();
-  }
-
-  getMinutes(dateString: Date): number {
-    const dateObject: Date = new Date(dateString);
-    return dateObject.getMinutes();
-  }
-
-
-  detailPatient(patient :any) {
-    const dialog = this.modalService.create({
-      nzContent: DetailRdvPatientComponent,
-      nzData : patient,
+  seeDetails(rdv: RendezVousInterface) {
+    this.modalService.create({
+      nzContent: DetailRendezVousComponent,
+      nzData: rdv,
       nzClosable: false,
       nzWidth: '50rem',
       nzCentered: true,
+      nzFooter: null
     });
-    dialog.afterClose.subscribe(() => {
-      this.getRdvByPage();
-    })
   }
 
-  deleteRdv(id: any) {
-    this.api.deleteRdv(id).subscribe({
-      next : res =>{
-        console.log(res);
-        this.notification.snackMessage(`Rendez-vous mis supprimé avec succés`, 3000, 'success')
+  initialiseCanvasGraphs() {
+    this.barGraph = new Chart.Chart("weeklyRDVStats", {
+      type: 'bar', //this denotes tha type of chart
 
+      data: {// values on X-Axis
+        labels: ['Lundi', 'Mardi', 'Mercredi',
+          'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
+        datasets: [
+          {
+            label: "A Confirmer",
+            data: ['0', '0', '0', '0', '0',
+              '0', '0'],
+            backgroundColor: '#5D6273',
+            borderWidth: .75 // Ajustez l'épaisseur de la bordure pour contrôler la largeur de la barre
+          },
+          {
+            label: "Confirmés",
+            data: ['0', '0', '0', '0', '0',
+              '0', '0'],
+            backgroundColor: '#84BE38',
+            borderWidth: .75 // Ajustez l'épaisseur de la bordure pour contrôler la largeur de la barre
+          },
+          {
+            label: "Annulés",
+            data: ['0', '0', '0', '0', '0',
+              '0', '0'],
+            backgroundColor: '#A81735',
+            borderWidth: .75 // Ajustez l'épaisseur de la bordure pour contrôler la largeur de la barre
+          }
+        ]
+      },
+      options: {
+        aspectRatio: 1.87,
+        plugins: {
+          legend: {
+            display: false // Désactive l'affichage de la légende
+          }
+        },
+        layout: {
+          padding: {
+            // Ajustement de l'espacement entre le bord du graphique et les barres
+            left: 10,
+            right: 10,
+            top: 10,
+            bottom: 10
+          }
+        },
+        responsive: true,
+        scales: {
+          y: {
+            min: 0,
+            type: 'linear', // Utiliser une échelle linéaire
+            ticks: {
+              // stepSize: 1, // Taille du pas de l'axe des ordonnées
+              precision: 0 // Précision des étiquettes (aucune décimale)
+            }
+          }
+        }
+        // barPercentage: 0.7 // Réglage de la largeur des barres
       }
-    })
+
+    });
+
+    this.doughnutGraph = new Chart.Chart("discRDVStatusGraph", {
+        type: 'doughnut',
+        data: {
+          labels: [
+            'A Confirmer',
+            'Confirmés',
+            'Annulés',
+          ],
+          datasets: [{
+            // label: 'My First Dataset',
+            data: ["5", "5", "5"],
+            backgroundColor: [
+              '#5D6273',
+              '#84BE38',
+              '#A81735',
+            ],
+            hoverOffset: 35
+          }]
+        },
+        options: {
+          plugins: {
+            legend: {
+              display: false // Désactive l'affichage de la légende
+            }
+          },
+          maintainAspectRatio: false
+        }
+      }
+    );
   }
 
-  private formatCustomDate(inputDate: string): string {
-    const date = new Date(inputDate);
+  getGraphData(lastWeek: boolean = false) {
+    this.api.countWeeklyForAll().subscribe(
+      result => {
+        this.wBarFlowStats = result;
+        this.updateGraphStats(lastWeek, result);
+      }
+    );
+  }
 
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
 
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const seconds = date.getSeconds().toString().padStart(2, '0');
+  updateGraphStats(lastWeek: boolean = false, weeklyRDVStats: WeeklyRDVStats) {
+    this.barGraph.data.datasets[0].data = lastWeek ?
+      weeklyRDVStats.createdRDVStats.previousWeekCounts : weeklyRDVStats.createdRDVStats.currentWeekCounts;
+    this.barGraph.data.datasets[1].data = lastWeek ?
+      weeklyRDVStats.validatedRDVStats.previousWeekCounts : weeklyRDVStats.validatedRDVStats.currentWeekCounts;
+    this.barGraph.data.datasets[2].data = lastWeek ?
+      weeklyRDVStats.canceledRDVStats.previousWeekCounts : weeklyRDVStats.canceledRDVStats.currentWeekCounts;
+    this.barGraph.update();
+  }
 
-    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+  updateDiscFlowStatus(discData: number[]) {
+    this.doughnutGraph.data.datasets[0].data = discData;
+    this.doughnutGraph.update();
   }
 
   getAllServicesByPole(pole: PoleInterface): ServiceInterface [] {
     return this.listOfService.filter(s => s.pole?.id === pole.id);
+  }
+
+  isCreated(rdvStatus: RDVStatus): boolean {
+    return rdvStatus === RDVStatus.CREATED;
+  }
+
+  isCanceled(rdvStaus: RDVStatus): boolean {
+    return rdvStaus === RDVStatus.CANCELED;
   }
 
   isValidated(rdvStatus: RDVStatus): boolean {
@@ -300,19 +361,23 @@ export class RendezVousComponent implements OnInit {
     return rdvStatus === RDVStatus.VALIDATED;
   }
 
-  cancelRDV(rdv: RendezVousInterface, type?: 'V' | 'C') {
+  cancelOrValidateRDV(rdv: RendezVousInterface, type?: 'V' | 'C') {
     if (type && type == 'C') {
+      if (this.isCanceled(rdv.statut!)) return;
       const dialog = this.modalService.create({
         nzContent: CancelRdvDialogComponent,
         nzData: rdv,
         nzClosable: false,
-        nzWidth: '50rem',
+        nzWidth: '40rem',
         nzCentered: true,
       });
       dialog.afterClose.subscribe(() => {
         this.filtre();
+        this.countByStatus();
+        this.getGraphData(this.isLastWeek);
       })
     } else if (type && type == 'V') {
+      if (this.isValidated(rdv.statut!)) return;
       rdv.motif = undefined;
       rdv.statut = RDVStatus.VALIDATED;
       this.api.updateRdv(rdv).subscribe({
@@ -322,18 +387,13 @@ export class RendezVousComponent implements OnInit {
             `Rendez-vous confirmé avec succés pour le patient ${rdv.patient.personne.prenom} ${rdv.patient.personne.nom}`,
             3000, 'success');
           this.filtre();
+          this.countByStatus();
+          this.getGraphData(this.isLastWeek);
         }
       })
     }
 
 
-  }
-
-  getType(rdvStatus: RDVStatus) {
-    // if (rdvStatus === RDVStatus.VALIDATED) return 'C';
-    // if (rdvStatus === RDVStatus.CANCELED) return 'V';
-    // return undefined;
-    return this.isValidated(rdvStatus) ? 'C' : 'V'
   }
 
   getStatusInfo(status: RDVStatus): { color: string; text: string } {
@@ -357,4 +417,11 @@ export class RendezVousComponent implements OnInit {
 
     return {color, text};
   }
+
+  OnWeekChange($event: any) {
+    console.log('MODIFIER ', $event);
+    this.updateGraphStats($event, this.wBarFlowStats);
+  }
+
+
 }

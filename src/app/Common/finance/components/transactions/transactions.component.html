@@ -45,10 +45,11 @@
     </div>
     <div class="trans-stats">
       <div *ngFor="let stat of numberStats; let i = index"  class="myCardStats">
-        <div class="logoStats"><img alt="stats" src="assets/icon/paiementDefault.svg" width="35"></div>
+        <div class="logoStats"><img [src]="'assets/icon/paiementDefault'+svgList[i]+'.svg'" alt="stats" width="35">
+        </div>
 
-        <div class="numberStats"><p>{{ stat }}</p></div>
-        <div class="descStats"><p>{{ descSats[i] }}</p></div>
+        <div class="numberStats"><p [ngStyle]="{color: colorStats[i]}">{{ stat }}</p></div>
+        <div class="descStats"><p [ngStyle]="{color: colorStats[i]}">{{ descSats[i] }}</p></div>
 
       </div>
     </div>
@@ -136,6 +137,7 @@
         <th>Moyen</th>
         <th>Montant</th>
         <th>Prestation</th>
+        <th>Statut</th>
         <!--          <th>{{ 'état' | titlecase }} de la facturation</th>-->
         <th>Actions</th>
         <!-- Ajoutez d'autres colonnes si nécessaire -->
@@ -143,7 +145,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let paiement of paiementTable.data">
-        <td>{{ formatDateString(paiement.dateCreation!) }}</td>
+        <td>{{ paiement.dateCreation! | date: "EEE 'le' dd MMM yyyy 'à' hh:mm:ss" }}</td>
         <td *ngIf="paiement.prestation.dossierMedical?.patient">
           <span
             class="my-patient-id"> {{ paiement.prestation.dossierMedical?.patient?.id }}
@@ -155,14 +157,22 @@
         <td>
           {{ paiement.amount | currency: 'XOF': 'symbol': '1.':'fr-FR' }}
         </td>
+
         <td>
           <span
             class="my-patient-id"> {{ paiement.prestation.id }}
           </span>{{ ' - ' + paiement.prestation.service?.nom }}
         </td>
+        <td>
+          <nz-badge [nzColor]="getStatusInfo(paiement.transactionStatus!).color">
+            <span
+              [ngStyle]="{'color': getStatusInfo(paiement.transactionStatus!).color}">{{ getStatusInfo(paiement.transactionStatus!).text |titlecase }}</span>
+          </nz-badge>
+        </td>
+
         <td class="space-evenly">
           <img alt="Voir détails" nz-tooltip nzTooltipTitle="Voir détails facure" src="assets/from_figma/see-details-action.svg"
-               width="20">
+               [routerLink]="'/admin/finance/transactions/'+ paiement.id" width="20">
           <img alt="Rembouser" nz-tooltip nzTooltipTitle="Rembourser" src="assets/from_figma/remboursement.svg"
                width="20">
 

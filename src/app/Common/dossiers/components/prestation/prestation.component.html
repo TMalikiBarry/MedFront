@@ -18,10 +18,10 @@
   </div>
   <div class="statsLayout">
     <div *ngFor="let stat of numberStats; let i = index" class="myCardStats">
-      <div class="logoStats"><img alt="stats" src="assets/from_figma/stats-icon.svg" width="35"></div>
+      <div class="logoStats"><img [src]="'assets/from_figma/stats-icon'+svgList[i]+'.svg'" alt="stats" width="35"></div>
 
-      <div class="numberStats"><p>{{ stat }}</p></div>
-      <div class="descStats"><p>{{ descSats[i] }}</p></div>
+      <div class="numberStats"><p [ngStyle]="{color: colorStats[i]}">{{ stat }}</p></div>
+      <div class="descStats"><p [ngStyle]="{color: colorStats[i]}">{{ descSats[i] }}</p></div>
 
     </div>
   </div>
@@ -84,8 +84,9 @@
           <th>Date</th>
           <th>Patient</th>
           <th>Service</th>
-          <th>Diagnostic</th>
+          <!--          <th>Diagnostic</th>-->
           <th>Montant</th>
+          <th>Statut</th>
           <!--          <th>Médecin</th>-->
           <!--          <th>{{ 'état' | titlecase }} de la facturation</th>-->
           <th>Actions</th>
@@ -95,7 +96,7 @@
       <tbody>
         <tr *ngFor="let prestation of prestationsTable.data">
           <!--          <td><strong>{{ getPatientID(prestation) }}</strong></td>-->
-          <td>{{ formatDateString(prestation.dateCreation!) }}</td>
+          <td>{{ prestation.dateCreation! | date: "EEE 'le' dd MMM yyyy 'à' hh:mm:ss" }}</td>
           <td><span
             class="my-patient-id"> {{ prestation.dossierMedical?.patient?.id }}</span>{{ ' - ' + getPatientName(prestation.dossierMedical!) }}
           </td>
@@ -103,11 +104,11 @@
             {{ prestation.service?.nom }}
             <span class="service-pole">{{ ' - (' + prestation.service?.pole?.nom + ')' }}</span>
           </td>
-          <td>
-            <div [ngClass]="{'displayString' : !prestation.diagnostic}">
-              {{ prestation.diagnostic! | displayString }}
-            </div>
-          </td>
+          <!--          <td>
+                      <div [ngClass]="{'displayString' : !prestation.diagnostic}">
+                        {{ prestation.diagnostic! | displayString }}
+                      </div>
+                    </td>-->
           <td>
             {{ prestation.montant | currency: 'XOF': 'symbol': '1.':'fr-FR' }}
           </td>
@@ -126,14 +127,34 @@
               <img alt="Arrow Down" src="assets/from_figma/actionsOnRow.svg">
             </a>
           </td>-->
-          <td class="space-evenly some-min-width-10">
+          <td class="width-5">
+            <!--          <nz-badge nzStatus="processing" nzText="Non Confirmee"></nz-badge>-->
+            <nz-badge [nzColor]="getStatusInfo(prestation.prestationStatut!).color">
+            <span
+              [ngStyle]="{'color': getStatusInfo(prestation.prestationStatut!).color}">{{ getStatusInfo(prestation.prestationStatut!).text |titlecase }}</span>
+            </nz-badge>
+          </td>
+          <td class="icon-table some-min-width-12">
             <img alt="Voir détails" nz-tooltip nzTooltipTitle="Voir détails" src="assets/from_figma/see-details-action.svg"
                  width="17">
             <img (click)="updatePrestation(prestation)" alt="Modifier" nz-tooltip
-                 nzTooltipTitle="Modifier" src="assets/from_figma/edit-action.svg" width="17">
-            <img alt="supprimer" nz-tooltip nzTooltipTitle="Supprimer" src="assets/icon/trash.svg" width="17">
-            <img (click)="facturer(prestation)" alt="Facturer" nz-tooltip nzTooltipTitle="Factuter"
-                 src="assets/from_figma/facturer.svg" width="17">
+                 [nzTooltipTitle]="isNotPaid(prestation)? 'Modifier': 'Modification non autorisée'"
+                 [src]="'assets/from_figma/edit-action'+(isNotPaid(prestation)?'': '_blocked')+'.svg'"
+                 [style.cursor]="isNotPaid(prestation)? 'pointer' : 'not-allowed'" width="17">
+            <!--            <img *ngIf="!isPaid(prestation)" alt="Confirmer ou pas" (click)="cancelPrestation(prestation)"
+                             nz-tooltip [nzTooltipTitle]="getContext(prestation).message"
+                             [src]="'assets/from_figma/'+ getContext(prestation).svgName" width="17"> -->
+            <img (click)="cancelPrestation(prestation)" [nzTooltipTitle]="isCanceled(prestation)? 'Confirmer': 'Pas autorisé'"
+                 [src]="'assets/from_figma/confirm-yes'+(isCanceled(prestation)?'': '_blocked')+'.svg'" [style.cursor]="isCanceled(prestation)? 'pointer' : 'not-allowed'"
+                 alt="Confirmer"
+                 nz-tooltip width="17">
+            <img (click)="cancelPrestation(prestation)" [nzTooltipTitle]="isNotPaid(prestation)? 'Annuler': 'Pas autorisé'"
+                 [src]="'assets/from_figma/confirm-no'+(isNotPaid(prestation)?'': '_blocked')+'.svg'" [style.cursor]="isNotPaid(prestation)? 'pointer' : 'not-allowed'"
+                 alt="Confirmer ou pas"
+                 nz-tooltip width="17">
+            <img (click)="facturer(prestation)" [nzTooltipTitle]="isNotPaid(prestation)? 'Facturer': 'Pas autorisé'" [src]="'assets/from_figma/facturer'+(isNotPaid(prestation)?'': '_blocked')+'.svg'"
+                 alt="Facturer"
+                 nz-tooltip width="17">
 
           </td>
 
@@ -162,6 +183,56 @@
       </ng-container>
     </ng-template>-->
   </div>
+
+  <div class="for-graphs make-spaceBetween">
+    <div class="for-bar-graph for-a-card">
+      <div class="title">
+        Évolution hebdomadaire des prestation
+      </div>
+      <div class="make-spaceBetween">
+        <div class="legende">
+          <nz-badge nzColor="#5D6273"></nz-badge>
+          <span [style.color]="'#5D6273'">{{ 'pas payé' | titlecase }}</span>
+          <nz-badge nzColor="#20AC2E"></nz-badge>
+          <span [style.color]="'#20AC2E'">Payé</span>
+          <nz-badge nzColor="#A81735"></nz-badge>
+          <span [style.color]="'#A81735'">Annulé</span>
+        </div>
+        <nz-select
+          (ngModelChange)="OnWeekChange($event)"
+          [(ngModel)]="isLastWeek"
+        >
+          <nz-option [nzValue]="false" nzLabel="Semaine en cours"></nz-option>
+          <nz-option [nzValue]="true" nzLabel="Semaine dernière"></nz-option>
+        </nz-select>
+      </div>
+
+      <div class="graph-bar-chart">
+        <canvas id="weeklyPrestationStats">{{ barGraph }}</canvas>
+      </div>
+    </div>
+    <div class="for-disc-graph for-a-card">
+      <div class="title">
+        Répartition des statuts des prestations
+      </div>
+      <div class="legende">
+        <nz-badge nzColor="#5D6273"></nz-badge>
+        <span [style.color]="'#5D6273'">{{ 'pas payer' | titlecase }}</span>
+        <nz-badge nzColor="#20AC2E"></nz-badge>
+        <span [style.color]="'#20AC2E'">Payé</span>
+        <nz-badge nzColor="#A81735"></nz-badge>
+        <span [style.color]="'#A81735'">Annulé</span>
+      </div>
+
+      <div class="graph-disc-chart">
+        <canvas id="discPrestationStatusGraph">{{ doughnutGraph }}</canvas>
+      </div>
+
+    </div>
+
+  </div>
+
+
 </div>
 
 <ng-template #suffixIconSearch>

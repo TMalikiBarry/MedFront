@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -39,7 +39,7 @@ registerLocaleData(fr);
     AdminLayoutModule
   ],
   providers: [
-    {provide: NZ_I18N, useValue: fr_FR},
+    {provide: NZ_I18N, useValue: fr_FR}, {provide: LOCALE_ID, useValue: "fr-FR"},
     {provide: HTTP_INTERCEPTORS, useClass: GeneralHttpInterceptor, multi: true}
   ],
 

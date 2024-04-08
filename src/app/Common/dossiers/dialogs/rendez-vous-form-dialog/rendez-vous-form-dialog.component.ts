@@ -12,8 +12,8 @@ import {
   NouveauPatientComponent
 } from "../../../personnes/dialogs/nouveau-patient-form-dialog/nouveau-patient.component";
 import {NotifService} from "src/app/services/notification/notif.service";
-import {ServiceInterface} from "../../../../models/service.interface";
-import {PoleInterface} from "../../../../models/pole.interface";
+import {ServiceInterface} from "src/app/models/service.interface";
+import {PoleInterface} from "src/app/models/pole.interface";
 
 @Component({
   selector: 'app-rendez-vous-form-dialog',
@@ -55,7 +55,6 @@ export class RendezVousFormDialogComponent implements OnInit {
               private api: RendezVousService,
               private serviceApi: CliniqueServiceService,
               private apiPatient: PatientService,
-              private apiRdv: RendezVousService,
               private apiPersonnel: PersonnelService,
               private notification: NotifService,
               private fb: FormBuilder) {

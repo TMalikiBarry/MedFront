@@ -58,6 +58,13 @@ body, html
   align-items: center
 
 
+.legende
+  margin-bottom: 2rem
+
+  nz-badge:not(:first-of-type)
+    margin-left: 10px
+
+
 .center-item
   display: flex
   justify-content: center
@@ -289,6 +296,14 @@ body, html
   border-width: 0.5px
   padding: .5rem 1rem
 
+  .title
+    color: #252525
+    font-family: Inter, sans-serif
+    font-size: 16px
+    font-style: normal
+    font-weight: 600
+    line-height: 40px
+
 //.ant-input-group>.ant-input:last-child,
 //  >.ant-input-group-addon:last-child
 //    //border-top-left-radius: 0
@@ -360,7 +375,7 @@ body, html
 
 .space-evenly
   display: flex
-  justify-content: space-evenly
+  justify-content: space-between
   align-items: center
 
   img
@@ -370,9 +385,63 @@ body, html
   min-width: 10rem
 
 
-.some-min-width-12
-  min-width: 12rem
+.some-min-width-5
+  min-width: 5rem
 
+.some-min-width-12
+  min-width: 13.5rem
+
+.icon-table
+  img
+    cursor: pointer
+
+  img:not(img:last-of-type)
+    margin-right: 1rem
 
 .max-width-20
   max-width: 20rem
+
+
+.width-5
+  width: 8rem
+
+.introuvable
+  color: gray !important
+  font-weight: normal !important
+  font-size: small !important
+  font-style: italic
+
+
+//@media print
+//  :not(.my-facture)
+//    visibility: hidden
+//
+//@media print
+//  .my-facture
+//    visibility: visible
+
+.for-bar-graph
+  width: 55%
+
+.for-disc-graph
+  width: 40%
+
+
+.for-graphs
+  margin-block: 2rem
+
+
+.details-body
+  padding: 1.5rem 2rem
+  background-color: #f6f8fb
+  border-radius: 2px
+
+  .make-spaceBetween
+    margin-bottom: 1.5rem
+
+    .left-side, .right-side
+      width: 48%
+
+
+.add-some-margin
+  margin-bottom: 2rem
