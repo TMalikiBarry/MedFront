@@ -2,11 +2,11 @@ import {EntiteBase} from "./entite-base";
 import {ActionInterface} from "./action.interface";
 
 export interface ProfilInterface extends EntiteBase{
-  id: number;
-  libelle: string;
-  code: EProfil | null;
-  welcomeBookmark: string;
-  actions: ActionInterface[];
+  id?: number;
+  libelle?: string;
+  code: string;
+  welcomeBookmark?: string;
+  actions?: ActionInterface[];
 }
 
 export enum EProfil {

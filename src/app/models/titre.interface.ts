@@ -1,8 +1,8 @@
 import {PersonnelInterface} from "./personnel.interface";
+import {EntiteBase} from "./entite-base";
 
-export interface TitreInterface {
+export interface TitreInterface extends EntiteBase {
   code: string;
-  libelle: string;
-  supprim: boolean | null;
+  libelle?: string;
   personnels?: PersonnelInterface[];
 }

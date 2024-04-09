@@ -7,11 +7,12 @@ import {ActionComponent} from "./components/action/action.component";
 import {FonctionnaliteComponent} from "./components/fonctionnalite/fonctionnalite.component";
 import {ModuleComponent} from "./components/module/module.component";
 import {SharedModule} from "../shared/shared.module";
-
+import {ProfilFormDialogComponent} from "./dialogs/profil-form-dialog/profil-form-dialog.component";
 
 
 @NgModule({
   declarations: [
+    ProfilFormDialogComponent,
     AccesComponent,
     ProfilComponent,
     ActionComponent,

@@ -76,6 +76,7 @@
       >
         <thead>
           <tr>
+            <th>ID</th>
             <th>Nom du patient</th>
             <th>Telephone</th>
             <th>Email</th>
@@ -88,7 +89,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let patient of patientsTable.data">
-            <!--            <td>{{ patient.personne.id }}</td>-->
+            <td>{{ patient.id }}</td>
             <td>{{ patient.personne.prenom | titlecase }} {{ patient.personne.nom | uppercase }}</td>
             <td>
               <div [ngClass]="{'displayString' : !patient.personne.telephone}">

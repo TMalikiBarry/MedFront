@@ -1,1 +1,86 @@
-<p>pole-form-dialog works!</p>
+<div *nzModalTitle class="make-spaceBetween">
+  <p>{{ titleForm }}</p>
+  <img (click)="handleCancel()" alt="Fermer le form" src="assets/from_figma/close_modal.svg">
+</div>
+
+<form [formGroup]="poleForm" class="login-form" nz-form>
+  <p class="connect-phrase">{{ formDesc }}</p>
+
+  <div class="make-spaceBetween">
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Veuillez renseigner le nom!">
+        <p class="input-label">Nom<sup style="color: darkred">*</sup></p>
+        <nz-input-group>
+          <input formControlName="nom" nz-input placeholder="Renseignez le nom" type="text"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Veuillez renseigner le code!">
+        <p class="input-label">Code<sup style="color: darkred">*</sup></p>
+        <nz-input-group>
+          <input formControlName="code" nz-input placeholder="Renseignez le code" type="text"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div class="make-spaceBetween">
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Veuillez renseigner le superviseur!">
+        <p class="input-label">Superviseur<sup style="color: darkred">*</sup></p>
+        <nz-select formControlName="superviseur" nzAllowClear nzPlaceHolder="Choissez un personnel" nzShowSearch>
+          <nz-option nzLabel="----"></nz-option>
+          <nz-option
+            *ngFor="let p of listOfPersonnel"
+            [nzLabel]="getFullName(p)!" [nzValue]="p.id"></nz-option>
+
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <p class="input-label">{{ 'équipement'| titlecase }}</p>
+        <nz-input-group>
+          <input formControlName="equimement" nz-input placeholder="Renseignez les équipements" type="text"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div class="make-spaceBetween">
+    <nz-form-item>
+      <nz-form-control>
+        <p class="input-label">Localisation</p>
+        <nz-input-group>
+          <input formControlName="localisation" nz-input placeholder="latitude, longitude" type="text"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <p class="input-label">horaire</p>
+        <nz-input-group>
+          <input formControlName="horaire" nz-input placeholder="Renseignez le code" type="text"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+  <p style="margin-top: 2rem">Description</p>
+  <textarea formControlName="description" placeholder="Décrivez le pôle"
+            rows="3"></textarea>
+
+</form>
+
+<div *nzModalFooter>
+  <button (click)="handleCancel()" class="my-default-button basic-button" nz-button>Annuler</button>
+  <button (click)="handleOK()"
+          [disabled]="poleForm.invalid"
+          [ngClass]="{'buttonIsDisabled': poleForm.invalid, 'basic-button' : true, 'my-primary-button': poleForm.valid}"
+          [nzLoading]="isConfirmLoading"
+          [nzTooltipTitle]="poleForm.invalid ? 'Veuillez bien remplir le formulaire': 'Enregistrer'" nz-button
+          nz-tooltip>
+    {{ btnText }}
+  </button>
+</div>
+

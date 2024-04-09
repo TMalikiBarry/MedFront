@@ -10,6 +10,7 @@ import {CliniqueFormDialogComponent} from './dialogs/clinique-form-dialog/cliniq
 import {PoleFormDialogComponent} from './dialogs/pole-form-dialog/pole-form-dialog.component';
 import {ServiceFormDialogComponent} from './dialogs/service-form-dialog/service-form-dialog.component';
 import {PersonnelFormDialogComponent} from './dialogs/personnel-form-dialog/personnel-form-dialog.component';
+import {TitreFormDialogComponent} from './dialogs/titre-form-dialog/titre-form-dialog.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import {PersonnelFormDialogComponent} from './dialogs/personnel-form-dialog/pers
     CliniqueFormDialogComponent,
     PoleFormDialogComponent,
     ServiceFormDialogComponent,
-    PersonnelFormDialogComponent
+    PersonnelFormDialogComponent,
+    TitreFormDialogComponent
   ],
   imports: [
     SharedModule,

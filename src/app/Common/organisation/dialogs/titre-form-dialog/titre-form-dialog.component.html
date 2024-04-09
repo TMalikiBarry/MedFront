@@ -1,0 +1,42 @@
+<div *nzModalTitle class="make-spaceBetween">
+  <p>{{ titleForm }}</p>
+  <img (click)="handleCancel()" alt="Fermer le form" src="assets/from_figma/close_modal.svg">
+</div>
+
+<form [formGroup]="titreForm" class="login-form" nz-form>
+  <p class="connect-phrase">{{ formDesc }}</p>
+
+  <div class="make-spaceBetween">
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Veuillez renseigner le libellé!">
+        <p class="input-label">Libelle<sup style="color: darkred">*</sup></p>
+        <nz-input-group>
+          <input formControlName="libelle" nz-input placeholder="Renseignez le libellé" type="text"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Veuillez renseigner le code!">
+        <p class="input-label">Code<sup style="color: darkred">*</sup></p>
+        <nz-input-group>
+          <input formControlName="code" nz-input placeholder="Renseignez le code" type="text"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+
+</form>
+
+<div *nzModalFooter>
+  <button (click)="handleCancel()" class="my-default-button basic-button" nz-button>Annuler</button>
+  <button (click)="handleOK()"
+          [disabled]="titreForm.invalid"
+          [ngClass]="{'buttonIsDisabled': titreForm.invalid, 'basic-button' : true, 'my-primary-button': titreForm.valid}"
+          [nzLoading]="isConfirmLoading"
+          [nzTooltipTitle]="titreForm.invalid ? 'Veuillez bien remplir le formulaire': 'Enregistrer'" nz-button
+          nz-tooltip>
+    {{ btnText }}
+  </button>
+</div>
+

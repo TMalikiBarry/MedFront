@@ -13,7 +13,7 @@ import {DossierMedicalService} from "src/app/services/dossier-medical/dossier-me
 import {PersonneInterface} from "src/app/models/personne.interface";
 import {PoleInterface} from "src/app/models/pole.interface";
 import {FacturationComponent} from "../../dialogs/facturation/facturation.component";
-import {NotifService} from "../../../../services/notification/notif.service";
+import {NotifService} from "src/app/services/notification/notif.service";
 import * as Chart from "chart.js/auto";
 
 @Component({
@@ -92,6 +92,7 @@ export class PrestationComponent implements OnInit{
       }
     })
   }
+
   onQueryParamsChange(params: NzTableQueryParams): void {
     this.pageIndex = params.pageIndex -1;
     this.pageSize = params.pageSize

@@ -3,7 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {NzModalRef} from "ng-zorro-antd/modal";
 
 import {RDVStatus, RendezVousInterface} from "src/app/models/rendez-vous.interface";
-import {PersonneInterface} from "../../../../models/personne.interface";
+import {PersonneInterface} from "src/app/models/personne.interface";
 
 @Component({
   selector: 'app-detail-rendez-vous',
@@ -23,7 +23,7 @@ export class DetailRendezVousComponent implements OnInit{
 
   ngOnInit(): void {
     this.data = this.modal.getConfig().nzData;
-    console.log(this.data);
+    //console.log(this.data);
     this.patientPers = this.data.patient.personne;
     this.medecinPers = this.data.personnel.personne;
     this.createurPers = this.data.personnelCreateur!.personne;

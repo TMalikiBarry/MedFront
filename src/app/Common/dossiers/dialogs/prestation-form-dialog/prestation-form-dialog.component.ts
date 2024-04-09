@@ -136,7 +136,7 @@ export class PrestationFormDialogComponent implements OnInit{
 
         },
         error: (error) => {
-          console.log(error);
+          console.error(error);
           this.isConfirmLoading = false;
         },
         complete: () => {this.isConfirmLoading = false}
@@ -188,7 +188,7 @@ export class PrestationFormDialogComponent implements OnInit{
         this.handleCancel();
       },
       error: (error) => {
-        console.log(error);
+        console.error(error);
         this.isConfirmLoading = false;
       },
       complete: () => {

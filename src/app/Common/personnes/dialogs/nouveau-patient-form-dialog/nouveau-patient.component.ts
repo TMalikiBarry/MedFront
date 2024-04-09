@@ -8,7 +8,7 @@ import {PersonneInterface} from "src/app/models/personne.interface";
 import {PatientInterface} from "src/app/models/patient.interface";
 import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface";
 import {NotifService} from "src/app/services/notification/notif.service";
-import {UtilsService} from "../../../../services/utils/utils.service";
+import {UtilsService} from "src/app/services/utils/utils.service";
 
 
 @Component({
@@ -110,7 +110,7 @@ export class NouveauPatientComponent implements OnInit {
           this.modalRef.close(res1.reponse.patient.id);
         },
         error: (error) => {
-          console.log(error);
+          console.error(error);
           this.isConfirmLoading = false;
           if (error.status == 401)
             this.modalRef.close();
@@ -184,7 +184,7 @@ export class NouveauPatientComponent implements OnInit {
         this.modalRef.close('update-success');
       },
       error: (error) => {
-        console.log(error);
+        console.error(error);
         this.isConfirmLoading = false;
         if (error.status == 401)
           this.modalRef.close();

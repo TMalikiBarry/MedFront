@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, Validators} from "@angular/forms";
 import {PersonnelInterface} from "src/app/models/personnel.interface";
 import {PatientInterface} from "src/app/models/patient.interface";
 import {RendezVousInterface} from "src/app/models/rendez-vous.interface";
@@ -36,19 +36,17 @@ export class RendezVousFormDialogComponent implements OnInit {
   // filtreService !: Service[]
   data: any
 
-  selectedDataFromSecondDialog: any;
 
   RvForm = this.fb.group({
-    medecin: '',
+    medecin: ['', Validators.required],
     // pole: '',
-    service: '',
+    service: ['', Validators.required],
     dateRv: '',
-    patient: '',
+    patient: ['', Validators.required],
     presence: '',
     duree: '',
     remarques: '',
   })
-  poleSelect: any;
 
   constructor(private modal: NzModalRef,
               private modalService: NzModalService,
@@ -63,7 +61,7 @@ export class RendezVousFormDialogComponent implements OnInit {
   ngOnInit(): void {
     this.load()
     this.data = this.modal.getConfig().nzData
-    console.log(this.data)
+    //console.log(this.data)
 
     if(this.data){
       this.titleForm = 'Modifier Rendez-vous'
@@ -98,10 +96,10 @@ export class RendezVousFormDialogComponent implements OnInit {
   }
 
   handleOk() {
+    this.isConfirmLoading = true;
     const formData = this.RvForm.value;
     const rv = this.createRdvFromForm(formData);
     console.log(rv);
-    this.isConfirmLoading = true;
     if(this.data){
       rv.dateCreation = this.data.dateCreation;
       rv.supprime = this.data.supprime;
@@ -117,7 +115,7 @@ export class RendezVousFormDialogComponent implements OnInit {
           this.notification.snackMessage(`Rendez-vous ajouté avec succés`, 3000, 'success')
         },
         error: (error) => {
-          console.log(error);
+          console.error(error);
           this.isConfirmLoading = false;
         },
         complete: () => {this.isConfirmLoading = false}
@@ -160,7 +158,7 @@ export class RendezVousFormDialogComponent implements OnInit {
         console.log('RendezVous mis a jour avec succès ', response);
       },
       error: (error) => {
-        console.log(error);
+        console.error(error);
         this.isConfirmLoading = false;
       },
       complete: () => {this.isConfirmLoading = false}

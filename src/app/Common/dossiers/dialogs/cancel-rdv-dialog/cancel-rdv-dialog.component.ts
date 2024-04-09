@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {NzModalRef} from "ng-zorro-antd/modal";
-import {RendezVousService} from "../../../../services/rendez-vous/rendez-vous.service";
-import {RDVStatus, RendezVousInterface} from "../../../../models/rendez-vous.interface";
-import {NotifService} from "../../../../services/notification/notif.service";
+import {RendezVousService} from "src/app/services/rendez-vous/rendez-vous.service";
+import {RDVStatus, RendezVousInterface} from "src/app/models/rendez-vous.interface";
+import {NotifService} from "src/app/services/notification/notif.service";
 
 @Component({
   selector: 'app-cancel-rdv-dialog',
@@ -45,7 +45,7 @@ export class CancelRdvDialogComponent implements OnInit {
           3000, 'error')
       },
       error: (error) => {
-        console.log(error);
+        console.error(error);
         this.isConfirmLoading = false;
       },
       complete: () => {

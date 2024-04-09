@@ -21,8 +21,8 @@ import {
   TransactionStatus,
   TransactionStatusFilter
 } from "src/app/models/transaction.interface";
-import {WeeklyTransactionAmountStatInterface} from "../../../../models/weekly-transaction-amount-stat.interface";
-import {UtilsService} from "../../../../services/utils/utils.service";
+import {WeeklyTransactionAmountStatInterface} from "src/app/models/weekly-transaction-amount-stat.interface";
+import {UtilsService} from "src/app/services/utils/utils.service";
 
 @Component({
   selector: 'app-transactions',

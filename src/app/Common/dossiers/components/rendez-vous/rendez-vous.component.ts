@@ -12,10 +12,11 @@ import {RDVStatus, RendezVousInterface, WeeklyRDVStats} from "src/app/models/ren
 import {NotifService} from "src/app/services/notification/notif.service";
 import {ServiceInterface} from "src/app/models/service.interface";
 import {PoleInterface} from "src/app/models/pole.interface";
-import {PersonneInterface} from "../../../../models/personne.interface";
+import {PersonneInterface} from "src/app/models/personne.interface";
 import {CancelRdvDialogComponent} from "../../dialogs/cancel-rdv-dialog/cancel-rdv-dialog.component";
 import * as Chart from "chart.js/auto";
 import {DetailRendezVousComponent} from "../../dialogs/detail-rendez-vous/detail-rendez-vous.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-rendez-vous',
@@ -73,7 +74,8 @@ export class RendezVousComponent implements OnInit {
   constructor(private modalService: NzModalService,
               private api: RendezVousService,
               private notification: NotifService,
-              private apiService : CliniqueServiceService) {
+              private apiService: CliniqueServiceService,
+              public router: Router) {
   }
 
   ngOnInit(): void {
@@ -177,7 +179,7 @@ export class RendezVousComponent implements OnInit {
     }).afterClose.subscribe(
       (result) => {
         if (result == 'toPrestations') {
-
+          this.router.navigateByUrl('/admin/dossiers/prestation');
         }
       }
     );

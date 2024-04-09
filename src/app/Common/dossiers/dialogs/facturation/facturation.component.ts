@@ -168,7 +168,7 @@ export class FacturationComponent implements OnInit{
           this.modal.close()
         },
         error: (error) => {
-          console.log(error);
+          console.error(error);
           this.isConfirmLoading = false;
         },
         complete: () => {

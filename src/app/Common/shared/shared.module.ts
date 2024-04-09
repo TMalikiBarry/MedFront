@@ -77,7 +77,8 @@ import {FormatAgePipe} from '../../pipes/format-age/format-age.pipe';
   ],
   // Pour StandAlone Pipe
   imports: [
-    PrettyPhoneNumberPipe
+    PrettyPhoneNumberPipe,
+
   ]
 })
 export class SharedModule {

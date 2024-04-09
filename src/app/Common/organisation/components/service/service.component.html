@@ -1,1 +1,101 @@
-<p>service works!</p>
+<div class="mainbody">
+  <div class="headerLayout">
+    <nz-input-group [nzPrefix]="suffixIconSearch">
+      <input nz-input placeholder="Rechercher par patient, prestation" type="text"/>
+    </nz-input-group>
+    <div class="headerActions">
+      <img alt="notif" src="assets/from_figma/notification_icon.svg" width="17.5">
+      <img alt="email" src="assets/from_figma/email-icon.svg" width="17.5">
+      <img alt="calendar" src="assets/from_figma/calendar-icon.svg" width="17.5">
+      <div class="addActionHeader">
+        <img alt="Ajouter" src="assets/from_figma/addPlus-icon.svg">
+        <span>Ajouter</span>
+        <a [nzDropdownMenu]="menu" nz-dropdown>
+          <img alt="Arrow Down" src="assets/from_figma/arrow-down.svg">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="dataLayout">
+    <div class="headerData make-spaceBetween add-some-margin">
+      <p>Liste des services</p>
+      <button (click)="addNew()" class="basic-button my-primary-button" nz-button nzSize="large">
+        <span nz-icon nzType="plus"></span>
+        Nouveau Service
+      </button>
+    </div>
+    <nz-table #serviceTable (nzQueryParams)="onQueryParamsChange($event)"
+              *ngIf="paginatedData"
+              [nzData]="paginatedData.content"
+              [nzFrontPagination]="false"
+              [nzPageIndex]="paginatedData.pageable.pageNumber +1"
+              [nzPageSize]="paginatedData.pageable.pageSize"
+              [nzTotal]="paginatedData.totalElements"
+    >
+      <thead>
+      <tr>
+        <!--          <th>ID</th>-->
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Pôle</th>
+        <th>Coût</th>
+        <!--        <th>Titre</th>
+                <th>Pôle</th>-->
+
+        <th>Actions</th>
+        <!-- Ajoutez d'autres colonnes si nécessaire -->
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let s of serviceTable.data">
+        <td>{{ s.id }}</td>
+        <td>{{ s.nom }}</td>
+        <td class="width-25">
+          <div [ngClass]="{'displayString' : !s.description}">
+            {{ s.description! | displayString }}
+          </div>
+        </td>
+
+        <td>
+          <strong>{{ s.pole?.nom }}</strong>
+        </td>
+        <td>
+          <!--          <div [ngClass]="{'displayString' : !p.personne.email}">
+                      {{ p.personne.email! | displayString }}
+                    </div>-->
+          {{ s.cout| currency: 'XOF': 'symbol': '1.':'fr-FR' }}
+        </td>
+
+        <td>
+          <img (click)="update(s)" alt="Modifier" nz-tooltip
+               nzTooltipTitle="Modifier les infos du personnel" src="assets/from_figma/edit-action.svg" style="cursor: pointer; margin-right: 1rem">
+          <img alt="Modifier" nz-tooltip nzTooltipTitle="Pas encore disponible"
+               src="assets/icon/trash_blocked.svg" style="cursor:not-allowed;">
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+
+  </div>
+
+</div>
+
+
+<ng-template #suffixIconSearch>
+  <img alt="Rechercher" src="assets/from_figma/search_icon.svg">
+</ng-template>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <li class="selectedLink" nz-menu-item>
+      <span>Nouveau Patient</span>
+    </li>
+    <li class="selectedLink" nz-menu-item>
+      <span>Nouveau RDV</span>
+    </li>
+    <li (click)="addNewPrestation()" class="selectedLink" nz-menu-item>
+      <span>Nouvelle prestation</span>
+    </li>
+  </ul>
+</nz-dropdown-menu>

@@ -1,1 +1,89 @@
-<p>service-form-dialog works!</p>
+<div *nzModalTitle class="make-spaceBetween">
+  <p>{{ titleForm }}</p>
+  <img (click)="handleCancel()" alt="Fermer le form" src="assets/from_figma/close_modal.svg">
+</div>
+
+<form [formGroup]="serviceForm" class="login-form" nz-form>
+  <p class="connect-phrase">{{ formDesc }}</p>
+
+  <div class="make-spaceBetween">
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Veuillez renseigner le nom!">
+        <p class="input-label">Nom<sup style="color: darkred">*</sup></p>
+        <nz-input-group>
+          <input formControlName="nom" nz-input placeholder="Renseignez le nom" type="text"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Veuillez renseigner le coût!">
+        <p class="input-label">Coût<sup style="color: darkred">*</sup></p>
+        <nz-input-group>
+          <input formControlName="cout" nz-input placeholder="Renseignez le coût" type="number"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div class="make-spaceBetween">
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Veuillez renseigner le pôle!">
+        <p class="input-label">Pôle<sup style="color: darkred">*</sup></p>
+        <nz-select [nzDropdownRender]="addNewPoleTemplate" formControlName="pole"
+                   nzAllowClear nzPlaceHolder="Choissez un pole" nzShowSearch>
+          <nz-option nzLabel="----"></nz-option>
+          <nz-option
+            *ngFor="let p of listOfPole"
+            [nzLabel]="p.nom" [nzValue]="p.id"></nz-option>
+
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <p class="input-label">{{ 'équipement'| titlecase }}</p>
+        <nz-input-group>
+          <input formControlName="equipement" nz-input placeholder="Renseignez les équipements" type="text"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <div class="make-spaceBetween">
+    <nz-form-item>
+      <nz-form-control>
+        <p class="input-label">Prérequis</p>
+        <nz-input-group>
+          <input formControlName="prerequis" nz-input placeholder="Renseignez les prérequis" type="text"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+  <p style="margin-top: 2rem">Description</p>
+  <textarea formControlName="description" placeholder="Décrivez le pôle"
+            rows="3"></textarea>
+
+</form>
+
+<div *nzModalFooter>
+  <button (click)="handleCancel()" class="my-default-button basic-button" nz-button>Annuler</button>
+  <button (click)="handleOK()"
+          [disabled]="serviceForm.invalid"
+          [ngClass]="{'buttonIsDisabled': serviceForm.invalid, 'basic-button' : true, 'my-primary-button': serviceForm.valid}"
+          [nzLoading]="isConfirmLoading"
+          [nzTooltipTitle]="serviceForm.invalid ? 'Veuillez bien remplir le formulaire': 'Enregistrer'" nz-button
+          nz-tooltip>
+    {{ btnText }}
+  </button>
+</div>
+
+
+<ng-template #addNewPoleTemplate>
+  <nz-divider></nz-divider>
+  <div class="container">
+    <a (click)="addNew()" class="add-item">
+      <i nz-icon nzType="plus"></i>
+      Ajouter nouveau pôle
+    </a>
+  </div>
+</ng-template>

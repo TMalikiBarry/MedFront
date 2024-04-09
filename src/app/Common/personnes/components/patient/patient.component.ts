@@ -11,8 +11,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {PersonneInterface} from "src/app/models/personne.interface";
 import * as Chart from 'chart.js/auto';
 import {WeeklyDataStat} from "src/app/models/weekly-data-stat";
-import {UtilsService} from "../../../../services/utils/utils.service";
-import {Page} from "../../../../models/pagination.interface";
+import {UtilsService} from "src/app/services/utils/utils.service";
+import {Page} from "src/app/models/pagination.interface";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
 
 @Component({

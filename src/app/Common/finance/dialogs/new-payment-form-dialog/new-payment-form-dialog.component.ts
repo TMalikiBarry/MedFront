@@ -159,7 +159,7 @@ export class NewPaymentFormDialogComponent {
 
         },
         error: (error) => {
-          console.log(error);
+          console.error(error);
           this.isConfirmLoading = false;
         },
         complete: () => {this.isConfirmLoading = false}
