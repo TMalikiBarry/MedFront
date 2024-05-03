@@ -5,6 +5,7 @@ import {PersonnelInterface} from "./personnel.interface";
 import {WeeklyDataStat} from "./weekly-data-stat";
 
 export interface PrestationInterface extends EntiteBase {
+  personnelCreateur?: PersonnelInterface;
   id?: number;
   cout?: number;
   montant?: number;
@@ -16,6 +17,7 @@ export interface PrestationInterface extends EntiteBase {
   personnel?: PersonnelInterface;
   dossierMedical?: DossierMedicalInterface;
   service?: ServiceInterface;
+  motif?: string;
 }
 
 export enum PrestationStatut {

@@ -10,11 +10,11 @@ import {ServiceInterface} from "../../models/service.interface";
 })
 export class CliniqueServiceService {
 
-  readonly API_URL = environment.apiURL
+  private readonly API_URL = environment.apiURL
 
-  readonly API_POLE = this.API_URL + '/poles/all'
+  private readonly API_POLE = this.API_URL + '/poles/all'
 
-  readonly ENDPOINT_SERVICE = "/service"
+  private readonly ENDPOINT_SERVICE = "/service"
   constructor(private http : HttpClient) { }
 
 

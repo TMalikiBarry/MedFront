@@ -8,8 +8,8 @@ import {ApiResponseInterface} from "../../models/api-response.interface";
 })
 export class ParametreService {
 
-  readonly API_URL = environment.apiURL;
-  readonly ENDPOINT_PARAMETRE = '/parametres'
+  private readonly API_URL = environment.apiURL;
+  private readonly ENDPOINT_PARAMETRE = '/parametres'
 
   constructor(private http : HttpClient) { }
 

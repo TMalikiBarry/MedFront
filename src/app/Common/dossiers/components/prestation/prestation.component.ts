@@ -15,6 +15,7 @@ import {PoleInterface} from "src/app/models/pole.interface";
 import {FacturationComponent} from "../../dialogs/facturation/facturation.component";
 import {NotifService} from "src/app/services/notification/notif.service";
 import * as Chart from "chart.js/auto";
+import {DetailsPrestationComponent} from "../../dialogs/details-prestation/details-prestation.component";
 
 @Component({
   selector: 'app-prestation',
@@ -262,6 +263,17 @@ export class PrestationComponent implements OnInit{
         this.getGraphData(this.isLastWeek);
       }
     );
+  }
+
+  seePrestationDetails(prestation: PrestationInterface) {
+    this.modalService.create({
+      nzContent: DetailsPrestationComponent,
+      nzData: prestation,
+      nzClosable: false,
+      nzWidth: '50rem',
+      nzCentered: true,
+      nzFooter: null
+    });
   }
   /*
     getPersonnelName(personnel: PersonnelInterface | undefined) {

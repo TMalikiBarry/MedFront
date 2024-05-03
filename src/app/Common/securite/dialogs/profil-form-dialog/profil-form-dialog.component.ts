@@ -63,6 +63,7 @@ export class ProfilFormDialogComponent implements OnInit {
       this.api.save(profil).subscribe(
         {
           next: value => {
+            console.log('PROFIL AJOUTE ', value)
             this.modal.close(value.reponse as ProfilInterface);
             this.notification.snackMessage(`Le profil ${profil.code}, a été créé avec succès`
               , 3000, 'success');

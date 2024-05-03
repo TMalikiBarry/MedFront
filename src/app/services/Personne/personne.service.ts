@@ -7,9 +7,9 @@ import {HttpClient} from "@angular/common/http";
 })
 export class PersonneService {
 
-  readonly API_URL = environment.apiURL
+  private readonly API_URL = environment.apiURL
 
-  readonly ENDPOINT_PERSONNE = "/personne/"
+  private readonly ENDPOINT_PERSONNE = "/personne/"
 
   constructor(private http : HttpClient) { }
 

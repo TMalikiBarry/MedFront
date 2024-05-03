@@ -353,9 +353,11 @@ export class PatientComponent implements OnInit {
     }
   }
 
-  log(msg: any) {
-    console.log(msg)
-  }
+  /*  log(msg: any, TAG?: string) {
+
+      let tag = TAG ?? 'DATA VALUE';
+      console.log(TAG, msg)
+    }*/
 
   getPatienInfos(patient: PatientInterface): string {
     return `${patient.personne.prenom} ${patient.personne.nom} - ${patient.personne.telephone}`;

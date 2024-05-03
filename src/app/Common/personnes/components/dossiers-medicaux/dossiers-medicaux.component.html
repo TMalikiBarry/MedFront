@@ -1,74 +1,238 @@
-<div class="mainbody">
-  <div class="patient-form">
-    <form [formGroup]="patientForm" (submit)="updatePatient()">
-      <div class="button">
-        <button class="btn" type="submit">Enregistrer</button>
-      </div>
+<div class="make-spaceBetween">
+  <p>
+    <span nz-tooltip nzTooltipPlacement="bottom"
+          nzTooltipTitle="Se rendre à la page patients"
+          routerLink="/admin/personnes/patients">
+        Patient /
+    </span>
+    <span>{{ 'Détail Patient - ID ' }}
+      <ng-container *ngIf="dossierMedicalInfos">
+        {{ dossierMedicalInfos.patient?.id }}
+      </ng-container>
+    </span>
+  </p>
+</div>
 
-      <div class="card-information">
-        <div class="formheader">
-          <h3 class="title">Informations sur le patient</h3>
-        </div>
-        <div class="form">
-          <div class="gender">
-            <!-- Gender Input -->
-            <label class="label">Genre</label>
-            <!-- ... (Other gender code) -->
-          </div>
+<div [formGroup]="patientForm" class="myPatientForm">
+  <div class="inner-card">
+    <div class="limit-width">
+      <p>Informations sur le patient</p>
+      <!--<p>Genre</p>
+      <nz-radio-group formControlName="genre">
+        <label nz-radio nzValue="M">Homme</label>
+        <label nz-radio nzValue="F">Femme</label>
+        &lt;!&ndash;      <label nz-radio nzValue="C">Option C</label>&ndash;&gt;
+      </nz-radio-group>-->
+      <nz-form-item>
+        <nz-form-control>
+          <p>Genre</p>
+          <nz-input-group>
+            <input formControlName="genre" nz-input type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
 
-          <div class="name">
-            <!-- Name Inputs -->
-            <div class="prenom">
-              <label class="label" for="prenom">Prénom</label>
-              <input class="input" type="text" id="prenom" name="prenom" formControlName="prenom" required>
-            </div>
-            <div class="nom">
-              <label class="label" for="nom">Nom</label>
-              <input class="input" type="text" id="nom" name="nom" formControlName="nom" required>
-            </div>
-          </div>
 
-          <div class="phone-date">
-            <!-- Phone and Date Inputs -->
-            <!-- ... (Other phone-date code) -->
-          </div>
+    <div class="make-spaceBetween limit-width">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le prénom!">
+          <p>Prénom</p>
+          <nz-input-group>
+            <input formControlName="prenom" nz-input placeholder="Renseignez le prénom" type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
 
-          <div class="blood-address">
-            <!-- Blood and Address Inputs -->
-            <!-- ... (Other blood-address code) -->
-          </div>
-        </div>
-      </div>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le nom!">
+          <p>Nom</p>
+          <nz-input-group>
+            <input formControlName="nom" nz-input placeholder="Renseignez le nom" type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
 
-      <div class="allergies-card">
-        <div class="headerForm">
-          <h3 class="title">
-            Antecedants medicaux et patologies
-          </h3>
-        </div>
-        <div class="form">
-          <div class="medecin">
-            <!-- Antecedant_patologie Textarea -->
-            <label class="label" for="antecedant_patologie">Antecedants medicaux et patologies</label>
-            <textarea class="input" id="antecedant_patologie" name="antecedant_patologie" formControlName="antecedant_patologie" required placeholder="Enumerer les Antecedants medicaux et les patologies s'il y'en a"></textarea>
-          </div>
-        </div>
-      </div>
-    </form>
+    <div class="make-spaceBetween limit-width">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le numéro de téléphone!">
+          <p>Numéro de téléphone</p>
+          <nz-input-group>
+            <input formControlName="telephone" nz-input placeholder="Renseignez le numéro de téléphone" type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le mail!">
+          <p>Email</p>
+          <nz-input-group>
+            <input formControlName="email" nz-input placeholder="Renseignez le mail" type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div class="make-spaceBetween limit-width">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le contact d'urgence!">
+          <p>Contact d'urgence</p>
+          <nz-input-group>
+            <input formControlName="contactEnCasUrgent" nz-input placeholder="Renseignez le contact d'urgence"
+                   type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner l'adresse!">
+          <p>Adresse</p>
+          <nz-input-group>
+            <input formControlName="adresse" nz-input placeholder="Renseignez l'adresse" type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div class="make-spaceBetween limit-width">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le groupe sanguin!">
+          <p>Groupe sanguin</p>
+          <nz-input-group>
+            <input formControlName="groupeSanguin" nz-input placeholder="Renseignez l'adresse" type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner la date de naissance!">
+          <!--<p>Date de naissance</p>
+          <nz-input-group >
+            <input type="text" nz-input formControlName="nom" placeholder="Renseignez le nom" />
+          </nz-input-group>-->
+          <p class="input-label">Date de naissance</p>
+          <!--<nz-date-picker formControlName="dateNaissance" nzFormat="dd-MM-YYYY HH:mm:ss"
+                          nzPlaceHolder="Choissez la date de naissance"></nz-date-picker>-->
+          <nz-input-group>
+            <input formControlName="dateNaissance" nz-input type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div class="inner-card">
+    <div class=" limit-width">
+      <p>Allergies</p>
+      <textarea formControlName="allergies" rows="3"></textarea>
+    </div>
+
   </div>
 
-  <!-- Display Patient Information -->
-  <div *ngIf="patient" class="patient-info">
-    <h3 class="title">Informations du patient</h3>
-    <div>
-      <strong>Genre:</strong> {{ patientForm.get('genre')?.value }}
+  <div class="inner-card">
+    <div class=" limit-width">
+      <p>Maladies chroniques</p>
+      <textarea formControlName="maladies" rows="3"></textarea>
     </div>
-    <div>
-      <strong>Prénom:</strong> {{ patientForm.get('prenom')?.value }}
-    </div>
-    <div>
-      <strong>Nom:</strong> {{ patientForm.get('nom')?.value }}
-    </div>
-    <!-- Add more fields as needed -->
+
   </div>
 </div>
+
+<div class="inner-card">
+  <p>Historique des rendez-vous</p>
+  <nz-table *ngIf="dossierMedicalInfos"
+            [nzData]="dossierMedicalInfos.rendezVousList!"
+            [nzFrontPagination]="false"
+            [nzPageSize]="5">
+    <thead>
+    <tr>
+      <th>Date du Rendez-Vous</th>
+      <!--        <th>Telephone</th>-->
+      <th>Médecin</th>
+      <th>Service</th>
+      <th>Statut</th>
+      <th>Actions</th>
+      <!-- Ajoutez d'autres colonnes si nécessaire -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let rdv of dossierMedicalInfos.rendezVousList!">
+      <!--        <td><strong>{{ getHour(rdv.dateRv) }}H{{ getMinutes(rdv.dateRv)}}</strong></td>-->
+      <td>{{ rdv.dateRv| date: "EEEE 'le' dd MMMM yyyy 'à' hh:mm" }}</td>
+      <td>
+        <div [ngClass]="{'displayString' : (!rdv.personnel || !rdv.personnel.personne)}">
+          {{ (utils.getFullName(rdv.personnel)) | displayString }}
+        </div>
+      </td>
+      <td class="max-width-20">
+        {{ rdv.service.nom }}
+        <span class="service-pole">{{ ' - (' + rdv.service.pole!.nom + ')' }}</span>
+      </td>
+      <td class="width-5">
+        <!--          <nz-badge nzStatus="processing" nzText="Non Confirmee"></nz-badge>-->
+        <nz-badge [nzColor]="getStatusInfo(rdv.statut!, RDVStatusMap).color">
+              <span
+                [ngStyle]="{'color': getStatusInfo(rdv.statut!, RDVStatusMap).color}">{{ getStatusInfo(rdv.statut!, RDVStatusMap).text |titlecase }}</span>
+        </nz-badge>
+      </td>
+      <td class="icon-table some-min-width-10">
+        <img (click)="seeDetails(rdv)" alt="modifier" nz-tooltip nzTooltipTitle="Voir détails"
+             src="assets/from_figma/see-details-action.svg">
+
+      </td>
+    </tr>
+    </tbody>
+
+  </nz-table>
+</div>
+<div class="inner-card">
+  <p>Historique des Prestations</p>
+  <nz-table *ngIf="dossierMedicalInfos"
+            [nzData]="dossierMedicalInfos.prestations!"
+            [nzFrontPagination]="false"
+            [nzPageSize]="5">
+    <thead>
+    <tr>
+      <th>Date de la prestation</th>
+      <!--        <th>Telephone</th>-->
+      <th>Médecin</th>
+      <th>Service</th>
+      <th>Montant</th>
+      <th>Statut</th>
+      <th>Actions</th>
+      <!-- Ajoutez d'autres colonnes si nécessaire -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let p of dossierMedicalInfos.prestations!">
+      <!--        <td><strong>{{ getHour(p.dateRv) }}H{{ getMinutes(p.dateRv)}}</strong></td>-->
+      <td>{{ p.dateCreation| date: "EEEE 'le' dd MMMM yyyy 'à' hh:mm:ss" }}</td>
+      <td>
+        <div [ngClass]="{'displayString' : (!p.personnel || !p.personnel.personne)}">
+          {{ (utils.getFullName(p.personnel)) | displayString }}
+        </div>
+      </td>
+      <td class="max-width-20">
+        {{ p.service?.nom }}
+        <span class="service-pole">{{ ' - (' + p.service?.pole!.nom + ')' }}</span>
+      </td>
+      <td>
+        {{ p.montant | currency: 'XOF': 'symbol': '1.':'fr-FR' }}
+      </td>
+      <td class="width-5">
+        <!--          <nz-badge nzStatus="processing" nzText="Non Confirmee"></nz-badge>-->
+        <nz-badge [nzColor]="getStatusInfo(p.prestationStatut!, PrestationStatusMap).color">
+              <span
+                [ngStyle]="{'color': getStatusInfo(p.prestationStatut!, PrestationStatusMap).color}">{{ getStatusInfo(p.prestationStatut!, PrestationStatusMap).text |titlecase }}</span>
+        </nz-badge>
+      </td>
+      <td class="icon-table some-min-width-10">
+        <img (click)="seePrestationDetails(p)" alt="modifier" nz-tooltip nzTooltipTitle="Voir détails"
+             src="assets/from_figma/see-details-action.svg">
+
+      </td>
+    </tr>
+    </tbody>
+
+  </nz-table>
+</div>
+

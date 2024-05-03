@@ -5,7 +5,7 @@ export interface PersonneInterface {
   nom: string;
   prenom: string;
   adresse: string;
-  genre: string;
+  genre: EGenre;
   hasAlreadyConnected?: boolean;
   telephone?: string;
   email?: string;
@@ -20,4 +20,9 @@ export interface PersonneInterface {
   supprime?: boolean
   dateCreation?: string,
   dateModification?: string
+}
+
+export enum EGenre {
+  M = 'M',
+  F = 'F'
 }

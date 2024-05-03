@@ -21,23 +21,23 @@
     <div class="make-spaceBetween">
       <span>Patient</span>
       <span>
-        {{ getPrenom(currentTransaction.prestation.dossierMedical?.patient?.personne!)|titlecase }}
-        {{ getNom(currentTransaction.prestation.dossierMedical?.patient?.personne!)|uppercase }}
+        {{ utils.getPrenom(currentTransaction.prestation.dossierMedical?.patient?.personne!)|titlecase }}
+        {{ utils.getNom(currentTransaction.prestation.dossierMedical?.patient?.personne!)|uppercase }}
       </span>
     </div>
     <div class="make-spaceBetween">
       <span>Médecin</span>
       <span *ngIf="currentTransaction.prestation.personnel else Introuvable">
-        {{ getPrenom(currentTransaction.prestation.personnel.personne!)|titlecase }}
-        {{ getNom(currentTransaction.prestation.personnel.personne!)|uppercase }}
+        {{ utils.getPrenom(currentTransaction.prestation.personnel.personne!)|titlecase }}
+        {{ utils.getNom(currentTransaction.prestation.personnel.personne!)|uppercase }}
       </span>
 
     </div>
     <div class="make-spaceBetween">
       <span>{{ 'émetteur'|titlecase }}</span>
       <span>
-        {{ getPrenom(currentTransaction.personnel.personne!)|titlecase }}
-        {{ getNom(currentTransaction.personnel.personne!)|uppercase }}
+        {{ utils.getPrenom(currentTransaction.personnel.personne!)|titlecase }}
+        {{ utils.getNom(currentTransaction.personnel.personne!)|uppercase }}
       </span>
     </div>
     <div class="make-spaceBetween">
@@ -76,8 +76,8 @@
         <div class="for-patient">Informations sur le patient</div>
         <div class="p-name-desc desc-style">Nom complet</div>
         <div class="p-name-data data-style">
-          {{ getPrenom(patientPersonne)|titlecase }} &nbsp;
-          {{ getNom(patientPersonne)|uppercase }}
+          {{ utils.getPrenom(patientPersonne)|titlecase }} &nbsp;
+          {{ utils.getNom(patientPersonne)|uppercase }}
         </div>
         <div class="p-tel-desc desc-style">Numéro Téléphone</div>
         <div class="p-tel-data data-style">{{ patientPersonne.telephone | prettyPhoneNumber }}</div>
@@ -91,8 +91,8 @@
         <div class="med-name-desc desc-style">Nom du médecin</div>
         <div class="med-name-data data-style">
           <span *ngIf="currentTransaction.prestation.personnel else Introuvable">
-            {{ getPrenom(currentTransaction.prestation.personnel.personne!)|titlecase }}
-            {{ getNom(currentTransaction.prestation.personnel.personne!)|uppercase }}
+            {{ utils.getPrenom(currentTransaction.prestation.personnel.personne!)|titlecase }}
+            {{ utils.getNom(currentTransaction.prestation.personnel.personne!)|uppercase }}
           </span>
         </div>
         <div class="service-desc desc-style">Service offert</div>

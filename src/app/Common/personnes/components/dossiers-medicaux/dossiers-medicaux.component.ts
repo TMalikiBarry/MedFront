@@ -1,10 +1,26 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
-import {NzModalRef} from 'ng-zorro-antd/modal';
 import {PatientInterface} from 'src/app/models/patient.interface';
-import {PersonneService} from 'src/app/services/Personne/personne.service';
-import {PatientService} from 'src/app/services/patient/patient.service';
+import {DossierMedicalService} from "src/app/services/dossier-medical/dossier-medical.service";
+import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface";
+import {UtilsService} from "src/app/services/utils/utils.service";
+import {RendezVousInterface} from "src/app/models/rendez-vous.interface";
+import {DetailRendezVousComponent} from "../../../dossiers/dialogs/detail-rendez-vous/detail-rendez-vous.component";
+import {NzModalService} from "ng-zorro-antd/modal";
+import {PrestationInterface} from "../../../../models/prestation.interface";
+import {DetailsPrestationComponent} from "../../../dossiers/dialogs/details-prestation/details-prestation.component";
+
+
+interface StatusInfo {
+  color: string;
+  text: string;
+}
+
+interface StatusMap {
+  [key: string]: StatusInfo;
+}
+
 
 @Component({
   selector: 'app-dossiers-medicaux',
@@ -14,67 +30,122 @@ import {PatientService} from 'src/app/services/patient/patient.service';
 export class DossiersMedicauxComponent implements OnInit {
   patientForm: FormGroup;
   patient!: PatientInterface;
+  dossierMedicalInfos!: DossierMedicalInterface;
+  RDVStatusMap: StatusMap = {
+    CREATED: {color: '#5D6273', text: 'à confirmer'},
+    VALIDATED: {color: '#84BE38', text: 'confirmé'},
+    CANCELED: {color: '#A81735', text: 'annulé'},
+  };
+  PrestationStatusMap: StatusMap = {
+    NOTPAID: {color: '#5D6273', text: 'à payer'},
+    PAID: {color: '#84BE38', text: 'payé'},
+    CANCELED: {color: '#A81735', text: 'annulé'},
+  };
 
   constructor(
+    private modalService: NzModalService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private modalRef: NzModalRef,
-    private apiPersonne: PersonneService,
-    private patientService: PatientService
+    private api: DossierMedicalService,
+    public utils: UtilsService
   ) {
     this.patientForm = this.fb.group({
-      genre: ['', Validators.required],
-      prenom: ['', Validators.required],
-      nom: ['', Validators.required],
-      telephone: ['', Validators.required],
-      dateNaissance: ['', Validators.required],
-      groupeSanguin: ['', Validators.required],
-      adresse: ['', Validators.required],
-      antecedant_patologie: ['']
+      genre: '',
+      prenom: '',
+      nom: '',
+      telephone: '',
+      email: '',
+      contactEnCasUrgent: '',
+      dateNaissance: '',
+      groupeSanguin: '',
+      adresse: '',
+      maladies: '',
+      allergies: '',
     });
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      const patientId = params?.get('id');
-      if (patientId) {
-        this.loadPatientData(+patientId);
-      }
-    });
+    /*    this.route.paramMap.subscribe(params => {
+          const patientId = params?.get('id');
+          if (patientId) {
+            this.loadPatientData(+patientId);
+          }
+        });*/
+
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.loadPatientData(+id);
+    }
+
+    this.subscribeToPhoneNumberChanges('telephone');
+    this.subscribeToPhoneNumberChanges('contactEnCasUrgent');
   }
 
   loadPatientData(patientId: number) {
-    this.patientService.getPatientById(patientId).subscribe({
-      next: (patient: PatientInterface) => {
-        this.patient = patient;
-        this.populateFormWithPatientData(patient);
+    this.api.getPatientDetailsById(patientId).subscribe({
+      next: (dm) => {
+        this.dossierMedicalInfos = dm
+        this.populateFormWithPatientData(dm);
       },
       error: (error) => {
-        console.error('Error fetching patient data:', error);
+        console.error('Error fetching patient data: ', error);
       }
     });
   }
 
-  populateFormWithPatientData(patient: PatientInterface) {
+  populateFormWithPatientData(dm: DossierMedicalInterface) {
     this.patientForm.patchValue({
-      genre: patient.personne.genre,
-      prenom: patient.personne.prenom,
-      nom: patient.personne.nom,
-      telephone: patient.personne.telephone,
-      dateNaissance: patient.personne.datenaissance,
-      groupeSanguin: patient.groupeSanguin,
-      adresse: patient.personne.adresse,
-      // antecedant_patologie: patient.antecedant_patologie
+      genre: this.utils.getPatientGenre(dm.patient!.personne.genre),
+      prenom: dm.patient!.personne.prenom,
+      nom: dm.patient!.personne.nom,
+      email: dm.patient!.personne.email,
+      telephone: dm.patient!.personne.telephone,
+      contactEnCasUrgent: dm.patient!.contactEnCasUrgent,
+      dateNaissance: dm.patient!.personne.datenaissance,
+      groupeSanguin: dm.patient!.groupeSanguin,
+      adresse: dm.patient!.personne.adresse,
+      maladies: dm.maladies,
+      allergies: dm.allergies,
+      // antecedant_patologie: dm.patient!.antecedant_patologie
+    });
+
+    this.patientForm.disable();
+  }
+
+  subscribeToPhoneNumberChanges(controlName: string): void {
+    this.patientForm.controls[controlName].valueChanges.subscribe((value: string) => {
+      const formattedNumber = this.utils.formatPhoneNumber(value);
+
+      if (value !== formattedNumber) {
+        this.patientForm.controls[controlName].patchValue(formattedNumber, {emitEvent: false});
+      }
     });
   }
 
-  updatePatient() {
-    // Add the logic to update the patient using patientForm values
-    // This will be similar to the logic you use for creating a new patient
-    // Make sure to handle the update operation in your patient service
+  seeDetails(rdv: RendezVousInterface, context?: 'RDV' | 'PREST') {
+    this.modalService.create({
+      nzContent: DetailRendezVousComponent,
+      nzData: rdv,
+      nzClosable: false,
+      nzWidth: '50rem',
+      nzCentered: true,
+      nzFooter: null
+    });
   }
 
-  closeModal() {
-    this.modalRef.close();
+  seePrestationDetails(prestation: PrestationInterface) {
+    this.modalService.create({
+      nzContent: DetailsPrestationComponent,
+      nzData: prestation,
+      nzClosable: false,
+      nzWidth: '50rem',
+      nzCentered: true,
+      nzFooter: null
+    });
   }
+
+  getStatusInfo(status: string, statusMap: StatusMap): StatusInfo {
+    return statusMap[status];
+  }
+
 }

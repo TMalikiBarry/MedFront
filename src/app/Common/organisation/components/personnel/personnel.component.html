@@ -35,10 +35,12 @@
       <thead>
       <tr>
         <!--          <th>ID</th>-->
-        <th>ID</th>
+        <!--        <th>ID</th>-->
         <th>Nom complet</th>
         <th>Email</th>
         <th>Téléphone</th>
+        <th>Login</th>
+        <th>Profil</th>
         <th>Titre</th>
         <th>Pôle</th>
 
@@ -48,7 +50,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let p of personnelTable.data">
-        <td>{{ p.id }}</td>
+        <!--        <td>{{ p.id }}</td>-->
         <td>{{ p.personne.prenom |titlecase }} {{ p.personne.nom |uppercase }}</td>
         <td>
           <div [ngClass]="{'displayString' : !p.personne.email}">
@@ -56,8 +58,20 @@
           </div>
         </td>
         <td>
-          <div [ngClass]="{'displayString' : !p.personne.telephone}">
+          <div [ngClass]="{'displayString' : !p.personne.telephone, 'width-6-8': true}">
             {{ (p.personne.telephone! | prettyPhoneNumber) | displayString }}
+          </div>
+        </td>
+
+        <td>
+          <div [ngClass]="{'displayString' : !p.personne.acces}">
+            {{ p!.personne.acces?.login | displayString }}
+          </div>
+        </td>
+
+        <td>
+          <div [ngClass]="{'displayString' : !p.personne.acces?.profil}">
+            {{ p!.personne.acces?.profil?.code | displayString }}
           </div>
         </td>
 

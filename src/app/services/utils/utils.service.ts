@@ -1,4 +1,6 @@
 import {Injectable} from '@angular/core';
+import {EGenre, PersonneInterface} from "../../models/personne.interface";
+import {PersonnelInterface} from "../../models/personnel.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -59,9 +61,6 @@ export class UtilsService {
     return phoneNumberPattern.test(phoneNumber);
   }
 
-  numberHasValue(value: number): boolean {
-    return [null, undefined, 0].every(v => value != v);
-  }
   numberIsDefined(value: number): boolean {
     return value !== null && value !== undefined;
   }
@@ -69,4 +68,43 @@ export class UtilsService {
   removeSpace(value: string): string {
     return value.trim().replace(/\s/g, '_');
   }
+
+  formatPhoneNumber(value: string): string {
+    let formattedNumber: string;
+
+    if (['00221', '+221', '221'].some(v => value.startsWith(v))) {
+      formattedNumber = this.removeCountryCodePrefix(value).replace(/\s+/g, '')
+        .replace(/^(\d{3})(\d{2})(\d{3})(\d{2})(\d{2})$/, '+$1 $2 $3 $4 $5');
+    } else {
+      formattedNumber = value!.replace(/\s+/g, '')
+        .replace(/^(\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4');
+    }
+
+    return formattedNumber;
+  }
+
+  removeCountryCodePrefix(value: string): string {
+    // Supprime le préfixe "+" ou "00" s'il est présent au début de la chaîne
+    return value.replace(/^(\+|00)/, '');
+  }
+
+  getPatientGenre(type: EGenre): 'Homme' | 'Femme' {
+    return type === 'M' ? 'Homme' : 'Femme';
+  }
+
+  getPrenom(personne: PersonneInterface): string | undefined {
+    if (!personne) return undefined;
+    return `${personne.prenom}`
+  }
+
+  getNom(personne: PersonneInterface): string | undefined {
+    if (!personne) return undefined;
+    return `${personne.nom}`
+  }
+
+  getFullName(p?: PersonnelInterface): string | undefined {
+    if (!p || !p.personne) return undefined;
+    return `${p.personne.prenom} ${p.personne.nom}`
+  }
+
 }

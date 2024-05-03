@@ -39,9 +39,9 @@ export class PrestationFormDialogComponent implements OnInit{
   prestationForm: FormGroup = this.fb.group({
     service: ['', Validators.required],
     dossier: ['', Validators.required],
-    diagnostic:['', Validators.required],
-    conclusion:['', Validators.required],
-    prerequis: ['', Validators.required],
+    diagnostic: '',
+    conclusion: '',
+    prerequis: '',
     resultat:''
   })
 

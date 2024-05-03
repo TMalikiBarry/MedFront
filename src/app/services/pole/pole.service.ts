@@ -10,10 +10,10 @@ import {Page} from "../../models/pagination.interface";
 })
 export class PoleService {
 
-  readonly API_URL = environment.apiURL
-  readonly API_PERSONNEL = this.API_URL + '/personnel/all';
+  private readonly API_URL = environment.apiURL
+  private readonly API_PERSONNEL = this.API_URL + '/personnel/all';
 
-  readonly ENDPOINT_POLE = "/poles"
+  private readonly ENDPOINT_POLE = "/poles"
 
   constructor(private http : HttpClient) { }
 

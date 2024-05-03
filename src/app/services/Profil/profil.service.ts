@@ -11,7 +11,7 @@ import {PersonnelInterface} from "../../models/personnel.interface";
 })
 export class ProfilService {
 
-  readonly url = environment.apiURL + '/profil';
+  private readonly url = environment.apiURL + '/profil';
 
   constructor(private http: HttpClient) {
   }

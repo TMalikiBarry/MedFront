@@ -1,32 +1,73 @@
-.mainbody
-  display: flex
-  flex-direction: column
-  max-height: 100vh
-  overflow-y: auto
+.make-spaceBetween > p span
+  &:first-child
+    color: #8e919f
+    font-family: "Lato-Medium", sans-serif
+    cursor: pointer
 
-  .headerLayout
-    display: flex
-    justify-content: space-between
-    align-items: center
+  &:last-child
+    color: #282c5d
+    font-family: "Lato-Medium", sans-serif
 
-    .ant-input-affix-wrapper
-      width: 40% !important
-      padding: 4px 11px
-      font-size: 14px
-      line-height: 1.5715
-      background-color: #fff
-      border-radius: 0.5625rem !important
-      border: 1px solid #EAECF0 !important
 
-    .headerActions
-      display: flex
-      justify-content: space-between
-      align-items: center
-      width: 17rem
+.myPatientForm
+  margin-top: 1.2rem
 
-      img
-        width: 17.5px
+.limit-width
+  width: 80%
 
-      .addActionHeader
-        margin-left: 1rem
 
+.inner-card
+  max-width: 100%
+  margin-bottom: 1.2rem
+  border: 0.5px solid #eaecf0
+  border-radius: 8px
+  background-color: #FFFFFF
+  padding-block: 1.2rem
+  padding-inline: 2rem
+
+  nz-table
+    width: 100%
+
+  & > p:first-of-type, .limit-width > p:first-of-type
+    color: #252525
+    text-align: left
+    font-family: "Inter-SemiBold", sans-serif
+    font-size: 1rem
+    line-height: 2.5rem
+    font-weight: 600
+    margin-bottom: 1.5rem
+
+  .make-spaceBetween
+    margin-top: 1.5rem
+
+    nz-form-item
+      width: 45%
+      height: 4.5rem
+
+      nz-date-picker
+        width: 100%
+
+
+[nz-radio]
+  display: inline-block
+
+
+textarea
+  padding: 10px
+  width: 100%
+  line-height: 1.5
+  border-radius: 5px
+  border: 1px solid #ccc
+//box-shadow: 1px 1px 1px #999
+
+//.ant-input-group, nz-select, nz-select-top-control
+//  border-radius: 0.25rem
+
+.ant-input
+  &[disabled]
+    color: rgba(0, 0, 0, 0.7)
+    cursor: text
+
+.ant-radio-wrapper-disabled
+  color: rgba(0, 0, 0, 0.7) !important
+  cursor: text !important

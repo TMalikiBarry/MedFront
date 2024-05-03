@@ -15,49 +15,6 @@
         </a>
       </li>
 
-
-      <li (nzOpenChange)="openHandler('organisation')"
-          [(nzOpen)]="openMap['organisation']"
-          [nzTitle]="titleOrganisation"
-          nz-submenu>
-        <ul>
-          <!--          <li nz-menu-item>
-            <a routerLink="/admin/organisation/cliniques" class="selectedLink">
-              <img
-                [src]="'assets/from_figma/'+(router.url.endsWith('/organisation/cliniques')? 'clinique_green.svg': 'clinique.svg')"
-                alt="Cliniques">
-              <span>Cliniques</span>
-            </a>
-          </li>-->
-          <li nz-menu-item>
-            <a class="selectedLink" routerLink="/admin/organisation/poles">
-              <img
-                [src]="'assets/from_figma/'+(router.url.endsWith('/organisation/poles')? 'poles_green.svg': 'poles.svg')"
-                alt="Poles">
-              <span>Pôles</span>
-            </a>
-          </li>
-
-          <li nz-menu-item>
-            <a class="selectedLink" routerLink="/admin/organisation/services">
-              <img
-                [src]="'assets/from_figma/'+(router.url.endsWith('/organisation/services')? 'service_green.svg': 'service.svg')"
-                alt="Services">
-              <span>Services</span>
-            </a>
-          </li>
-          <li nz-menu-item>
-            <a class="selectedLink" routerLink="/admin/organisation/personnels">
-              <img
-                [src]="'assets/from_figma/'+(router.url.endsWith('/organisation/personnels')? 'personnels_green.svg': 'personnels.svg')"
-                alt="Personnels">
-              <span>Personnels</span>
-            </a>
-          </li>
-        </ul>
-      </li>
-
-
       <li nz-submenu
           [(nzOpen)]="openMap['personnes']"
           (nzOpenChange)="openHandler('personnes')"
@@ -113,6 +70,48 @@
           </li>
         </ul>
       </li>
+
+      <li (nzOpenChange)="openHandler('organisation')"
+          [(nzOpen)]="openMap['organisation']"
+          [nzTitle]="titleOrganisation"
+          nz-submenu>
+        <ul>
+          <!--          <li nz-menu-item>
+            <a routerLink="/admin/organisation/cliniques" class="selectedLink">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/organisation/cliniques')? 'clinique_green.svg': 'clinique.svg')"
+                alt="Cliniques">
+              <span>Cliniques</span>
+            </a>
+          </li>-->
+          <li nz-menu-item>
+            <a class="selectedLink" routerLink="/admin/organisation/poles">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/organisation/poles')? 'poles_green.svg': 'poles.svg')"
+                alt="Poles">
+              <span>Pôles</span>
+            </a>
+          </li>
+
+          <li nz-menu-item>
+            <a class="selectedLink" routerLink="/admin/organisation/services">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/organisation/services')? 'service_green.svg': 'service.svg')"
+                alt="Services">
+              <span>Services</span>
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a class="selectedLink" routerLink="/admin/organisation/personnels">
+              <img
+                [src]="'assets/from_figma/'+(router.url.endsWith('/organisation/personnels')? 'personnels_green.svg': 'personnels.svg')"
+                alt="Personnels">
+              <span>Personnels</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
 
       <li nz-submenu
           [(nzOpen)]="openMap['parametre']"

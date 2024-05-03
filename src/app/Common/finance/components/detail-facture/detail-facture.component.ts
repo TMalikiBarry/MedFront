@@ -6,6 +6,7 @@ import {PersonneInterface} from "src/app/models/personne.interface";
 import {PrestationInterface} from "src/app/models/prestation.interface";
 import {jsPDF} from 'jspdf';
 import html2canvas from 'html2canvas';
+import {UtilsService} from "../../../../services/utils/utils.service";
 
 /*
 import {
@@ -63,6 +64,7 @@ export class DetailFactureComponent implements OnInit {
   constructor(private api: TransactionService,
               private route: ActivatedRoute,
               private router: Router,
+              public utils: UtilsService,
               // private componentFactoryResolver: ComponentFactoryResolver,
               // private injector: Injector,
               // private appRef: ApplicationRef,
@@ -126,16 +128,6 @@ export class DetailFactureComponent implements OnInit {
     return {color, text, bgColor};
   }
 
-  getPrenom(personne: PersonneInterface): string | undefined {
-    if (!personne) return undefined;
-    return `${personne.prenom}`
-  }
-
-  getNom(personne: PersonneInterface): string | undefined {
-    if (!personne) return undefined;
-    return `${personne.nom}`
-  }
-
   isSuccess() {
     return this.currentTransaction.transactionStatus === TransactionStatus.SUCCESS;
   }
@@ -152,34 +144,6 @@ export class DetailFactureComponent implements OnInit {
     return this.listMoyenPayment
       .find(m => m.code === this.currentTransaction.moyenPayment)?.libelle;
   }
-
-  /*
-    printFacture() {
-      window.print();
-      /!*let printContents, popupWin;
-      let element = document.getElementById('element-a-imprimer') as HTMLImageElement;
-      // element.src = window.location.href + element.src;
-      console.log('Element ', element);
-      console.log('Element SRC ', element.src);
-      printContents = element.outerHTML;
-      popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
-      if (popupWin){
-        popupWin.document.open();
-        popupWin.document.write(`
-        <html lang="fr">
-          <head>
-            <title>Print Facture Touchmed</title>
-            <style>
-            // insérez ici les styles que vous voulez appliquer à votre impression
-            </style>
-          </head>
-          <body onload="window.print();window.close()">${printContents}</body>
-        </html>`
-        );
-        popupWin.document.close();
-      }*!/
-    }
-  */
 
   generatePDFAndDownload() {
     let data = document.getElementById('element-a-imprimer')!;  // id of the div you want to print
@@ -211,6 +175,34 @@ export class DetailFactureComponent implements OnInit {
   getFactureName() {
     return `Facture - ${this.currentTransaction.token}`
   }
+
+  /*
+    printFacture() {
+      window.print();
+      /!*let printContents, popupWin;
+      let element = document.getElementById('element-a-imprimer') as HTMLImageElement;
+      // element.src = window.location.href + element.src;
+      console.log('Element ', element);
+      console.log('Element SRC ', element.src);
+      printContents = element.outerHTML;
+      popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+      if (popupWin){
+        popupWin.document.open();
+        popupWin.document.write(`
+        <html lang="fr">
+          <head>
+            <title>Print Facture Touchmed</title>
+            <style>
+            // insérez ici les styles que vous voulez appliquer à votre impression
+            </style>
+          </head>
+          <body onload="window.print();window.close()">${printContents}</body>
+        </html>`
+        );
+        popupWin.document.close();
+      }*!/
+    }
+  */
 
   // generatePDFAndOpenInNewWindow() {
   //   let data = document.getElementById('element-a-imprimer')!;  // id of the div you want to print

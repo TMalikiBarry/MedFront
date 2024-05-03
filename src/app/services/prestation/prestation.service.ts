@@ -10,7 +10,7 @@ import {environment} from "src/environments/environment.prod";
 })
 export class PrestationService {
 
-  url = `${environment.apiURL}/prestation`;
+  private readonly url = `${environment.apiURL}/prestation`;
   constructor(private http: HttpClient) { }
 
   save(prestation: PrestationInterface): Observable<ApiResponseInterface>{

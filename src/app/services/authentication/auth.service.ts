@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {NotifService} from "../notification/notif.service";
 import {environment} from "src/environments/environment.prod";
+import {StorageService} from "../Storage/storage.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,9 @@ export class AuthService {
   public currentUser!: Observable<AuthInterface>;
   private currentUserSubject!: BehaviorSubject<AuthInterface>;
 
-  constructor(private http: HttpClient, private router: Router, private notify: NotifService) {
-    this.currentUserSubject = new BehaviorSubject<AuthInterface>(JSON.parse(<string>sessionStorage.getItem("TOUCHMED_currentUser")));
+  constructor(private http: HttpClient, private router: Router,
+              private notify: NotifService, public storage: StorageService) {
+    this.currentUserSubject = new BehaviorSubject<AuthInterface>(JSON.parse(<string>this.storage.getItem("TOUCHMED_currentUser")));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -33,10 +35,10 @@ export class AuthService {
           if (user && user.token) {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             // TODO NEVER STORE TOKEN AND USER INFOS IN STORAGE
-            sessionStorage.setItem('TOUCHMED_currentUser', JSON.stringify(user));
-            sessionStorage.setItem('TOUCHMED_STATE', 'false');
-            sessionStorage.setItem('TOUCHMED_ROLE', user.role);
-            sessionStorage.setItem('TOUCHMED_TOKEN', user.token);
+            this.storage.setItem('TOUCHMED_currentUser', JSON.stringify(user));
+            this.storage.setItem('TOUCHMED_STATE', 'false');
+            this.storage.setItem('TOUCHMED_ROLE', user.role);
+            this.storage.setItem('TOUCHMED_TOKEN', user.token);
 
             this.currentUserSubject.next(user);
           }else {
@@ -51,7 +53,7 @@ export class AuthService {
       this.currentUserSubject.next(login);
       this.isAuth = !!login;
       if (this.isAuth) {
-        sessionStorage.setItem('TOUCHMED_STATE', 'true');
+        this.storage.setItem('TOUCHMED_STATE', 'true');
       }
 
     } else {
@@ -73,20 +75,20 @@ export class AuthService {
     // mettre à jour la liste des users
   }
   getRole() {
-    return this.roleAs = sessionStorage.getItem('TOUCHMED_ROLE');
+    return this.roleAs = this.storage.getItem('TOUCHMED_ROLE');
   }
 
   isLoggedIn() {
-    return sessionStorage.getItem('TOUCHMED_STATE') == 'true';
+    return this.storage.getItem('TOUCHMED_STATE') == 'true';
   }
 
   routingAlreadyConnectedApp() {
-    if (sessionStorage.getItem('TOUCHMED_currentUser')) {
-      let user = JSON.parse(sessionStorage.getItem('TOUCHMED_currentUser') || '{}');
+    if (this.storage.getItem('TOUCHMED_currentUser')) {
+      let user = JSON.parse(this.storage.getItem('TOUCHMED_currentUser') || '{}');
       if (user) {
         this.authenticateUser(user);
         this.isAuth = true;
-        this.router.navigateByUrl('/introduction');
+        this.router.navigateByUrl('/admin/dashboard');
       } else {
         this.router.navigateByUrl('');
       }

@@ -98,7 +98,7 @@
           <!--          <td><strong>{{ getPatientID(prestation) }}</strong></td>-->
           <td>{{ prestation.dateCreation! | date: "EEE 'le' dd MMM yyyy 'à' hh:mm:ss" }}</td>
           <td><span
-            class="my-patient-id"> {{ prestation.dossierMedical?.patient?.id }}</span>{{ ' - ' + getPatientName(prestation.dossierMedical!) }}
+            class="my-patiet-id"> {{ prestation.dossierMedical?.patient?.id }}</span>{{ ' - ' + getPatientName(prestation.dossierMedical!) }}
           </td>
           <td class="max-width-20">
             {{ prestation.service?.nom }}
@@ -135,7 +135,8 @@
             </nz-badge>
           </td>
           <td class="icon-table some-min-width-12">
-            <img alt="Voir détails" nz-tooltip nzTooltipTitle="Voir détails" src="assets/from_figma/see-details-action.svg"
+            <img (click)="seePrestationDetails(prestation)" alt="Voir détails" nz-tooltip nzTooltipTitle="Voir détails"
+                 src="assets/from_figma/see-details-action.svg"
                  width="17">
             <img (click)="updatePrestation(prestation)" alt="Modifier" nz-tooltip
                  [nzTooltipTitle]="isNotPaid(prestation)? 'Modifier': 'Modification non autorisée'"
@@ -144,7 +145,8 @@
             <!--            <img *ngIf="!isPaid(prestation)" alt="Confirmer ou pas" (click)="cancelPrestation(prestation)"
                              nz-tooltip [nzTooltipTitle]="getContext(prestation).message"
                              [src]="'assets/from_figma/'+ getContext(prestation).svgName" width="17"> -->
-            <img (click)="cancelPrestation(prestation)" [nzTooltipTitle]="isCanceled(prestation)? 'Confirmer': 'Pas autorisé'"
+            <img (click)="cancelPrestation(prestation)"
+                 [nzTooltipTitle]="isCanceled(prestation)? 'Restaurer': 'Pas autorisé'"
                  [src]="'assets/from_figma/confirm-yes'+(isCanceled(prestation)?'': '_blocked')+'.svg'" [style.cursor]="isCanceled(prestation)? 'pointer' : 'not-allowed'"
                  alt="Confirmer"
                  nz-tooltip width="17">

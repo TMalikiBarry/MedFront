@@ -8,8 +8,8 @@ import {OnePatientPageComponent} from "./components/one-patient-page/one-patient
 
 const routes: Routes = [
   {path: 'patients', component: PatientComponent, canActivate: [authGuard]},
+  {path: 'patients/:id', component: DossiersMedicauxComponent, canActivate: [authGuard]},
   {path: 'fiche-medicale', component: FicheMedicaleComponent, canActivate: [authGuard]},
-  {path: 'dossiers-medicaux', component: DossiersMedicauxComponent, canActivate: [authGuard]},
   {path: 'create-patient', component: OnePatientPageComponent, canActivate: [authGuard]},
   {path: 'update-patient/:id', component: OnePatientPageComponent, canActivate: [authGuard]},
 ];

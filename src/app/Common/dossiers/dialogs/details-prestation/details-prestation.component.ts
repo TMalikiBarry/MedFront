@@ -1,31 +1,30 @@
 import {Component, OnInit} from '@angular/core';
-
+import {PersonneInterface} from "../../../../models/personne.interface";
 import {NzModalRef} from "ng-zorro-antd/modal";
-
-import {RDVStatus, RendezVousInterface} from "src/app/models/rendez-vous.interface";
-import {PersonneInterface} from "src/app/models/personne.interface";
+import {PrestationInterface, PrestationStatut} from "../../../../models/prestation.interface";
 import {UtilsService} from "../../../../services/utils/utils.service";
 
 @Component({
-  selector: 'app-detail-rendez-vous',
-  templateUrl: './detail-rendez-vous.component.html',
-  styleUrls: ['./detail-rendez-vous.component.sass']
+  selector: 'app-details-prestation',
+  templateUrl: './details-prestation.component.html',
+  styleUrls: ['./details-prestation.component.sass']
 })
-export class DetailRendezVousComponent implements OnInit{
-  titleForm = "Detail du Rendez-vous";
-  data!: RendezVousInterface;
+export class DetailsPrestationComponent implements OnInit {
+
+  titleForm = "Detail de la prestation";
+  data!: PrestationInterface;
   patientPers!: PersonneInterface;
   medecinPers!: PersonneInterface;
   createurPers!: PersonneInterface;
 
-  constructor(private modal: NzModalRef, public utils: UtilsService) {
+  constructor(private modal: NzModalRef, protected utils: UtilsService) {
   }
 
   ngOnInit(): void {
     this.data = this.modal.getConfig().nzData;
     //console.log(this.data);
-    this.patientPers = this.data.patient.personne;
-    this.medecinPers = this.data.personnel.personne;
+    this.patientPers = this.data.dossierMedical!.patient!.personne;
+    this.medecinPers = this.data.personnel!.personne;
     this.createurPers = this.data.personnelCreateur!.personne;
   }
 
@@ -34,20 +33,20 @@ export class DetailRendezVousComponent implements OnInit{
     let text = 'à confirmer';
     let bgColor = 'rgba(172,173,176,0.25)'
 
-    const status = this.data.statut!;
+    const status = this.data.prestationStatut!;
 
     switch (status) {
-      case RDVStatus.CREATED:
+      case PrestationStatut.NOTPAID:
         color = '#5D6273';
         bgColor = 'rgba(172,173,176,0.2)';
         text = 'à confirmer';
         break;
-      case RDVStatus.VALIDATED:
+      case PrestationStatut.PAID:
         color = '#84BE38';
         bgColor = 'rgba(32,172,46,0.2)';
-        text = 'confirmé';
+        text = 'payé';
         break;
-      case RDVStatus.CANCELED:
+      case PrestationStatut.CANCELED:
         color = '#A81735';
         bgColor = 'rgba(168,23,53,0.2)';
         text = 'annulé';
@@ -61,11 +60,11 @@ export class DetailRendezVousComponent implements OnInit{
     this.modal.close();
   }
 
-  isCanceled(): boolean {
-    return this.data.statut === RDVStatus.CANCELED;
+  isPaid(): boolean {
+    return this.data.prestationStatut === PrestationStatut.PAID;
   }
 
-  getRemarques() {
-    return this.data.remarques!.replace(/\s/g, '') ? this.data.remarques : 'Pas de remarques'
+  isCanceled(): boolean {
+    return this.data.prestationStatut === PrestationStatut.CANCELED;
   }
 }

@@ -12,6 +12,7 @@ import {FacturationComponent} from './dialogs/facturation/facturation.component'
 import {PaymentSuccessComponent} from '../finance/dialogs/payment-success/payment-success.component';
 import {PaymentFailedComponent} from '../finance/dialogs/payment-failed/payment-failed.component';
 import {CancelRdvDialogComponent} from './dialogs/cancel-rdv-dialog/cancel-rdv-dialog.component';
+import {DetailsPrestationComponent} from './dialogs/details-prestation/details-prestation.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {CancelRdvDialogComponent} from './dialogs/cancel-rdv-dialog/cancel-rdv-d
     FacturationComponent,
     PaymentSuccessComponent,
     PaymentFailedComponent,
-    CancelRdvDialogComponent
+    CancelRdvDialogComponent,
+    DetailsPrestationComponent
   ],
   imports: [
     SharedModule,

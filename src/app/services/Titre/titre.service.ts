@@ -10,7 +10,7 @@ import {TitreInterface} from "../../models/titre.interface";
 })
 export class TitreService {
 
-  readonly url = environment.apiURL + '/titre';
+  private readonly url = environment.apiURL + '/titre';
 
   constructor(private http: HttpClient) {
   }

@@ -7,12 +7,11 @@ import {ActionComponent} from "./components/action/action.component";
 import {FonctionnaliteComponent} from "./components/fonctionnalite/fonctionnalite.component";
 import {ModuleComponent} from "./components/module/module.component";
 import {SharedModule} from "../shared/shared.module";
-import {ProfilFormDialogComponent} from "./dialogs/profil-form-dialog/profil-form-dialog.component";
+import {SharedDialogsModule} from "../shared-dialogs/shared-dialogs.module";
 
 
 @NgModule({
   declarations: [
-    ProfilFormDialogComponent,
     AccesComponent,
     ProfilComponent,
     ActionComponent,
@@ -21,6 +20,7 @@ import {ProfilFormDialogComponent} from "./dialogs/profil-form-dialog/profil-for
   ],
   imports: [
     SharedModule,
+    SharedDialogsModule,
     SecuriteRoutingModule
   ]
 })

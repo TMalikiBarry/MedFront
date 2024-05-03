@@ -2,17 +2,17 @@ import {ProfilInterface} from "./profil.interface";
 import {LogAction} from "./log-action";
 
 export interface AccesInterface {
-  id: number;
+  id?: number;
   login: string;
-  password: string;
-  oldPassword: string |null;
-  status: EStatusAcces |null;
-  dateLastPwdUpdate: string |null;
-  hasAlreadyConnected: boolean |null;
+  password?: string;
+  oldPassword?: string;
+  status?: EStatusAcces;
+  dateLastPwdUpdate?: string;
+  hasAlreadyConnected?: boolean;
   logActions?: LogAction[];
-  profil: ProfilInterface | null;
+  profil?: ProfilInterface;
   supprime?: boolean;
-  dateCreation : string | null;
+  dateCreation?: string;
   dateModification?: string;
 }
 

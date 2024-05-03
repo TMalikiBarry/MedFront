@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthInterface} from "src/app/models/auth.interface";
+import {StorageService} from "../../../services/Storage/storage.service";
 
 @Component({
   selector: 'app-common-navbar',
@@ -20,10 +21,11 @@ export class CommonNavbarComponent implements OnInit {
 
   currentUser ?: AuthInterface;
 
-  constructor(public router: Router) {}
+  constructor(public router: Router, private storage: StorageService) {
+  }
 
   ngOnInit(): void {
-    const storedUser = sessionStorage.getItem('TOUCHMED_currentUser');
+    const storedUser = this.storage.getItem('TOUCHMED_currentUser');
     this.currentUser = storedUser ? JSON.parse(storedUser) as AuthInterface : undefined;
     // console.log("USER ", this.currentUser);
     Object.keys(this.openMap).forEach(key => {

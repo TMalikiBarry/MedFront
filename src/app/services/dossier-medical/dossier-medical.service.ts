@@ -9,7 +9,7 @@ import {DossierMedicalInterface} from "../../models/dossier-medical.interface";
 })
 export class DossierMedicalService {
 
-  url = `${environment.apiURL}/dossierMedical`;
+  private readonly url = `${environment.apiURL}/dossierMedical`;
   constructor(private http: HttpClient) { }
 
   /*
@@ -31,5 +31,9 @@ export class DossierMedicalService {
 
   getAll(): Observable<DossierMedicalInterface[]>{
     return this.http.get<DossierMedicalInterface[]>(`${this.url}/all`);
+  }
+
+  getPatientDetailsById(patientId: number): Observable<DossierMedicalInterface> {
+    return this.http.get<DossierMedicalInterface>(`${this.url}/details/${patientId}`);
   }
 }

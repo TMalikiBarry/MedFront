@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { trigger, style, animate, transition } from '@angular/animations';
+import {Component} from '@angular/core';
+import {animate, style, transition, trigger} from '@angular/animations';
 import {FormBuilder, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {NotifService} from "../services/notification/notif.service";
@@ -35,6 +35,9 @@ export class AuthentificationComponent {
 
   ngOnInit(): void {
     this.loginForm.setValue({password: 'Passer@2024', username: 'thierno.barry'});
+    if (this.authService.isLoggedIn()) {
+      this.authService.routingAlreadyConnectedApp();
+    }
   }
 
   onLogin() {

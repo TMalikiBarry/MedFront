@@ -10,11 +10,13 @@ import {Page} from "../../models/pagination.interface";
 })
 export class PersonnelService {
 
-  readonly API_URL = environment.apiURL
+  private readonly API_URL = environment.apiURL
 
-  readonly PROFILS_URL = this.API_URL + '/profil/allPresent'
+  private readonly PROFILS_URL = this.API_URL + '/profil/allPresent'
+  private readonly TITRE_URL = this.API_URL + '/titre/all'
+  private readonly POLE_URL = this.API_URL + '/poles/all'
 
-  readonly ENDPOINT_PERSONNEL = "/personnel"
+  private readonly ENDPOINT_PERSONNEL = "/personnel"
 
   constructor(private http : HttpClient) { }
 
@@ -49,8 +51,15 @@ export class PersonnelService {
   }
 
   listAllPresentProfils() {
-    return this.http.get<ApiResponseInterface>(this.PROFILS_URL)
+    return this.http.get<ApiResponseInterface>(this.PROFILS_URL);
   }
 
+  listAllTitres() {
+    return this.http.get<ApiResponseInterface>(this.TITRE_URL);
+  }
+
+  listAllPoles() {
+    return this.http.get<ApiResponseInterface>(this.POLE_URL);
+  }
 
 }

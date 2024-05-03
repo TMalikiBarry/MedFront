@@ -5,6 +5,7 @@ import {DashboardService} from "../../services/Dashboard/dashboard.service";
 import {PatientInterface} from "../../models/patient.interface";
 import {UtilsService} from "../../services/utils/utils.service";
 import {DashboardDataInterface} from "../../models/dashboard-data.interface";
+import {StorageService} from "../../services/Storage/storage.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -24,11 +25,12 @@ export class DashboardComponent implements OnInit {
   chartTransaction: any;
 
   constructor(private api: DashboardService,
+              private storage: StorageService,
               public utils: UtilsService) {
   }
 
   ngOnInit(): void {
-    const storedUser = sessionStorage.getItem('TOUCHMED_currentUser');
+    const storedUser = this.storage.getItem('TOUCHMED_currentUser');
     this.currentUser = storedUser ? JSON.parse(storedUser) as AuthInterface : undefined;
     this.initialiseChartsData();
     this.getDashBoardData();

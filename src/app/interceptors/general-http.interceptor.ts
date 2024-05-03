@@ -46,7 +46,7 @@ export class GeneralHttpInterceptor implements HttpInterceptor {
     }
 
     if ([401, 403].indexOf(error.status) !== -1) {
-      const token  = sessionStorage.getItem('TOUCHMED_TOKEN');
+      const token = this.authService.storage.getItem('TOUCHMED_TOKEN');
 
       const decodedToken: any = JWTUtils.jwtDecode(token!);
       // auto logout if 401 Unauthorized or 403 Forbidden response returned from api

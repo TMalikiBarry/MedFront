@@ -30,7 +30,7 @@ export class RendezVousComponent implements OnInit {
   colorStats = ['black', '#5D6273', '#20AC2E', '#A81735'];
   svgList = ['', '_created', '_validated', '_canceled'];
 
-  listDataMapToday!:Page<RendezVousInterface>;
+  // listDataMapToday!:Page<RendezVousInterface>;
 
   date: any;
   rdvStatut!: RDVStatus;
@@ -54,7 +54,7 @@ export class RendezVousComponent implements OnInit {
 
 
   // Chemin vers l'icône dans le dossier des actifs
-  customIconPath = 'assets/icon/calendar_small.svg';
+  // customIconPath = 'assets/icon/calendar_small.svg';
 
   rdvStatusList: RDVStatus[] = Object.values(RDVStatus);
 
@@ -160,9 +160,6 @@ export class RendezVousComponent implements OnInit {
   }
 
 
-
-  protected readonly RDVStatus = RDVStatus;
-
   private loadPatients() {
     this.api.getAllPatients().subscribe({
       next: result => {
@@ -226,6 +223,77 @@ export class RendezVousComponent implements OnInit {
       nzFooter: null
     });
   }
+
+  cancelOrValidateRDV(rdv: RendezVousInterface, type?: 'V' | 'C') {
+    if (type && type == 'C') {
+      if (this.isCanceled(rdv.statut!)) return;
+      const dialog = this.modalService.create({
+        nzContent: CancelRdvDialogComponent,
+        nzData: rdv,
+        nzClosable: false,
+        nzWidth: '40rem',
+        nzCentered: true,
+      });
+      dialog.afterClose.subscribe(() => {
+        this.filtre();
+        this.countByStatus();
+        this.getGraphData(this.isLastWeek);
+      })
+    } else if (type && type == 'V') {
+      if (this.isValidated(rdv.statut!)) return;
+      rdv.motif = undefined;
+      rdv.statut = RDVStatus.VALIDATED;
+      this.api.updateRdv(rdv).subscribe({
+        next: () => {
+          // this.apiRdv.getAllRdv();
+          this.notification.snackMessage(
+            `Rendez-vous confirmé avec succés pour le patient ${rdv.patient.personne.prenom} ${rdv.patient.personne.nom}`,
+            3000, 'success');
+          this.filtre();
+          this.countByStatus();
+          this.getGraphData(this.isLastWeek);
+        }
+      })
+    }
+
+
+  }
+
+  isCreated(rdvStatus: RDVStatus): boolean {
+    return rdvStatus === RDVStatus.CREATED;
+  }
+
+  isCanceled(rdvStaus: RDVStatus): boolean {
+    return rdvStaus === RDVStatus.CANCELED;
+  }
+
+  isValidated(rdvStatus: RDVStatus): boolean {
+    // return [RDVStatus.CREATED, RDVStatus.CANCELED].indexOf(rdvStatus) === -1
+    return rdvStatus === RDVStatus.VALIDATED;
+  }
+
+  getStatusInfo(status: RDVStatus): { color: string; text: string } {
+    let color = '#5D6273';
+    let text = 'à confirmer';
+
+    switch (status) {
+      case RDVStatus.CREATED:
+        color = '#5D6273';
+        text = 'à confirmer';
+        break;
+      case RDVStatus.VALIDATED:
+        color = '#84BE38';
+        text = 'confirmé';
+        break;
+      case RDVStatus.CANCELED:
+        color = '#A81735';
+        text = 'annulé';
+        break;
+    }
+
+    return {color, text};
+  }
+
 
   initialiseCanvasGraphs() {
     this.barGraph = new Chart.Chart("weeklyRDVStats", {
@@ -330,7 +398,6 @@ export class RendezVousComponent implements OnInit {
     );
   }
 
-
   updateGraphStats(lastWeek: boolean = false, weeklyRDVStats: WeeklyRDVStats) {
     this.barGraph.data.datasets[0].data = lastWeek ?
       weeklyRDVStats.createdRDVStats.previousWeekCounts : weeklyRDVStats.createdRDVStats.currentWeekCounts;
@@ -348,76 +415,6 @@ export class RendezVousComponent implements OnInit {
 
   getAllServicesByPole(pole: PoleInterface): ServiceInterface [] {
     return this.listOfService.filter(s => s.pole?.id === pole.id);
-  }
-
-  isCreated(rdvStatus: RDVStatus): boolean {
-    return rdvStatus === RDVStatus.CREATED;
-  }
-
-  isCanceled(rdvStaus: RDVStatus): boolean {
-    return rdvStaus === RDVStatus.CANCELED;
-  }
-
-  isValidated(rdvStatus: RDVStatus): boolean {
-    // return [RDVStatus.CREATED, RDVStatus.CANCELED].indexOf(rdvStatus) === -1
-    return rdvStatus === RDVStatus.VALIDATED;
-  }
-
-  cancelOrValidateRDV(rdv: RendezVousInterface, type?: 'V' | 'C') {
-    if (type && type == 'C') {
-      if (this.isCanceled(rdv.statut!)) return;
-      const dialog = this.modalService.create({
-        nzContent: CancelRdvDialogComponent,
-        nzData: rdv,
-        nzClosable: false,
-        nzWidth: '40rem',
-        nzCentered: true,
-      });
-      dialog.afterClose.subscribe(() => {
-        this.filtre();
-        this.countByStatus();
-        this.getGraphData(this.isLastWeek);
-      })
-    } else if (type && type == 'V') {
-      if (this.isValidated(rdv.statut!)) return;
-      rdv.motif = undefined;
-      rdv.statut = RDVStatus.VALIDATED;
-      this.api.updateRdv(rdv).subscribe({
-        next: value => {
-          // this.apiRdv.getAllRdv();
-          this.notification.snackMessage(
-            `Rendez-vous confirmé avec succés pour le patient ${rdv.patient.personne.prenom} ${rdv.patient.personne.nom}`,
-            3000, 'success');
-          this.filtre();
-          this.countByStatus();
-          this.getGraphData(this.isLastWeek);
-        }
-      })
-    }
-
-
-  }
-
-  getStatusInfo(status: RDVStatus): { color: string; text: string } {
-    let color = '#5D6273';
-    let text = 'à confirmer';
-
-    switch (status) {
-      case RDVStatus.CREATED:
-        color = '#5D6273';
-        text = 'à confirmer';
-        break;
-      case RDVStatus.VALIDATED:
-        color = '#84BE38';
-        text = 'confirmé';
-        break;
-      case RDVStatus.CANCELED:
-        color = '#A81735';
-        text = 'annulé';
-        break;
-    }
-
-    return {color, text};
   }
 
   OnWeekChange($event: any) {

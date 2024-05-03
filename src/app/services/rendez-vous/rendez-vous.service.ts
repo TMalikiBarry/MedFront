@@ -11,9 +11,9 @@ import {WeeklyRDVStats} from "../../models/rendez-vous.interface";
 })
 export class RendezVousService {
 
-  readonly API_URL =  environment.apiURL
+  private readonly API_URL = environment.apiURL
 
-  readonly ENDPOINT_RDV = "/rendezVous"
+  private readonly ENDPOINT_RDV = "/rendezVous"
 
   constructor(private http : HttpClient) { }
 

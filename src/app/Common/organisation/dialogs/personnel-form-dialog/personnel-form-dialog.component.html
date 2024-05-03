@@ -1,1 +1,183 @@
-<p>personnel-form-dialog works!</p>
+<div *nzModalTitle class="make-spaceBetween">
+  <p>{{ titleForm }}</p>
+  <img (click)="handleCancel()" alt="Fermer le form" src="assets/from_figma/close_modal.svg">
+</div>
+
+<div [formGroup]="personnelForm" class="myPatientForm">
+  <p class="connect-phrase">{{ formDesc }}</p>
+
+  <div class="inner-card">
+    <p>Informations sur les accès</p>
+
+    <div class="make-spaceBetween">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le login!">
+          <p>Identifiant <small>( login )</small></p>
+          <nz-input-group>
+            <input formControlName="login" nz-input placeholder="Renseignez le login" type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le profil!">
+          <p>Profil</p>
+          <nz-select [nzDropdownRender]="addNewProfilTemplate" formControlName="profil" nzAllowClear
+                     nzPlaceHolder="Choissez profil" nzShowSearch>
+            <nz-option nzLabel="----"></nz-option>
+            <nz-option
+              *ngFor="let p of listOfProfil"
+              [nzLabel]="p.code + ' - '+ p.libelle" [nzValue]="p.id"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div class="inner-card">
+    <p>Informations personnelles</p>
+    <p>Genre</p>
+    <nz-radio-group formControlName="genre">
+      <label nz-radio nzValue="M">Homme</label>
+      <label nz-radio nzValue="F">Femme</label>
+      <!--      <label nz-radio nzValue="C">Option C</label>-->
+    </nz-radio-group>
+
+    <div class="make-spaceBetween">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le prénom!">
+          <p>Prénom</p>
+          <nz-input-group>
+            <input formControlName="prenom" nz-input placeholder="Renseignez le prénom" type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le nom!">
+          <p>Nom</p>
+          <nz-input-group>
+            <input formControlName="nom" nz-input placeholder="Renseignez le nom" type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div class="make-spaceBetween">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le numéro de téléphone!">
+          <p>Numéro de téléphone</p>
+          <nz-input-group>
+            <input formControlName="telephone" nz-input placeholder="Renseignez le numéro de téléphone" type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le mail!">
+          <p>Email</p>
+          <nz-input-group>
+            <input formControlName="email" nz-input placeholder="Renseignez le mail" type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div class="make-spaceBetween">
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner la date de naissance!">
+          <!--<p>Date de naissance</p>
+          <nz-input-group >
+            <input type="text" nz-input formControlName="nom" placeholder="Renseignez le nom" />
+          </nz-input-group>-->
+          <p class="input-label">Date de naissance</p>
+          <nz-date-picker [nzDisabledDate]="disabledDate"
+                          formControlName="datenaissance" nzFormat="dd-MM-YYYY HH:mm:ss"
+                          nzPlaceHolder="Choissez la date de naissance"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner l'adresse!">
+          <p>Adresse</p>
+          <nz-input-group>
+            <input formControlName="adresse" nz-input placeholder="Renseignez l'adresse" type="text"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div class="make-spaceBetween">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le pôle!">
+          <p>Pôle</p>
+          <nz-select formControlName="pole" nzAllowClear
+                     nzPlaceHolder="Choissez le pôle" nzShowSearch>
+            <nz-option nzLabel="----"></nz-option>
+            <nz-option
+              *ngFor="let p of listOfPole"
+              [nzLabel]="p.id + ' - ' + p.nom" [nzValue]="p.id"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Veuillez renseigner le titre!">
+          <p>Titre</p>
+          <nz-select [nzDropdownRender]="addNewTitreTemplate" formControlName="titre" nzAllowClear
+                     nzPlaceHolder="Choissez le titre" nzShowSearch>
+            <nz-option nzLabel="----"></nz-option>
+            <nz-option
+              *ngFor="let t of listOfTitre"
+              [nzLabel]="t.code + ' - ' + t.libelle" [nzValue]="t.code"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+    </div>
+  </div>
+
+  <!--  <div class="inner-card">
+      <p>Allergies</p>
+      <textarea formControlName="allergies" placeholder="Mettez les allergies du patient" rows="3"></textarea>
+    </div>
+
+    <div class="inner-card">
+      <p>Maladies chroniques</p>
+      <textarea formControlName="maladiesChroniques" placeholder="Mettez les maladies chroniques du patient"
+                rows="3"></textarea>
+    </div>-->
+</div>
+
+
+<div *nzModalFooter>
+  <button (click)="handleCancel()" class="my-default-button basic-button" nz-button>Annuler</button>
+  <button (click)="handleOK()"
+          [disabled]="personnelForm.invalid"
+          [ngClass]="{'buttonIsDisabled': personnelForm.invalid, 'basic-button' : true, 'my-primary-button': personnelForm.valid}"
+          [nzLoading]="isConfirmLoading"
+          [nzTooltipTitle]="personnelForm.invalid ? 'Veuillez bien remplir le formulaire': 'Enregistrer'" nz-button
+          nz-tooltip>
+    {{ btnText }}
+  </button>
+</div>
+
+<ng-template #addNewTitreTemplate>
+  <nz-divider></nz-divider>
+  <div class="container">
+    <a (click)="addNewTitre()" class="add-item">
+      <i nz-icon nzType="plus"></i>
+      Ajouter nouveau titre
+    </a>
+  </div>
+</ng-template>
+
+<ng-template #addNewProfilTemplate>
+  <nz-divider></nz-divider>
+  <div class="container">
+    <a (click)="addNewProfil()" class="add-item">
+      <i nz-icon nzType="plus"></i>
+      Ajouter nouveau profil
+    </a>
+  </div>
+</ng-template>

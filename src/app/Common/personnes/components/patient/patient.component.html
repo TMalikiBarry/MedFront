@@ -116,7 +116,9 @@
               </div>
             </td>
             <td class="space-evenly some-min-width-12">
-              <img alt="Voir détails" nz-tooltip nzTooltipTitle="Voir détails Dossier Médical" src="assets/from_figma/see-details-action.svg"
+              <img [routerLink]="'/admin/personnes/patients/'+patient.id" alt="Voir détails"
+                   nz-tooltip nzTooltipTitle="Voir détails Dossier Médical"
+                   src="assets/from_figma/see-details-action.svg"
                    width="17">
               <img (click)="updatePatient(patient.id!)" alt="Modifier" nz-tooltip
                    nzTooltipTitle="Modifier" src="assets/from_figma/edit-action.svg" width="17">

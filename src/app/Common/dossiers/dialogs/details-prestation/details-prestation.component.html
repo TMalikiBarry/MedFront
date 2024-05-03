@@ -1,10 +1,12 @@
 <div *nzModalTitle class="make-spaceBetween">
-  <p>{{ titleForm }}</p>
+  <p>{{ titleForm + ' - ID ' }}
+    <ng-container *ngIf="data">{{ data.id }}</ng-container>
+  </p>
   <img (click)="handleCancel()" alt="Fermer le form" src="assets/from_figma/close_modal.svg">
 </div>
 <div>
   <div class="make-spaceBetween add-some-margin">
-    <div class="connect-phrase"> Les informations complètes sur le rendez-vous</div>
+    <div class="connect-phrase"> Les informations complètes sur la prestation</div>
     <div [ngStyle]="{maxWidth: '12rem', borderRadius: '4px', padding: '.5rem 1rem',
          backgroundColor: getStatusInfo().bgColor, color: getStatusInfo().color}"
          class="row-status">
@@ -49,22 +51,10 @@
       <div class="right-side">
         <div class="data-description">Service - pôle</div>
         <div class="data-value">
-          {{ data.service.nom }}
-          <span class="service-pole">{{ ' - (' + data.service.pole?.nom + ')' }}
+          {{ data.service?.nom }}
+          <span class="service-pole">{{ ' - (' + data.service?.pole?.nom + ')' }}
           </span>
         </div>
-      </div>
-    </div>
-    <div class="make-spaceBetween">
-      <div class="left-side">
-        <div class="data-description">Date du rendez-vous</div>
-        <div class="data-value">
-          {{ data.dateRv | date: "EEEE, 'le' dd MMMM yyyy 'à' hh:mm" }}
-        </div>
-      </div>
-      <div class="right-side">
-        <div class="data-description">Durée du rendez-vous</div>
-        <div *ngIf="data.dateRv else Introuvable" class="data-value">{{ data.duree }} min</div>
       </div>
     </div>
     <div class="make-spaceBetween">
@@ -85,11 +75,23 @@
 
     <div class="make-spaceBetween">
       <div class="left-side">
-        <div class="data-description">Notes & Remarques</div>
-        <div class="long-text-input">{{ getRemarques() }}</div>
+        <div class="data-description">Montant de la prestation</div>
+        <div class="data-value">{{ data.montant | currency: 'XOF': 'symbol': '1.':'fr-FR' }}</div>
       </div>
+      <!--      <div class="right-side" *ngIf="isPaid()">
+              <div class="data-description">Montant payé par le patient</div>
+              <div class="data-value">{{ patientPers.email }}</div>
+            </div>-->
+    </div>
+
+
+    <div class="make-spaceBetween">
+      <!--      <div class="left-side">
+              <div class="data-description">Notes & Remarques</div>
+              <div class="long-text-input">{{ getRemarques() }}</div>
+            </div>-->
       <div *ngIf="isCanceled()" class="right-side">
-        <div class="data-description">Motif d'annulation du rendez-vous</div>
+        <div class="data-description">Motif d'annulation de la prestation</div>
         <div class="long-text-input">{{ data.motif }}</div>
       </div>
     </div>

@@ -11,6 +11,7 @@ import {PoleFormDialogComponent} from './dialogs/pole-form-dialog/pole-form-dial
 import {ServiceFormDialogComponent} from './dialogs/service-form-dialog/service-form-dialog.component';
 import {PersonnelFormDialogComponent} from './dialogs/personnel-form-dialog/personnel-form-dialog.component';
 import {TitreFormDialogComponent} from './dialogs/titre-form-dialog/titre-form-dialog.component';
+import {SharedDialogsModule} from "../shared-dialogs/shared-dialogs.module";
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import {TitreFormDialogComponent} from './dialogs/titre-form-dialog/titre-form-d
   ],
   imports: [
     SharedModule,
+    SharedDialogsModule,
     OrganisationRoutingModule
   ]
 })
