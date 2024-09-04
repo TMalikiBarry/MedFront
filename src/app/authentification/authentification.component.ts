@@ -70,6 +70,12 @@ export class AuthentificationComponent {
               })
             }
           },
+          error: (e) => {
+            console.error('ERREUR LORS DE LA CONNEXION  ', e)
+            if (e && e.status === 401) {
+              this.notif.snackMessage('Identifiant ou mot de passe incorrect', 3500, 'error');
+            }
+          }
 
         })
     }

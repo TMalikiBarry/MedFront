@@ -3,7 +3,6 @@ import {BehaviorSubject, Observable, of, tap} from "rxjs";
 import {AuthInterface} from "../../models/auth.interface";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {NotifService} from "../notification/notif.service";
 import {environment} from "src/environments/environment.prod";
 import {StorageService} from "../Storage/storage.service";
 
@@ -17,7 +16,7 @@ export class AuthService {
   private currentUserSubject!: BehaviorSubject<AuthInterface>;
 
   constructor(private http: HttpClient, private router: Router,
-              private notify: NotifService, public storage: StorageService) {
+              public storage: StorageService) {
     this.currentUserSubject = new BehaviorSubject<AuthInterface>(JSON.parse(<string>this.storage.getItem("TOUCHMED_currentUser")));
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -41,9 +40,10 @@ export class AuthService {
             this.storage.setItem('TOUCHMED_TOKEN', user.token);
 
             this.currentUserSubject.next(user);
-          }else {
-                this.notify.snackMessage('Login ou mot de passe Incorrect', 3500, 'error');
           }
+          // else {
+          //       this.notify.snackMessage('Login ou mot de passe Incorrect', 3500, 'error');
+          // }
 
         }));
   }
@@ -56,9 +56,10 @@ export class AuthService {
         this.storage.setItem('TOUCHMED_STATE', 'true');
       }
 
-    } else {
-      this.notify.snackMessage('Login ou mot de passe Incorrect', 3500, 'error');
     }
+    // else {
+    //   this.notify.snackMessage('Login ou mot de passe Incorrect', 3500, 'error');
+    // }
 
     return of(this.isAuth);
   }
