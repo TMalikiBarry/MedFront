@@ -110,7 +110,7 @@
           <nz-form-label [nzRequired]="FacForm.controls['moyenPayment'].hasValidator(ValidatorsFront.required)"
                          class="input-label">Moyen de payment
           </nz-form-label>
-          <nz-select formControlName="moyenPayment" nzPlaceHolder="Choissez un le moyen de payment" nzShowSearch>
+          <nz-select formControlName="moyenPayment" nzPlaceHolder="Choisissez un moyen de payment" nzShowSearch>
             <nz-option nzLabel="----"></nz-option>
             <nz-option *ngFor="let mode of listMoyenPayment"
               [nzLabel]="mode.libelle" [nzValue]="mode.code"></nz-option>

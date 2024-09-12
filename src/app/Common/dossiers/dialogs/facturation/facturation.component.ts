@@ -50,9 +50,9 @@ export class FacturationComponent implements OnInit{
   formDesc = "Veuillez remplir ce formulaire pour effectuer une facturation";
   btnText = "Payer";
   parametres !: ParametreInterface[]
-  agency_code  = 'CGFB23069'
-  domain_name = 'gutouch.net';
-  secure_code = 'SMBbr8S6zlUULluHeG6rVS5YBMhN8AV0M0H6JXYdVq4IkxTusH';
+  // agency_code  = 'CGFB23069'
+  // domain_name = 'gutouch.net';
+  // secure_code = 'SMBbr8S6zlUULluHeG6rVS5YBMhN8AV0M0H6JXYdVq4IkxTusH';
   ValidatorsFront = Validators;
 
   myServicesList!: ServiceInterface[];
@@ -65,7 +65,7 @@ export class FacturationComponent implements OnInit{
   url_redirection_failed = 'https://dev-touch-ssii.gutouch.net/touchmedportal/admin/finance/paymentfailed';
 
   listMoyenPayment = [
-    {
+/*    {
       libelle: "Orange Money",
       code: "ORANGE_MONEY"
     },
@@ -84,7 +84,7 @@ export class FacturationComponent implements OnInit{
     {
       libelle: "Cash / TouchPoint",
       code: "CASH_TOUCHPOINT"
-    },
+    },*/
     {
       libelle: "Cash",
       code: "CASH"
@@ -111,8 +111,8 @@ export class FacturationComponent implements OnInit{
   ngOnInit(): void {
     this.data = this.modal.getConfig().nzData as PrestationInterface
     this.initFormControls();
-    this.loadParametre();
-    this.loadTouchPayScript();
+/*    this.loadParametre();
+    this.loadTouchPayScript();*/
     try {
       this.data = this.modal.getConfig().nzData as PrestationInterface;
       if (this.data && this.data.id) {
@@ -162,9 +162,9 @@ export class FacturationComponent implements OnInit{
         next: (response: ApiResponseInterface) => {
           let transaction = response.reponse
           console.log('transaction response ', transaction)
-          if (moyen != "CASH") {
+/*          if (moyen != "CASH") {
             this.touchPay(transaction)
-          }
+          }*/
           this.modal.close()
         },
         error: (error) => {
@@ -178,7 +178,7 @@ export class FacturationComponent implements OnInit{
     );
   }
 
-  loadTouchPayScript(): void {
+/*  loadTouchPayScript(): void {
     const script = document.createElement('script');
     script.src = 'https://touchpay.gutouch.net/touchpayv2/script/prod_touchpay-0.0.1.js';
     script.type = 'text/javascript';
@@ -191,9 +191,9 @@ export class FacturationComponent implements OnInit{
       console.error('Failed to load TouchPay script');
     };
     document.body.appendChild(script);
-  }
+  }*/
 
-  loadParametre() {
+/*  loadParametre() {
     this.parametreService.getParametreByCode("AGENCY_CODE").subscribe({
       next: value => {
         this.agency_code = value.reponse.stringValue
@@ -222,7 +222,7 @@ export class FacturationComponent implements OnInit{
         this.url_redirection_failed = value.reponse.stringValue
       }
     })
-  }
+  }*/
 
   getPatientFullName(dossier: DossierMedicalInterface | number, context ?: string): string {
     // Vérifier si dossier est un objet (et donc potentiellement un DossierMedicalInterface)
@@ -291,7 +291,7 @@ export class FacturationComponent implements OnInit{
     return this.myServicesList.filter(s => s.pole?.id === pole.id);
   }
 
-  private touchPay(transaction: any) {
+/*  private touchPay(transaction: any) {
     // Ouvrir la fenêtre de paiement TouchPay Web
     const {
       token = transaction.token,
@@ -348,7 +348,7 @@ export class FacturationComponent implements OnInit{
       //   }
       // );
     };
-  }
+  }*/
 
   private calculateTransactionAmount(value: number) {
     return Math.ceil(this.data.montant! * (1 - 0.01 * value));
