@@ -1,1 +1,122 @@
-<p>module works!</p>
+<div class="mainbody">
+  <div class="headerLayout">
+    <nz-input-group [nzPrefix]="suffixIconSearch">
+      <input nz-input placeholder="Rechercher par patient, prestation" type="text"/>
+    </nz-input-group>
+
+    <div class="headerActions">
+      <img alt="notif" src="assets/from_figma/notification_icon.svg" width="17.5">
+      <img alt="email" src="assets/from_figma/email-icon.svg" width="17.5">
+      <img alt="calendar" src="assets/from_figma/calendar-icon.svg" width="17.5">
+      <div class="addActionHeader">
+        <img alt="Ajouter" src="assets/from_figma/addPlus-icon.svg">
+        <span>Ajouter</span>
+        <a [nzDropdownMenu]="menu" nz-dropdown>
+          <img alt="Arrow Down" src="assets/from_figma/arrow-down.svg">
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="dataLayout">
+    <div class="headerData make-spaceBetween">
+      <p>Listes des modules</p>
+      <button (click)="addNewModule()" class="my-primary-button basic-button" nz-button nzSize="large">
+        <span nz-icon nzType="plus"></span>
+        Nouveau module
+      </button>
+    </div>
+    <div class="filterpatients">
+      <div class="personal-infos">
+        <nz-select [(ngModel)]="patientPers" nzAllowClear nzPlaceHolder="Rechercher par code. "
+                   nzShowSearch>
+          <nz-option nzLabel="----"></nz-option>
+          <nz-option
+            *ngFor="let module of modules"
+            [nzLabel]="module.code"
+            [nzValue]="module">
+
+          </nz-option>
+          <!--          <ng-template #customizeOption let-selected>
+                      {{ selected?.prenom + ' ' + selected?.nom }}
+                      <span class="phone-display">- {{ selected?.telephone }}</span>
+                    </ng-template>-->
+        </nz-select>
+      </div>
+<!--      <div class="descrip-date">Date d'inscription</div>
+      <div class="date-filter">
+        <nz-range-picker [(ngModel)]="choosenDate" nzFormat="dd/MM/YYYY"></nz-range-picker>
+      </div>
+      <div class="descrip-age">Tranche d'Age (en an)</div>
+      <div class="age-filter">
+        &lt;!&ndash;          <nz-slider [(ngModel)]="ageRange" [nzMarks]="marks" [nzMax]="130" [nzMin]="0" nzIncluded nzRange></nz-slider>&ndash;&gt;
+        <nz-input-number (ngModelChange)="handleExtremum('min', $event)" [(ngModel)]="ageMin"
+                         [nzInputMode]="'numeric'"
+                         [nzMax]="ageMax-1" [nzMin]="0" [nzStep]="1" nzPlaceHolder="Minimum"></nz-input-number>
+        <nz-input-number (ngModelChange)="handleExtremum('max', $event)" [(ngModel)]="ageMax"
+                         [nzInputMode]="'numeric'"
+                         [nzMin]="ageMin+1" [nzStep]="1" nzPlaceHolder="Maximum"></nz-input-number>
+      </div>-->
+      <div class="button-action">
+        <button (click)="filterData()" class="filter-form-button" nz-button>Filtrer</button>
+      </div>
+    </div>
+
+    <nz-table #modulesTable (nzQueryParams)="onQueryParamsChange($event)"
+              *ngIf="paginatedData"
+              [nzData]="paginatedData.content"
+              [nzFrontPagination]="false"
+              [nzPageIndex]="paginatedData.pageable.pageNumber +1"
+              [nzPageSize]="paginatedData.pageable.pageSize"
+              [nzTotal]="paginatedData.totalElements"
+    >
+      <thead>
+      <tr>
+        <th>Code</th>
+        <th>Description</th>
+        <th>Séquence</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let module of modulesTable.data">
+        <td>{{ module.code }}</td>
+        <td>{{ module.description}} </td>
+        <td>{{ module.sequence }}</td>
+
+        <td class="space-evenly-modules">
+          <img (click)="updateModule(module.code!)" alt="Modifier" nz-tooltip
+               nzTooltipTitle="Modifier" src="assets/from_figma/edit-action.svg" width="17">
+
+          <img (click)="deleteModule(module.code)"alt="supprimer" nz-tooltip nzTooltipTitle="Supprimer" src="assets/icon/trash.svg" width="20">
+
+        </td>
+
+
+      </tr>
+      </tbody>
+
+    </nz-table>
+
+  </div>
+
+
+</div>
+
+<ng-template #suffixIconSearch>
+  <img alt="Rechercher" src="assets/from_figma/search_icon.svg">
+</ng-template>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <li class="selectedLink" nz-menu-item>
+      <span>Nouveau Patient</span>
+    </li>
+    <li class="selectedLink" nz-menu-item>
+      <span>Nouveau RDV</span>
+    </li>
+
+  </ul>
+</nz-dropdown-menu>
+
+

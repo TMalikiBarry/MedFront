@@ -1,0 +1,156 @@
+.make-spaceBetween
+  > p:nth-child(1)
+    color: #252525
+    font-family: 'Lato', sans-serif
+    font-size: 1.125rem
+    font-weight: 700
+
+.mainbody
+  display: flex
+  flex-direction: column
+  justify-content: center
+  // Centrer horizontalement
+
+  background-color: #F6F8FB
+  padding: 1.5rem 2rem
+
+
+.patient-form
+  width: 100%
+
+  .card-information,.allergies-card
+    border-radius: 8px
+    border: 0.5px solid #EAECF0
+    background: var(--Primary, #FFF)
+    padding: 1rem
+    margin-bottom: 1rem
+    width: 100%
+    height: auto
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+
+
+
+    .formheader
+      display: flex
+      justify-content: space-between
+      margin-bottom: 1rem
+      align-items: flex-start
+
+
+
+  form
+    display: flex
+    flex-wrap: wrap
+
+    .gender, .name, .phone-date, .blood-address, .medecin-fiche, .button
+      width: 100%
+      margin-bottom: 15px
+
+    .gender
+      display: flex
+      //flex-direction: column
+      align-items: flex-start
+      gap: 15px
+
+      div
+        display: flex
+        align-items: center
+
+        .check
+          margin-right: .3rem
+
+      label
+        margin-right: 20px
+        color: var(--Primary, #282C5D)
+        font-variant-numeric: stacked-fractions
+        font-feature-settings: 'cv09' on, 'cv04' on, 'ss01' on, 'cv03' on, 'ss03' on, 'cv06' on
+        font-family: Lato, sans-serif
+        font-size: 14px
+        font-style: normal
+        font-weight: 500
+        line-height: 24px
+        letter-spacing: -0.09px
+
+    .name
+      display: flex
+      gap: 15px
+
+      .prenom, .nom
+        flex: 1
+
+    .phone-date
+      display: flex
+      gap: 15px
+
+      .phone, .date
+        flex: 1
+
+    .blood-address
+      display: flex
+      gap: 15px
+
+      .blood, .address
+        flex: 1
+
+    .medecin-fiche
+      display: flex
+      gap: 15px
+
+      .medecin, .fiche
+        flex: 1
+
+    .label
+      margin-bottom: 5px
+      color: var(--Primary, #282C5D)
+      font-variant-numeric: stacked-fractions
+      font-feature-settings: 'cv09' on, 'cv04' on, 'ss01' on, 'cv03' on, 'ss03' on, 'cv06' on
+      font-family: Lato, sans-serif
+      font-size: 14px
+      font-style: normal
+      font-weight: 500
+      line-height: 24px
+      letter-spacing: -0.09px
+
+    .input, .select
+      width: 100%
+      padding: 8px
+      border-radius: 4px
+      border: 0.75px solid #CBCED9
+      margin-bottom: 10px
+
+
+    .button
+      width: 100%
+      text-align: center
+
+      .btn
+        display: flex
+        height: 40px
+        padding: 10px 36.5px
+        justify-content: center
+        align-items: center
+        border-radius: 4px
+        border: 1px solid var(--Primaire, #266141)
+        background: var(--Primaire, #266141)
+        box-shadow: 0 1px 2px 0 rgba(16, 24, 40, 0.05)
+        color: #ffffff
+        margin-left: 80%
+        margin-top: 10%
+
+
+.title
+  color: #252525
+  font-family: Inter, sans-serif
+  font-size: 16px
+  font-style: normal
+  font-weight: 600
+  line-height: 40px
+  // placer à gauche
+  text-align: left
+
+
+sup
+  color: darkred
+  font-size: 100%

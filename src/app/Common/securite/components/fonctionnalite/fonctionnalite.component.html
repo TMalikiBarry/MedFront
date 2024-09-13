@@ -1,1 +1,104 @@
-<p>fonctionnalite works!</p>
+<div class="mainbody">
+  <div class="headerLayout">
+    <nz-input-group [nzPrefix]="suffixIconSearch">
+      <input nz-input placeholder="Rechercher par patient, prestation" type="text"/>
+    </nz-input-group>
+
+    <div class="headerActions">
+      <img alt="notif" src="assets/from_figma/notification_icon.svg" width="17.5">
+      <img alt="email" src="assets/from_figma/email-icon.svg" width="17.5">
+      <img alt="calendar" src="assets/from_figma/calendar-icon.svg" width="17.5">
+      <div class="addActionHeader">
+        <img alt="Ajouter" src="assets/from_figma/addPlus-icon.svg">
+        <span>Ajouter</span>
+        <a [nzDropdownMenu]="menu" nz-dropdown>
+          <img alt="Arrow Down" src="assets/from_figma/arrow-down.svg">
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="dataLayout">
+    <div class="headerData make-spaceBetween">
+      <p>Listes des fonctionnalités</p>
+      <button (click)="addNewFonctionnality()" class="my-primary-button basic-button" nz-button nzSize="large">
+        <span nz-icon nzType="plus"></span>
+        Nouvelle fonctionnalité
+      </button>
+    </div>
+    <div class="filterpatients">
+      <div class="personal-infos">
+<!--        <nz-select [(ngModel)]="patientPers" nzAllowClear nzPlaceHolder="Rechercher par code "
+                   nzShowSearch>
+          <nz-option nzLabel="&#45;&#45;&#45;&#45;"></nz-option>
+          <nz-option
+            *ngFor="let patient of patients"
+            [nzLabel]="getPatienInfos(patient)"
+            [nzValue]="patient?.personne">
+
+          </nz-option>
+
+        </nz-select>-->
+      </div>
+
+      <div class="button-action">
+        <button (click)="filterData()" class="filter-form-button" nz-button>Filtrer</button>
+      </div>
+    </div>
+
+    <nz-table #fonctionnalitesTable (nzQueryParams)="onQueryParamsChange($event)"
+              *ngIf="paginatedData"
+              [nzData]="paginatedData.content"
+              [nzFrontPagination]="false"
+              [nzPageIndex]="paginatedData.pageable.pageNumber +1"
+              [nzPageSize]="paginatedData.pageable.pageSize"
+              [nzTotal]="paginatedData.totalElements">
+      <thead>
+      <tr>
+        <th>Code</th>
+        <th>Description</th>
+        <th>Sequence</th>
+        <th>Module</th>
+        <th>Images</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let fonctionalite of fonctionnalitesTable.data">
+        <td>{{ fonctionalite.code }}</td>
+        <td>{{ fonctionalite.description }}</td>
+        <td>{{ fonctionalite.sequence}}</td>
+        <td>{{ fonctionalite.module.description}}</td>
+        <td>{{ fonctionalite.image}}</td>
+
+        <td class="space-evenly-modules some-min-width-12">
+          <img (click)="updateFonctionalite(fonctionalite.code)" alt="Modifier" nz-tooltip
+               nzTooltipTitle="Modifier" src="assets/from_figma/edit-action.svg" width="17">
+          <img (click)="deleteFonctionalite(fonctionalite.code)" alt="supprimer" nz-tooltip nzTooltipTitle="Supprimer" src="assets/icon/trash.svg" width="20">
+        </td>
+      </tr>
+      </tbody>
+
+    </nz-table>
+
+  </div>
+
+
+</div>
+
+<ng-template #suffixIconSearch>
+  <img alt="Rechercher" src="assets/from_figma/search_icon.svg">
+</ng-template>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <li class="selectedLink" nz-menu-item>
+      <span>Nouveau Module</span>
+    </li>
+
+
+  </ul>
+</nz-dropdown-menu>
+
+
+

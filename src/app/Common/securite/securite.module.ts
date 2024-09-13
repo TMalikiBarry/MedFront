@@ -8,6 +8,8 @@ import {FonctionnaliteComponent} from "./components/fonctionnalite/fonctionnalit
 import {ModuleComponent} from "./components/module/module.component";
 import {SharedModule} from "../shared/shared.module";
 import {SharedDialogsModule} from "../shared-dialogs/shared-dialogs.module";
+import { NouveauModuleComponent } from './dialogs/nouveau-module/nouveau-module.component';
+import { NouvelleFonctionnaliteComponent } from './dialogs/nouvelle-fonctionnalite/nouvelle-fonctionnalite.component';
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import {SharedDialogsModule} from "../shared-dialogs/shared-dialogs.module";
     ProfilComponent,
     ActionComponent,
     FonctionnaliteComponent,
-    ModuleComponent
+    ModuleComponent,
+    NouveauModuleComponent,
+    NouvelleFonctionnaliteComponent
   ],
   imports: [
     SharedModule,

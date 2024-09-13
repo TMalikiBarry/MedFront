@@ -1,0 +1,64 @@
+<div class="mainbody">
+  <div *nzModalTitle class="make-spaceBetween">
+    <p>{{ titleForm }}</p>
+    <img (click)="handleCancel()" alt="Fermer le form" src="assets/from_figma/close_modal.svg">
+  </div>
+  <!-- Header layout-->
+  <div class="patient-form">
+    <form [formGroup]="moduleForm" (submit)="enregistrerModule()">
+
+      <div class="card-information">
+        <div class="formheader">
+          <h3 class="title">Informations sur le module</h3>
+        </div>
+        <div class="form">
+
+          <div class="phone-date">
+            <div class="phone">
+              <label class="label" for="code">Code<sup>*</sup></label>
+              <input class="input" type="text" id="code" name="code" formControlName="code" required>
+            </div>
+            <div class="date">
+              <label class="label" for="description">Description<sup>*</sup></label>
+              <input class="input" type="text" id="description" name="description" formControlName="description" required>
+            </div>
+          </div>
+
+          <div class="phone-date">
+            <div class="phone">
+              <label class="label" for="sequence">Séquence</label>
+              <input class="input" type="number" id="sequence" name="sequence" formControlName="sequence" >
+            </div>
+            <div class="date">
+              <label class="label" for="image">Image</label>
+              <input class="input" formControlName="image" id="image" name="image" type="text">
+            </div>
+          </div>
+
+
+
+
+        </div>
+      </div>
+
+    </form>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button class="my-default-button basic-button" (click)="handleCancel()">Annuler</button>
+    <button (click)="enregistrerModule()" [nzLoading]="isConfirmLoading"
+            [ngClass]="{'buttonIsDisabled': moduleForm.invalid, 'basic-button' : true, 'my-primary-button': moduleForm.valid}"
+            [nzTooltipTitle]="moduleForm.invalid ? 'Veuillez bien remplir le formulaire': 'Enregistrer'" nz-button
+            nz-tooltip>
+      Enregistrer
+    </button>
+  </div>
+
+
+
+</div>
+
+<ng-template #suffixIconSearch>
+  <img alt="Rechercher" src="assets/from_figma/search_icon.svg">
+</ng-template>
+
+
