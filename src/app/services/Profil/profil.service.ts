@@ -13,6 +13,8 @@ export class ProfilService {
 
   private readonly url = environment.apiURL + '/profil';
 
+  private readonly urlAction = `${environment.apiURL}/action`;
+
   constructor(private http: HttpClient) {
   }
 

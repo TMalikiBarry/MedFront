@@ -43,7 +43,7 @@ export class PersonnelService {
   }
 
   update(data: PersonnelInterface) {
-    return this.http.patch<ApiResponseInterface>(this.API_URL + this.ENDPOINT_PERSONNEL + '/' + data.id, data);
+    return this.http.patch<ApiResponseInterface>(this.API_URL + this.ENDPOINT_PERSONNEL + '/update/' + data.id, data);
   }
 
   deleteById(data: PersonnelInterface) {
