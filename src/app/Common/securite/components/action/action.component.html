@@ -18,10 +18,10 @@
   </div>
   <div class="dataLayout">
     <div class="headerData make-spaceBetween add-some-margin">
-      <p>Liste des services</p>
+      <p>Liste des actions</p>
       <button (click)="addNew()" class="basic-button my-primary-button" nz-button nzSize="large">
         <span nz-icon nzType="plus"></span>
-        Nouveau Service
+        Nouvelle action
       </button>
     </div>
     <nz-table #actionTable (nzQueryParams)="onQueryParamsChange($event)"
@@ -58,7 +58,7 @@
         <td>{{ getHttpVerbLabel(s.httpVerb) }}</td>
 
         <td>
-          <strong>{{ s.fonctionnalite }}</strong>
+          <strong>{{ s.fonctionnalite.code }}</strong>
         </td>
 
 

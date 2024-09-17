@@ -29,10 +29,10 @@ export class NouvelleFonctionnaliteComponent implements OnInit{
 
     this.fonctionnaliteForm = this.fb.group({
       code: ['', Validators.required],
-      description: ['', Validators.required],
+      description: [''],
       module: ['', Validators.required],
       sequence: [''],
-      bookmark: [''],
+      bookmark: ['', Validators.required],
       image: [''],
     });
 

@@ -97,7 +97,7 @@ export class ProfilFormDialogComponent implements OnInit {
     this.profilForm.controls['code'].setValue(this.updatedProfil!.code);
 
     if (this.updatedProfil?.libelle) this.profilForm.controls['libelle'].setValue(this.updatedProfil?.libelle);
-    if (this.updatedProfil?.welcomeBookmark) this.profilForm.controls['welcomeBookmark'].setValue(this.updatedProfil?.welcomeBookmark);
+    if (this.updatedProfil.welcomeBookmark) this.profilForm.controls['welcomeBookmark'].setValue(this.updatedProfil?.welcomeBookmark);
   }
 
   private update(profil: ProfilInterface) {

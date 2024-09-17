@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActionInterface} from "src/app/models/action.interface";
+import {ActionInterface, httpVerbMapping} from "src/app/models/action.interface";
 import {Page} from "src/app/models/pagination.interface";
 import {ActionService} from "src/app/services/action/action.service";
 import {NzModalService} from "ng-zorro-antd/modal";
@@ -20,12 +20,7 @@ export class ActionComponent implements OnInit {
   paginatedData!: Page<ActionInterface>;
   pageIndex: number = 0;
   pageSize: number = 10;
-  httpVerbMapping: { [key: string]: string } = {
-    'GET': 'Voir',
-    'POST': 'Ajouter',
-    'PUT': 'Modifier',
-    'DELETE': 'Supprimer'
-  };
+
 
   constructor(private api: ActionService,
               private modalService: NzModalService,
@@ -37,7 +32,7 @@ export class ActionComponent implements OnInit {
   }
 
   getHttpVerbLabel(httpVerb: string): string {
-    return this.httpVerbMapping[httpVerb.toUpperCase()] || httpVerb;
+    return httpVerbMapping[httpVerb.toUpperCase()] || httpVerb;
   }
 
   getByPage(page: number = 0, size: number = 10): void {

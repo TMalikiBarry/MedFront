@@ -1,6 +1,7 @@
 import {FonctionnaliteInterface} from "./fonctionnalite.interface";
+import {EntiteBase} from "./entite-base";
 
-export interface ActionInterface {
+export interface ActionInterface extends EntiteBase {
   code:string;
   description?: string;
   httpVerb: HttpVerb,
@@ -13,3 +14,10 @@ export enum HttpVerb {
   PUT = 'PUT',
   DELETE = 'DELETE'
 }
+
+export const httpVerbMapping: { [key: string]: string } = {
+  'GET': 'Voir',
+  'POST': 'Ajouter',
+  'PUT': 'Modifier',
+  'DELETE': 'Supprimer'
+};

@@ -1,0 +1,83 @@
+<div *nzModalTitle class="make-spaceBetween">
+  <p>{{ titleForm }}</p>
+  <img (click)="handleCancel()" alt="Fermer le form" src="assets/from_figma/close_modal.svg">
+</div>
+
+<form [formGroup]="actionForm" class="login-form" nz-form>
+  <p class="connect-phrase">{{ formDesc }}</p>
+
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Veuillez renseigner le code!">
+      <p class="input-label">Code<sup style="color: darkred">*</sup></p>
+      <nz-input-group>
+        <input formControlName="code" nz-input placeholder="Renseignez le code" type="text"/>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <div class="make-spaceBetween">
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Veuillez renseigner la fonctionnalité!">
+        <p class="input-label">Fonctionnalité<sup style="color: darkred">*</sup></p>
+        <nz-select (ngModelChange)="getTheHTTPVerb(event!)" [nzDropdownRender]="addNewFoncteTemplate"
+                   formControlName="fonctionnalite"
+                   nzAllowClear nzPlaceHolder="Choisissez une fonctionnalité" nzShowSearch>
+          <nz-option nzLabel="----"></nz-option>
+          <nz-option
+            *ngFor="let f of listOfFonctionnalite"
+            [nzLabel]="f.code + ' - ' + f.bookmark" [nzValue]="f.code"></nz-option>
+
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Veuillez choisir un verbe HTTP!">
+        <p class="input-label">Action<sup style="color: darkred">*</sup></p>
+        <nz-select (nzOpenChange)="null" formControlName="httpVerb" nzAllowClear nzPlaceHolder="Choisissez une action"
+                   nzShowSearch>
+          <nz-option nzLabel="----"></nz-option>
+          <nz-option
+            *ngFor="let option of getHttpVerbOptions()"
+            [nzLabel]="option.label" [nzValue]="option.key"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <!--<nz-form-item>
+      <nz-form-control nzErrorTip="Veuillez renseigner le code!">
+        <p class="input-label">Code<sup style="color: darkred">*</sup></p>
+        <nz-input-group>
+          <input formControlName="code" nz-input placeholder="Renseignez le code" type="text"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>-->
+  </div>
+
+
+  <p style="margin-top: 2rem">Description</p>
+  <textarea formControlName="description" placeholder="Décrivez le pôle"
+            rows="3"></textarea>
+
+
+</form>
+
+<div *nzModalFooter>
+  <button (click)="handleCancel()" class="my-default-button basic-button" nz-button>Annuler</button>
+  <button (click)="handleOK()"
+          [disabled]="actionForm.invalid"
+          [ngClass]="{'buttonIsDisabled': actionForm.invalid, 'basic-button' : true, 'my-primary-button': actionForm.valid}"
+          [nzLoading]="isConfirmLoading"
+          [nzTooltipTitle]="actionForm.invalid ? 'Veuillez bien remplir le formulaire': 'Enregistrer'" nz-button
+          nz-tooltip>
+    {{ btnText }}
+  </button>
+</div>
+
+<ng-template #addNewFoncteTemplate>
+  <nz-divider></nz-divider>
+  <div class="container">
+    <a (click)="addNew()" class="add-item">
+      <i nz-icon nzType="plus"></i>
+      Ajouter nouvelle fonctionnalité
+    </a>
+  </div>
+</ng-template>
