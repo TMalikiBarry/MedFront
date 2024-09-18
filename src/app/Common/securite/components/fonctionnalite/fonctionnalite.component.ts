@@ -23,7 +23,7 @@ import {NotifService} from "../../../../services/notification/notif.service";
   styleUrls: ['./fonctionnalite.component.sass']
 })
 export class FonctionnaliteComponent implements OnInit{
-  fonctionnalites!: PatientInterface[];
+  fonctionnalites!: FonctionnaliteInterface[];
   pageIndex: number = 0;
   pageSize: number = 10;
 

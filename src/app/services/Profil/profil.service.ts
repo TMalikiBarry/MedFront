@@ -6,6 +6,7 @@ import {ProfilInterface} from "../../models/profil.interface";
 import {Page} from "../../models/pagination.interface";
 import {PersonnelInterface} from "../../models/personnel.interface";
 import {ActionInterface} from "../../models/action.interface";
+import {UtilsService} from "../utils/utils.service";
 
 @Injectable({
   providedIn: 'root'
@@ -16,22 +17,62 @@ export class ProfilService {
 
   private readonly urlAction = `${environment.apiURL}/action/allPresent`;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private utils: UtilsService) {
   }
 
-  getPaginatedData(page: number = 0, size: number = 10) {
-    // Création des paramètres de la requête
-    let params = new HttpParams();
-    params = params.append('page', page.toString());
-    params = params.append('size', size.toString());
+  getPaginatedFilteredData(page: number = 0, size: number = 10, firstName?: string, lastName?: string,
+                           telephone?: string, startDate?: Date, endDate?: Date,
+                           status?: string, genre?: string, ageMin?: number, ageMax?: number) {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
 
-    // Envoi de la requête GET avec les paramètres de pagination
-    return this.http.get<Page<PersonnelInterface>>(this.url, {params});
+    if (firstName) {
+      params = params.set('firstName', firstName);
+    }
+    if (lastName) {
+      params = params.set('lastName', lastName);
+    }
+
+    if (this.utils.numberIsDefined(ageMin!)) {
+      params = params.set('ageMin', ageMin!);
+    }
+
+    if (this.utils.numberIsDefined(ageMax!)) {
+      params = params.set('ageMax', ageMax!);
+    }
+
+    if (telephone) {
+      params = params.set('telephone', telephone);
+    }
+    if (status) {
+      params = params.set('status', status);
+    }
+    if (genre) {
+      params = params.set('genre', genre);
+    }
+    if (startDate) {
+      params = params.set('startDate', startDate.toISOString());
+    }
+    if (endDate) {
+      params = params.set('endDate', endDate.toISOString());
+    }
+
+    return this.http.get<Page<ProfilInterface>>(this.url, {params});
   }
 
   getAllActions() {
     return this.http.get<ActionInterface[]>(this.urlAction);
   }
+
+  getAll(){
+    return  this.http.get<any>(this.url+"/all")
+  }
+
+  getProfilByCode(code: string){
+    return this.http.get<ApiResponseInterface>(`${this.url}/${code}`);
+  }
+
 
   save(p: ProfilInterface) {
     return this.http.post<ApiResponseInterface>(this.url + '/save', p);
@@ -39,5 +80,9 @@ export class ProfilService {
 
   update(p: ProfilInterface, pID: number) {
     return this.http.put(this.url + '/update/' + pID, p);
+  }
+
+  delete(code: string){
+    return this.http.delete(`${this.url}/${code}`, {responseType: 'text'});
   }
 }
