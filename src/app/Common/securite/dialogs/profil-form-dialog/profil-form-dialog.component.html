@@ -68,7 +68,7 @@
                 <tbody>
                 <tr *ngFor="let row of basicTable.data">
                     <td>{{ row.code }}</td>
-                    <td>{{ row.httpVerb }}</td>
+                  <td>{{ getHttpVerbLabel(row.httpVerb) }}</td>
                     <td>{{ row.fonctionnalite.code }}</td>
                     <td>
                         <button (click)="deleteAction(row)" nz-button nzDanger nzShape="circle" nzType="default">
