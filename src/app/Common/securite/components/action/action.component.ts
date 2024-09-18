@@ -31,6 +31,15 @@ export class ActionComponent implements OnInit {
     this.getByPage();
   }
 
+  display(action: ActionInterface) {
+    console.log(action);
+    if (action.description) {
+      console.log('Yes value desc :', action.description);
+    } else {
+      console.log('nope')
+    }
+  }
+
   getHttpVerbLabel(httpVerb: string): string {
     return httpVerbMapping[httpVerb.toUpperCase()] || httpVerb;
   }

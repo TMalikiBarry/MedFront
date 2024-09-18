@@ -17,6 +17,20 @@
 
   <div class="make-spaceBetween">
     <nz-form-item>
+      <nz-form-control nzErrorTip="Veuillez choisir un verbe HTTP!">
+        <p class="input-label">Action<sup style="color: darkred">*</sup></p>
+        <nz-select (ngModelChange)="getTheHTTPVerb($event)" formControlName="httpVerb" nzAllowClear
+                   nzPlaceHolder="Choisissez une action"
+                   nzShowSearch>
+          <nz-option nzLabel="----"></nz-option>
+          <nz-option
+            *ngFor="let option of getHttpVerbOptions()"
+            [nzLabel]="option.label" [nzValue]="option.key"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
       <nz-form-control nzErrorTip="Veuillez renseigner la fonctionnalité!">
         <p class="input-label">Fonctionnalité<sup style="color: darkred">*</sup></p>
         <nz-select (ngModelChange)="getTheFonctionnalite($event)" [nzDropdownRender]="addNewFoncteTemplate"
@@ -30,19 +44,7 @@
         </nz-select>
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item>
-      <nz-form-control nzErrorTip="Veuillez choisir un verbe HTTP!">
-        <p class="input-label">Action<sup style="color: darkred">*</sup></p>
-        <nz-select (ngModelChange)="getTheHTTPVerb($event)" formControlName="httpVerb" nzAllowClear
-                   nzPlaceHolder="Choisissez une action"
-                   nzShowSearch>
-          <nz-option nzLabel="----"></nz-option>
-          <nz-option
-            *ngFor="let option of getHttpVerbOptions()"
-            [nzLabel]="option.label" [nzValue]="option.key"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
+
     <!--<nz-form-item>
       <nz-form-control nzErrorTip="Veuillez renseigner le code!">
         <p class="input-label">Code<sup style="color: darkred">*</sup></p>

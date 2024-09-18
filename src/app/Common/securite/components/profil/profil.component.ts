@@ -4,7 +4,6 @@ import {NzModalService} from "ng-zorro-antd/modal";
 import {UtilsService} from "../../../../services/utils/utils.service";
 import {NotifService} from "../../../../services/notification/notif.service";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
-import {NouvelleFonctionnaliteComponent} from "../../dialogs/nouvelle-fonctionnalite/nouvelle-fonctionnalite.component";
 import {ProfilService} from "../../../../services/Profil/profil.service";
 import {ProfilInterface} from "../../../../models/profil.interface";
 import {ProfilFormDialogComponent} from "../../dialogs/profil-form-dialog/profil-form-dialog.component";
@@ -118,31 +117,25 @@ export class ProfilComponent implements OnInit{
   }
 
 
-
-  deleteProfil(code: string) {
+  delete(code: string) {
     this.modalService.confirm({
-      nzTitle: 'Êtes-vous sûr de vouloir supprimer ce profil ?',
-      nzContent: 'Cette action est irréversible.',
+      nzTitle: `Supprimer le profil - <strong>${code}</strong>`,
+      nzContent: `Êtes-vous sûr de vouloir supprimer le profil ${code} ?`,
       nzOkText: 'Oui',
       nzOkDanger: true,
       nzCancelText: 'Non',
       nzOnOk: () => {
         this.profilService.delete(code).subscribe({
-          next: response => {
-            let code = response;
-            console.log("Reponse suppression")
-            console.log(response)
-            this.notify.snackMessage(`Suppression effectuée avec succés `, 3000, "success");
+          next: () => {
+            this.notify.snackMessage(`Profil ${code} supprimé avec succès!`, 3000, "success");
           }
         })
-        console.log('Suppression confirmée');
       },
       nzOnCancel: () => {
         console.log('Suppression annulée');
       }
     }).afterClose.subscribe(
-      (result) => {
-        if (result)
+      () => {
           this.filterData();
       }
     );

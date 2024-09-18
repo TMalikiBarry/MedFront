@@ -59,22 +59,35 @@
         <th>Description</th>
         <th>Sequence</th>
         <th>Module</th>
-        <th>Images</th>
+        <!--        <th>Images</th>-->
         <th>Actions</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let fonctionalite of fonctionnalitesTable.data">
         <td>{{ fonctionalite.code }}</td>
-        <td>{{ fonctionalite.description }}</td>
-        <td>{{ fonctionalite.sequence}}</td>
-        <td>{{ fonctionalite.module.description}}</td>
-        <td>{{ fonctionalite.image}}</td>
+        <td class="width-25">
+          <div [ngClass]="{'displayString' : !fonctionalite.description}">
+            {{ fonctionalite.description! | displayString: 'F' }}
+          </div>
+        </td>
+        <td>
+          <div [ngClass]="{'displayString' : !fonctionalite.sequence}">
+            {{ fonctionalite.sequence | displayString }}
+          </div>
+        </td>
+        <td><strong>{{ fonctionalite.module.code }}</strong></td>
+        <!--<td>
+          <div [ngClass]="{'displayString' : !fonctionalite.sequence}">
+            {{ fonctionalite.sequence | displayString }}
+          </div>
+        </td>-->
 
         <td class="space-evenly-modules some-min-width-12">
           <img (click)="updateFonctionalite(fonctionalite.code)" alt="Modifier" nz-tooltip
                nzTooltipTitle="Modifier" src="assets/from_figma/edit-action.svg" width="17">
-          <img (click)="deleteFonctionalite(fonctionalite.code)" alt="supprimer" nz-tooltip nzTooltipTitle="Supprimer" src="assets/icon/trash.svg" width="20">
+          <img (click)="deleteFonctionalite(fonctionalite.code)" alt="supprimer" nz-tooltip nzTooltipTitle="Supprimer"
+               src="assets/icon/trash.svg" width="20">
         </td>
       </tr>
       </tbody>

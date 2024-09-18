@@ -1,17 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {PatientInterface} from "../../../../models/patient.interface";
-import {WeeklyDataStat} from "../../../../models/weekly-data-stat";
-import {PersonneInterface} from "../../../../models/personne.interface";
 import {Page} from "../../../../models/pagination.interface";
-import {PatientService} from "../../../../services/patient/patient.service";
 import {NzModalService} from "ng-zorro-antd/modal";
-import {ActivatedRoute, Router} from "@angular/router";
 import {UtilsService} from "../../../../services/utils/utils.service";
-import * as Chart from "chart.js/auto";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
-import {
-  NouveauPatientComponent
-} from "../../../personnes/dialogs/nouveau-patient-form-dialog/nouveau-patient.component";
 import {FonctionnaliteInterface} from "../../../../models/fonctionnalite.interface";
 import {FonctionnaliteService} from "../../../../services/fonctionnalite/fonctionnalite.service";
 import {NouvelleFonctionnaliteComponent} from "../../dialogs/nouvelle-fonctionnalite/nouvelle-fonctionnalite.component";
@@ -127,28 +118,24 @@ export class FonctionnaliteComponent implements OnInit{
 
   deleteFonctionalite(code: string) {
     this.modalService.confirm({
-      nzTitle: 'Êtes-vous sûr de vouloir supprimer cette fonctionnalité ?',
-      nzContent: 'Cette action est irréversible.',
+      nzTitle: `Supprimer Fonctionnalité - <strong>${code}</strong>`,
+      nzContent: `Êtes-vous sûr de vouloir supprimer la fonctionnalité ${code}?`,
       nzOkText: 'Oui',
       nzOkDanger: true,
       nzCancelText: 'Non',
       nzOnOk: () => {
         this.fonctionnaliteService.delete(code).subscribe({
-          next: response => {
-            let code = response;
-            console.log("Reponse suppression")
-            console.log(response)
-            this.notify.snackMessage(`Suppression effectuée avec succés `, 3000, "success");
+          next: () => {
+
+            this.notify.snackMessage(`La fonctionnalité ${code} supprimée avec succès `, 3000, "success");
           }
         })
-        console.log('Suppression confirmée');
       },
       nzOnCancel: () => {
         console.log('Suppression annulée');
       }
     }).afterClose.subscribe(
-      (result) => {
-        if (result)
+      () => {
           this.filterData();
       }
     );

@@ -81,14 +81,24 @@
       <tbody>
       <tr *ngFor="let module of modulesTable.data">
         <td>{{ module.code }}</td>
-        <td>{{ module.description}} </td>
-        <td>{{ module.sequence }}</td>
+        <td class="width-25">
+          <div [ngClass]="{'displayString' : !module.description}">
+            {{ module.description! | displayString: 'F' }}
+          </div>
+        </td>
+        <td>
+          <div [ngClass]="{'displayString' : !module.sequence}">
+            {{ module.sequence | displayString }}
+          </div>
+        </td>
+
 
         <td class="space-evenly-modules">
           <img (click)="updateModule(module.code!)" alt="Modifier" nz-tooltip
                nzTooltipTitle="Modifier" src="assets/from_figma/edit-action.svg" width="17">
 
-          <img (click)="deleteModule(module.code)"alt="supprimer" nz-tooltip nzTooltipTitle="Supprimer" src="assets/icon/trash.svg" width="20">
+          <img (click)="deleteModule(module.code)" alt="supprimer" nz-tooltip nzTooltipTitle="Supprimer"
+               src="assets/icon/trash.svg" width="20">
 
         </td>
 

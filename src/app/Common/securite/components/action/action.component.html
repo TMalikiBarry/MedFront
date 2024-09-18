@@ -35,7 +35,7 @@
       <thead>
       <tr>
         <!--          <th>ID</th>-->
-        <th>CODE</th>
+        <th>Code</th>
         <th>Description</th>
         <th>Action</th>
         <th>Fonctionnalité</th>
@@ -49,13 +49,13 @@
       <tbody>
       <tr *ngFor="let s of actionTable.data">
         <td>{{ s.code }}</td>
-        <td class="width-25">
+        <td (click)="display(s)" class="width-25">
           <div [ngClass]="{'displayString' : !s.description}">
-            {{ s.description! | displayString }}
+            {{ s.description! | displayString: 'F' }}
           </div>
         </td>
 
-        <td>{{ getHttpVerbLabel(s.httpVerb) }}</td>
+        <td><strong>{{ getHttpVerbLabel(s.httpVerb) }}</strong></td>
 
         <td>
           <strong>{{ s.fonctionnalite.code }}</strong>

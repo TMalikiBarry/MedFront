@@ -66,12 +66,18 @@
       <tr *ngFor="let profil of profilsTable.data">
         <td>{{ profil.code }}</td>
         <td>{{ profil.libelle }}</td>
-        <td>{{ profil.dateCreation}}</td>
-        <td>{{ profil.welcomeBookmark}}</td>
+        <td>{{ profil.dateCreation | date: "EEE 'le' dd MMM yyyy 'à' hh:mm:ss" }}</td>
+        <td>
+          <div [ngClass]="{'displayString' : !profil.welcomeBookmark}">
+            {{ profil.welcomeBookmark | displayString }}
+          </div>
+        </td>
+
         <td class="space-evenly-modules some-min-width-12">
           <img (click)="updateProfil(profil.code)" alt="Modifier" nz-tooltip
                nzTooltipTitle="Modifier" src="assets/from_figma/edit-action.svg" width="17">
-          <img (click)="deleteProfil(profil.code)" alt="supprimer" nz-tooltip nzTooltipTitle="Supprimer" src="assets/icon/trash.svg" width="20">
+          <img (click)="delete(profil.code)" alt="supprimer" nz-tooltip nzTooltipTitle="Supprimer"
+               src="assets/icon/trash.svg" width="20">
         </td>
       </tr>
       </tbody>

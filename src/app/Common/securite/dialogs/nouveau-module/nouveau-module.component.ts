@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {PersonneInterface} from "../../../../models/personne.interface";
 import {NzModalRef} from "ng-zorro-antd/modal";
 import {NotifService} from "../../../../services/notification/notif.service";
 import {ModuleService} from "../../../../services/module/module.service";
@@ -24,7 +23,7 @@ export class NouveauModuleComponent implements OnInit{
 
     this.moduleForm = this.fb.group({
       code: ['', Validators.required],
-      description: ['', Validators.required],
+      description: [''],
       sequence: [''],
       image: [''],
     });

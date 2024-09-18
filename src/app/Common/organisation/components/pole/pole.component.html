@@ -55,7 +55,7 @@
         <td>{{ p.nom }}</td>
         <td class="width-25">
           <div [ngClass]="{'displayString' : !p.description}">
-            {{ p.description! | displayString }}
+            {{ p.description! | displayString: 'F' }}
           </div>
         </td>
 
@@ -73,7 +73,8 @@
 
         <td>
           <img (click)="update(p)" alt="Modifier" nz-tooltip
-               nzTooltipTitle="Modifier les infos du personnel" src="assets/from_figma/edit-action.svg" style="cursor: pointer; margin-right: 1rem">
+               [nzTooltipTitle]="'Modifier les infos du pôle '+p.nom" src="assets/from_figma/edit-action.svg"
+               style="cursor: pointer; margin-right: 1rem">
           <img alt="Modifier" nz-tooltip nzTooltipTitle="Pas encore disponible"
                src="assets/icon/trash_blocked.svg" style="cursor:not-allowed;">
         </td>

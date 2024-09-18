@@ -1,1 +1,88 @@
-<p>acces works!</p>
+<div class="mainbody">
+  <div class="headerLayout">
+    <nz-input-group [nzPrefix]="suffixIconSearch">
+      <input nz-input placeholder="Rechercher par patient, prestation" type="text"/>
+    </nz-input-group>
+    <div class="headerActions">
+      <img alt="notif" src="assets/from_figma/notification_icon.svg" width="17.5">
+      <img alt="email" src="assets/from_figma/email-icon.svg" width="17.5">
+      <img alt="calendar" src="assets/from_figma/calendar-icon.svg" width="17.5">
+      <div class="addActionHeader">
+        <img alt="Ajouter" src="assets/from_figma/addPlus-icon.svg">
+        <span>Ajouter</span>
+        <a [nzDropdownMenu]="menu" nz-dropdown>
+          <img alt="Arrow Down" src="assets/from_figma/arrow-down.svg">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="dataLayout">
+    <div class="headerData make-spaceBetween add-some-margin">
+      <p>Liste des accès</p>
+      <button (click)="addNew()" class="basic-button my-primary-button" nz-button nzSize="large">
+        <span nz-icon nzType="plus"></span>
+        Nouvel Accès
+      </button>
+    </div>
+    <nz-table #accesTable (nzQueryParams)="onQueryParamsChange($event)"
+              *ngIf="paginatedData"
+              [nzData]="paginatedData.content"
+              [nzFrontPagination]="false"
+              [nzPageIndex]="paginatedData.pageable.pageNumber +1"
+              [nzPageSize]="paginatedData.pageable.pageSize"
+              [nzTotal]="paginatedData.totalElements"
+    >
+      <thead>
+      <tr>
+        <!--          <th>ID</th>-->
+        <th>ID</th>
+        <th>Login</th>
+        <th>Profil</th>
+        <th>Date de création</th>
+        <!--        <th>Statut</th>-->
+
+        <th>Actions</th>
+        <!-- Ajoutez d'autres colonnes si nécessaire -->
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let a of accesTable.data">
+        <td>{{ a.id }}</td>
+        <td>{{ a.login }}</td>
+        <td><strong>{{ a.profil?.code }}</strong></td>
+        <td>{{ a.dateCreation | date: "EEE 'le' dd MMM yyyy 'à' hh:mm:ss" }}</td>
+
+
+        <td>
+          <img (click)="update(a)" [nzTooltipTitle]="'Modifier les infos de l\'accès '+ a.login" alt="Modifier"
+               nz-tooltip src="assets/from_figma/edit-action.svg"
+               style="cursor: pointer; margin-right: 1rem">
+          <img [nzTooltipTitle]="'Supprimer l\'accès ' + a.login" alt="Supprimer" nz-tooltip
+               src="assets/icon/trash_blocked.svg" style="cursor:not-allowed;">
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+
+  </div>
+
+</div>
+
+
+<ng-template #suffixIconSearch>
+  <img alt="Rechercher" src="assets/from_figma/search_icon.svg">
+</ng-template>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <li class="selectedLink" nz-menu-item>
+      <span>Nouveau Patient</span>
+    </li>
+    <li class="selectedLink" nz-menu-item>
+      <span>Nouveau RDV</span>
+    </li>
+    <li class="selectedLink" nz-menu-item>
+      <span>Nouvelle prestation</span>
+    </li>
+  </ul>
+</nz-dropdown-menu>

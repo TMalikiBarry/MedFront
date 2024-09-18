@@ -6,7 +6,9 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class DisplayNonNullStringPipe implements PipeTransform {
 
   transform(value: any, type?: 'F' | 'M', ...args: unknown[]): string {
-    return value ?? ('Non renseigné' + (type === 'F' ? 'e' : ''));
+    /*value = (typeof value === 'string' && value == "") ? undefined : value;
+    return value ?? ('Non renseigné' + (type === 'F' ? 'e' : ''));*/
+    return (value && value !== "") ? value : `Non renseigné${type === 'F' ? 'e' : ''}`;
   }
 
 }
