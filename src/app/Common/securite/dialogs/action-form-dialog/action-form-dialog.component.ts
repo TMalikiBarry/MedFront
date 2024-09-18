@@ -14,7 +14,7 @@ import {NouvelleFonctionnaliteComponent} from "../nouvelle-fonctionnalite/nouvel
 })
 export class ActionFormDialogComponent implements OnInit {
 
-    titleForm = "Nouvelle";
+    titleForm = "Nouvelle action";
     formDesc = "Veuillez renseigner ce formulaire pour ajouter une action";
     btnText = "Enregistrer";
     isConfirmLoading = false;
@@ -25,12 +25,11 @@ export class ActionFormDialogComponent implements OnInit {
     listOfFonctionnalite!: FonctionnaliteInterface[];
 
     actionForm: FormGroup = this.fb.group({
-        code: ['', Validators.required],
+        code: [{value: '', disabled: true}, Validators.required],
         httpVerb: ['', Validators.required],
         fonctionnalite: ['', Validators.required],
         description: ['']
     })
-    protected readonly event = event;
 
     constructor(private modal: NzModalRef,
                 private api: ActionService,
@@ -60,7 +59,8 @@ export class ActionFormDialogComponent implements OnInit {
 
     handleOK() {
         this.isConfirmLoading = true;
-        const formData = this.actionForm.value;
+        // console.dir(this.actionForm.getRawValue());
+        const formData = this.actionForm.getRawValue();
 
         const action = this.createFromForm(formData);
 
@@ -101,14 +101,14 @@ export class ActionFormDialogComponent implements OnInit {
 
     createFromForm(formData: any): ActionInterface {
 
-        const code = formData.code.trim().replace(/\s/g, '_').toUpperCase();
+        const {code, description, httpVerb} = formData
 
         const fonc_te = this.listOfFonctionnalite.find(f => f.code == formData.fonctionnalite)!;
 
         return {
             code,
-            httpVerb: formData.httpVerb,
-            description: formData.description,
+            httpVerb,
+            description,
             fonctionnalite: fonc_te
         }
 
@@ -117,12 +117,17 @@ export class ActionFormDialogComponent implements OnInit {
     setCodeFormInput() {
         let fCode: string = this.actionForm.controls['fonctionnalite'].value ?? '';
         let httpVerb: string = this.actionForm.controls['httpVerb'].value ?? '';
-        this.actionForm.controls['code'].setValue(httpVerb + '_' + fCode.toUpperCase());
+        const code = `${httpVerb}_${fCode.toUpperCase()}`.replace(/\s/g, '_');
+        this.actionForm.controls['code'].setValue(code);
     }
 
     getTheHTTPVerb(event: Event) {
         this.setCodeFormInput();
         console.dir(event);
+    }
+
+    getTheFonctionnalite(event: Event) {
+        this.setCodeFormInput();
     }
 
     getHttpVerbOptions(): { key: string, label: string }[] {
@@ -151,6 +156,9 @@ export class ActionFormDialogComponent implements OnInit {
         this.actionForm.controls['httpVerb'].setValue(this.updatedAction.httpVerb);
         this.actionForm.controls['fonctionnalite'].setValue(this.updatedAction.fonctionnalite.code);
         if (this.updatedAction.description) this.actionForm.controls['description'].setValue(this.updatedAction.description);
+
+        this.actionForm.controls['httpVerb'].disable();
+        this.actionForm.controls['fonctionnalite'].disable();
     }
 
     private update(action: ActionInterface) {

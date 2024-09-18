@@ -4,6 +4,7 @@ import {NzModalRef} from "ng-zorro-antd/modal";
 import {NotifService} from "src/app/services/notification/notif.service";
 import {ProfilInterface} from "src/app/models/profil.interface";
 import {ProfilService} from "src/app/services/Profil/profil.service";
+import {ActionInterface, httpVerbMapping} from "../../../../models/action.interface";
 
 @Component({
   selector: 'app-profil-form-dialog',
@@ -19,12 +20,18 @@ export class ProfilFormDialogComponent implements OnInit {
 
   data: any;
   updatedProfil!: ProfilInterface;
+  isSuperAdministrateur = false;
+  isAdministrateur = false;
+
   profilForm: FormGroup = this.fb.group({
     code: ['', Validators.required],
     libelle: ['', Validators.required],
     welcomeBookmark: '',
+    actions: ['']
 
   })
+  actions!: ActionInterface[];
+  listActions: ActionInterface[] = [];
 
   constructor(private modal: NzModalRef,
               private api: ProfilService,
@@ -33,6 +40,7 @@ export class ProfilFormDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initData();
     this.data = this.modal.getConfig().nzData
     //console.log(this.data)
     if (this.data) {
@@ -43,6 +51,16 @@ export class ProfilFormDialogComponent implements OnInit {
         this.fillTheForm();
 
       }
+    }
+  }
+
+  filterActionList() {
+    if (this.listActions && this.listActions.length > 0) {
+      this.actions = this.actions.filter(a => this.listActions
+        .every(action => action.code !== a.code));
+    }
+    if (this.updatedProfil && this.updatedProfil.code === 'ADMINISTRATEUR') {
+      this.actions = this.actions.filter(a => a.fonctionnalite.module.code !== 'SECURITE');
     }
   }
 
@@ -77,6 +95,22 @@ export class ProfilFormDialogComponent implements OnInit {
           }
         }
       )
+    }
+  }
+
+  addAction() {
+
+    const addedAction = this.actions.find(x => x.code === this.profilForm.controls['actions'].value);
+    if (addedAction && this.listActions.every(a => a.code !== addedAction.code)) {
+      // this.listActions.push(addedAction);
+      this.listActions = [...this.listActions, addedAction];
+      this.actions = this.actions.filter(a => a.code !== addedAction.code);
+      this.profilForm.controls['actions'].setValue(null);
+    } else if (addedAction && this.listActions.some(a => a.code === addedAction.code)) {
+      this.notification.snackMessage('Cette action a déjà été ajoutée', 3500, 'warning');
+    } else {
+      this.notification.snackMessage('L\'action choisie pas valide', 3500, 'warning');
+      this.profilForm.controls['actions'].setValue(null);
     }
   }
 
@@ -115,6 +149,32 @@ export class ProfilFormDialogComponent implements OnInit {
         this.isConfirmLoading = false
       }
     })
+  }
+
+  deleteAction(action: ActionInterface) {
+    /*const index = this.listActions.indexOf(action);
+    if (index !== -1){
+      this.listActions.splice(index, 1);
+    }*/
+    this.listActions = this.listActions.filter(a => a.code !== action.code);
+  }
+
+  getHttpVerbLabel(httpVerb: string): string {
+    return httpVerbMapping[httpVerb.toUpperCase()] || httpVerb;
+  }
+
+  private initData() {
+    if (this.updatedProfil) {
+      this.isSuperAdministrateur = this.updatedProfil.code === 'SUPERADMINISTRATEUR';
+      this.isAdministrateur = this.updatedProfil.code === 'ADMINISTRATEUR';
+    }
+
+    this.api.getAllActions().subscribe(
+      data => {
+        this.actions = data;
+        this.filterActionList();
+      }
+    )
   }
 
 }

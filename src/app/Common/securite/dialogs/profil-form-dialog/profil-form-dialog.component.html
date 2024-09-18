@@ -35,6 +35,57 @@
     </nz-form-control>
   </nz-form-item>
 
+    <nz-collapse [nzBordered]="false">
+        <nz-collapse-panel nzHeader="Liste Actions">
+            <div style="display: flex; justify-content: space-between">
+                <nz-form-item [style.width.%]="75">
+                    <nz-form-control nzErrorTip="Veuillez renseigner l'action!">
+                        <nz-select (click)="filterActionList()" formControlName="actions" nzPlaceHolder="Choisir l'action"
+                                   nzShowSearch>
+                            <nz-option *ngFor="let action of actions"
+                                       [nzLabel]="getHttpVerbLabel(action.httpVerb) + ' - '+ action.fonctionnalite.code"
+                                       [nzValue]="action.code"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <button (click)="addAction()" *ngIf="!isSuperAdministrateur" class="basic-button my-primary-button" nz-button
+                        nzShape="circle" nzSize="large" nzType="primary">
+                    <i nz nz-icon nzType="plus-circle"></i>
+                </button>
+            </div>
+
+            <nz-table #basicTable [nzData]="listActions" [nzShowPagination]="false">
+                <thead>
+                <tr>
+                    <!--          <th>Actions</th>-->
+                    <th>Code</th>
+                    <th>Action</th>
+                    <th>Fonction</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let row of basicTable.data">
+                    <td>{{ row.code }}</td>
+                    <td>{{ row.httpVerb }}</td>
+                    <td>{{ row.fonctionnalite.code }}</td>
+                    <td>
+                        <button (click)="deleteAction(row)" nz-button nzDanger nzShape="circle" nzType="default">
+                            <i nz-icon nzType="delete"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="basicTable.data.length === 0">
+                    <td *ngIf="!isSuperAdministrateur" colspan="2"><em>Aucune Action</em></td>
+                    <td *ngIf="isSuperAdministrateur" colspan="2"><em>Je détiens déjà tous les droits</em></td>
+                    <td *ngIf="isAdministrateur" colspan="2"><em>Je détiens les droits du
+                        module {{ 'sécurité' | uppercase }}</em></td>
+                </tr>
+                </tbody>
+            </nz-table>
+        </nz-collapse-panel>
+    </nz-collapse>
 
 </form>
 

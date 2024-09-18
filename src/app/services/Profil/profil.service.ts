@@ -5,6 +5,7 @@ import {ApiResponseInterface} from "../../models/api-response.interface";
 import {ProfilInterface} from "../../models/profil.interface";
 import {Page} from "../../models/pagination.interface";
 import {PersonnelInterface} from "../../models/personnel.interface";
+import {ActionInterface} from "../../models/action.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class ProfilService {
 
   private readonly url = environment.apiURL + '/profil';
 
-  private readonly urlAction = `${environment.apiURL}/action`;
+  private readonly urlAction = `${environment.apiURL}/action/allPresent`;
 
   constructor(private http: HttpClient) {
   }
@@ -28,8 +29,8 @@ export class ProfilService {
     return this.http.get<Page<PersonnelInterface>>(this.url, {params});
   }
 
-  getAll() {
-    return this.http.get<ApiResponseInterface>(this.url + '/allPresent');
+  getAllActions() {
+    return this.http.get<ActionInterface[]>(this.urlAction);
   }
 
   save(p: ProfilInterface) {
