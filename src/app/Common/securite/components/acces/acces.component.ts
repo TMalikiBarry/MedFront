@@ -46,7 +46,7 @@ export class AccesComponent implements OnInit {
     this.getByPage(this.pageIndex, this.pageSize);
   }
 
-  addNew() {
+  /*addNew() {
     this.modalService.create(
       {
         nzContent: AccesFormDialogComponent,
@@ -59,7 +59,7 @@ export class AccesComponent implements OnInit {
         this.getByPage();
       }
     );
-  }
+  }*/
 
   update(acces: AccesInterface) {
     this.modalService.create(
@@ -82,21 +82,45 @@ export class AccesComponent implements OnInit {
 
   delete(acces: AccesInterface) {
     this.modalService.confirm({
-      nzTitle: `Supprimer le profil - <strong>${acces.login}</strong>`,
-      nzContent: `Êtes-vous sûr de vouloir supprimer le profil ${acces.login} ?`,
+      nzTitle: `Supprimer l'accès - <strong>${acces.login}</strong>`,
+      nzContent: `Êtes-vous sûr de vouloir supprimer l'accès ${acces.login} ?`,
       nzOkText: 'Oui',
       nzOkDanger: true,
       nzCancelText: 'Non',
       nzOnOk: () => {
         this.api.delete(acces.id!).subscribe({
           next: () => {
-            this.notify.snackMessage(`Profil ${acces.login} supprimé avec succès!`, 3000, "success");
+            this.notify.snackMessage(`Accès ${acces.login} supprimé avec succès!`, 3000, "success");
           }
         })
       },
       nzOnCancel: () => {
         console.log('Suppression annulée');
       }
+    }).afterClose.subscribe(
+      () => {
+        this.getByPage(this.pageIndex, this.pageSize);
+      }
+    );
+  }
+
+  resetPassword(acces: AccesInterface) {
+    this.modalService.confirm({
+      nzTitle: `Réinitialisation Mot De Passe accès - <strong>${acces.login}</strong>`,
+      nzContent: `Êtes-vous sûr de vouloir réinitialiser pour l'accès ${acces.login} ?`,
+      nzOkText: 'Oui',
+      nzOkDanger: true,
+      nzCancelText: 'Non',
+      nzOnOk: () => {
+        this.api.resetAccesPassword(acces).subscribe({
+          next: () => {
+            this.notify.snackMessage(`Mot de passe de ${acces.login} réinitialisé avec succès!`, 3000, "success");
+          }
+        })
+      },
+      /*nzOnCancel: () => {
+        console.log('Suppression annulée');
+      }*/
     }).afterClose.subscribe(
       () => {
         this.getByPage(this.pageIndex, this.pageSize);

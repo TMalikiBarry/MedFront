@@ -10,6 +10,7 @@ import {AccesInterface} from "../../models/acces.interface";
 export class AccesService {
 
   private readonly url = environment.apiURL + '/acces';
+  private readonly urlProfil = environment.apiURL + '/profil/allPresent';
 
   constructor(private http: HttpClient) {
   }
@@ -23,8 +24,12 @@ export class AccesService {
     return this.http.get<ApiResponseInterface>(this.url, {params});
   }
 
-  getAll() {
-    return this.http.get<ApiResponseInterface>(`${this.url}/allPresent`);
+  getAllProfil() {
+    return this.http.get<ApiResponseInterface>(this.urlProfil);
+  }
+
+  resetAccesPassword(acces: AccesInterface) {
+    return this.http.post<AccesInterface>(this.url + '/reset', acces);
   }
 
   save(acces: AccesInterface) {

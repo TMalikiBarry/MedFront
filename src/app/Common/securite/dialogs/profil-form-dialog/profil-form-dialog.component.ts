@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {NzModalRef} from "ng-zorro-antd/modal";
+import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
 import {NotifService} from "src/app/services/notification/notif.service";
 import {ProfilInterface} from "src/app/models/profil.interface";
 import {ProfilService} from "src/app/services/Profil/profil.service";
 import {ActionInterface, httpVerbMapping} from "../../../../models/action.interface";
+import {ActionFormDialogComponent} from "../action-form-dialog/action-form-dialog.component";
 
 @Component({
   selector: 'app-profil-form-dialog',
@@ -34,6 +35,7 @@ export class ProfilFormDialogComponent implements OnInit {
   listActions: ActionInterface[] = [];
 
   constructor(private modal: NzModalRef,
+              private modalService: NzModalService,
               private api: ProfilService,
               private notification: NotifService,
               private fb: FormBuilder) {
@@ -48,6 +50,7 @@ export class ProfilFormDialogComponent implements OnInit {
         this.titleForm = 'Modifier Profil - ' + this.data.id
         this.formDesc = this.formDesc.replace('ajouter un', 'modifier le');
         this.updatedProfil = this.data;
+        this.listActions = this.updatedProfil.actions ?? [];
         this.fillTheForm();
 
       }
@@ -122,6 +125,7 @@ export class ProfilFormDialogComponent implements OnInit {
       code,
       libelle: formData.libelle.trim(),
       welcomeBookmark: formData.welcomeBookmark,
+      actions: this.listActions
     }
 
   }
@@ -134,21 +138,23 @@ export class ProfilFormDialogComponent implements OnInit {
     if (this.updatedProfil.welcomeBookmark) this.profilForm.controls['welcomeBookmark'].setValue(this.updatedProfil?.welcomeBookmark);
   }
 
-  private update(profil: ProfilInterface) {
-    this.api.update(profil, this.updatedProfil.id!).subscribe({
-      next: () => {
-        this.modal.close();
-        // this.apiRdv.getAllRdv();
-        this.notification.snackMessage(`Pôle mis à jour avec succés`, 3000, 'success')
-      },
-      error: (error) => {
-        console.error(error);
-        this.isConfirmLoading = false;
-      },
-      complete: () => {
-        this.isConfirmLoading = false
+  addNew(): void {
+    this.modalService.create({
+      nzContent: ActionFormDialogComponent,
+      nzWidth: 700,
+      nzClosable: false,
+      nzCentered: true,
+    }).afterClose.subscribe(
+      (result) => {
+        console.log(result);
+        if (result && result.code) {
+          console.log("SUCCES CREATED action")
+          this.initData();
+          this.profilForm.controls['actions'].setValue(result.code);
+        }
+        // this.getGraphData(this.isLastWeek);
       }
-    })
+    );
   }
 
   deleteAction(action: ActionInterface) {
@@ -175,6 +181,23 @@ export class ProfilFormDialogComponent implements OnInit {
         this.filterActionList();
       }
     )
+  }
+
+  private update(profil: ProfilInterface) {
+    this.api.update(profil, this.updatedProfil.id!).subscribe({
+      next: () => {
+        this.modal.close();
+        // this.apiRdv.getAllRdv();
+        this.notification.snackMessage(`Profil mis à jour avec succés`, 3000, 'success')
+      },
+      error: (error) => {
+        console.error(error);
+        this.isConfirmLoading = false;
+      },
+      complete: () => {
+        this.isConfirmLoading = false
+      }
+    })
   }
 
 }

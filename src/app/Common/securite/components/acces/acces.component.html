@@ -19,10 +19,10 @@
   <div class="dataLayout">
     <div class="headerData make-spaceBetween add-some-margin">
       <p>Liste des accès</p>
-      <button (click)="addNew()" class="basic-button my-primary-button" nz-button nzSize="large">
+      <!--<button (click)="addNew()" class="basic-button my-primary-button" nz-button nzSize="large">
         <span nz-icon nzType="plus"></span>
         Nouvel Accès
-      </button>
+      </button>-->
     </div>
     <nz-table #accesTable (nzQueryParams)="onQueryParamsChange($event)"
               *ngIf="paginatedData"
@@ -49,16 +49,17 @@
       <tr *ngFor="let a of accesTable.data">
         <td>{{ a.id }}</td>
         <td>{{ a.login }}</td>
-        <td><strong>{{ a.profil?.code }}</strong></td>
+        <td><strong>{{ a.profil.code }}</strong></td>
         <td>{{ a.dateCreation | date: "EEE 'le' dd MMM yyyy 'à' hh:mm:ss" }}</td>
 
 
         <td>
           <img (click)="update(a)" [nzTooltipTitle]="'Modifier les infos de l\'accès '+ a.login" alt="Modifier"
-               nz-tooltip src="assets/from_figma/edit-action.svg"
+               nz-tooltip src="assets/from_figma/edit-action.svg" width="17"
                style="cursor: pointer; margin-right: 1rem">
-          <img [nzTooltipTitle]="'Supprimer l\'accès ' + a.login" alt="Supprimer" nz-tooltip
-               src="assets/icon/trash_blocked.svg" style="cursor:not-allowed;">
+          <img (click)="resetPassword(a)" [nzTooltipTitle]="'Réinitialiser le mot de passe pour l\'accès ' + a.login"
+               alt="réinitialisation" nz-tooltip
+               src="assets/from_figma/reset-hard.svg" style="cursor:pointer;" width="20">
         </td>
       </tr>
       </tbody>

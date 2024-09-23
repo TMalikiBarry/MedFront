@@ -50,4 +50,8 @@ export class PoleService {
   getAllPresentPersonnel() {
     return this.http.get<ApiResponseInterface>(this.API_PERSONNEL);
   }
+
+  delete(idPole: number) {
+    return this.http.delete(`${this.API_URL + this.ENDPOINT_POLE}/${idPole}`);
+  }
 }

@@ -10,7 +10,7 @@ export interface AccesInterface {
   dateLastPwdUpdate?: string;
   hasAlreadyConnected?: boolean;
   logActions?: LogAction[];
-  profil?: ProfilInterface;
+  profil: ProfilInterface;
   supprime?: boolean;
   dateCreation?: string;
   dateModification?: string;

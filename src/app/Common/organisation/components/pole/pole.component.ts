@@ -106,4 +106,28 @@ export class PoleComponent implements OnInit {
     return `${p.superviseur.personne.prenom} ${p.superviseur.personne.nom}`
   }
 
+  delete(pole: PoleInterface) {
+    this.modalService.confirm({
+      nzTitle: `Supprimer le pôle - <strong>${pole.nom}</strong>`,
+      nzContent: `Êtes-vous sûr de vouloir supprimer le pôle ${pole.nom} ?`,
+      nzOkText: 'Oui',
+      nzOkDanger: true,
+      nzCancelText: 'Non',
+      nzOnOk: () => {
+        this.api.delete(pole.id!).subscribe({
+          next: () => {
+            this.notify.snackMessage(`Pôle ${pole.nom} supprimé avec succès!`, 3000, "success");
+          }
+        })
+      },
+      nzOnCancel: () => {
+        console.log('Suppression annulée');
+      }
+    }).afterClose.subscribe(
+      () => {
+        this.getByPage(this.pageIndex, this.pageSize);
+      }
+    );
+  }
+
 }

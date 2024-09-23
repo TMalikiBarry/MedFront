@@ -1,1 +1,59 @@
-<p>acces-form-dialog works!</p>
+<div *nzModalTitle class="make-spaceBetween">
+  <p>{{ titleForm }}</p>
+  <img (click)="handleCancel()" alt="Fermer le form" src="assets/from_figma/close_modal.svg">
+</div>
+
+<form [formGroup]="accesForm" class="login-form" nz-form>
+  <p class="connect-phrase">{{ formDesc }}</p>
+
+  <div class="make-spaceBetween">
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Veuillez renseigner le login!">
+        <p class="input-label">Login<sup style="color: darkred">*</sup></p>
+        <nz-input-group>
+          <input formControlName="login" nz-input placeholder="Renseignez le login" type="text"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Veuillez renseigner la profil!">
+        <p class="input-label">Profil<sup style="color: darkred">*</sup></p>
+        <nz-select [nzDropdownRender]="addNewProfilTemplate"
+                   formControlName="profil"
+                   nzAllowClear nzPlaceHolder="Choisissez une profil" nzShowSearch>
+          <nz-option nzLabel="----"></nz-option>
+          <nz-option
+            *ngFor="let f of listOfProfil"
+            [nzLabel]="f.libelle!" [nzValue]="f.id"></nz-option>
+
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+  </div>
+
+
+</form>
+
+<div *nzModalFooter>
+  <button (click)="handleCancel()" class="my-default-button basic-button" nz-button>Annuler</button>
+  <button (click)="handleOK()"
+          [disabled]="accesForm.invalid"
+          [ngClass]="{'buttonIsDisabled': accesForm.invalid, 'basic-button' : true, 'my-primary-button': accesForm.valid}"
+          [nzLoading]="isConfirmLoading"
+          [nzTooltipTitle]="accesForm.invalid ? 'Veuillez bien remplir le formulaire': 'Enregistrer'" nz-button
+          nz-tooltip>
+    {{ btnText }}
+  </button>
+</div>
+
+<ng-template #addNewProfilTemplate>
+  <nz-divider></nz-divider>
+  <div class="container">
+    <a (click)="addNew()" class="add-item">
+      <i nz-icon nzType="plus"></i>
+      Ajouter nouveau profil
+    </a>
+  </div>
+</ng-template>

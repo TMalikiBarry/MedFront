@@ -96,7 +96,7 @@ export class PersonnelFormDialogComponent implements OnInit {
       personnel.personne.supprime = this.personnelToUpdate.personne.supprime;
       if (this.personnelToUpdate.personne.acces) {
         this.personnelToUpdate.personne.acces.login = personnel.personne.acces?.login!;
-        this.personnelToUpdate.personne.acces.profil = personnel.personne.acces?.profil;
+        this.personnelToUpdate.personne.acces.profil = personnel.personne.acces?.profil!;
         personnel.personne.acces = this.personnelToUpdate.personne.acces;
       }
       this.update(personnel);
@@ -126,7 +126,7 @@ export class PersonnelFormDialogComponent implements OnInit {
 
     return {
       login: formData.login,
-      profil: choosenProfil,
+      profil: choosenProfil!,
       hasAlreadyConnected: false,
 
     }

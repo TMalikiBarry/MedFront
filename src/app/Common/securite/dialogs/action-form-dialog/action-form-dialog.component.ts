@@ -145,7 +145,10 @@ export class ActionFormDialogComponent implements OnInit {
             nzCentered: true,
         }).afterClose.subscribe(
             (result) => {
-                if (result && result.code) this.actionForm.controls['fonctionnalite'].setValue(result.code);
+              if (result && result.code) {
+                this.loadFonctionnalite();
+                this.actionForm.controls['fonctionnalite'].setValue(result.code);
+              }
                 // this.getGraphData(this.isLastWeek);
             }
         );

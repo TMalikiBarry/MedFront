@@ -41,7 +41,7 @@
                 <nz-form-item [style.width.%]="75">
                     <nz-form-control nzErrorTip="Veuillez renseigner l'action!">
                         <nz-select (click)="filterActionList()" formControlName="actions" nzPlaceHolder="Choisir l'action"
-                                   nzShowSearch>
+                                   [nzDropdownRender]="addNewActionTemplate" nzShowSearch>
                             <nz-option *ngFor="let action of actions"
                                        [nzLabel]="getHttpVerbLabel(action.httpVerb) + ' - '+ action.fonctionnalite.code"
                                        [nzValue]="action.code"></nz-option>
@@ -99,4 +99,14 @@
     {{ btnText }}
   </button>
 </div>
+
+<ng-template #addNewActionTemplate>
+  <nz-divider></nz-divider>
+  <div class="container">
+    <a (click)="addNew()" class="add-item">
+      <i nz-icon nzType="plus"></i>
+      Ajouter nouvelle Action
+    </a>
+  </div>
+</ng-template>
 

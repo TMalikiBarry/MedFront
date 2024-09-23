@@ -101,13 +101,16 @@ export class ProfilComponent implements OnInit{
     );
   }
 
-  updateProfil(code: string) {
+  updateProfil(profil: ProfilInterface) {
     this.modalService.create({
       nzContent: ProfilFormDialogComponent,
       nzClosable: false,
       nzWidth: 750,
       nzCentered: true,
-      nzData: code
+      nzData: {
+        ...profil,
+        context: 'PUT_PROFIL'
+      }
     }).afterClose.subscribe(
       (result) => {
         if (result)
