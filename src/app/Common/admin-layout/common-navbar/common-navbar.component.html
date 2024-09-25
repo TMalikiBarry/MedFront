@@ -322,13 +322,17 @@
     <!-- Template pour le titre avec l'image et la description du module -->
     <ul nz-menu nzMode="inline">
       <!-- Loop through modules that have actions -->
-      <li *ngFor="let module of filteredModules" nz-submenu [(nzOpen)]="openMap[module.code]"
-          (nzOpenChange)="openHandler(module.code)"  [nzTitle]="getModuleTitle(module)">
-<!-- <ng-container  nzMenuTitle *ngTemplateOutlet="moduleTitleTemplate; context: { module: module }"></ng-container>-->
+      <li *ngFor="let module of filteredModules"
+          nz-submenu
+          [(nzOpen)]="openMap[module.code]"
+          (nzOpenChange)="openHandler(module.code)"
+          [nzTitle]="moduleTitleTemplate"
+          [nzTitleContext]="{ module: module }">
+        <!-- <ng-container  nzMenuTitle *ngTemplateOutlet="moduleTitleTemplate; context: { module: module }"></ng-container>-->
         <ul>
           <li *ngFor="let fonctionnalite of module.fonctionnalites" nz-menu-item>
             <a [routerLink]="getRouterLink(fonctionnalite)" class="selectedLink">
-              <img [src]="getIconPath(fonctionnalite)" >
+              <img [src]="getIconPath(fonctionnalite)">
               <span>{{ fonctionnalite.description }}</span>
             </a>
           </li>
