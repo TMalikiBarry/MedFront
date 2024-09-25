@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import {environment} from "../../../environments/environment.prod";
 import {ApiResponseInterface} from "../../models/api-response.interface";
 import {ProfilInterface} from "../../models/profil.interface";

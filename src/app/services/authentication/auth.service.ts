@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, of, tap} from "rxjs";
 import {AuthInterface} from "../../models/auth.interface";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {Router} from "@angular/router";
 import {environment} from "src/environments/environment.prod";
 import {StorageService} from "../Storage/storage.service";
