@@ -302,18 +302,6 @@
 </ng-template>
 -->
 
-<ng-template  #moduleTitleTemplate let-module="module">
- <!-- <img [src]="getIconPathModule(module)" alt="Icone du module" class="module-icon" />-->
-  <!--<span>{{ module.description }}</span>-->
-
-  <div [ngClass]="{'selected-module': router.url.includes('/parametre/'), 'module-tag': !router.url.includes('/parametre/')}">
-    <img
-      [src]="'assets/from_figma/' + (router.url.includes('/parametre/') ? 'Parametre_full_white.svg' : 'Parametre.svg')"
-      alt="Dossiers" class="module_logo" width="16.5">
-    <span>{{ module.description }}</span>
-  </div>
-
-</ng-template>
 <nz-layout>
   <nz-sider nzTheme="light" nzWidth="16%">
     <div id="firstIMG">
@@ -322,13 +310,28 @@
     <!-- Template pour le titre avec l'image et la description du module -->
     <ul nz-menu nzMode="inline">
       <!-- Loop through modules that have actions -->
+      <li nz-menu-item [ngClass]="{'firstNav': router.url =='/admin/dashboard'}">
+        <a routerLink="/admin/dashboard" class="selectedLink" >
+
+          <img width="16"
+               [src]="'assets/from_figma/'+  (router.url=='/admin/dashboard'?'Dashboard_full_white.svg':'Dashboard.svg' )"
+               alt="Dashboard">
+          <span>Dashboard</span>
+        </a>
+      </li>
       <li *ngFor="let module of filteredModules"
           nz-submenu
           [(nzOpen)]="openMap[module.code]"
-          (nzOpenChange)="openHandler(module.code)"
-          [nzTitle]="moduleTitleTemplate"
-          [nzTitleContext]="{ module: module }">
-        <!-- <ng-container  nzMenuTitle *ngTemplateOutlet="moduleTitleTemplate; context: { module: module }"></ng-container>-->
+          (nzOpenChange)="openHandler(module.code)" [nzTitle]="moduleTitle">
+        <ng-template #moduleTitle>
+          <div class="module-title" [ngClass]="{'selected-module': isRouteActive(module), 'module-tag': isRouteActive(module) }">
+            <img
+              [src]="getIconPathModule(module)"
+               class="module_logo" width="16.5">
+            <span>{{ module.description }}</span>
+          </div>
+        </ng-template>
+
         <ul>
           <li *ngFor="let fonctionnalite of module.fonctionnalites" nz-menu-item>
             <a [routerLink]="getRouterLink(fonctionnalite)" class="selectedLink">

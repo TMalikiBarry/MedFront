@@ -17,52 +17,12 @@ import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 export class CommonNavbarComponent implements OnInit {
   currentUser ?: AuthInterface;
 
-/*
-  openMap: { [name: string]: boolean } = {
-    securite: false,
-    finance: false,
-    personnes: false,
-    organisation: false,
-    parametre: false,
-    dossiers: false,
-  };
-
-  currentUser ?: AuthInterface;
-
-  constructor(public router: Router, private storage: StorageService) {
-  }
-
-  ngOnInit(): void {
-    const storedUser = this.storage.getItem('TOUCHMED_currentUser');
-    this.currentUser = storedUser ? JSON.parse(storedUser) as AuthInterface : undefined;
-    // console.log("USER ", this.currentUser);
-    Object.keys(this.openMap).forEach(key => {
-      this.openMap[key] = this.router.url.includes(key);
-    });
-    if (['/', '/admin'].some(url => url === this.router.url))
-      this.router.navigateByUrl('/admin/dashboard');
-  }
-
-  openHandler(value: string): void {
-    Object.keys(this.openMap).forEach(key => {
-      // this.openMap[key] = key !== value ? false : this.router.url.includes(key);
-      this.openMap[key] = key === value;
-    });
-    /!*for (const key in this.openMap) {
-      if (key !== value) {
-        this.openMap[key] = false;
-      }
-      if (this.router.url.includes(key)) {
-        this.openMap[key] = true;
-      }
-    }*!/
-  }*/
 
   actions: ActionInterface[] = []; // Your list of actions
   filteredModules: ModuleDTOInterface[] = []; // Modules to display
-  openMap: { [key: string]: boolean } = {}; // Track open states
+  openMap: { [bookmark: string]: boolean } = {};
 
-  constructor(public router: Router, private storage: StorageService, private profilService: ProfilService, private sanitizer: DomSanitizer) {
+  constructor(public router: Router, private storage: StorageService, private profilService: ProfilService) {
 
   }
 
@@ -71,6 +31,14 @@ export class CommonNavbarComponent implements OnInit {
     this.currentUser = storedUser ? JSON.parse(storedUser) as AuthInterface : undefined;
     // @ts-ignore
     this.getActionsByProfil(this.currentUser?.role)
+    this.filteredModules.forEach(module => {
+      this.openMap[module.bookmark] = false;
+      Object.keys(this.openMap).forEach(key => {
+        this.openMap[key] = this.router.url.includes(key);
+      });
+      if (['/', '/admin'].some(url => url === this.router.url))
+        this.router.navigateByUrl('/admin/dashboard');
+    });
   }
 
   getModulesFromActions(actions: ActionInterface[]): ModuleDTOInterface[] {
@@ -93,10 +61,6 @@ export class CommonNavbarComponent implements OnInit {
     return Array.from(moduleMap.values());
   }
 
-  getModuleTitle(module: ModuleDTOInterface): TemplateRef<void> {
-    // @ts-ignore
-    return this.moduleTitleTemplate.createEmbeddedView({ module }).rootNodes[0];
-  }
 
   getRouterLink(fonctionnalite: FonctionnaliteInterface): string {
     // Define how to get the router link from the fonctionnalite
@@ -109,10 +73,15 @@ export class CommonNavbarComponent implements OnInit {
     return `${basePath}${isSelected ? fonctionnalite.image + '_green.svg' : fonctionnalite.image + '.svg'}`;
   }
 
-  openHandler(moduleCode: string): void {
+/*  openHandler(moduleCode: string): void {
     this.openMap[moduleCode] = !this.openMap[moduleCode];
-  }
+  }*/
+  openHandler(value: string): void {
+    Object.keys(this.openMap).forEach(key => {
+      this.openMap[key] = key === value;
+    });
 
+}
   getActionsByProfil(profilCode: string): void {
     this.profilService.getActionsByProfilCode(profilCode).subscribe({
       next: actions =>{
@@ -123,12 +92,6 @@ export class CommonNavbarComponent implements OnInit {
       })
   }
 
-/*  getIconPathModule(module: ModuleDTOInterface) {
-    const basePath = 'assets/from_figma/';
-    const isSelected = this.router.url.includes(module.bookmark)/!* Logic to check if the fonctionnalite is selected *!/;
-    return `${basePath}${isSelected ? module.image + '_full_white.svg' : module.image + '.svg'}`;*/
-//  }
-
   getIconPathModule(module: ModuleDTOInterface): string {
     const basePath = 'assets/from_figma/';
     const isSelected = this.router.url.includes(module.bookmark); // Logique pour vérifier si la fonctionnalité est sélectionnée
@@ -136,23 +99,6 @@ export class CommonNavbarComponent implements OnInit {
 
     // Retourner une balise <img> avec le chemin de l'icône
     return iconPath;
-  }
-
-  getModuleTitleWithTemplate(module: ModuleDTOInterface): TemplateRef<void> {
-    console.log("Description: "+module.description)
-    return this.customTitleTemplate(module); // Crée un TemplateRef dynamique
-  }
-
-
-  @ViewChild('moduleTitleTemplate', { static: true }) moduleTitleTemplate!: TemplateRef<void>;
-
-// Cette méthode génère un template dynamique en fonction du module
-  customTitleTemplate(module: ModuleDTOInterface): TemplateRef<void> {
-    console.log("CustomTitleTemplate " + module.code);
-    return this.moduleTitleTemplate;
-  }
-  getconditionisRouter(bookmark: string): boolean{
-    return this.router.url.includes(bookmark);
   }
 
   logOut() {
@@ -174,11 +120,11 @@ export class CommonNavbarComponent implements OnInit {
 
     return 'U';
   }
-  // Cette méthode génère un élément DOM SafeHtml pour être injecté comme titre
-  generateModuleTitle(module: any): SafeHtml {
-    const iconPath = this.router.url.includes('/parametre/') ? 'Parametre_full_white.svg' : 'Parametre.svg';
-    const imgTag = `<img src="assets/from_figma/${iconPath}" alt="Icone du module" class="module_logo" width="16.5">`;
-    const description = module.description;
-    return this.sanitizer.bypassSecurityTrustHtml(`${imgTag} <span>${description}</span>`);
+  isRouteActive(module: any): boolean {
+    // Remplacez ceci par la logique pour vérifier si le module est actif
+    const currentRoute = this.router.url; // Obtenez l'URL actuelle
+    return currentRoute.includes(module.bookmark); // Exemple de condition
   }
+
+
 }
