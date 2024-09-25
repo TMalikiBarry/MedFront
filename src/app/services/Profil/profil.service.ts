@@ -7,12 +7,14 @@ import {ProfilInterface} from "../../models/profil.interface";
 import {UtilsService} from "../utils/utils.service";
 import {Observable} from "rxjs";
 import {Page} from "../../models/pagination.interface";
+import {ActionInterface} from "../../models/action.interface";
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfilService {
-
+  private actions: ActionInterface[] | undefined;
   constructor(private http: HttpClient, private utils: UtilsService) { }
   private readonly url = `${environment.apiURL}/profil`;
   getPaginatedFilteredData(page: number = 0, size: number = 10, firstName?: string, lastName?: string,
@@ -75,5 +77,17 @@ export class ProfilService {
   }
   delete(code: string): Observable<any> {
     return this.http.delete(`${this.url}/${code}`, {responseType: 'text'});
+  }
+  getActionsByProfilCode(profilCode: string): Observable<ApiResponseInterface> {
+
+    return   this.http.get<ApiResponseInterface>(`${this.url}/${profilCode}/actions`);
+  }
+
+  getActions(): ActionInterface[] | undefined {
+    return this.actions;
+  }
+
+  setActions(value: ActionInterface[]) {
+    this.actions = value;
   }
 }

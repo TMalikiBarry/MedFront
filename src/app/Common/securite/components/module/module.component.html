@@ -21,7 +21,7 @@
   <div class="dataLayout">
     <div class="headerData make-spaceBetween">
       <p>Listes des modules</p>
-      <button (click)="addNewModule()" class="my-primary-button basic-button" nz-button nzSize="large">
+      <button *ngIf="hasAction('CREER_PATIENT')" (click)="addNewModule()" class="my-primary-button basic-button" nz-button nzSize="large">
         <span nz-icon nzType="plus"></span>
         Nouveau module
       </button>
@@ -85,7 +85,7 @@
         <td>{{ module.sequence }}</td>
 
         <td class="space-evenly-modules">
-          <img (click)="updateModule(module.code!)" alt="Modifier" nz-tooltip
+          <img *ngIf="hasAction('updateModule')"  (click)="updateModule(module.code!)" alt="Modifier" nz-tooltip
                nzTooltipTitle="Modifier" src="assets/from_figma/edit-action.svg" width="17">
 
           <img (click)="deleteModule(module.code)"alt="supprimer" nz-tooltip nzTooltipTitle="Supprimer" src="assets/icon/trash.svg" width="20">
