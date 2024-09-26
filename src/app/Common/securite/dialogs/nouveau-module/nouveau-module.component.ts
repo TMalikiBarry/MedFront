@@ -84,7 +84,8 @@ export class NouveauModuleComponent implements OnInit{
       description: formData.description,
       sequence: formData.sequence,
       image: formData.image,
-      supprime: false
+      supprime: false,
+      bookmark: formData.bookmark
 
     };
   }

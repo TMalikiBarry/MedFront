@@ -8,6 +8,7 @@ import {ModuleInterface} from "../../../../models/module.interface";
 import {ModuleService} from "../../../../services/module/module.service";
 import {NouveauModuleComponent} from "../../dialogs/nouveau-module/nouveau-module.component";
 import {NotifService} from "../../../../services/notification/notif.service";
+import {ProfilService} from "../../../../services/Profil/profil.service";
 
 
 @Component({
@@ -32,7 +33,8 @@ export class ModuleComponent implements OnInit{
   constructor(private moduleService: ModuleService,
               private modalService: NzModalService,
               public utils: UtilsService,
-              private notify: NotifService
+              private notify: NotifService,
+              private profilService: ProfilService
   ) {}
 
   ngOnInit() {
@@ -153,5 +155,10 @@ export class ModuleComponent implements OnInit{
       }
     );
 
+  }
+
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
   }
 }

@@ -4,4 +4,5 @@ export interface ModuleInterface {
   sequence: number;
   supprime: boolean;
   image: string;
+  bookmark: string;
 }

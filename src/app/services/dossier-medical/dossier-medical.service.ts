@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from "src/environments/environment.prod";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import {Observable} from "rxjs";
 import {DossierMedicalInterface} from "../../models/dossier-medical.interface";
 

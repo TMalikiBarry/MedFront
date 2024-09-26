@@ -1,4 +1,4 @@
-<nz-layout>
+<!--<nz-layout>
   <nz-sider nzTheme="light" nzWidth="16%">
     <div id="firstIMG">
       <img src="assets/from_figma/logo_dark.svg" alt="Logo TouchMed" class="bg-img">
@@ -7,7 +7,7 @@
 
       <li nz-menu-item [ngClass]="{'firstNav': router.url =='/admin/dashboard'}">
         <a routerLink="/admin/dashboard" class="selectedLink" >
-<!--          <span nz-icon nzType="pie-chart" ></span>-->
+&lt;!&ndash;          <span nz-icon nzType="pie-chart" ></span>&ndash;&gt;
           <img width="16"
                [src]="'assets/from_figma/'+  (router.url=='/admin/dashboard'?'Dashboard_full_white.svg':'Dashboard.svg' )"
                alt="Dashboard">
@@ -76,14 +76,14 @@
           [nzTitle]="titleOrganisation"
           nz-submenu>
         <ul>
-          <!--          <li nz-menu-item>
+          &lt;!&ndash;          <li nz-menu-item>
             <a routerLink="/admin/organisation/cliniques" class="selectedLink">
               <img
                 [src]="'assets/from_figma/'+(router.url.endsWith('/organisation/cliniques')? 'clinique_green.svg': 'clinique.svg')"
                 alt="Cliniques">
               <span>Cliniques</span>
             </a>
-          </li>-->
+          </li>&ndash;&gt;
           <li nz-menu-item>
             <a class="selectedLink" routerLink="/admin/organisation/poles">
               <img
@@ -192,10 +192,10 @@
           </li>
         </ul>
       </li>
-<!--      <li nz-menu-item>
+&lt;!&ndash;      <li nz-menu-item>
         <span nz-icon nzType="file"></span>
         <span>File</span>
-      </li>-->
+      </li>&ndash;&gt;
     </ul>
     <div class="parent" *ngIf="currentUser">
       <div class="avatar">
@@ -218,26 +218,26 @@
     </div>
   </nz-sider>
   <nz-layout>
-<!--    <nz-header></nz-header>-->
+&lt;!&ndash;    <nz-header></nz-header>&ndash;&gt;
     <nz-content>
-<!--      <nz-breadcrumb>-->
-<!--        <nz-breadcrumb-item>User</nz-breadcrumb-item>-->
-<!--        <nz-breadcrumb-item>Bill</nz-breadcrumb-item>-->
-<!--      </nz-breadcrumb>-->
-<!--      <div class="inner-content">Bill is a cat.</div>-->
+&lt;!&ndash;      <nz-breadcrumb>&ndash;&gt;
+&lt;!&ndash;        <nz-breadcrumb-item>User</nz-breadcrumb-item>&ndash;&gt;
+&lt;!&ndash;        <nz-breadcrumb-item>Bill</nz-breadcrumb-item>&ndash;&gt;
+&lt;!&ndash;      </nz-breadcrumb>&ndash;&gt;
+&lt;!&ndash;      <div class="inner-content">Bill is a cat.</div>&ndash;&gt;
       <router-outlet></router-outlet>
     </nz-content>
-<!--    <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>-->
+&lt;!&ndash;    <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>&ndash;&gt;
   </nz-layout>
 </nz-layout>
 
 
 <ng-template #titleOrganisation>
-  <!--  <span nz-icon nzType="team" [nzTheme]="router.url.includes('/organisation/') ? 'fill': 'outline'"></span>-->
-  <!--  <img
+  &lt;!&ndash;  <span nz-icon nzType="team" [nzTheme]="router.url.includes('/organisation/') ? 'fill': 'outline'"></span>&ndash;&gt;
+  &lt;!&ndash;  <img
       [src]="'assets/from_figma/' + (router.url.includes('/organisation/') ? 'Organisation_full_white.svg' : 'Organisation.svg')"
       alt="Dossiers" class="module_logo" width="16.5">
-    <span>Complexe-clinique</span>-->
+    <span>Complexe-clinique</span>&ndash;&gt;
   <div
     [ngClass]="{'selected-module': router.url.includes('/organisation/'), 'module-tag': !router.url.includes('/organisation/')}">
     <img
@@ -248,7 +248,7 @@
 </ng-template>
 
 <ng-template #titlePersonnes>
-  <!--  <span nz-icon nzType="user" [nzTheme]="router.url.includes('/personnes/') ? 'fill': 'outline'"></span>-->
+  &lt;!&ndash;  <span nz-icon nzType="user" [nzTheme]="router.url.includes('/personnes/') ? 'fill': 'outline'"></span>&ndash;&gt;
   <div [ngClass]="{'selected-module': router.url.includes('/personnes/'), 'module-tag': !router.url.includes('/personnes/')}">
     <img
       [src]="'assets/from_figma/' + (router.url.includes('/personnes/') ? 'Personnes_full_white.svg' : 'Personnes.svg')"
@@ -259,7 +259,7 @@
 </ng-template>
 
 <ng-template #titleFinance>
-  <!--  <span nz-icon nzType="user" [nzTheme]="router.url.includes('/personnes/') ? 'fill': 'outline'"></span>-->
+  &lt;!&ndash;  <span nz-icon nzType="user" [nzTheme]="router.url.includes('/personnes/') ? 'fill': 'outline'"></span>&ndash;&gt;
   <div [ngClass]="{'selected-module': router.url.includes('/finance/'), 'module-tag': !router.url.includes('/finance/')}">
     <img
       [src]="'assets/from_figma/' + (router.url.includes('/finance/') ? 'Finance_full_white.svg' : 'Finance.svg')"
@@ -270,7 +270,7 @@
 </ng-template>
 
 <ng-template #titleSecurite>
-  <!--  <span nz-icon nzType="team" [nzTheme]="router.url.includes('/securite/') ? 'fill': 'outline'"></span>-->
+  &lt;!&ndash;  <span nz-icon nzType="team" [nzTheme]="router.url.includes('/securite/') ? 'fill': 'outline'"></span>&ndash;&gt;
   <div [ngClass]="{'selected-module': router.url.includes('/securite/'), 'module-tag': !router.url.includes('/securite/')}">
     <img
       [src]="'assets/from_figma/' + (router.url.includes('/securite/') ? 'Securite_full_white.svg' : 'Securite.svg')"
@@ -280,7 +280,7 @@
 </ng-template>
 
 <ng-template #titleDossiers>
-  <!--  <span nz-icon nzType="folder" [nzTheme]="router.url.includes('/dossiers/') ? 'fill': 'outline'"></span>-->
+  &lt;!&ndash;  <span nz-icon nzType="folder" [nzTheme]="router.url.includes('/dossiers/') ? 'fill': 'outline'"></span>&ndash;&gt;
   <div [ngClass]="{'selected-module': router.url.includes('/dossiers/'), 'module-tag': !router.url.includes('/dossiers/')}">
     <img
       [src]="'assets/from_figma/' + (router.url.includes('/dossiers/') ? 'Dossier_full_white.svg' : 'Dossier.svg')"
@@ -291,7 +291,7 @@
 </ng-template>
 
 <ng-template #titleParametre>
-  <!--  <span nz-icon nzType="team" [nzTheme]="router.url.includes('/parametre/') ? 'fill': 'outline'"></span>-->
+  &lt;!&ndash;  <span nz-icon nzType="team" [nzTheme]="router.url.includes('/parametre/') ? 'fill': 'outline'"></span>&ndash;&gt;
   <div [ngClass]="{'selected-module': router.url.includes('/parametre/'), 'module-tag': !router.url.includes('/parametre/')}">
     <img
       [src]="'assets/from_figma/' + (router.url.includes('/parametre/') ? 'Parametre_full_white.svg' : 'Parametre.svg')"
@@ -300,7 +300,74 @@
   </div>
 
 </ng-template>
+-->
 
+<nz-layout>
+  <nz-sider nzTheme="light" nzWidth="16%">
+    <div id="firstIMG">
+      <img src="assets/from_figma/logo_dark.svg" alt="Logo TouchMed" class="bg-img">
+    </div>
+    <!-- Template pour le titre avec l'image et la description du module -->
+    <ul nz-menu nzMode="inline">
+      <!-- Loop through modules that have actions -->
+      <li nz-menu-item [ngClass]="{'firstNav': router.url =='/admin/dashboard'}">
+        <a routerLink="/admin/dashboard" class="selectedLink" >
+
+          <img width="16"
+               [src]="'assets/from_figma/'+  (router.url=='/admin/dashboard'?'Dashboard_full_white.svg':'Dashboard.svg' )"
+               alt="Dashboard">
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li *ngFor="let module of filteredModules"
+          nz-submenu
+          [(nzOpen)]="openMap[module.code]"
+          (nzOpenChange)="openHandler(module.code)" [nzTitle]="moduleTitle">
+        <ng-template #moduleTitle>
+          <div class="module-title" [ngClass]="{'selected-module': isRouteActive(module), 'module-tag': isRouteActive(module) }">
+            <img
+              [src]="getIconPathModule(module)"
+               class="module_logo" width="16.5">
+            <span>{{ module.description }}</span>
+          </div>
+        </ng-template>
+
+        <ul>
+          <li *ngFor="let fonctionnalite of module.fonctionnalites" nz-menu-item>
+            <a [routerLink]="getRouterLink(fonctionnalite)" class="selectedLink">
+              <img [src]="getIconPath(fonctionnalite)">
+              <span>{{ fonctionnalite.description }}</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="parent" *ngIf="currentUser">
+      <div class="avatar">
+        <nz-avatar [nzText]="getUserFullNameInitials()" nzSize="large"
+                   style="color: #266141; background-color:#d9f5b5;">
+        </nz-avatar>
+      </div>
+      <div class="fullName">
+        <p>{{currentUser.fullName}}</p>
+      </div>
+      <div class="role">
+        {{currentUser.role}}
+      </div>
+      <div class="actions">
+        <a nz-dropdown [nzDropdownMenu]="menu">
+          <img src="assets/from_figma/arrow-down.svg" alt="Hover me">
+        </a>
+      </div>
+    </div>
+  </nz-sider>
+  <nz-layout>
+    <nz-content>
+      <router-outlet></router-outlet>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
 
 <nz-dropdown-menu #menu="nzDropdownMenu">
   <ul nz-menu>

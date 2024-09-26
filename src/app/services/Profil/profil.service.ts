@@ -3,8 +3,8 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../../environments/environment.prod";
 import {ApiResponseInterface} from "../../models/api-response.interface";
 import {ProfilInterface} from "../../models/profil.interface";
+import {Observable} from "rxjs";
 import {Page} from "../../models/pagination.interface";
-import {PersonnelInterface} from "../../models/personnel.interface";
 import {ActionInterface} from "../../models/action.interface";
 import {UtilsService} from "../utils/utils.service";
 
@@ -12,13 +12,13 @@ import {UtilsService} from "../utils/utils.service";
   providedIn: 'root'
 })
 export class ProfilService {
-
-  private readonly url = environment.apiURL + '/profil';
+  private actions: ActionInterface[] | undefined;
+  constructor(private http: HttpClient, private utils: UtilsService) { }
+  private readonly url = `${environment.apiURL}/profil`;
 
   private readonly urlAction = `${environment.apiURL}/action/allPresent`;
 
-  constructor(private http: HttpClient, private utils: UtilsService) {
-  }
+
 
   getPaginatedFilteredData(page: number = 0, size: number = 10, firstName?: string, lastName?: string,
                            telephone?: string, startDate?: Date, endDate?: Date,
@@ -84,5 +84,17 @@ export class ProfilService {
 
   delete(code: string){
     return this.http.delete(`${this.url}/${code}`, {responseType: 'text'});
+  }
+  getActionsByProfilCode(profilCode: string): Observable<ApiResponseInterface> {
+
+    return   this.http.get<ApiResponseInterface>(`${this.url}/${profilCode}/actions`);
+  }
+
+  getActions(): ActionInterface[] | undefined {
+    return this.actions;
+  }
+
+  setActions(value: ActionInterface[]) {
+    this.actions = value;
   }
 }

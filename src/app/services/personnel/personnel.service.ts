@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from "src/environments/environment.prod";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import {ApiResponseInterface} from "../../models/api-response.interface";
 import {PersonnelInterface} from "../../models/personnel.interface";
 import {Page} from "../../models/pagination.interface";

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment} from "src/environments/environment.prod";
 import {ApiResponseInterface} from "../../models/api-response.interface";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import {PoleInterface} from "../../models/pole.interface";
 import {Page} from "../../models/pagination.interface";
 
