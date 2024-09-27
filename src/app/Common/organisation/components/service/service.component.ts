@@ -10,6 +10,7 @@ import {
   PrestationFormDialogComponent
 } from "../../../dossiers/dialogs/prestation-form-dialog/prestation-form-dialog.component";
 import {Router} from "@angular/router";
+import {ProfilService} from "../../../../services/Profil/profil.service";
 
 @Component({
   selector: 'app-service',
@@ -25,7 +26,8 @@ export class ServiceComponent implements OnInit {
   constructor(private api: CliniqueServiceService,
               private modalService: NzModalService,
               private notify: NotifService,
-              public router: Router) {
+              public router: Router,
+              private profilService: ProfilService) {
   }
   // barGraph: any;
   // doughnutGraph: any;
@@ -99,5 +101,8 @@ export class ServiceComponent implements OnInit {
       }
     );
   }
-
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
+  }
 }

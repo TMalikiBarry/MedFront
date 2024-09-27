@@ -39,8 +39,6 @@
         <th>Login</th>
         <th>Profil</th>
         <th>Date de création</th>
-        <!--        <th>Statut</th>-->
-
         <th>Actions</th>
         <!-- Ajoutez d'autres colonnes si nécessaire -->
       </tr>
@@ -51,24 +49,19 @@
         <td>{{ a.login }}</td>
         <td><strong>{{ a.profil.code }}</strong></td>
         <td>{{ a.dateCreation | date: "EEE 'le' dd MMM yyyy 'à' hh:mm:ss" }}</td>
-
-
         <td>
-          <img (click)="update(a)" [nzTooltipTitle]="'Modifier les infos de l\'accès '+ a.login" alt="Modifier"
+          <img *ngIf="hasAction('MODIFIER_ACCES')" (click)="update(a)" [nzTooltipTitle]="'Modifier les infos de l\'accès '+ a.login" alt="Modifier"
                nz-tooltip src="assets/from_figma/edit-action.svg" width="17"
                style="cursor: pointer; margin-right: 1rem">
-          <img (click)="resetPassword(a)" [nzTooltipTitle]="'Réinitialiser le mot de passe pour l\'accès ' + a.login"
+          <img *ngIf="hasAction('RESET_ACCES')"(click)="resetPassword(a)" [nzTooltipTitle]="'Réinitialiser le mot de passe pour l\'accès ' + a.login"
                alt="réinitialisation" nz-tooltip
                src="assets/from_figma/reset-hard.svg" style="cursor:pointer;" width="20">
         </td>
       </tr>
       </tbody>
     </nz-table>
-
   </div>
-
 </div>
-
 
 <ng-template #suffixIconSearch>
   <img alt="Rechercher" src="assets/from_figma/search_icon.svg">

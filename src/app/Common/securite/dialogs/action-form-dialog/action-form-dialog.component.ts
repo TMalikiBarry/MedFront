@@ -25,7 +25,7 @@ export class ActionFormDialogComponent implements OnInit {
     listOfFonctionnalite!: FonctionnaliteInterface[];
 
     actionForm: FormGroup = this.fb.group({
-        code: [{value: '', disabled: true}, Validators.required],
+        code: ['', Validators.required],
         httpVerb: ['', Validators.required],
         fonctionnalite: ['', Validators.required],
         description: ['']
@@ -67,7 +67,6 @@ export class ActionFormDialogComponent implements OnInit {
         if (this.updatedAction) {
             action.dateCreation = this.updatedAction.dateCreation;
             action.supprime = this.updatedAction.supprime;
-
             this.update(action);
         } else {
             this.api.save(action).subscribe(
@@ -117,8 +116,7 @@ export class ActionFormDialogComponent implements OnInit {
     setCodeFormInput() {
         let fCode: string = this.actionForm.controls['fonctionnalite'].value ?? '';
         let httpVerb: string = this.actionForm.controls['httpVerb'].value ?? '';
-        const code = `${httpVerb}_${fCode.toUpperCase()}`.replace(/\s/g, '_');
-        this.actionForm.controls['code'].setValue(code);
+        let code: string = this.actionForm.controls['code'].value ?? '';
     }
 
     getTheHTTPVerb(event: Event) {

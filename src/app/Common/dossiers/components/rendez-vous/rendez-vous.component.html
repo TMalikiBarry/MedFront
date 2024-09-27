@@ -36,7 +36,7 @@
   <div class="dataLayout">
     <div class="headerData make-spaceBetween">
       <p>Listes des Rendez-vous</p>
-      <button (click)="addRdv()" class="basic-button my-primary-button" nz-button nzShape="round" nzType="primary">
+      <button *ngIf="hasAction('CREER_RENDEZ-VOUS')" (click)="addRdv()" class="basic-button my-primary-button" nz-button nzShape="round" nzType="primary">
         <span nz-icon nzType="plus"></span>
         Nouveau rendez-vous
       </button>
@@ -122,20 +122,20 @@
           </nz-badge>
         </td>
         <td class="icon-table some-min-width-10">
-          <img (click)="seeDetails(rdv)" alt="modifier" nz-tooltip nzTooltipTitle="Voir détails"
+          <img *ngIf="hasAction('VOIR_DETAILS_RENDEZ-VOUS')"(click)="seeDetails(rdv)" alt="modifier" nz-tooltip nzTooltipTitle="Voir détails"
                src="assets/from_figma/see-details-action.svg">
           <!--<img (click)="detailPatient(rdv.patient)" alt="patient" nz-tooltip
                nzTooltipTitle="Voir détails Patient" src="assets/icon/Icone%20user.svg">-->
-          <img (click)="updateRdv(rdv)" [nzTooltipTitle]="isCreated(rdv.statut!) ? 'Modifier': 'Modification non autorisée'"
+          <img *ngIf="hasAction('MODIFIER_RENDEZ-VOUS')" (click)="updateRdv(rdv)" [nzTooltipTitle]="isCreated(rdv.statut!) ? 'Modifier': 'Modification non autorisée'"
                [src]="'assets/from_figma/edit-action'+(isCreated(rdv.statut!)?'': '_blocked')+'.svg'"
                [style.cursor]="isCreated(rdv.statut!)? 'pointer' : 'not-allowed'" alt="Modifier"
                nz-tooltip>
 
-          <img (click)="cancelOrValidateRDV(rdv, 'V')" [nzTooltipTitle]="isValidated(rdv.statut!)? 'Déjà confirmé': 'Confirmer'"
+          <img *ngIf="hasAction('CONFIRMER_RENDEZ-VOUS')" (click)="cancelOrValidateRDV(rdv, 'V')" [nzTooltipTitle]="isValidated(rdv.statut!)? 'Déjà confirmé': 'Confirmer'"
                [src]="'assets/from_figma/confirm-yes'+(isValidated(rdv.statut!)?'_blocked':'')+ '.svg'"
                [style.cursor]="isValidated(rdv.statut!)?'not-allowed':'pointer'"
                alt="Arrow Down" nz-tooltip width="17">
-          <img (click)="cancelOrValidateRDV(rdv, 'C')" [nzTooltipTitle]="isCanceled(rdv.statut!)? 'Déjà annulé': 'Annuler'"
+          <img *ngIf="hasAction('ANNULER_RENDEZ-VOUS')" (click)="cancelOrValidateRDV(rdv, 'C')" [nzTooltipTitle]="isCanceled(rdv.statut!)? 'Déjà annulé': 'Annuler'"
                [src]="'assets/from_figma/confirm-no'+(isCanceled(rdv.statut!)?'_blocked':'')+ '.svg'" [style.cursor]="isCanceled(rdv.statut!)?'not-allowed':'pointer'" alt="ANNULER"
                nz-tooltip width="17">
         </td>

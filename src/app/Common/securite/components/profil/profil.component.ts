@@ -143,4 +143,8 @@ export class ProfilComponent implements OnInit{
       }
     );
   }
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
+  }
 }

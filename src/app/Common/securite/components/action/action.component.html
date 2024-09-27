@@ -19,7 +19,7 @@
   <div class="dataLayout">
     <div class="headerData make-spaceBetween add-some-margin">
       <p>Liste des actions</p>
-      <button (click)="addNew()" class="basic-button my-primary-button" nz-button nzSize="large">
+      <button *ngIf="hasAction('CREER_ACTION')" (click)="addNew()" class="basic-button my-primary-button" nz-button nzSize="large">
         <span nz-icon nzType="plus"></span>
         Nouvelle action
       </button>
@@ -63,10 +63,10 @@
 
 
         <td>
-          <img (click)="update(s)" alt="Modifier" nz-tooltip
+          <img *ngIf="hasAction('MODIFIER_ACTION')" (click)="update(s)" alt="Modifier" nz-tooltip
                nzTooltipTitle="Modifier les infos de l'action" src="assets/from_figma/edit-action.svg"
                style="cursor: pointer; margin-right: 1rem">
-          <img alt="Modifier" nz-tooltip nzTooltipTitle="Pas encore disponible"
+          <img *ngIf="hasAction('SUPPRIMER_ACTION')" alt="Modifier" nz-tooltip nzTooltipTitle="Pas encore disponible"
                src="assets/icon/trash_blocked.svg" style="cursor:not-allowed;">
         </td>
       </tr>

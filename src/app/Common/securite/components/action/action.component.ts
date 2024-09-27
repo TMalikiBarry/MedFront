@@ -9,6 +9,7 @@ import {
   PrestationFormDialogComponent
 } from "../../../dossiers/dialogs/prestation-form-dialog/prestation-form-dialog.component";
 import {ActionFormDialogComponent} from "../../dialogs/action-form-dialog/action-form-dialog.component";
+import {ProfilService} from "../../../../services/Profil/profil.service";
 
 @Component({
   selector: 'app-action',
@@ -24,7 +25,8 @@ export class ActionComponent implements OnInit {
 
   constructor(private api: ActionService,
               private modalService: NzModalService,
-              private router: Router) {
+              private router: Router,
+              private profilService: ProfilService) {
   }
 
   ngOnInit(): void {
@@ -109,5 +111,9 @@ export class ActionComponent implements OnInit {
     );
   }
 
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
+  }
 
 }

@@ -7,6 +7,7 @@ import {PrestationInterface} from "src/app/models/prestation.interface";
 import {jsPDF} from 'jspdf';
 import html2canvas from 'html2canvas';
 import {UtilsService} from "../../../../services/utils/utils.service";
+import {ProfilService} from "../../../../services/Profil/profil.service";
 
 /*
 import {
@@ -65,6 +66,7 @@ export class DetailFactureComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               public utils: UtilsService,
+              private profilService: ProfilService
               // private componentFactoryResolver: ComponentFactoryResolver,
               // private injector: Injector,
               // private appRef: ApplicationRef,
@@ -298,4 +300,8 @@ export class DetailFactureComponent implements OnInit {
   ngOnDestroy(): void {
     this.portalHost.detach();
   }*/
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
+  }
 }

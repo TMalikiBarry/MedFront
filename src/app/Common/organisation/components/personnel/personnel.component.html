@@ -19,7 +19,7 @@
   <div class="dataLayout">
     <div class="headerData make-spaceBetween add-some-margin">
       <p>Liste des personnels</p>
-      <button (click)="addNew()" class="basic-button my-primary-button" nz-button nzSize="large">
+      <button *ngIf="hasAction('CREER_PERSONNEL')" (click)="addNew()" class="basic-button my-primary-button" nz-button nzSize="large">
         <span nz-icon nzType="plus"></span>
         Nouveau Personnel
       </button>
@@ -84,7 +84,7 @@
           <strong>{{ p.pole?.nom }}</strong>
         </td>
         <td>
-          <img (click)="update(p)" alt="Modifier" nz-tooltip
+          <img *ngIf="hasAction('MODIFIER_PERSONNEL')" (click)="update(p)" alt="Modifier" nz-tooltip
                nzTooltipTitle="Modifier les infos du personnel" src="assets/from_figma/edit-action.svg" style="cursor: pointer; margin-right: 1rem">
           <img alt="Modifier" nz-tooltip nzTooltipTitle="Pas encore disponible"
                src="assets/icon/trash_blocked.svg" style="cursor:not-allowed;">
@@ -104,13 +104,13 @@
 
 <nz-dropdown-menu #menu="nzDropdownMenu">
   <ul nz-menu>
-    <li class="selectedLink" nz-menu-item>
+    <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_PATIENT')">
       <span>Nouveau Patient</span>
     </li>
-    <li class="selectedLink" nz-menu-item>
+    <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_RENDEZ-VOUS')">
       <span>Nouveau RDV</span>
     </li>
-    <li (click)="addNewPrestation()" class="selectedLink" nz-menu-item>
+    <li (click)="addNewPrestation()" class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_PRESTATION')">
       <span>Nouvelle prestation</span>
     </li>
   </ul>

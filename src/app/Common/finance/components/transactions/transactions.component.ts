@@ -23,6 +23,7 @@ import {
 } from "src/app/models/transaction.interface";
 import {WeeklyTransactionAmountStatInterface} from "src/app/models/weekly-transaction-amount-stat.interface";
 import {UtilsService} from "src/app/services/utils/utils.service";
+import {ProfilService} from "../../../../services/Profil/profil.service";
 
 @Component({
   selector: 'app-transactions',
@@ -60,7 +61,8 @@ export class TransactionsComponent implements OnInit {
               private apiTransaction : TransactionService,
               private serviceApi: CliniqueServiceService,
               private dossierMApi: DossierMedicalService,
-              public utils: UtilsService) {
+              public utils: UtilsService,
+              private profilService: ProfilService) {
   }
 
   ngOnInit(): void {
@@ -393,5 +395,8 @@ export class TransactionsComponent implements OnInit {
 
     return {color, text};
   }
-
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
+  }
 }

@@ -17,6 +17,7 @@ import {CancelRdvDialogComponent} from "../../dialogs/cancel-rdv-dialog/cancel-r
 import * as Chart from "chart.js/auto";
 import {DetailRendezVousComponent} from "../../dialogs/detail-rendez-vous/detail-rendez-vous.component";
 import {Router} from "@angular/router";
+import {ProfilService} from "../../../../services/Profil/profil.service";
 
 @Component({
   selector: 'app-rendez-vous',
@@ -75,7 +76,8 @@ export class RendezVousComponent implements OnInit {
               private api: RendezVousService,
               private notification: NotifService,
               private apiService: CliniqueServiceService,
-              public router: Router) {
+              public router: Router,
+              private profilService: ProfilService) {
   }
 
   ngOnInit(): void {
@@ -422,5 +424,8 @@ export class RendezVousComponent implements OnInit {
     this.updateGraphStats($event, this.wBarFlowStats);
   }
 
-
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
+  }
 }

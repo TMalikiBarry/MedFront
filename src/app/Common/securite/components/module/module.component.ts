@@ -42,8 +42,6 @@ export class ModuleComponent implements OnInit{
     this.getModuleByPage();
   }
 
-
-
   getModuleByPage(page: number = 0, size: number = 10, firstName?: string, lastName?: string, telephone?: string,
                    startDate?: Date, endDate?: Date, status?: string, genre?: string) {
 
@@ -65,7 +63,6 @@ export class ModuleComponent implements OnInit{
 
     this.filterData();
   }
-
 
   filterData() {
     let startDate = undefined;
@@ -91,7 +88,6 @@ export class ModuleComponent implements OnInit{
         next: modules => {
           this.modules = modules;
           console.log('Recuperation de modules ', modules);
-
 
         },
         error: (error) => {
@@ -154,7 +150,6 @@ export class ModuleComponent implements OnInit{
           this.filterData();
       }
     );
-
   }
 
   hasAction(codeAction: string): boolean {

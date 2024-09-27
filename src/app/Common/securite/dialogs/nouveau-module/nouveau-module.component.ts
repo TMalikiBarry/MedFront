@@ -23,6 +23,7 @@ export class NouveauModuleComponent implements OnInit{
 
     this.moduleForm = this.fb.group({
       code: ['', Validators.required],
+      bookmark: ['', Validators.required],
       description: [''],
       sequence: [''],
       image: [''],
@@ -101,6 +102,7 @@ export class NouveauModuleComponent implements OnInit{
         this.moduleForm.controls['description'].setValue(module.reponse.description);
         this.moduleForm.controls['sequence'].setValue(module.reponse.sequence);
         this.moduleForm.controls['image'].setValue(module.reponse.image);
+        this.moduleForm.controls['bookmark'].setValue(module.reponse.bookmark);
 
       }
     })

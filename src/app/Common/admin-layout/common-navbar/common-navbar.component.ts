@@ -39,7 +39,7 @@ export class CommonNavbarComponent implements OnInit {
         this.router.navigateByUrl('/admin/dashboard');
     });
   }
-
+/*
   getModulesFromActions(actions: ActionInterface[]): ModuleDTOInterface[] {
     // Create a map to store modules and their functionalities
     const moduleMap = new Map<string, ModuleDTOInterface>();
@@ -58,7 +58,32 @@ export class CommonNavbarComponent implements OnInit {
 
     // Convert the map to an array
     return Array.from(moduleMap.values());
+  }*/
+  getModulesFromActions(actions: ActionInterface[]): ModuleDTOInterface[] {
+    // Create a map to store modules and their functionalities
+    const moduleMap = new Map<string, ModuleDTOInterface>();
+
+    actions.forEach(action => {
+      const module = action.fonctionnalite.module;
+      const fonctionnalite = action.fonctionnalite;
+
+      // If module doesn't exist in the map, add it
+      if (!moduleMap.has(module.code)) {
+        moduleMap.set(module.code, { ...module, fonctionnalites: [] });
+      }
+
+      const moduleFonctionnalites = moduleMap.get(module.code)?.fonctionnalites;
+
+      // Check if the fonctionnalite is already in the list, if not, add it
+      if (moduleFonctionnalites && !moduleFonctionnalites.some(f => f.code === fonctionnalite.code)) {
+        moduleFonctionnalites.push(fonctionnalite);
+      }
+    });
+
+    // Convert the map to an array
+    return Array.from(moduleMap.values());
   }
+
 
 
   getRouterLink(fonctionnalite: FonctionnaliteInterface): string {
@@ -95,7 +120,6 @@ export class CommonNavbarComponent implements OnInit {
     const basePath = 'assets/from_figma/';
     const isSelected = this.router.url.includes(module.bookmark); // Logique pour vérifier si la fonctionnalité est sélectionnée
     const iconPath = `${basePath}${isSelected ? module.image + '_full_white.svg' : module.image + '.svg'}`;
-
     // Retourner une balise <img> avec le chemin de l'icône
     return iconPath;
   }

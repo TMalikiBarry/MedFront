@@ -114,7 +114,7 @@
 </ng-template>
 <ng-template #addNewPatientTemplate>
   <nz-divider></nz-divider>
-  <div class="container">
+  <div class="container" *ngIf="hasAction('CREER_PATIENT')">
     <a class="add-item" (click)="NewPatient()">
       <i nz-icon nzType="plus"></i>
       Ajouter nouveau patient

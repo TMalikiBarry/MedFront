@@ -7,6 +7,7 @@ import {Page} from "../../../../models/pagination.interface";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
 import {AccesFormDialogComponent} from "../../dialogs/acces-form-dialog/acces-form-dialog.component";
 import {AccesInterface} from "../../../../models/acces.interface";
+import {ProfilService} from "../../../../services/Profil/profil.service";
 
 @Component({
   selector: 'app-acces',
@@ -22,8 +23,8 @@ export class AccesComponent implements OnInit {
   constructor(private api: AccesService,
               private modalService: NzModalService,
               public utils: UtilsService,
-              private notify: NotifService) {
-
+              private notify: NotifService,
+              private profilService: ProfilService) {
   }
 
 
@@ -127,5 +128,8 @@ export class AccesComponent implements OnInit {
       }
     );
   }
-
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
+  }
 }

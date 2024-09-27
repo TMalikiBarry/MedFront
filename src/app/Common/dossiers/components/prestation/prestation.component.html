@@ -29,7 +29,7 @@
   <div class="dataLayout">
     <div class="headerData make-spaceBetween">
       <p>Listes des prestations</p>
-      <button (click)="addNewPrestation()" class="basic-button my-primary-button" nz-button nzSize="large">
+      <button *ngIf="hasAction('CREER_PRESTATION')" (click)="addNewPrestation()" class="basic-button my-primary-button" nz-button nzSize="large">
         <span nz-icon nzType="plus"></span>
         Nouvelle Prestation
       </button>
@@ -135,26 +135,26 @@
             </nz-badge>
           </td>
           <td class="icon-table some-min-width-12">
-            <img (click)="seePrestationDetails(prestation)" alt="Voir détails" nz-tooltip nzTooltipTitle="Voir détails"
+            <img *ngIf="hasAction('VOIR-DETAILS_PRESTATION')" (click)="seePrestationDetails(prestation)" alt="Voir détails" nz-tooltip nzTooltipTitle="Voir détails"
                  src="assets/from_figma/see-details-action.svg"
                  width="17">
-            <img (click)="updatePrestation(prestation)" alt="Modifier" nz-tooltip
+            <img *ngIf="hasAction('MODIFIER_PRESTATION')" (click)="updatePrestation(prestation)" alt="Modifier" nz-tooltip
                  [nzTooltipTitle]="isNotPaid(prestation)? 'Modifier': 'Modification non autorisée'"
                  [src]="'assets/from_figma/edit-action'+(isNotPaid(prestation)?'': '_blocked')+'.svg'"
                  [style.cursor]="isNotPaid(prestation)? 'pointer' : 'not-allowed'" width="17">
             <!--            <img *ngIf="!isPaid(prestation)" alt="Confirmer ou pas" (click)="cancelPrestation(prestation)"
                              nz-tooltip [nzTooltipTitle]="getContext(prestation).message"
                              [src]="'assets/from_figma/'+ getContext(prestation).svgName" width="17"> -->
-            <img (click)="cancelPrestation(prestation)"
+            <img *ngIf="hasAction('RESTAURER_PRESTATION')" (click)="cancelPrestation(prestation)"
                  [nzTooltipTitle]="isCanceled(prestation)? 'Restaurer': 'Pas autorisé'"
                  [src]="'assets/from_figma/confirm-yes'+(isCanceled(prestation)?'': '_blocked')+'.svg'" [style.cursor]="isCanceled(prestation)? 'pointer' : 'not-allowed'"
                  alt="Confirmer"
                  nz-tooltip width="17">
-            <img (click)="cancelPrestation(prestation)" [nzTooltipTitle]="isNotPaid(prestation)? 'Annuler': 'Pas autorisé'"
+            <img *ngIf="hasAction('ANNULER_PRESTATION')" (click)="cancelPrestation(prestation)" [nzTooltipTitle]="isNotPaid(prestation)? 'Annuler': 'Pas autorisé'"
                  [src]="'assets/from_figma/confirm-no'+(isNotPaid(prestation)?'': '_blocked')+'.svg'" [style.cursor]="isNotPaid(prestation)? 'pointer' : 'not-allowed'"
                  alt="Confirmer ou pas"
                  nz-tooltip width="17">
-            <img (click)="facturer(prestation)" [nzTooltipTitle]="isNotPaid(prestation)? 'Facturer': 'Pas autorisé'" [src]="'assets/from_figma/facturer'+(isNotPaid(prestation)?'': '_blocked')+'.svg'"
+            <img *ngIf="hasAction('FACTURER_PRESTATION')" (click)="facturer(prestation)" [nzTooltipTitle]="isNotPaid(prestation)? 'Facturer': 'Pas autorisé'" [src]="'assets/from_figma/facturer'+(isNotPaid(prestation)?'': '_blocked')+'.svg'"
                  alt="Facturer"
                  nz-tooltip width="17">
 
@@ -162,10 +162,10 @@
 
           <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
             <ul nz-menu>
-              <li (click)="facturer(prestation)" class="selectedLink" nz-menu-item>
+              <li *ngIf="hasAction('FACTURER_PRESTATION')"(click)="facturer(prestation)" class="selectedLink" nz-menu-item>
                 <span>Facturer</span>
               </li>
-              <li class="selectedLink" nz-menu-item>
+              <li *ngIf="hasAction('VOIR-DETAILS_PRESTATION')" class="selectedLink" nz-menu-item>
                 <span>Détails</span>
               </li>
             </ul>

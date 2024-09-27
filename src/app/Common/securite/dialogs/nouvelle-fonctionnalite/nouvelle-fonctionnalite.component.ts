@@ -16,7 +16,7 @@ export class NouvelleFonctionnaliteComponent implements OnInit{
   fonctionnaliteForm: FormGroup;
   fonctionnalite !: FonctionnaliteInterface
 
-  titleForm: string = "Nouveau Patient";
+  titleForm: string = "Nouvelle fonctionnalité";
   isConfirmLoading = false;
   fonctionnaliteToUpdate!: FonctionnaliteInterface;
   modules!: ModuleInterface[];

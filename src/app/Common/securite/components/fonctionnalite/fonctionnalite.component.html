@@ -21,7 +21,7 @@
   <div class="dataLayout">
     <div class="headerData make-spaceBetween">
       <p>Listes des fonctionnalités</p>
-      <button (click)="addNewFonctionnality()" class="my-primary-button basic-button" nz-button nzSize="large">
+      <button *ngIf="hasAction('CREER_FONCTIONNALITE')" (click)="addNewFonctionnality()" class="my-primary-button basic-button" nz-button nzSize="large">
         <span nz-icon nzType="plus"></span>
         Nouvelle fonctionnalité
       </button>
@@ -84,9 +84,9 @@
         </td>-->
 
         <td class="space-evenly-modules some-min-width-12">
-          <img (click)="updateFonctionalite(fonctionalite.code)" alt="Modifier" nz-tooltip
+          <img *ngIf="hasAction('MODIFIER_FONCTIONNALITE')" (click)="updateFonctionalite(fonctionalite.code)" alt="Modifier" nz-tooltip
                nzTooltipTitle="Modifier" src="assets/from_figma/edit-action.svg" width="17">
-          <img (click)="deleteFonctionalite(fonctionalite.code)" alt="supprimer" nz-tooltip nzTooltipTitle="Supprimer"
+          <img *ngIf="hasAction('SUPPRIMER_FONCTIONNALITE')" (click)="deleteFonctionalite(fonctionalite.code)" alt="supprimer" nz-tooltip nzTooltipTitle="Supprimer"
                src="assets/icon/trash.svg" width="20">
         </td>
       </tr>

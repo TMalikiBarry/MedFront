@@ -7,6 +7,7 @@ import {FonctionnaliteInterface} from "../../../../models/fonctionnalite.interfa
 import {FonctionnaliteService} from "../../../../services/fonctionnalite/fonctionnalite.service";
 import {NouvelleFonctionnaliteComponent} from "../../dialogs/nouvelle-fonctionnalite/nouvelle-fonctionnalite.component";
 import {NotifService} from "../../../../services/notification/notif.service";
+import {ProfilService} from "../../../../services/Profil/profil.service";
 
 @Component({
   selector: 'app-fonctionnalite',
@@ -25,7 +26,8 @@ export class FonctionnaliteComponent implements OnInit{
   constructor(private fonctionnaliteService: FonctionnaliteService,
               private modalService: NzModalService,
               public utils: UtilsService,
-              private notify: NotifService
+              private notify: NotifService,
+              private profilService: ProfilService
   ) {}
 
   ngOnInit() {
@@ -139,5 +141,10 @@ export class FonctionnaliteComponent implements OnInit{
           this.filterData();
       }
     );
+  }
+
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
   }
 }

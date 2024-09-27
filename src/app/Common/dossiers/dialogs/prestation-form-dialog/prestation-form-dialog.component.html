@@ -92,7 +92,7 @@
 
 <div *nzModalFooter>
   <button nz-button class="my-default-button basic-button" (click)="handleCancel()">Annuler</button>
-  <button (click)="addPrestation()"
+  <button *ngIf="hasAction('CREER_PRESTATION')" (click)="addPrestation()"
           [disabled]="prestationForm.invalid"
           [ngClass]="{'buttonIsDisabled': prestationForm.invalid, 'basic-button' : true, 'my-primary-button': prestationForm.valid}" [nzLoading]="isConfirmLoading"
           [nzTooltipTitle]="prestationForm.invalid ? 'Veuillez bien remplir le formulaire': 'Enregistrer'" nz-button nz-tooltip>
@@ -109,8 +109,8 @@
 </ng-template>
 
 <ng-template #addNewPatientTemplate>
-  <nz-divider></nz-divider>
-  <div class="container">
+  <nz-divider></nz-divider >
+  <div class="container"  *ngIf="hasAction('CREER_PATIENT')">
     <a class="add-item" (click)="addNewPatient()">
       <i nz-icon nzType="plus"></i>
       Ajouter nouveau patient

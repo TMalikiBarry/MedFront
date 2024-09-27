@@ -14,6 +14,7 @@ import {
 import {NotifService} from "src/app/services/notification/notif.service";
 import {ServiceInterface} from "src/app/models/service.interface";
 import {PoleInterface} from "src/app/models/pole.interface";
+import {ProfilService} from "../../../../services/Profil/profil.service";
 
 @Component({
   selector: 'app-rendez-vous-form-dialog',
@@ -55,7 +56,8 @@ export class RendezVousFormDialogComponent implements OnInit {
               private apiPatient: PatientService,
               private apiPersonnel: PersonnelService,
               private notification: NotifService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private profilService: ProfilService) {
   }
 
   ngOnInit(): void {
@@ -218,6 +220,9 @@ export class RendezVousFormDialogComponent implements OnInit {
         this.modal.close();
       }
     })
-
+  }
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
   }
 }

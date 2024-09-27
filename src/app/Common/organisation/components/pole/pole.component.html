@@ -19,7 +19,7 @@
   <div class="dataLayout">
     <div class="headerData make-spaceBetween add-some-margin">
       <p>Liste des pôles</p>
-      <button (click)="addNew()" class="basic-button my-primary-button" nz-button nzSize="large">
+      <button *ngIf="hasAction('CREER_POLE')" (click)="addNew()" class="basic-button my-primary-button" nz-button nzSize="large">
         <span nz-icon nzType="plus"></span>
         Nouveau Pôle
       </button>
@@ -72,7 +72,7 @@
         </td>
 
         <td>
-          <img (click)="update(p)" alt="Modifier" nz-tooltip
+          <img *ngIf="hasAction('MODIFIER_POLE')" (click)="update(p)" alt="Modifier" nz-tooltip
                [nzTooltipTitle]="'Modifier les infos du pôle '+p.nom" src="assets/from_figma/edit-action.svg"
                style="cursor: pointer; margin-right: 1rem">
           <img alt="Modifier" nz-tooltip nzTooltipTitle="Pas encore disponible"

@@ -16,6 +16,7 @@ import {FacturationComponent} from "../../dialogs/facturation/facturation.compon
 import {NotifService} from "src/app/services/notification/notif.service";
 import * as Chart from "chart.js/auto";
 import {DetailsPrestationComponent} from "../../dialogs/details-prestation/details-prestation.component";
+import {ProfilService} from "../../../../services/Profil/profil.service";
 
 @Component({
   selector: 'app-prestation',
@@ -48,7 +49,8 @@ export class PrestationComponent implements OnInit{
               private api: PrestationService,
               private serviceApi: CliniqueServiceService,
               private dossierMApi: DossierMedicalService,
-              private notify: NotifService) {
+              private notify: NotifService,
+              private profilService: ProfilService) {
   }
 
   ngOnInit(): void {
@@ -472,5 +474,10 @@ export class PrestationComponent implements OnInit{
 
   OnWeekChange($event: any) {
     this.updateGraphStats($event, this.wBarFlowStats)
+  }
+
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
   }
 }

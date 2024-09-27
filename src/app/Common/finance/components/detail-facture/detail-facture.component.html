@@ -123,7 +123,7 @@
               <img src="assets/from_figma/printer.svg" alt="print">
               Imprimer
             </button>-->
-      <button (click)="generatePDFAndDownload()">
+      <button *ngIf="hasAction('EXPORTER_FACTURE')" (click)="generatePDFAndDownload()">
         <img alt="Download" src="assets/from_figma/download.svg">
         Télécharger la facture sous format PDF
       </button>
