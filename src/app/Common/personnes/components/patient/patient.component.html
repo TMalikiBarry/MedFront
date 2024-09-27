@@ -21,7 +21,7 @@
     <div class="dataLayout">
       <div class="headerData make-spaceBetween">
         <p>Listes des patients</p>
-        <button (click)="addNewPatient()" class="my-primary-button basic-button" nz-button nzSize="large">
+        <button *ngIf="hasAction('CREER_PATIENT')" (click)="addNewPatient()" class="my-primary-button basic-button" nz-button nzSize="large">
           <span nz-icon nzType="plus"></span>
           Nouveau Patient
         </button>
@@ -120,12 +120,12 @@
                    nz-tooltip nzTooltipTitle="Voir détails Dossier Médical"
                    src="assets/from_figma/see-details-action.svg"
                    width="17">
-              <img (click)="updatePatient(patient.id!)" alt="Modifier" nz-tooltip
+              <img *ngIf="hasAction('MODIFIER_PATIENT')" (click)="updatePatient(patient.id!)" alt="Modifier" nz-tooltip
                    nzTooltipTitle="Modifier" src="assets/from_figma/edit-action.svg" width="17">
               <img alt="supprimer" nz-tooltip nzTooltipTitle="Supprimer" src="assets/icon/trash.svg" width="20">
-              <img (click)="addNewPrestation(patient)" alt="Facturer"
+              <img *ngIf="hasAction('CREER_PRESTATION')" (click)="addNewPrestation(patient)" alt="Facturer"
                    nz-tooltip nzTooltipTitle="Nouvelle Prestation" src="assets/from_figma/new-prestation.svg" width="20">
-              <img (click)="addNewRDV(patient)" alt="Facturer"
+              <img *ngIf="hasAction('CREER_RENDEZ-VOUS')" (click)="addNewRDV(patient)" alt="Facturer"
                    nz-tooltip nzTooltipTitle="Nouveau Rendez-vous" src="assets/from_figma/new-rdv.svg" width="20">
 
             </td>
@@ -250,10 +250,10 @@
 
   <nz-dropdown-menu #menu="nzDropdownMenu">
     <ul nz-menu>
-      <li class="selectedLink" nz-menu-item>
+      <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_PATIENT')">
         <span>Nouveau Patient</span>
       </li>
-      <li class="selectedLink" nz-menu-item>
+      <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_RENDEZ-VOUS')">
         <span>Nouveau RDV</span>
       </li>
 

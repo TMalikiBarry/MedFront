@@ -14,6 +14,7 @@ import {WeeklyDataStat} from "src/app/models/weekly-data-stat";
 import {UtilsService} from "src/app/services/utils/utils.service";
 import {Page} from "src/app/models/pagination.interface";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
+import {ProfilService} from "../../../../services/Profil/profil.service";
 
 @Component({
   selector: 'app-patient',
@@ -63,6 +64,7 @@ export class PatientComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute,
               public utils: UtilsService,
+              private profilService: ProfilService
   ) {}
 
   ngOnInit() {
@@ -378,5 +380,9 @@ export class PatientComponent implements OnInit {
         this.ageMax = 1
       this.ageMin = ageDiff <= 0 ? this.ageMax - 1 : this.ageMin;
     }
+  }
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
   }
 }
