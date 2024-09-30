@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientService } from 'src/app/services/patient/patient.service';
 import { PatientInterface } from 'src/app/models/patient.interface';
+import {ProfilService} from "../../../../services/Profil/profil.service";
 
 @Component({
   selector: 'app-dossiers-medicaux',
@@ -10,7 +11,8 @@ import { PatientInterface } from 'src/app/models/patient.interface';
 export class FicheMedicaleComponent implements OnInit {
   patients: PatientInterface[] = [];
 
-  constructor(private patientService: PatientService) {}
+  constructor(private patientService: PatientService,
+              private profilService: ProfilService) {}
 
   ngOnInit() {
     this.loadPatients();
@@ -34,5 +36,9 @@ export class FicheMedicaleComponent implements OnInit {
         // Gérez l'erreur selon vos besoins
       }
     );
+  }
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
   }
 }

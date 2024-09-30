@@ -59,7 +59,7 @@
     <div class="headerData make-spaceBetween">
       <p>Listes des paiements</p>
       <div class="div-btn">
-        <button (click)="export()" class="btn-basic" nz-button nzSize="large">
+        <button *ngIf="hasAction('EXPORTER_TRANSACTIONS')" (click)="export()" class="btn-basic" nz-button nzSize="large">
           <img src="assets/icon/export.svg" alt="export">
           Exporter
         </button>
@@ -193,7 +193,7 @@
     <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_PATIENT')">
       <span>Nouveau Patient</span>
     </li>
-    <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_RENDEZ-VOUS')">
+    <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_RENDEZVOUS')">
       <span>Nouveau RDV</span>
     </li>
     <li (click)="addNewPrestation()" class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_PRESTATION')">

@@ -10,6 +10,7 @@ import {DetailRendezVousComponent} from "../../../dossiers/dialogs/detail-rendez
 import {NzModalService} from "ng-zorro-antd/modal";
 import {PrestationInterface} from "../../../../models/prestation.interface";
 import {DetailsPrestationComponent} from "../../../dossiers/dialogs/details-prestation/details-prestation.component";
+import {ProfilService} from "../../../../services/Profil/profil.service";
 
 
 interface StatusInfo {
@@ -47,7 +48,8 @@ export class DossiersMedicauxComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private api: DossierMedicalService,
-    public utils: UtilsService
+    public utils: UtilsService,
+    private profilService: ProfilService
   ) {
     this.patientForm = this.fb.group({
       genre: '',
@@ -147,5 +149,8 @@ export class DossiersMedicauxComponent implements OnInit {
   getStatusInfo(status: string, statusMap: StatusMap): StatusInfo {
     return statusMap[status];
   }
-
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
+  }
 }

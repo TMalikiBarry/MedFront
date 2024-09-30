@@ -105,7 +105,7 @@
 
 <nz-dropdown-menu #menu="nzDropdownMenu">
   <ul nz-menu>
-    <li class="selectedLink" nz-menu-item>
+    <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_MODULE')">
       <span>Nouveau Module</span>
     </li>
 

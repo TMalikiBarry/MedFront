@@ -123,9 +123,9 @@
               <img *ngIf="hasAction('MODIFIER_PATIENT')" (click)="updatePatient(patient.id!)" alt="Modifier" nz-tooltip
                    nzTooltipTitle="Modifier" src="assets/from_figma/edit-action.svg" width="17">
               <img alt="supprimer" nz-tooltip nzTooltipTitle="Supprimer" src="assets/icon/trash.svg" width="20">
-              <img *ngIf="hasAction('CREER_PRESTATION')" (click)="addNewPrestation(patient)" alt="Facturer"
+              <img *ngIf="hasAction('CREER_PRESTATION')" (click)="addNewPrestation(patient)" alt="Nouvelle prestation"
                    nz-tooltip nzTooltipTitle="Nouvelle Prestation" src="assets/from_figma/new-prestation.svg" width="20">
-              <img *ngIf="hasAction('CREER_RENDEZ-VOUS')" (click)="addNewRDV(patient)" alt="Facturer"
+              <img *ngIf="hasAction('CREER_RENDEZVOUS')" (click)="addNewRDV(patient)" alt="Nouveau RV"
                    nz-tooltip nzTooltipTitle="Nouveau Rendez-vous" src="assets/from_figma/new-rdv.svg" width="20">
 
             </td>
@@ -253,7 +253,7 @@
       <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_PATIENT')">
         <span>Nouveau Patient</span>
       </li>
-      <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_RENDEZ-VOUS')">
+      <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_RENDEZVOUS')">
         <span>Nouveau RDV</span>
       </li>
 

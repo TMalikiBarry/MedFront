@@ -6,6 +6,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AccesService} from "src/app/services/acces/acces.service";
 import {ProfilInterface} from "src/app/models/profil.interface";
 import {ProfilFormDialogComponent} from "../profil-form-dialog/profil-form-dialog.component";
+import {ProfilService} from "../../../../services/Profil/profil.service";
 
 @Component({
   selector: 'app-acces-form-dialog',
@@ -32,7 +33,8 @@ export class AccesFormDialogComponent {
               private modalService: NzModalService,
               private api: AccesService,
               private notification: NotifService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private profilService: ProfilService) {
   }
 
   ngOnInit() {
@@ -120,5 +122,9 @@ export class AccesFormDialogComponent {
 
     this.accesForm.controls['login'].setValue(this.updatedAcces.login);
     this.accesForm.controls['profil'].setValue(this.updatedAcces.profil.id);
+  }
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
   }
 }

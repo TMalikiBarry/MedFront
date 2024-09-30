@@ -43,7 +43,7 @@
                         <nz-select (click)="filterActionList()" formControlName="actions" nzPlaceHolder="Choisir l'action"
                                    [nzDropdownRender]="addNewActionTemplate" nzShowSearch>
                             <nz-option *ngFor="let action of actions"
-                                       [nzLabel]="getHttpVerbLabel(action.httpVerb) + ' - '+ action.fonctionnalite.code"
+                                       [nzLabel]="action.description+ ' - '+ action.fonctionnalite.code"
                                        [nzValue]="action.code"></nz-option>
                         </nz-select>
                     </nz-form-control>
@@ -58,7 +58,6 @@
           <nz-table #basicTable [nzData]="listActions" [nzShowSizeChanger]="true">
                 <thead>
                 <tr>
-                    <!--          <th>Actions</th>-->
                     <th>Code</th>
                     <th>Action</th>
                     <th>Fonction</th>
@@ -102,7 +101,7 @@
 
 <ng-template #addNewActionTemplate>
   <nz-divider></nz-divider>
-  <div class="container">
+  <div class="container" *ngIf="hasAction('CREER_ACTION')">
     <a (click)="addNew()" class="add-item">
       <i nz-icon nzType="plus"></i>
       Ajouter nouvelle Action

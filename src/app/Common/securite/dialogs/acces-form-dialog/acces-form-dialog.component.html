@@ -50,7 +50,7 @@
 
 <ng-template #addNewProfilTemplate>
   <nz-divider></nz-divider>
-  <div class="container">
+  <div class="container" *ngIf="hasAction('CREER_PROFIL')">
     <a (click)="addNew()" class="add-item">
       <i nz-icon nzType="plus"></i>
       Ajouter nouveau profil

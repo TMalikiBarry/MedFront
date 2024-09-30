@@ -75,7 +75,7 @@
           <img *ngIf="hasAction('MODIFIER_POLE')" (click)="update(p)" alt="Modifier" nz-tooltip
                [nzTooltipTitle]="'Modifier les infos du pôle '+p.nom" src="assets/from_figma/edit-action.svg"
                style="cursor: pointer; margin-right: 1rem">
-          <img alt="Modifier" nz-tooltip nzTooltipTitle="Pas encore disponible"
+          <img alt="Supprimer" nz-tooltip nzTooltipTitle="Pas encore disponible"
                src="assets/icon/trash_blocked.svg" style="cursor:not-allowed;">
         </td>
       </tr>
@@ -93,13 +93,13 @@
 
 <nz-dropdown-menu #menu="nzDropdownMenu">
   <ul nz-menu>
-    <li class="selectedLink" nz-menu-item>
+    <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_PATIENT')">
       <span>Nouveau Patient</span>
     </li>
-    <li class="selectedLink" nz-menu-item>
+    <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_RENDEZVOUS')">
       <span>Nouveau RDV</span>
     </li>
-    <li (click)="addNewPrestation()" class="selectedLink" nz-menu-item>
+    <li (click)="addNewPrestation()" class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_PRESTATION')">
       <span>Nouvelle prestation</span>
     </li>
   </ul>

@@ -6,6 +6,7 @@ import {NotifService} from "src/app/services/notification/notif.service";
 import {ServiceInterface} from "src/app/models/service.interface";
 import {CliniqueServiceService} from "src/app/services/service/clinique-service.service";
 import {PoleFormDialogComponent} from "../pole-form-dialog/pole-form-dialog.component";
+import {ProfilService} from "../../../../services/Profil/profil.service";
 
 export function MultipleOfValidator(value: number) {
   return (control: AbstractControl): { [key: string]: any } | null => {
@@ -43,7 +44,8 @@ export class ServiceFormDialogComponent implements OnInit {
               private modalService: NzModalService,
               private api: CliniqueServiceService,
               private notification: NotifService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private profilService: ProfilService) {
   }
 
   ngOnInit(): void {
@@ -158,6 +160,11 @@ export class ServiceFormDialogComponent implements OnInit {
         this.isConfirmLoading = false
       }
     })
+  }
+
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
   }
 
 }

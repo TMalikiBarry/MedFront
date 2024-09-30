@@ -6,6 +6,7 @@ import {ActionInterface, httpVerbMapping} from "src/app/models/action.interface"
 import {ActionService} from "src/app/services/action/action.service";
 import {FonctionnaliteInterface} from "../../../../models/fonctionnalite.interface";
 import {NouvelleFonctionnaliteComponent} from "../nouvelle-fonctionnalite/nouvelle-fonctionnalite.component";
+import {ProfilService} from "../../../../services/Profil/profil.service";
 
 @Component({
     selector: 'app-action-form-dialog',
@@ -35,7 +36,8 @@ export class ActionFormDialogComponent implements OnInit {
                 private api: ActionService,
                 private notification: NotifService,
                 private modalService: NzModalService,
-                private fb: FormBuilder) {
+                private fb: FormBuilder,
+                private profilService: ProfilService) {
     }
 
     ngOnInit(): void {
@@ -181,4 +183,8 @@ export class ActionFormDialogComponent implements OnInit {
             }
         )
     }
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
+  }
 }

@@ -38,7 +38,8 @@ export class ProfilFormDialogComponent implements OnInit {
               private modalService: NzModalService,
               private api: ProfilService,
               private notification: NotifService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private profilService: ProfilService) {
   }
 
   ngOnInit(): void {
@@ -199,5 +200,8 @@ export class ProfilFormDialogComponent implements OnInit {
       }
     })
   }
-
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
+  }
 }

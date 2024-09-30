@@ -80,7 +80,7 @@
 
 <ng-template #addNewPoleTemplate>
   <nz-divider></nz-divider>
-  <div class="container">
+  <div class="container" *ngIf="hasAction('CREER_POLE')">
     <a (click)="addNew()" class="add-item">
       <i nz-icon nzType="plus"></i>
       Ajouter nouveau pôle

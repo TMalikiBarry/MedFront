@@ -38,7 +38,7 @@
   <div class="for-a-card width_perc-40 new-patients-list">
     <div class="make-spaceBetween">
       <p>Les nouveaux patients</p>
-      <span nz-tooltip nzTooltipTitle="Voir la liste des patients" routerLink="/admin/personnes/patients">
+      <span *ngIf="hasAction('LISTER_PATIENTS')" nz-tooltip nzTooltipTitle="Voir la liste des patients" routerLink="/admin/personnes/patients">
         Tout voir <img alt="Tout voir" src="assets/from_figma/see_more.svg" width="4.5">
       </span>
     </div>
@@ -58,7 +58,7 @@
   <div class="for-a-card rdv-card">
     <div class="make-spaceBetween">
       <p>Les rendez-vous du jour</p>
-      <span nz-tooltip nzTooltipTitle="Voir la liste des rendez-vous" routerLink="/admin/dossiers/rendez-vous">
+      <span *ngIf="hasAction('LISTE_RENDEZVOUS')" nz-tooltip nzTooltipTitle="Voir la liste des rendez-vous" routerLink="/admin/dossiers/rendez-vous">
         Tout voir <img alt="Tout voir" src="assets/from_figma/see_more.svg" width="4.5">
       </span>
     </div>
@@ -84,7 +84,7 @@
   <div class="for-a-card width_perc-40 transaction-graph-card">
     <div class="make-spaceBetween">
       <p>Flux hebdomadaire des transactions</p>
-      <span nz-tooltip nzTooltipTitle="Voir la liste des patients" routerLink="/admin/finance/transactions">
+      <span *ngIf="hasAction('LISTER_TRANSACTIONS')" nz-tooltip nzTooltipTitle="Voir la liste des patients" routerLink="/admin/finance/transactions">
         Tout voir <img alt="Tout voir" src="assets/from_figma/see_more.svg" width="4.5">
       </span>
     </div>

@@ -6,6 +6,7 @@ import {PatientInterface} from "../../models/patient.interface";
 import {UtilsService} from "../../services/utils/utils.service";
 import {DashboardDataInterface} from "../../models/dashboard-data.interface";
 import {StorageService} from "../../services/Storage/storage.service";
+import {ProfilService} from "../../services/Profil/profil.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -26,7 +27,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(private api: DashboardService,
               private storage: StorageService,
-              public utils: UtilsService) {
+              public utils: UtilsService,
+              private profilService: ProfilService) {
   }
 
   ngOnInit(): void {
@@ -168,6 +170,10 @@ export class DashboardComponent implements OnInit {
   getGenre(patient: PatientInterface): string {
 
     return patient.personne.genre.toLowerCase().startsWith('f') ? 'Femme' : 'Homme';
+  }
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
   }
 
 

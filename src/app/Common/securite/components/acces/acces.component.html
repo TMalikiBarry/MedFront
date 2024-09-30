@@ -69,13 +69,13 @@
 
 <nz-dropdown-menu #menu="nzDropdownMenu">
   <ul nz-menu>
-    <li class="selectedLink" nz-menu-item>
+    <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_PATIENT')">
       <span>Nouveau Patient</span>
     </li>
-    <li class="selectedLink" nz-menu-item>
+    <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_RENDEZVOUS')">
       <span>Nouveau RDV</span>
     </li>
-    <li class="selectedLink" nz-menu-item>
+    <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_PRESTATION')">
       <span>Nouvelle prestation</span>
     </li>
   </ul>

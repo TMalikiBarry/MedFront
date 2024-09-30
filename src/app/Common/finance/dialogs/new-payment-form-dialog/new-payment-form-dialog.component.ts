@@ -15,6 +15,7 @@ import {
   NouveauPatientComponent
 } from "../../../personnes/dialogs/nouveau-patient-form-dialog/nouveau-patient.component";
 import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface";
+import {ProfilService} from "../../../../services/Profil/profil.service";
 
 @Component({
   selector: 'app-new-payment-form-dialog',
@@ -78,7 +79,8 @@ export class NewPaymentFormDialogComponent {
               private api: PrestationService,
               private dossierMApi: DossierMedicalService,
               private serviceApi: CliniqueServiceService,
-              private notify: NotifService
+              private notify: NotifService,
+              private profilService: ProfilService
   ) {
   }
   ngOnInit(): void {
@@ -231,5 +233,9 @@ export class NewPaymentFormDialogComponent {
 
   getAllServicesByPole(pole: PoleInterface): ServiceInterface [] {
     return this.myServicesList.filter(s => s.pole?.id === pole.id);
+  }
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
   }
 }

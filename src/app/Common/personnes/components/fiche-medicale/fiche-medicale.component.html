@@ -77,10 +77,10 @@
 
   <nz-dropdown-menu #menu="nzDropdownMenu">
     <ul nz-menu>
-      <li class="selectedLink" nz-menu-item>
+      <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_PATIENT')">
         <span>Nouveau Patient</span>
       </li>
-      <li class="selectedLink" nz-menu-item>
+      <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_RENDEZVOUS')">
         <span>Nouveau RDV</span>
       </li>
 
@@ -92,7 +92,7 @@
       <li class="selectedLink" nz-menu-item>
         <span>Voir la fiche Medicale</span>
       </li>
-      <li class="selectedLink" nz-menu-item>
+      <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_PRESTATION')">
         <a routerLink="/dossiers/prestation/">
         <span>Ajouter une prestation</span>
         </a>

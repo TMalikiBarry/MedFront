@@ -12,6 +12,7 @@ import {PersonnelService} from "src/app/services/personnel/personnel.service";
 import {PoleInterface} from "src/app/models/pole.interface";
 import {TitreFormDialogComponent} from "../titre-form-dialog/titre-form-dialog.component";
 import {ProfilFormDialogComponent} from "../../../securite/dialogs/profil-form-dialog/profil-form-dialog.component";
+import {ProfilService} from "../../../../services/Profil/profil.service";
 
 @Component({
   selector: 'app-personnel-form-dialog',
@@ -58,7 +59,8 @@ export class PersonnelFormDialogComponent implements OnInit {
               private modalService: NzModalService,
               private utils: UtilsService,
               private api: PersonnelService,
-              private notify: NotifService) {
+              private notify: NotifService,
+              private profilService: ProfilService) {
   }
 
   ngOnInit(): void {
@@ -273,5 +275,8 @@ export class PersonnelFormDialogComponent implements OnInit {
       complete: () => this.isConfirmLoading = false,
     })
   }
-
+  hasAction(codeAction: string): boolean {
+    const actions = this.profilService.getActions();
+    return actions ? actions.some(action => action.code === codeAction) : false;
+  }
 }

@@ -175,7 +175,7 @@
         </nz-badge>
       </td>
       <td class="icon-table some-min-width-10">
-        <img (click)="seeDetails(rdv)" alt="modifier" nz-tooltip nzTooltipTitle="Voir détails"
+        <img *ngIf="hasAction('VOIR_DETAILS_RENDEZVOUS')" (click)="seeDetails(rdv)" alt="modifier" nz-tooltip nzTooltipTitle="Voir détails"
              src="assets/from_figma/see-details-action.svg">
 
       </td>
@@ -226,7 +226,7 @@
         </nz-badge>
       </td>
       <td class="icon-table some-min-width-10">
-        <img (click)="seePrestationDetails(p)" alt="modifier" nz-tooltip nzTooltipTitle="Voir détails"
+        <img *ngIf="hasAction('VOIR-DETAILS_PRESTATION')" (click)="seePrestationDetails(p)" alt="modifier" nz-tooltip nzTooltipTitle="Voir détails"
              src="assets/from_figma/see-details-action.svg">
 
       </td>
