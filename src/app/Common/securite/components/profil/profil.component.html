@@ -74,9 +74,11 @@
         </td>
 
         <td class="space-evenly-modules some-min-width-12">
-          <img *ngIf="hasAction('MODIFIER_PROFIL')" (click)="updateProfil(profil)" alt="Modifier" nz-tooltip
+          <img (click)="updateProfil(profil)" *ngIf="hasAction('MODIFIER_PROFIL', profil.code)" alt="Modifier"
+               nz-tooltip
                nzTooltipTitle="Modifier" src="assets/from_figma/edit-action.svg" width="17">
-          <img *ngIf="hasAction('SUPPRIMER_PROFIL')" (click)="delete(profil.code)" alt="supprimer" nz-tooltip nzTooltipTitle="Supprimer"
+          <img (click)="delete(profil.code)" *ngIf="hasAction('SUPPRIMER_PROFIL', profil.code)" alt="supprimer"
+               nz-tooltip nzTooltipTitle="Supprimer"
                src="assets/icon/trash.svg" width="20">
         </td>
       </tr>

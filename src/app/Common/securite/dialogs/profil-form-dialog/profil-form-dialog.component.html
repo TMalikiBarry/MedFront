@@ -43,7 +43,7 @@
                         <nz-select (click)="filterActionList()" formControlName="actions" nzPlaceHolder="Choisir l'action"
                                    [nzDropdownRender]="addNewActionTemplate" nzShowSearch>
                             <nz-option *ngFor="let action of actions"
-                                       [nzLabel]="action.description+ ' - '+ action.fonctionnalite.code"
+                                       [nzLabel]="getListActionLabel(action)"
                                        [nzValue]="action.code"></nz-option>
                         </nz-select>
                     </nz-form-control>

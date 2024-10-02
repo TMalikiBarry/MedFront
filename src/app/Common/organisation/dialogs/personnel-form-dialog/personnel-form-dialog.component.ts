@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {PersonneInterface} from "src/app/models/personne.interface";
 import {PersonnelInterface} from "src/app/models/personnel.interface";
 import {TitreInterface} from "src/app/models/titre.interface";
-import {ProfilInterface} from "src/app/models/profil.interface";
+import {ProfilInterface, SUPERADMINISTRATEUR} from "src/app/models/profil.interface";
 import {AccesInterface} from "src/app/models/acces.interface";
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
@@ -13,6 +13,8 @@ import {PoleInterface} from "src/app/models/pole.interface";
 import {TitreFormDialogComponent} from "../titre-form-dialog/titre-form-dialog.component";
 import {ProfilFormDialogComponent} from "../../../securite/dialogs/profil-form-dialog/profil-form-dialog.component";
 import {ProfilService} from "../../../../services/Profil/profil.service";
+import {AuthInterface} from "../../../../models/auth.interface";
+import {StorageService} from "../../../../services/Storage/storage.service";
 
 @Component({
   selector: 'app-personnel-form-dialog',
@@ -54,8 +56,13 @@ export class PersonnelFormDialogComponent implements OnInit {
   });
   today = new Date();
 
+  currentUser?: AuthInterface;
+
+  isSuperAdmin: boolean = false;
+
   constructor(private fb: FormBuilder,
               private modal: NzModalRef,
+              private storage: StorageService,
               private modalService: NzModalService,
               private utils: UtilsService,
               private api: PersonnelService,
@@ -64,6 +71,14 @@ export class PersonnelFormDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const storedUser = this.storage.getItem('TOUCHMED_currentUser');
+
+    this.currentUser = storedUser ? JSON.parse(storedUser) as AuthInterface : undefined;
+
+    console.dir('USER CONNECTED ' + this.currentUser);
+    this.isSuperAdmin = this.currentUser?.personne.acces?.profil.code === SUPERADMINISTRATEUR;
+    this.subscribeToPhoneNumberChanges('telephone');
+
     this.loadDatas();
 
     this.data = this.modal.getConfig().nzData
@@ -76,7 +91,6 @@ export class PersonnelFormDialogComponent implements OnInit {
         this.fillTheForm();
       }
     }
-    this.subscribeToPhoneNumberChanges('telephone');
   }
 
   disabledDate = (current: Date): boolean => {
@@ -179,7 +193,11 @@ export class PersonnelFormDialogComponent implements OnInit {
 
   loadProfils() {
     this.api.listAllPresentProfils().subscribe(
-      res => this.listOfProfil = <ProfilInterface[]>res.reponse,
+      res => {
+        this.listOfProfil = <ProfilInterface[]>res.reponse;
+        if (!this.isSuperAdmin)
+          this.listOfProfil = this.listOfProfil.filter(p => p.code !== SUPERADMINISTRATEUR);
+      },
     );
   }
 
