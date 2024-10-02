@@ -324,7 +324,7 @@
           [(nzOpen)]="openMap[module.code]"
           (nzOpenChange)="openHandler(module.code)" [nzTitle]="moduleTitle">
         <ng-template #moduleTitle>
-          <div class="module-title" [ngClass]="{'selected-module': isRouteActive(module), 'module-tag': isRouteActive(module) }">
+          <div class="module-title" [ngClass]="{'selected-module': isRouteActive(module), 'module-tag': !isRouteActive(module) }">
             <img
               [src]="getIconPathModule(module)"
                class="module_logo" width="16.5">

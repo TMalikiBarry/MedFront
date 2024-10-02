@@ -20,7 +20,7 @@ export class ProfilComponent implements OnInit{
   profils!: ProfilInterface[];
   pageIndex: number = 0;
   pageSize: number = 10;
-
+  selectedProfilCode: any;
   serviceId!: number;
 
   paginatedData!: Page<ProfilInterface>;
@@ -47,11 +47,9 @@ export class ProfilComponent implements OnInit{
 
   }
 
-  getProfilByPage(page: number = 0, size: number = 10, firstName?: string, lastName?: string, telephone?: string,
-                          startDate?: Date, endDate?: Date, status?: string, genre?: string) {
+  getProfilByPage(page: number = 0, size: number = 10, code?: string, ) {
 
-    this.profilService.getPaginatedFilteredData(page, size, firstName, lastName,
-      telephone, startDate, endDate, status, genre)
+    this.profilService.getPaginatedFilteredData(page, size, code)
       .subscribe({
         next: response => {
           console.log(response)
@@ -69,17 +67,11 @@ export class ProfilComponent implements OnInit{
   }
 
   filterData() {
-    let startDate = undefined;
-    let endDate = undefined;
 
-    let prenom = null;
-    let nom = null;
-    let telephone = null;
 
 
     console.log('RECUPERER LES DONNEES');
-    this.getProfilByPage(this.pageIndex, this.pageSize, prenom!, nom!,
-      telephone!, startDate, endDate);
+    this.getProfilByPage(this.pageIndex, this.pageSize, this.selectedProfilCode);
     console.log('BIEN RECU LES DONNEES');
 
   }
@@ -87,7 +79,7 @@ export class ProfilComponent implements OnInit{
   loadProfil() {
     this.profilService.getAll().subscribe({
         next: profils => {
-          this.profils = profils;
+          this.profils = profils.reponse;
           console.log('Recuperation des profils', profils);
         },
         error: (error) => {

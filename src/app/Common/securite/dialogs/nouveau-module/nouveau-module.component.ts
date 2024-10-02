@@ -80,7 +80,6 @@ export class NouveauModuleComponent implements OnInit{
 
   createModuleForm(formData: any): ModuleInterface {
     return {
-
       code: formData.code,
       description: formData.description,
       sequence: formData.sequence,
@@ -97,13 +96,12 @@ export class NouveauModuleComponent implements OnInit{
     this.moduleService.getModuleByCode(code).subscribe({
       next: module => {
         this.moduleToUpdate = module.reponse;
-
         this.moduleForm.controls['code'].setValue(module.reponse.code);
+        this.moduleForm.controls['code'].disable();
         this.moduleForm.controls['description'].setValue(module.reponse.description);
         this.moduleForm.controls['sequence'].setValue(module.reponse.sequence);
         this.moduleForm.controls['image'].setValue(module.reponse.image);
         this.moduleForm.controls['bookmark'].setValue(module.reponse.bookmark);
-
       }
     })
   }
@@ -112,7 +110,6 @@ export class NouveauModuleComponent implements OnInit{
     console.log("Module à mettre à jour")
     console.log(module)
     this.moduleService.update(module).subscribe({
-
       next: res1 => {
         this.module =res1.reponse
         console.log(res1);
@@ -133,8 +130,5 @@ export class NouveauModuleComponent implements OnInit{
   handleCancel() {
     this.modalRef.close();
   }
-
-
-
 
 }

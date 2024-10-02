@@ -10,6 +10,8 @@ import {
 } from "../../../dossiers/dialogs/prestation-form-dialog/prestation-form-dialog.component";
 import {ActionFormDialogComponent} from "../../dialogs/action-form-dialog/action-form-dialog.component";
 import {ProfilService} from "../../../../services/Profil/profil.service";
+import {FonctionnaliteService} from "../../../../services/fonctionnalite/fonctionnalite.service";
+import {FonctionnaliteInterface} from "../../../../models/fonctionnalite.interface";
 
 @Component({
   selector: 'app-action',
@@ -21,16 +23,24 @@ export class ActionComponent implements OnInit {
   paginatedData!: Page<ActionInterface>;
   pageIndex: number = 0;
   pageSize: number = 10;
+  selectedFonctionnaliteCode:any;
+  selectedActionCode: any;
+  fonctionnalites?: FonctionnaliteInterface[];
+  actions? : ActionInterface[];
 
 
   constructor(private api: ActionService,
               private modalService: NzModalService,
               private router: Router,
-              private profilService: ProfilService) {
+              private profilService: ProfilService,
+              private fonctionnaliteService: FonctionnaliteService,
+              private actionService: ActionService) {
   }
 
   ngOnInit(): void {
     this.getByPage();
+    this.loadFonctionnalities();
+    this.loadActions();
   }
 
   display(action: ActionInterface) {
@@ -46,8 +56,8 @@ export class ActionComponent implements OnInit {
     return httpVerbMapping[httpVerb.toUpperCase()] || httpVerb;
   }
 
-  getByPage(page: number = 0, size: number = 10): void {
-    this.api.getAllPaginated(page, size).subscribe(
+  getByPage(page: number = 0, size: number = 10, codeAction?: string, codeFonctionnalite?: string): void {
+    this.api.getAllPaginated(page, size, codeAction, codeFonctionnalite).subscribe(
       {
         next: value => {
           console.log('RECEPTION ACTIONS', value);
@@ -60,8 +70,7 @@ export class ActionComponent implements OnInit {
   onQueryParamsChange(params: NzTableQueryParams): void {
     this.pageIndex = params.pageIndex - 1;
     this.pageSize = params.pageSize;
-
-    this.getByPage(this.pageIndex, this.pageSize);
+    this.getByPage(this.pageIndex, this.pageSize, this.selectedActionCode, this.selectedFonctionnaliteCode);
   }
 
   addNew() {
@@ -92,7 +101,6 @@ export class ActionComponent implements OnInit {
         this.getByPage();
       }
     )
-
   }
 
   addNewPrestation() {
@@ -106,7 +114,41 @@ export class ActionComponent implements OnInit {
         if (result === 'toPrestations') {
           this.router.navigateByUrl('/admin/dossiers/prestations')
         }
+      }
+    );
+  }
 
+  filterData() {
+    console.log('RECUPERER LES DONNEES');
+    console.log(this.selectedActionCode);
+    console.log(this.selectedFonctionnaliteCode);
+    this.getByPage(this.pageIndex, this.pageSize, this.selectedActionCode, this.selectedFonctionnaliteCode);
+  }
+
+  loadFonctionnalities() {
+    this.fonctionnaliteService.getAll().subscribe({
+        next: fonctionnalites => {
+          this.fonctionnalites = fonctionnalites.reponse;
+          console.log('Recuperation des fonctionnalites ', fonctionnalites);
+          },
+        error: (error) => {
+          console.error('Erreur lors de la récupération des fonctionnalites', error);
+          // Gérez l'erreur selon vos besoins
+        }
+      }
+    );
+  }
+  loadActions() {
+    this.actionService.getAll().subscribe({
+        next: actions => {
+          this.actions = actions;
+          console.log('Recuperation des actions ', actions);
+
+        },
+        error: (error) => {
+          console.error('Erreur lors de la récupération des actions', error);
+          // Gérez l'erreur selon vos besoins
+        }
       }
     );
   }

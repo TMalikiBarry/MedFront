@@ -28,35 +28,15 @@
     </div>
     <div class="filterpatients">
       <div class="personal-infos">
-        <nz-select [(ngModel)]="patientPers" nzAllowClear nzPlaceHolder="Rechercher par code. "
-                   nzShowSearch>
-          <nz-option nzLabel="----"></nz-option>
+        <nz-select [(ngModel)]="selectedModuleCode"  nzAllowClear nzPlaceHolder="Rechercher par code" nzShowSearch>
           <nz-option
             *ngFor="let module of modules"
-            [nzLabel]="module.code"
-            [nzValue]="module">
-
+            [nzLabel]="module.description"
+            [nzValue]="module.code">
           </nz-option>
-          <!--          <ng-template #customizeOption let-selected>
-                      {{ selected?.prenom + ' ' + selected?.nom }}
-                      <span class="phone-display">- {{ selected?.telephone }}</span>
-                    </ng-template>-->
         </nz-select>
       </div>
-<!--      <div class="descrip-date">Date d'inscription</div>
-      <div class="date-filter">
-        <nz-range-picker [(ngModel)]="choosenDate" nzFormat="dd/MM/YYYY"></nz-range-picker>
-      </div>
-      <div class="descrip-age">Tranche d'Age (en an)</div>
-      <div class="age-filter">
-        &lt;!&ndash;          <nz-slider [(ngModel)]="ageRange" [nzMarks]="marks" [nzMax]="130" [nzMin]="0" nzIncluded nzRange></nz-slider>&ndash;&gt;
-        <nz-input-number (ngModelChange)="handleExtremum('min', $event)" [(ngModel)]="ageMin"
-                         [nzInputMode]="'numeric'"
-                         [nzMax]="ageMax-1" [nzMin]="0" [nzStep]="1" nzPlaceHolder="Minimum"></nz-input-number>
-        <nz-input-number (ngModelChange)="handleExtremum('max', $event)" [(ngModel)]="ageMax"
-                         [nzInputMode]="'numeric'"
-                         [nzMin]="ageMin+1" [nzStep]="1" nzPlaceHolder="Maximum"></nz-input-number>
-      </div>-->
+
       <div class="button-action">
         <button (click)="filterData()" class="filter-form-button" nz-button>Filtrer</button>
       </div>

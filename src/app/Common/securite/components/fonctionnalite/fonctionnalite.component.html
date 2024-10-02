@@ -27,18 +27,24 @@
       </button>
     </div>
     <div class="filterpatients">
+
       <div class="personal-infos">
-<!--        <nz-select [(ngModel)]="patientPers" nzAllowClear nzPlaceHolder="Rechercher par code "
-                   nzShowSearch>
-          <nz-option nzLabel="&#45;&#45;&#45;&#45;"></nz-option>
+        <nz-select [(ngModel)]="selectedFonctionaliteCode"  nzAllowClear nzPlaceHolder="Rechercher par code" nzShowSearch>
           <nz-option
-            *ngFor="let patient of patients"
-            [nzLabel]="getPatienInfos(patient)"
-            [nzValue]="patient?.personne">
-
+            *ngFor="let fonctionnalite of fonctionnalites"
+            [nzLabel]="fonctionnalite.description"
+            [nzValue]="fonctionnalite.code">
           </nz-option>
-
-        </nz-select>-->
+        </nz-select>
+      </div>
+      <div class="module-infos">
+        <nz-select [(ngModel)]="selectedModuleCode"  nzAllowClear nzPlaceHolder="Rechercher par module" nzShowSearch>
+          <nz-option
+            *ngFor="let module of modules"
+            [nzLabel]="module.description"
+            [nzValue]="module.code">
+          </nz-option>
+        </nz-select>
       </div>
 
       <div class="button-action">
@@ -77,11 +83,6 @@
           </div>
         </td>
         <td><strong>{{ fonctionalite.module.code }}</strong></td>
-        <!--<td>
-          <div [ngClass]="{'displayString' : !fonctionalite.sequence}">
-            {{ fonctionalite.sequence | displayString }}
-          </div>
-        </td>-->
 
         <td class="space-evenly-modules some-min-width-12">
           <img *ngIf="hasAction('MODIFIER_FONCTIONNALITE')" (click)="updateFonctionalite(fonctionalite.code)" alt="Modifier" nz-tooltip

@@ -18,16 +18,9 @@ import {ProfilService} from "../../../../services/Profil/profil.service";
 })
 export class ModuleComponent implements OnInit{
   modules!: ModuleInterface[];
-  choosenDate!: Date[];
   pageIndex: number = 0;
   pageSize: number = 10;
-  serviceId!: number;
-
-  isLastWeek = false;
-  ageMin!: number;
-  ageMax!: number;
-  patientPers!: PersonneInterface;
-
+  selectedModuleCode: any;
   paginatedData!: Page<ModuleInterface>;
 
   constructor(private moduleService: ModuleService,
@@ -42,12 +35,9 @@ export class ModuleComponent implements OnInit{
     this.getModuleByPage();
   }
 
-  getModuleByPage(page: number = 0, size: number = 10, firstName?: string, lastName?: string, telephone?: string,
-                   startDate?: Date, endDate?: Date, status?: string, genre?: string) {
+  getModuleByPage(page: number = 0, size: number = 10, code?: string) {
 
-    this.moduleService.getPaginatedFilteredData(page, size, firstName, lastName,
-      telephone, startDate, endDate, status, genre,
-      this.ageMin, this.ageMax)
+    this.moduleService.getPaginatedFilteredData(page, size, code)
       .subscribe({
         next: response => {
           console.log(response)
@@ -65,28 +55,16 @@ export class ModuleComponent implements OnInit{
   }
 
   filterData() {
-    let startDate = undefined;
-    let endDate = undefined;
-    if (this.choosenDate) {
-      startDate = this.choosenDate[0] ? this.choosenDate[0] : undefined;
-      endDate = this.choosenDate[1] ? this.choosenDate[1] : undefined;
-    }
-    let prenom = null;
-    let nom = null;
-    let telephone = null;
-
-
-    console.log('RECUPERER LES DONNEES');
-    this.getModuleByPage(this.pageIndex, this.pageSize, prenom!, nom!,
-      telephone!, startDate, endDate);
-    console.log('BIEN RECU LES DONNEES');
-
+    console.log('Données filtrées');
+    console.log(this.selectedModuleCode)
+    this.getModuleByPage(this.pageIndex, this.pageSize, this.selectedModuleCode);
   }
+
   loadModules() {
 
     this.moduleService.getAll().subscribe({
         next: modules => {
-          this.modules = modules;
+          this.modules = modules.reponse;
           console.log('Recuperation de modules ', modules);
 
         },

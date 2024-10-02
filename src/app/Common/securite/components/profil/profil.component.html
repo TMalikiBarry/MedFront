@@ -28,17 +28,13 @@
     </div>
     <div class="filterpatients">
       <div class="personal-infos">
-        <!--        <nz-select [(ngModel)]="patientPers" nzAllowClear nzPlaceHolder="Rechercher par code "
-                           nzShowSearch>
-                  <nz-option nzLabel="&#45;&#45;&#45;&#45;"></nz-option>
-                  <nz-option
-                    *ngFor="let patient of patients"
-                    [nzLabel]="getPatienInfos(patient)"
-                    [nzValue]="patient?.personne">
-
-                  </nz-option>
-
-                </nz-select>-->
+        <nz-select [(ngModel)]="selectedProfilCode"  nzAllowClear nzPlaceHolder="Rechercher par code" nzShowSearch>
+          <nz-option
+            *ngFor="let profil of profils"
+            [nzLabel]="profil.libelle"
+            [nzValue]="profil.code">
+          </nz-option>
+        </nz-select>
       </div>
 
       <div class="button-action">
@@ -100,8 +96,6 @@
     <li class="selectedLink" nz-menu-item *ngIf="hasAction('CREER_MODULE')">
       <span>Nouveau Module</span>
     </li>
-
-
   </ul>
 </nz-dropdown-menu>
 
