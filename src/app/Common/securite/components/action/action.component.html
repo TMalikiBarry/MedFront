@@ -24,6 +24,31 @@
         Nouvelle action
       </button>
     </div>
+
+    <div class="filterpatients">
+      <div class="personal-infos">
+        <nz-select [(ngModel)]="selectedActionCode"  nzAllowClear nzPlaceHolder="Rechercher par code" nzShowSearch>
+          <nz-option
+            *ngFor="let action of actions"
+            [nzLabel]="action.description"
+            [nzValue]="action.code">
+          </nz-option>
+        </nz-select>
+      </div>
+      <div class="module-infos">
+        <nz-select [(ngModel)]="selectedFonctionnaliteCode"  nzAllowClear nzPlaceHolder="Rechercher par fonctionnalite" nzShowSearch>
+          <nz-option
+            *ngFor="let fonctionnalite of fonctionnalites"
+            [nzLabel]="fonctionnalite.description"
+            [nzValue]="fonctionnalite.code">
+          </nz-option>
+        </nz-select>
+      </div>
+
+      <div class="button-action">
+        <button (click)="filterData()" class="filter-form-button" nz-button>Filtrer</button>
+      </div>
+    </div>
     <nz-table #actionTable (nzQueryParams)="onQueryParamsChange($event)"
               *ngIf="paginatedData"
               [nzData]="paginatedData.content"

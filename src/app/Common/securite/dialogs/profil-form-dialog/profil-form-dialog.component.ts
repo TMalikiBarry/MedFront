@@ -103,7 +103,6 @@ export class ProfilFormDialogComponent implements OnInit {
   }
 
   addAction() {
-
     const addedAction = this.actions.find(x => x.code === this.profilForm.controls['actions'].value);
     if (addedAction && this.listActions.every(a => a.code !== addedAction.code)) {
       // this.listActions.push(addedAction);
@@ -159,10 +158,7 @@ export class ProfilFormDialogComponent implements OnInit {
   }
 
   deleteAction(action: ActionInterface) {
-    /*const index = this.listActions.indexOf(action);
-    if (index !== -1){
-      this.listActions.splice(index, 1);
-    }*/
+
     this.listActions = this.listActions.filter(a => a.code !== action.code);
   }
 

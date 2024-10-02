@@ -3,7 +3,7 @@ import {EntiteBase} from "./entite-base";
 
 export interface ActionInterface extends EntiteBase {
   code:string;
-  description?: string;
+  description: string;
   httpVerb: HttpVerb,
   fonctionnalite: FonctionnaliteInterface;
 }

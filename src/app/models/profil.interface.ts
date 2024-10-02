@@ -3,7 +3,7 @@ import {ActionInterface} from "./action.interface";
 
 export interface ProfilInterface extends EntiteBase{
   id?: number;
-  libelle?: string;
+  libelle: string;
   code: string;
   welcomeBookmark?: string;
   actions?: ActionInterface[];

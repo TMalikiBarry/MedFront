@@ -35,11 +35,16 @@ export class ActionService {
         return this.http.get<ActionInterface[]>(this.url + '/allPresent');
     }
 
-    getAllPaginated(page: number = 0, size: number = 10): Observable<Page<ActionInterface>> {
+    getAllPaginated(page: number = 0, size: number = 10, code?: string, codeFonctionnalite?: string): Observable<Page<ActionInterface>> {
         let params = new HttpParams()
             .set('page', page.toString())
             .set('size', size.toString());
-
+      if (code) {
+        params = params.set('code', code);
+      }
+      if (codeFonctionnalite) {
+        params = params.set('codeFonctionnalite', codeFonctionnalite);
+      }
         return this.http.get<Page<ActionInterface>>(this.url, {params});
     }
 

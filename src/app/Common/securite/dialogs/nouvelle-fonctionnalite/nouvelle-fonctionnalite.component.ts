@@ -106,6 +106,7 @@ export class NouvelleFonctionnaliteComponent implements OnInit{
         this.fonctionnaliteToUpdate = fonction.reponse;
 
         this.fonctionnaliteForm.controls['code'].setValue(fonction.reponse.code);
+        this.fonctionnaliteForm.controls['code'].disable();
         this.fonctionnaliteForm.controls['description'].setValue(fonction.reponse.description);
         this.fonctionnaliteForm.controls['bookmark'].setValue(fonction.reponse.bookmark);
         this.fonctionnaliteForm.controls['sequence'].setValue(fonction.reponse.sequence);

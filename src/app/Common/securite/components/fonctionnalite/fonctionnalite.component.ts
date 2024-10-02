@@ -8,6 +8,8 @@ import {FonctionnaliteService} from "../../../../services/fonctionnalite/fonctio
 import {NouvelleFonctionnaliteComponent} from "../../dialogs/nouvelle-fonctionnalite/nouvelle-fonctionnalite.component";
 import {NotifService} from "../../../../services/notification/notif.service";
 import {ProfilService} from "../../../../services/Profil/profil.service";
+import {ModuleInterface} from "../../../../models/module.interface";
+import {ModuleService} from "../../../../services/module/module.service";
 
 @Component({
   selector: 'app-fonctionnalite',
@@ -22,29 +24,30 @@ export class FonctionnaliteComponent implements OnInit{
   serviceId!: number;
 
   paginatedData!: Page<FonctionnaliteInterface>;
+  selectedFonctionaliteCode: any;
+  selectedModuleCode: any;
+  modules!: ModuleInterface[];
 
   constructor(private fonctionnaliteService: FonctionnaliteService,
               private modalService: NzModalService,
               public utils: UtilsService,
               private notify: NotifService,
-              private profilService: ProfilService
+              private profilService: ProfilService,
+              private moduleService: ModuleService
   ) {}
 
   ngOnInit() {
     this.loadFonctionnalites();
+    this.loadModules();
     this.getFonctionnalityByPage();
-
   }
 
-  getFonctionnalityByPage(page: number = 0, size: number = 10, firstName?: string, lastName?: string, telephone?: string,
-                   startDate?: Date, endDate?: Date, status?: string, genre?: string) {
+  getFonctionnalityByPage(page: number = 0, size: number = 10, codeFonctionnalite?: string, codeModule?: string) {
 
-    this.fonctionnaliteService.getPaginatedFilteredData(page, size, firstName, lastName,
-      telephone, startDate, endDate, status, genre)
+    this.fonctionnaliteService.getPaginatedFilteredData(page, size, codeFonctionnalite, codeModule)
       .subscribe({
         next: response => {
           this.paginatedData = response.reponse;
-
         }
       })
   }
@@ -52,31 +55,22 @@ export class FonctionnaliteComponent implements OnInit{
   onQueryParamsChange(params: NzTableQueryParams): void {
     this.pageIndex = params.pageIndex - 1;
     this.pageSize = params.pageSize;
-
     this.filterData();
   }
 
 
   filterData() {
-    let startDate = undefined;
-    let endDate = undefined;
-
-    let prenom = null;
-    let nom = null;
-    let telephone = null;
-
-
     console.log('RECUPERER LES DONNEES');
-    this.getFonctionnalityByPage(this.pageIndex, this.pageSize, prenom!, nom!,
-      telephone!, startDate, endDate);
-    console.log('BIEN RECU LES DONNEES');
+    console.log(this.selectedModuleCode);
+    console.log(this.selectedFonctionaliteCode);
+    this.getFonctionnalityByPage(this.pageIndex, this.pageSize, this.selectedFonctionaliteCode, this.selectedModuleCode);
 
   }
 
   loadFonctionnalites() {
     this.fonctionnaliteService.getAll().subscribe({
         next: fonctionnalities => {
-          this.fonctionnalites = fonctionnalities;
+          this.fonctionnalites = fonctionnalities.reponse;
           console.log('Recuperation de fonctionnalites', fonctionnalities);
           },
         error: (error) => {
@@ -139,6 +133,21 @@ export class FonctionnaliteComponent implements OnInit{
     }).afterClose.subscribe(
       () => {
           this.filterData();
+      }
+    );
+  }
+  loadModules() {
+
+    this.moduleService.getAll().subscribe({
+        next: modules => {
+          this.modules = modules.reponse;
+          console.log('Recuperation de modules ', modules);
+
+        },
+        error: (error) => {
+          console.error('Erreur lors de la récupération des patients', error);
+          // Gérez l'erreur selon vos besoins
+        }
       }
     );
   }

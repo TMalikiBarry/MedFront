@@ -15,8 +15,6 @@ import {ProfilService} from "../../../services/Profil/profil.service";
 
 export class CommonNavbarComponent implements OnInit {
   currentUser ?: AuthInterface;
-
-
   actions: ActionInterface[] = []; // Your list of actions
   filteredModules: ModuleDTOInterface[] = []; // Modules to display
   openMap: { [bookmark: string]: boolean } = {};
@@ -39,30 +37,10 @@ export class CommonNavbarComponent implements OnInit {
         this.router.navigateByUrl('/admin/dashboard');
     });
   }
-/*
+
   getModulesFromActions(actions: ActionInterface[]): ModuleDTOInterface[] {
     // Create a map to store modules and their functionalities
     const moduleMap = new Map<string, ModuleDTOInterface>();
-
-    actions.forEach(action => {
-      const module = action.fonctionnalite.module;
-
-      // If module doesn't exist in the map, add it
-      if (!moduleMap.has(module.code)) {
-        moduleMap.set(module.code, { ...module, fonctionnalites: [] });
-      }
-
-      // Add the fonctionnalite to the corresponding module
-      moduleMap.get(module.code)?.fonctionnalites.push(action.fonctionnalite);
-    });
-
-    // Convert the map to an array
-    return Array.from(moduleMap.values());
-  }*/
-  getModulesFromActions(actions: ActionInterface[]): ModuleDTOInterface[] {
-    // Create a map to store modules and their functionalities
-    const moduleMap = new Map<string, ModuleDTOInterface>();
-
     actions.forEach(action => {
       const module = action.fonctionnalite.module;
       const fonctionnalite = action.fonctionnalite;
@@ -71,7 +49,6 @@ export class CommonNavbarComponent implements OnInit {
       if (!moduleMap.has(module.code)) {
         moduleMap.set(module.code, { ...module, fonctionnalites: [] });
       }
-
       const moduleFonctionnalites = moduleMap.get(module.code)?.fonctionnalites;
 
       // Check if the fonctionnalite is already in the list, if not, add it
@@ -84,8 +61,6 @@ export class CommonNavbarComponent implements OnInit {
     return Array.from(moduleMap.values());
   }
 
-
-
   getRouterLink(fonctionnalite: FonctionnaliteInterface): string {
     // Define how to get the router link from the fonctionnalite
     return `/admin/${fonctionnalite.module.bookmark+fonctionnalite.bookmark}`;
@@ -97,9 +72,6 @@ export class CommonNavbarComponent implements OnInit {
     return `${basePath}${isSelected ? fonctionnalite.image + '_green.svg' : fonctionnalite.image + '.svg'}`;
   }
 
-/*  openHandler(moduleCode: string): void {
-    this.openMap[moduleCode] = !this.openMap[moduleCode];
-  }*/
   openHandler(value: string): void {
     Object.keys(this.openMap).forEach(key => {
       this.openMap[key] = key === value;
@@ -143,6 +115,7 @@ export class CommonNavbarComponent implements OnInit {
 
     return 'U';
   }
+
   isRouteActive(module: any): boolean {
     // Remplacez ceci par la logique pour vérifier si le module est actif
     const currentRoute = this.router.url; // Obtenez l'URL actuelle

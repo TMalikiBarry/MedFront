@@ -136,26 +136,33 @@
   grid-template-rows: repeat(2, 2rem)
   grid-column-gap: 20px
 
+  .module-infos
+    grid-area: 2 / 4 / 3 / 7
+
+    nz-select
+      width: 100%
+
+    nz-input-number
+      width: 43%
+
+      &:nth-child(1)
+        margin-right: 6%
+
+    nz-slider
+      color: #84BE38 !important
+
+.filterpatients
+  margin-block: 1.5rem
+  display: grid
+  grid-template-columns: repeat(12, 1fr)
+  grid-template-rows: repeat(2, 2rem)
+  grid-column-gap: 20px
+
   .personal-infos
     grid-area: 2 / 1 / 3 / 4
 
     nz-select
       width: 100%
-
-  .descrip-date
-    grid-area: 1 / 4 / 2 / 7
-
-  .date-filter
-    grid-area: 2 / 4 / 3 / 7
-
-    nz-date-picker
-      width: 90%
-
-  .descrip-age
-    grid-area: 1 / 7 / 2 / 9
-
-  .age-filter
-    grid-area: 2 / 7 / 3 / 11
 
     nz-input-number
       width: 43%
@@ -169,6 +176,9 @@
   .button-action
     grid-area: 2 / 11 / 3 / 13
     text-align: end
+
+
+
 
 
 

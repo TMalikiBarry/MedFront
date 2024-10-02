@@ -156,10 +156,10 @@ export class ActionFormDialogComponent implements OnInit {
 
     private fillTheForm() {
         this.actionForm.controls['code'].setValue(this.updatedAction.code);
+        this.actionForm.controls['code'].disable();
         this.actionForm.controls['httpVerb'].setValue(this.updatedAction.httpVerb);
         this.actionForm.controls['fonctionnalite'].setValue(this.updatedAction.fonctionnalite.code);
         if (this.updatedAction.description) this.actionForm.controls['description'].setValue(this.updatedAction.description);
-
         this.actionForm.controls['httpVerb'].disable();
         this.actionForm.controls['fonctionnalite'].disable();
     }
