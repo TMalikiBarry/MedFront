@@ -65,9 +65,9 @@ export class ProfilFormDialogComponent implements OnInit {
       this.actions = this.actions.filter(a => this.listActions
         .every(action => action.code !== a.code));
     }
-    if (this.updatedProfil && this.updatedProfil.code === 'ADMINISTRATEUR') {
+    /*if (this.updatedProfil && this.updatedProfil.code === 'ADMINISTRATEUR') {
       this.actions = this.actions.filter(a => a.fonctionnalite.module.code !== 'SECURITE');
-    }
+    }*/
   }
 
   handleCancel(message?: any) {
@@ -152,8 +152,8 @@ export class ProfilFormDialogComponent implements OnInit {
       nzCentered: true,
     }).afterClose.subscribe(
       (result) => {
-        console.log(result);
-        if (result && result.code) {
+        if (result) {
+          console.log(result);
           console.log("SUCCES CREATED action")
           this.initData();
           this.profilForm.controls['actions'].setValue(result.code);
@@ -170,6 +170,10 @@ export class ProfilFormDialogComponent implements OnInit {
 
   getHttpVerbLabel(httpVerb: string): string {
     return httpVerbMapping[httpVerb.toUpperCase()] || httpVerb;
+  }
+
+  getListActionLabel(action: ActionInterface): string {
+    return action.description || this.getHttpVerbLabel(action.httpVerb) + ' - ' + action.fonctionnalite.code;
   }
 
   private initData() {
@@ -202,6 +206,7 @@ export class ProfilFormDialogComponent implements OnInit {
       }
     })
   }
+
   hasAction(codeAction: string): boolean {
     const actions = this.profilService.getActions();
     return actions ? actions.some(action => action.code === codeAction) : false;

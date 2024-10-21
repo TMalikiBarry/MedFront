@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {Page} from "../../../../models/pagination.interface";
+import {Page} from "src/app/models/pagination.interface";
 import {NzModalService} from "ng-zorro-antd/modal";
-import {UtilsService} from "../../../../services/utils/utils.service";
-import {NotifService} from "../../../../services/notification/notif.service";
+import {NotifService} from "src/app/services/notification/notif.service";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
-import {ProfilService} from "../../../../services/Profil/profil.service";
-import {ProfilInterface} from "../../../../models/profil.interface";
+import {ProfilService} from "src/app/services/Profil/profil.service";
+import {ProfilInterface, SUPERADMINISTRATEUR} from "src/app/models/profil.interface";
 import {ProfilFormDialogComponent} from "../../dialogs/profil-form-dialog/profil-form-dialog.component";
+import {AuthInterface} from "src/app/models/auth.interface";
+import {StorageService} from "src/app/services/Storage/storage.service";
 
 @Component({
   selector: 'app-profil',
@@ -24,13 +25,23 @@ export class ProfilComponent implements OnInit{
 
   paginatedData!: Page<ProfilInterface>;
 
+  currentUser?: AuthInterface;
+
+  isSuperAdmin: boolean = false;
+
   constructor(private profilService: ProfilService,
               private modalService: NzModalService,
-              public utils: UtilsService,
+              private storage: StorageService,
               private notify: NotifService
   ) {}
 
   ngOnInit() {
+    const storedUser = this.storage.getItem('TOUCHMED_currentUser');
+
+    this.currentUser = storedUser ? JSON.parse(storedUser) as AuthInterface : undefined;
+
+    console.dir('USER CONNECTED ' + this.currentUser);
+    this.isSuperAdmin = this.currentUser?.personne.acces?.profil.code === SUPERADMINISTRATEUR;
     this.loadProfil();
     this.getProfilByPage();
 
@@ -135,7 +146,14 @@ export class ProfilComponent implements OnInit{
       }
     );
   }
-  hasAction(codeAction: string): boolean {
+
+  hasAction(codeAction: string, profil?: string): boolean {
+    console.log('PROOFIL CODE 1 ', profil);
+    if (!this.isSuperAdmin && profil == SUPERADMINISTRATEUR) {
+      console.log('PAS UN ADMIN ET CHAMP SUPERADMIN');
+      console.log('PROOFIL CODE 2 ', profil);
+      return false;
+    }
     const actions = this.profilService.getActions();
     return actions ? actions.some(action => action.code === codeAction) : false;
   }

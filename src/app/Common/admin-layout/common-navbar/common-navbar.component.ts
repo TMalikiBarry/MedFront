@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthInterface} from "src/app/models/auth.interface";
 import {StorageService} from "../../../services/Storage/storage.service";
@@ -26,8 +26,8 @@ export class CommonNavbarComponent implements OnInit {
   ngOnInit() {
     const storedUser = this.storage.getItem('TOUCHMED_currentUser');
     this.currentUser = storedUser ? JSON.parse(storedUser) as AuthInterface : undefined;
-    // @ts-ignore
-    this.getActionsByProfil(this.currentUser?.role)
+
+    this.getActionsByProfil(this.currentUser?.role!)
     this.filteredModules.forEach(module => {
       this.openMap[module.bookmark] = false;
       Object.keys(this.openMap).forEach(key => {
@@ -91,9 +91,8 @@ export class CommonNavbarComponent implements OnInit {
   getIconPathModule(module: ModuleDTOInterface): string {
     const basePath = 'assets/from_figma/';
     const isSelected = this.router.url.includes(module.bookmark); // Logique pour vérifier si la fonctionnalité est sélectionnée
-    const iconPath = `${basePath}${isSelected ? module.image + '_full_white.svg' : module.image + '.svg'}`;
     // Retourner une balise <img> avec le chemin de l'icône
-    return iconPath;
+    return `${basePath}${isSelected ? module.image + '_full_white.svg' : module.image + '.svg'}`;
   }
 
   logOut() {

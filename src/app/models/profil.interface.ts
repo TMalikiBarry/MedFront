@@ -25,3 +25,5 @@ export enum EProfil {
   GYNECOLOGUE,
   MANAGER_BU
 }
+
+export const SUPERADMINISTRATEUR = "SUPERADMINISTRATEUR";

@@ -4,9 +4,11 @@ import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
 import {NotifService} from "src/app/services/notification/notif.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AccesService} from "src/app/services/acces/acces.service";
-import {ProfilInterface} from "src/app/models/profil.interface";
+import {ProfilInterface, SUPERADMINISTRATEUR} from "src/app/models/profil.interface";
 import {ProfilFormDialogComponent} from "../profil-form-dialog/profil-form-dialog.component";
 import {ProfilService} from "../../../../services/Profil/profil.service";
+import {AuthInterface} from "../../../../models/auth.interface";
+import {StorageService} from "../../../../services/Storage/storage.service";
 
 @Component({
   selector: 'app-acces-form-dialog',
@@ -29,15 +31,26 @@ export class AccesFormDialogComponent {
     profil: ['', Validators.required],
   })
 
+  currentUser?: AuthInterface;
+
+  isSuperAdmin: boolean = false;
+
   constructor(private modal: NzModalRef,
               private modalService: NzModalService,
               private api: AccesService,
+              private storage: StorageService,
               private notification: NotifService,
               private fb: FormBuilder,
               private profilService: ProfilService) {
   }
 
   ngOnInit() {
+
+    const storedUser = this.storage.getItem('TOUCHMED_currentUser');
+
+    this.currentUser = storedUser ? JSON.parse(storedUser) as AuthInterface : undefined;
+    this.isSuperAdmin = this.currentUser?.personne.acces?.profil.code === SUPERADMINISTRATEUR;
+
     this.loadAllProfil();
 
     this.data = this.modal.getConfig().nzData
@@ -86,6 +99,8 @@ export class AccesFormDialogComponent {
     this.api.getAllProfil().subscribe(
       response => {
         this.listOfProfil = response.reponse as ProfilInterface[];
+        if (!this.isSuperAdmin)
+          this.listOfProfil = this.listOfProfil.filter(p => p.code !== SUPERADMINISTRATEUR);
       }
     )
   }
