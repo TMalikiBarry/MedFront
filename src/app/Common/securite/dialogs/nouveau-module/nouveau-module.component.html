@@ -16,7 +16,10 @@
           <div class="phone-date">
             <div class="phone">
               <label class="label" for="code">Code<sup>*</sup></label>
-              <input class="input" type="text" id="code" name="code" formControlName="code" required>
+              <input class="input" type="text" id="code" name="code" formControlName="code" required [readonly]="isEditMode">
+              <div class="labelerreur" *ngIf="codeAlreadyExists">
+                Ce module avec ce code existe déjà.
+              </div>
             </div>
             <div class="date">
               <label class="label" for="description">Description<sup>*</sup></label>

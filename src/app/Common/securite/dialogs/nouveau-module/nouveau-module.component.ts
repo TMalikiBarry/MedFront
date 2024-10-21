@@ -4,6 +4,7 @@ import {NzModalRef} from "ng-zorro-antd/modal";
 import {NotifService} from "../../../../services/notification/notif.service";
 import {ModuleService} from "../../../../services/module/module.service";
 import {ModuleInterface} from "../../../../models/module.interface";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-nouveau-module',
@@ -16,6 +17,8 @@ export class NouveauModuleComponent implements OnInit{
   titleForm: string = "Nouveau module";
   isConfirmLoading = false;
   moduleToUpdate!: ModuleInterface;
+  codeAlreadyExists = false;
+  isEditMode: boolean = false;
   constructor(private fb: FormBuilder,
               private modalRef : NzModalRef,
               private moduleService: ModuleService,
@@ -36,11 +39,11 @@ export class NouveauModuleComponent implements OnInit{
       const moduleCode: string = <string>this.modalRef.getConfig().nzData;
 
       if (moduleCode)
+        this.isEditMode =true;
         this.loadModuleForUpdate(moduleCode);
     } catch (s) {
       console.error(s)
     }
-
   }
 
   enregistrerModule() {
@@ -56,14 +59,22 @@ export class NouveauModuleComponent implements OnInit{
       this.moduleService.save(moduleForm).subscribe({
         next : res1 => {
           this.module = res1.reponse;
+          console.log("reponse "+res1.reponse);
           console.log(res1);
+
           this.notify.snackMessage(`Le module ${moduleForm.code}  a été ajouté`,
             3000, "success");
           this.modalRef.close(res1.reponse.code);
         },
-        error: (error) => {
-          console.error(error);
+        error: (error: HttpErrorResponse) => {
+          console.log("LOG "+error)
+          console.log("classe "+error.error)
+           console.log("Status " +error.status);
           this.isConfirmLoading = false;
+          if (error.status == 409) {
+            this.codeAlreadyExists = true;
+            return;
+          }
           if (error.status == 401)
             this.modalRef.close();
         },
@@ -97,7 +108,6 @@ export class NouveauModuleComponent implements OnInit{
       next: module => {
         this.moduleToUpdate = module.reponse;
         this.moduleForm.controls['code'].setValue(module.reponse.code);
-        this.moduleForm.controls['code'].disable();
         this.moduleForm.controls['description'].setValue(module.reponse.description);
         this.moduleForm.controls['sequence'].setValue(module.reponse.sequence);
         this.moduleForm.controls['image'].setValue(module.reponse.image);

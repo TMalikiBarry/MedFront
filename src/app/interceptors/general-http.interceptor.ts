@@ -71,7 +71,7 @@ export class GeneralHttpInterceptor implements HttpInterceptor {
     if ([400].indexOf(error.status) !== -1) {
       this.notify.snackMessage("Une erreur est survenue", 5000, "error");
     }
-    const myError = error.error.message || error.statusText;
+    const myError = error.error || error.statusText;
     // Return an observable with a user-facing error message.
     return throwError( () => myError);
   }

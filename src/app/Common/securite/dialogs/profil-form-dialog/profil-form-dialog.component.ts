@@ -23,7 +23,8 @@ export class ProfilFormDialogComponent implements OnInit {
   updatedProfil!: ProfilInterface;
   isSuperAdministrateur = false;
   isAdministrateur = false;
-
+  codeAlreadyExists = false;
+  isEditMode: boolean = false;
   profilForm: FormGroup = this.fb.group({
     code: ['', Validators.required],
     libelle: ['', Validators.required],
@@ -48,6 +49,7 @@ export class ProfilFormDialogComponent implements OnInit {
     //console.log(this.data)
     if (this.data) {
       if (this.data.context === 'PUT_PROFIL') {
+        this.isEditMode= true;
         this.titleForm = 'Modifier Profil - ' + this.data.id
         this.formDesc = this.formDesc.replace('ajouter un', 'modifier le');
         this.updatedProfil = this.data;
@@ -93,6 +95,10 @@ export class ProfilFormDialogComponent implements OnInit {
           error: (error) => {
             console.error(error);
             this.isConfirmLoading = false;
+            if (error.status == 400) {
+              this.codeAlreadyExists = true;
+              return;
+            }
           },
           complete: () => {
             this.isConfirmLoading = false

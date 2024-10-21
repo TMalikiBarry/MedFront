@@ -19,7 +19,8 @@ export class ActionFormDialogComponent implements OnInit {
     formDesc = "Veuillez renseigner ce formulaire pour ajouter une action";
     btnText = "Enregistrer";
     isConfirmLoading = false;
-
+    codeAlreadyExists = false;
+    isEditMode: boolean = false;
     data: any;
     updatedAction!: ActionInterface;
 
@@ -46,6 +47,7 @@ export class ActionFormDialogComponent implements OnInit {
         //console.log(this.data)
         if (this.data) {
             if (this.data.context === 'PUT_ACTION') {
+              this.isEditMode= true;
                 this.titleForm = 'Modifier Action - ' + this.data.code
                 this.formDesc = this.formDesc.replace('ajouter une', 'modifier l\'');
                 this.updatedAction = this.data;
@@ -80,6 +82,10 @@ export class ActionFormDialogComponent implements OnInit {
                     },
                     error: (error) => {
                         this.isConfirmLoading = false;
+                      if (error.status == 409) {
+                        this.codeAlreadyExists = true;
+                        return;
+                      }
                         if (error.status == 401)
                             this.handleCancel();
                     },
@@ -156,12 +162,12 @@ export class ActionFormDialogComponent implements OnInit {
 
     private fillTheForm() {
         this.actionForm.controls['code'].setValue(this.updatedAction.code);
-        this.actionForm.controls['code'].disable();
+    /*    this.actionForm.controls['code'].disable();*/
         this.actionForm.controls['httpVerb'].setValue(this.updatedAction.httpVerb);
         this.actionForm.controls['fonctionnalite'].setValue(this.updatedAction.fonctionnalite.code);
         if (this.updatedAction.description) this.actionForm.controls['description'].setValue(this.updatedAction.description);
-        this.actionForm.controls['httpVerb'].disable();
-        this.actionForm.controls['fonctionnalite'].disable();
+  /*      this.actionForm.controls['httpVerb'].disable();
+        this.actionForm.controls['fonctionnalite'].disable();*/
     }
 
     private update(action: ActionInterface) {

@@ -110,8 +110,6 @@ export class FonctionnaliteComponent implements OnInit{
     );
   }
 
-
-
   deleteFonctionalite(code: string) {
     this.modalService.confirm({
       nzTitle: `Supprimer Fonctionnalité - <strong>${code}</strong>`,

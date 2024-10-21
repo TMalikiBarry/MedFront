@@ -20,6 +20,8 @@ export class NouvelleFonctionnaliteComponent implements OnInit{
   isConfirmLoading = false;
   fonctionnaliteToUpdate!: FonctionnaliteInterface;
   modules!: ModuleInterface[];
+  codeAlreadyExists = false;
+  isEditMode: boolean = false;
 
   constructor(private fb: FormBuilder,
               private modalRef : NzModalRef,
@@ -43,6 +45,7 @@ export class NouvelleFonctionnaliteComponent implements OnInit{
       const fonctionCode: string = <string>this.modalRef.getConfig().nzData;
 
       if (fonctionCode)
+        this.isEditMode =true;
         this.loadFonctionnalityForUpdate(fonctionCode);
       this.getAllModules();
     } catch (s) {
@@ -73,6 +76,10 @@ export class NouvelleFonctionnaliteComponent implements OnInit{
         error: (error) => {
           console.error(error);
           this.isConfirmLoading = false;
+          if (error.status == 409) {
+            this.codeAlreadyExists = true;
+            return;
+          }
           if (error.status == 401)
             this.modalRef.close();
         },
@@ -106,7 +113,6 @@ export class NouvelleFonctionnaliteComponent implements OnInit{
         this.fonctionnaliteToUpdate = fonction.reponse;
 
         this.fonctionnaliteForm.controls['code'].setValue(fonction.reponse.code);
-        this.fonctionnaliteForm.controls['code'].disable();
         this.fonctionnaliteForm.controls['description'].setValue(fonction.reponse.description);
         this.fonctionnaliteForm.controls['bookmark'].setValue(fonction.reponse.bookmark);
         this.fonctionnaliteForm.controls['sequence'].setValue(fonction.reponse.sequence);
