@@ -71,25 +71,17 @@
             {{ module.sequence | displayString }}
           </div>
         </td>
-
-
         <td class="space-evenly-modules">
           <img *ngIf="hasAction('MODIFIER_MODULE')"  (click)="updateModule(module.code!)" alt="Modifier" nz-tooltip
                nzTooltipTitle="Modifier" src="assets/from_figma/edit-action.svg" width="17">
 
           <img *ngIf="hasAction('SUPPRIMER_MODULE')" (click)="deleteModule(module.code)" alt="supprimer" nz-tooltip nzTooltipTitle="Supprimer"
                src="assets/icon/trash.svg" width="20">
-
         </td>
-
-
       </tr>
       </tbody>
-
     </nz-table>
-
   </div>
-
 
 </div>
 
@@ -108,5 +100,3 @@
 
   </ul>
 </nz-dropdown-menu>
-
-

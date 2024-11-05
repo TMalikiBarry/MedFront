@@ -13,7 +13,7 @@
       <nz-input-group>
         <input formControlName="code" nz-input placeholder="Renseignez le code" type="text" [readonly]="isEditMode"/>
         <div class="labelerreur" *ngIf="codeAlreadyExists">
-          Ce profil avec ce code existe déjà.
+          Cette action avec ce code existe déjà.
         </div>
       </nz-input-group>
     </nz-form-control>
@@ -49,14 +49,6 @@
       </nz-form-control>
     </nz-form-item>
 
-    <!--<nz-form-item>
-      <nz-form-control nzErrorTip="Veuillez renseigner le code!">
-        <p class="input-label">Code<sup style="color: darkred">*</sup></p>
-        <nz-input-group>
-          <input formControlName="code" nz-input placeholder="Renseignez le code" type="text"/>
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>-->
   </div>
 
 

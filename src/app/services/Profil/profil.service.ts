@@ -35,7 +35,7 @@ export class ProfilService {
   }
 
   getAll(){
-    return  this.http.get<any>(this.url+"/all")
+    return  this.http.get<any>(this.url+"/allPresent")
   }
 
   getProfilByCode(code: string){
