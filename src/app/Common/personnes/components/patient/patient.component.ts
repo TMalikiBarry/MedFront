@@ -15,6 +15,7 @@ import {UtilsService} from "src/app/services/utils/utils.service";
 import {Page} from "src/app/models/pagination.interface";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
 import {ProfilService} from "../../../../services/Profil/profil.service";
+import {NotifService} from "../../../../services/notification/notif.service";
 
 @Component({
   selector: 'app-patient',
@@ -64,7 +65,8 @@ export class PatientComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute,
               public utils: UtilsService,
-              private profilService: ProfilService
+              private profilService: ProfilService,
+              private notify: NotifService
   ) {}
 
   ngOnInit() {
@@ -173,7 +175,14 @@ export class PatientComponent implements OnInit {
       next: response => {
         this.paginatedData = response;
 
-      }
+      },
+        error: (error) => {
+        if(error.includes('Permission non accord')) {
+          this.notify.snackMessage("Permission non accordée pour cette action", 3500, "error");
+        }
+          console.error('Erreur lors de la récupération des patients', error);
+          // Gérez l'erreur selon vos besoins
+        }
     })
   }
 

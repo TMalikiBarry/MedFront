@@ -24,6 +24,7 @@ import {
 import {WeeklyTransactionAmountStatInterface} from "src/app/models/weekly-transaction-amount-stat.interface";
 import {UtilsService} from "src/app/services/utils/utils.service";
 import {ProfilService} from "../../../../services/Profil/profil.service";
+import {NotifService} from "../../../../services/notification/notif.service";
 
 @Component({
   selector: 'app-transactions',
@@ -62,7 +63,8 @@ export class TransactionsComponent implements OnInit {
               private serviceApi: CliniqueServiceService,
               private dossierMApi: DossierMedicalService,
               public utils: UtilsService,
-              private profilService: ProfilService) {
+              private profilService: ProfilService,
+              private notify: NotifService) {
   }
 
   ngOnInit(): void {
@@ -215,7 +217,14 @@ export class TransactionsComponent implements OnInit {
           this.numberStats[3] = TransPartiel.length
           // this.prestationsList = this.paginatedData.content;*/
 
-      }
+      },
+        error: (error) => {
+          if(error.includes('Permission non accord')) {
+            this.notify.snackMessage("Permission non accordée pour cette action", 3500, "error");
+          }
+          console.error('Erreur lors de la récupération des patients', error);
+          // Gérez l'erreur selon vos besoins
+        }
     })
   }
   onQueryParamsChange(params: NzTableQueryParams): void {

@@ -26,8 +26,8 @@ export class CommonNavbarComponent implements OnInit {
   ngOnInit() {
     const storedUser = this.storage.getItem('TOUCHMED_currentUser');
     this.currentUser = storedUser ? JSON.parse(storedUser) as AuthInterface : undefined;
-
-    this.getActionsByProfil(this.currentUser?.role!)
+    this.getActionsByProfil();
+  //  this.getActionsByProfil(this.currentUser?.role!)
     this.filteredModules.forEach(module => {
       this.openMap[module.bookmark] = false;
       Object.keys(this.openMap).forEach(key => {
@@ -78,7 +78,7 @@ export class CommonNavbarComponent implements OnInit {
     });
 
 }
-  getActionsByProfil(profilCode: string): void {
+/*  getActionsByProfil(profilCode: string): void {
     this.profilService.getActionsByProfilCode(profilCode).subscribe({
       next: actions =>{
         this.actions = actions.reponse;
@@ -86,6 +86,13 @@ export class CommonNavbarComponent implements OnInit {
         this.profilService.setActions(this.actions);
       }
       })
+  }*/
+  getActionsByProfil(): void {
+    console.log('Recahrgement des actions')
+    this.actions = JSON.parse(this.storage.getItem('TOUCHMED_currentUser')).personne.acces.profil.actions;
+    console.log(this.actions);
+    this.filteredModules = this.getModulesFromActions(this.actions);
+    this.profilService.setActions(this.actions);
   }
 
   getIconPathModule(module: ModuleDTOInterface): string {

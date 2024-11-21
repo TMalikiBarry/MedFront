@@ -44,6 +44,13 @@ export class PoleComponent implements OnInit {
       next: value => {
         console.log('RECEPTION ', value)
         this.paginatedData = value;
+      },
+      error: (error) => {
+        if(error.includes('Permission non accord')) {
+          this.notify.snackMessage("Permission non accordée pour cette action", 3500, "error");
+        }
+        console.error('Erreur lors de la récupération des patients', error);
+        // Gérez l'erreur selon vos besoins
       }
     });
   }

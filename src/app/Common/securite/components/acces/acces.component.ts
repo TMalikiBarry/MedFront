@@ -36,6 +36,13 @@ export class AccesComponent implements OnInit {
     this.api.getPaginatedData(page, size).subscribe({
       next: value => {
         this.paginatedData = <Page<AccesInterface>>value.reponse;
+      },
+      error: (error) => {
+        if(error.includes('Permission non accord')) {
+          this.notify.snackMessage("Permission non accordée pour cette action", 3500, "error");
+        }
+        console.error('Erreur lors de la récupération des patients', error);
+        // Gérez l'erreur selon vos besoins
       }
     });
   }

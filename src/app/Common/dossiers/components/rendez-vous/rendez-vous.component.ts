@@ -81,10 +81,9 @@ export class RendezVousComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllService();
-    //this.getAllRdv();
-    this.getGraphData();
     this.getRdvByPage();
+    this.getAllService();
+    this.getGraphData();
     this.initialiseCanvasGraphs();
     this.countByStatus();
     this.loadPatients();
@@ -112,6 +111,13 @@ export class RendezVousComponent implements OnInit {
         // this.pageIndex = this.paginatedData.pageable.pageNumber + 1;
         this.total = this.paginatedData.totalElements;
         this.loading = false;
+      },
+      error: (error) => {
+        if(error.includes('Permission non accord')) {
+          this.notification.snackMessage("Permission non accordée pour cette action", 3500, "error");
+        }
+        console.error('Erreur lors de la récupération des patients', error);
+        // Gérez l'erreur selon vos besoins
       }
     })
   }
