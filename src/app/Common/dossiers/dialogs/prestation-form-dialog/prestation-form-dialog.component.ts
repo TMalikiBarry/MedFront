@@ -16,7 +16,9 @@ import {
   NouveauPatientComponent
 } from "../../../personnes/dialogs/nouveau-patient-form-dialog/nouveau-patient.component";
 import {PoleInterface} from "src/app/models/pole.interface";
-import {ProfilService} from "../../../../services/Profil/profil.service";
+import {ProfilService} from "src/app/services/Profil/profil.service";
+import {FileInfosInterface} from "../../../../models/files-infos.interface";
+import {FileService, imageExtensions} from "../../../../services/file/file.service";
 
 @Component({
   selector: 'app-prestation-form-dialog',
@@ -36,6 +38,9 @@ export class PrestationFormDialogComponent implements OnInit{
   listPrescription!: any;
   listOfPole!: PoleInterface[];
   prestationToUpdate!: PrestationInterface;
+  currentFile?: File;
+  listFileInfos: FileInfosInterface[] = [];
+  listFiles: File [] = [];
 
   prestationForm: FormGroup = this.fb.group({
     service: ['', Validators.required],
@@ -53,6 +58,7 @@ export class PrestationFormDialogComponent implements OnInit{
               private api: PrestationService,
               private dossierMApi: DossierMedicalService,
               private serviceApi: CliniqueServiceService,
+              private fileApi: FileService,
               private notify: NotifService,
               private profilService: ProfilService
               ) {
@@ -67,6 +73,8 @@ export class PrestationFormDialogComponent implements OnInit{
       this.prestationToUpdate = data;
       this.titleForm = 'Modification Prestation'
       this.formDesc = this.formDesc.replace('ajouter une', 'modifier la');
+
+      this.listFileInfos = this.prestationToUpdate.documents ?? [];
       this.setForm();
     }
 
@@ -114,6 +122,7 @@ export class PrestationFormDialogComponent implements OnInit{
       const formData = this.prestationForm.value;
 
       const prestation = this.createPrestationFromForm(formData);
+      prestation.documents = this.listFileInfos;
       if (this.prestationToUpdate) {
         prestation.id = this.prestationToUpdate.id;
         prestation.personnel = this.prestationToUpdate.personnel;
@@ -125,7 +134,7 @@ export class PrestationFormDialogComponent implements OnInit{
       }
 
       this.api.save(prestation).subscribe({
-        next: (response) => {
+        next: () => {
 
           this.notify.snackMessage(
             `Prestation pour le patient ${this.getPatientFullName(Number(formData.dossier), 'adding')} ajouté avec succès`,
@@ -177,8 +186,74 @@ export class PrestationFormDialogComponent implements OnInit{
     document.getElementById('file_uploader')!.click();
   }
 
-  getEvent(event: Event) {
-    console.log('EVENEMENT RECUPERER FICHIER ', event);
+  getEvent(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (!input.files || input.files.length === 0) {
+      this.notify.snackMessage('Aucun fichier sélectionné', 2500, "warning");
+      return;
+    }
+
+    // Transformez FileList en tableau pour le parcourir
+    const files = Array.from(input.files);
+
+    files.forEach((file) => {
+      console.log('Fichier sélectionné :', file);
+
+      /*if (this.fileApi.isTypeFilePDF(file)) {
+        console.log('Le fichier est un PDF');
+      } else {
+        console.warn(`Le fichier ${file.name} n'est pas un PDF.`);
+      }*/
+
+      // Vérifiez si l'extension est autorisée
+      if (!this.fileApi.isAllowedFileExtension(file)) {
+        this.notify.snackMessage(`Extension non autorisée : ${file.name}`, 3000, 'error');
+        return; // Ignorer ce fichier
+      }
+
+      // Vérifiez si le type MIME est autorisé
+      if (!this.fileApi.isAllowedFileType(file)) {
+        this.notify.snackMessage(`Type de fichier non autorisé : ${file.type}`, 3000, 'error');
+        return; // Ignorer ce fichier
+      }
+
+      // Vérifiez la taille du fichier
+      if (file.size > this.fileApi.limitFile) {
+        this.notify.snackMessage(`Le fichier ${file.name} dépasse la taille maximale autorisée, 2.5 Mo.`, 3000, 'error');
+        return; // Ignorer ce fichier
+      }
+
+      // Ajoutez le fichier validé à la liste
+      this.listFiles.push(file);
+
+      // Définissez `currentFile` (le premier fichier valide, par exemple)
+      if (!this.currentFile) {
+        this.currentFile = file;
+      }
+    });
+
+    console.log('Fichiers validés :', this.listFiles);
+    this.uploadFiles();
+  }
+
+  uploadFiles(): void {
+    if (this.listFiles.length === 0) {
+      console.warn('Aucun fichier à uploader');
+      return;
+    }
+
+    this.listFiles.forEach((file) => {
+      this.fileApi.save(file).subscribe({
+        next: (response) => {
+          console.log('Fichier uploadé avec succès :', response);
+          if (this.listFileInfos.every(f => f.id !== response.id)) {
+            this.listFileInfos.push(response);
+          }
+        },
+        error: (err) => console.error('Erreur lors de l\'upload du fichier :', err),
+      });
+    });
   }
 
   private updatePrestation(prestation: PrestationInterface) {
@@ -244,4 +319,15 @@ export class PrestationFormDialogComponent implements OnInit{
     return actions ? actions.some(action => action.code === codeAction) : false;
   }
 
+  isImageFile(extension: string): boolean {
+    return imageExtensions.includes(extension.toLowerCase());
+  }
+
+  removeFile(file: FileInfosInterface): void {
+    const index = this.listFileInfos.indexOf(file);
+    if (index !== -1) {
+      this.listFileInfos.splice(index, 1);
+    }
+    console.log(`Fichier supprimé : ${file.name}`);
+  }
 }

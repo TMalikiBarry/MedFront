@@ -40,7 +40,7 @@ export class NouveauPatientComponent implements OnInit {
       datenaissance: ['', Validators.required],
       groupeSanguin: [''],
       adresse: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.email]],
       // contactEnCasUrgent: ['', [Validators.required, Validators.pattern('^(\\+|00)?(221)?7[0-9]{8}$')]],
       contactEnCasUrgent: ['', [Validators.required, Validators.pattern(/^(?:([+0])221\s)?(7[0-9])\s(\d{3})\s(\d{2})\s(\d{2})$/)]],
 

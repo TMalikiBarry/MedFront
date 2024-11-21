@@ -6,14 +6,31 @@
 <div>
   <form nz-form [formGroup]="prestationForm" class="login-form" >
     <input (change)="getEvent($event)"
-           accept=".pdf, image/*, .doc, .docx, .xls, .xlsx"
+           accept="
+              .pdf,
+              .doc, .docx,
+              .xls, .xlsx,
+              .ppt, .pptx,
+              application/msword,
+              application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+              application/vnd.ms-excel,
+              application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+              application/vnd.ms-powerpoint,
+              application/vnd.openxmlformats-officedocument.presentationml.presentation,
+              application/vnd.oasis.opendocument.text,
+              application/vnd.oasis.opendocument.spreadsheet,
+              application/vnd.oasis.opendocument.presentation,
+              image/*,
+              .jpg, .jpeg, .png, .gif, .bmp, .tiff, .tif, .svg,
+            "
+           multiple
            hidden
            id='file_uploader'
            type='file'/>
     <p class="connect-phrase">{{formDesc}}</p>
     <div class="make-spaceBetween">
       <nz-form-item>
-        <nz-form-control nzErrorTip="Veuillez choisir un service!">
+        <nz-form-control nzErrorTip="Veuillez choisir un service!" nzRequired>
           <p class="input-label">Service</p>
           <nz-select nzAllowClear nzShowSearch nzPlaceHolder="Choissez un service" formControlName="service">
             <nz-option nzLabel="----"></nz-option>
@@ -30,7 +47,7 @@
         <nz-form-control nzErrorTip="Veuillez Choisir un patient">
           <p class="input-label">Patient</p>
           <nz-select nzAllowClear nzShowSearch [nzDropdownRender]="addNewPatientTemplate" nzPlaceHolder="Choissez un patient"
-                     formControlName="dossier">
+                     formControlName="dossier" nzRequired>
             <nz-option nzLabel="----"></nz-option>
             <nz-option
               *ngFor="let dossier of listOfDossierMedical"
@@ -85,6 +102,33 @@
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
+    </div>
+    <div *ngIf="listFileInfos.length>0" class="uploaded-files">
+      <h4>Fichiers téléchargés</h4>
+      <ul>
+        <li *ngFor="let file of listFileInfos">
+          <div class="file-preview">
+            <!-- Thumbnail pour les images -->
+            <ng-container *ngIf="isImageFile(file.extension!); else nonImageFile">
+              <img
+                [alt]="file.name"
+                [src]="file.uploadingFile"
+                class="thumbnail"
+              />
+            </ng-container>
+
+            <!-- Lien pour les autres fichiers -->
+            <ng-template #nonImageFile>
+              <a [href]="file.uploadingFile" target="_blank">{{ file.name }}</a>
+            </ng-template>
+
+            <!-- Bouton de suppression (optionnel) -->
+            <button (click)="removeFile(file)" nz-button nzDanger nzType="link">
+              Supprimer
+            </button>
+          </div>
+        </li>
+      </ul>
     </div>
 
   </form>

@@ -3,6 +3,7 @@ import {ServiceInterface} from "./service.interface";
 import {DossierMedicalInterface} from "./dossier-medical.interface";
 import {PersonnelInterface} from "./personnel.interface";
 import {WeeklyDataStat} from "./weekly-data-stat";
+import {FileInfosInterface} from "./files-infos.interface";
 
 export interface PrestationInterface extends EntiteBase {
   personnelCreateur?: PersonnelInterface;
@@ -12,6 +13,7 @@ export interface PrestationInterface extends EntiteBase {
   prerequisities?: string;
   diagnostic?: string;
   conclusion?: string;
+  documents?: FileInfosInterface [];
   prestationStatut?: PrestationStatut;
   // transactions?: Transaction[];
   personnel?: PersonnelInterface;

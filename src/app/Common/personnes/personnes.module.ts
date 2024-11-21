@@ -7,6 +7,7 @@ import {FicheMedicaleComponent} from "./components/fiche-medicale/fiche-medicale
 import {DossiersMedicauxComponent} from "./components/dossiers-medicaux/dossiers-medicaux.component";
 import {NouveauPatientComponent} from './dialogs/nouveau-patient-form-dialog/nouveau-patient.component';
 import {OnePatientPageComponent} from './components/one-patient-page/one-patient-page.component';
+import {NgOptimizedImage} from "@angular/common";
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import {OnePatientPageComponent} from './components/one-patient-page/one-patient
   imports: [
     SharedModule,
     PersonnesRoutingModule,
+    NgOptimizedImage,
   ]
 })
 export class PersonnesModule { }
