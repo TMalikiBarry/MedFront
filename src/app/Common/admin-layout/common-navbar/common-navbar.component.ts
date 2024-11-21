@@ -87,13 +87,43 @@ export class CommonNavbarComponent implements OnInit {
       }
       })
   }*/
-  getActionsByProfil(): void {
+/*  getActionsByProfil(): void {
     console.log('Recahrgement des actions')
     this.actions = JSON.parse(this.storage.getItem('TOUCHMED_currentUser')).personne.acces.profil.actions;
     console.log(this.actions);
     this.filteredModules = this.getModulesFromActions(this.actions);
     this.profilService.setActions(this.actions);
+  }*/
+
+  getActionsByProfil(): void {
+    console.log('Rechargement des actions');
+
+    // Récupération des actions depuis le session storage
+    const user = JSON.parse(this.storage.getItem('TOUCHMED_currentUser'));
+    this.actions = user?.personne?.acces?.profil?.actions || [];
+
+    // Tri des actions par séquence de module et séquence de fonctionnalité
+    this.actions.sort((a: any, b: any) => {
+      // Tri par séquence de module en premier
+      const moduleSequenceA = a.fonctionnalite.module.sequence;
+      const moduleSequenceB = b.fonctionnalite.module.sequence;
+      if (moduleSequenceA !== moduleSequenceB) {
+        return moduleSequenceA - moduleSequenceB;
+      }
+
+      // Si les séquences de module sont identiques, tri par séquence de fonctionnalité
+      const fonctionnaliteSequenceA = a.fonctionnalite.sequence;
+      const fonctionnaliteSequenceB = b.fonctionnalite.sequence;
+      return fonctionnaliteSequenceA - fonctionnaliteSequenceB;
+    });
+
+    console.log('Actions triées:', this.actions);
+
+    // Mettre à jour les modules filtrés et les actions dans le service
+    this.filteredModules = this.getModulesFromActions(this.actions);
+    this.profilService.setActions(this.actions);
   }
+
 
   getIconPathModule(module: ModuleDTOInterface): string {
     const basePath = 'assets/from_figma/';
