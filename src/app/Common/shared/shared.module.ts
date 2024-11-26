@@ -32,6 +32,9 @@ import {NzInputNumberModule} from "ng-zorro-antd/input-number";
 import {AppPositiveNumberDirective} from "../../directives/appPositiveNumber/app-positive-number.directive";
 import {FormatAgePipe} from '../../pipes/format-age/format-age.pipe';
 import {NzCollapseModule} from "ng-zorro-antd/collapse";
+import {FormatNamePipe} from "../../pipes/format-name/format-name.pipe";
+import {FormatFileSizePipe} from "../../pipes/format-file-size/format-file-size.pipe";
+import {SafeResourceUrlPipe} from "../../pipes/safe-resource-url/safe-resource-url.pipe";
 
 
 @NgModule({
@@ -40,6 +43,7 @@ import {NzCollapseModule} from "ng-zorro-antd/collapse";
     TimeAgoPipe,
     AppPositiveNumberDirective,
     FormatAgePipe,
+
   ],
   exports: [
     CommonModule,
@@ -47,6 +51,9 @@ import {NzCollapseModule} from "ng-zorro-antd/collapse";
     TimeAgoPipe,
     PrettyPhoneNumberPipe,
     FormatAgePipe,
+    FormatNamePipe,
+    FormatFileSizePipe,
+    SafeResourceUrlPipe,
     NzLayoutModule,
     NzMenuModule,
     NzIconModule,
@@ -80,6 +87,9 @@ import {NzCollapseModule} from "ng-zorro-antd/collapse";
   // Pour StandAlone Pipe
   imports: [
     PrettyPhoneNumberPipe,
+    FormatNamePipe,
+    FormatFileSizePipe,
+    SafeResourceUrlPipe,
 
   ]
 })

@@ -156,7 +156,7 @@ export class PrestationComponent implements OnInit{
   addNewPrestation() {
     this.modalService.create({
       nzContent: PrestationFormDialogComponent,
-      nzWidth: 650,
+      nzWidth: 750,
       nzClosable: false,
       nzCentered: true,
     }).afterClose.subscribe(
@@ -172,7 +172,7 @@ export class PrestationComponent implements OnInit{
     if (!this.isNotPaid(prestation)) return;
     this.modalService.create({
       nzContent: PrestationFormDialogComponent,
-      nzWidth: 650,
+      nzWidth: 750,
       nzData: {
         ...prestation,
         context: 'PUT_PRESTATION'

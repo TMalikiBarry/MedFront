@@ -21,7 +21,7 @@
               application/vnd.oasis.opendocument.spreadsheet,
               application/vnd.oasis.opendocument.presentation,
               image/*,
-              .jpg, .jpeg, .png, .gif, .bmp, .tiff, .tif, .svg,
+              .jpg, .jpeg, .png, .bmp, .tiff, .tif, .svg,
             "
            multiple
            hidden
@@ -103,7 +103,7 @@
         </nz-form-control>
       </nz-form-item>
     </div>
-    <div *ngIf="listFileInfos.length>0" class="uploaded-files">
+    <div *ngIf="listFileInfos.length > 0" class="uploaded-files">
       <h4>Fichiers téléchargés</h4>
       <ul>
         <li *ngFor="let file of listFileInfos">
@@ -117,13 +117,21 @@
               />
             </ng-container>
 
-            <!-- Lien pour les autres fichiers -->
+            <!-- Icône et infos pour les fichiers non image -->
             <ng-template #nonImageFile>
-              <a [href]="file.uploadingFile" target="_blank">{{ file.name }}</a>
+              <div class="default-preview">
+                <div class="file-icon">
+                  <i [nzType]="getFileIcon(file.extension!)" nz-icon></i>
+                </div>
+                <div class="file-info">
+                  <a [href]="file.uploadingFile" target="_blank">{{ file.name | formatName: 'server_filename' }}</a>
+                  <p>{{ file.extension?.toUpperCase() }}</p>
+                </div>
+              </div>
             </ng-template>
 
-            <!-- Bouton de suppression (optionnel) -->
-            <button (click)="removeFile(file)" nz-button nzDanger nzType="link">
+            <!-- Bouton de suppression -->
+            <button (click)="removeFile(file)" class="button-file" nz-button nzDanger nzType="link">
               Supprimer
             </button>
           </div>

@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {PersonneInterface} from "../../../../models/personne.interface";
+import {PersonneInterface} from "src/app/models/personne.interface";
 import {NzModalRef} from "ng-zorro-antd/modal";
-import {PrestationInterface, PrestationStatut} from "../../../../models/prestation.interface";
-import {UtilsService} from "../../../../services/utils/utils.service";
+import {PrestationInterface, PrestationStatut} from "src/app/models/prestation.interface";
+import {UtilsService} from "src/app/services/utils/utils.service";
+import {FILE_ICONS, IMAGE_EXTENSIONS} from "src/app/services/file/file.service";
 
 @Component({
   selector: 'app-details-prestation',
@@ -66,5 +67,14 @@ export class DetailsPrestationComponent implements OnInit {
 
   isCanceled(): boolean {
     return this.data.prestationStatut === PrestationStatut.CANCELED;
+  }
+
+  isImageFile(extension: string): boolean {
+    return IMAGE_EXTENSIONS.includes(extension.toLowerCase());
+  }
+
+  getFileIcon(extension: string): string {
+
+    return FILE_ICONS[extension.toLowerCase()] || FILE_ICONS['default'];
   }
 }

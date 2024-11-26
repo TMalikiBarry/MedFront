@@ -3,12 +3,30 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "src/environments/environment.prod";
 import {Observable} from "rxjs";
 import {FileInfosInterface, TypeFile} from "src/app/models/files-infos.interface";
+import {ApiResponseInterface} from "../../models/api-response.interface";
 
 
-export const imageExtensions = ['jpg', 'jpeg', 'png', 'bmp', 'tiff', 'tif', 'svg'];
+export const FILE_ICONS: { [key: string]: string } = {
+  pdf: 'file-pdf', // Icône pour les fichiers PDF
+  doc: 'file-word', // Icône pour les fichiers Word
+  docx: 'file-word',
+  xls: 'file-excel', // Icône pour les fichiers Excel
+  xlsx: 'file-excel',
+  ppt: 'file-ppt', // Icône pour les fichiers PowerPoint
+  pptx: 'file-ppt',
+  txt: 'file-text', // Icône pour les fichiers texte
+  jpg: 'file-image', // Icône pour les fichiers image
+  jpeg: 'file-image',
+  png: 'file-image',
+  gif: 'file-image',
+  bmp: 'file-image',
+  default: 'file', // Icône par défaut pour les fichiers non spécifiés
+};
+
+export const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'bmp', 'tiff', 'tif', 'svg'];
 
 export const ALLOWED_EXTENSIONS = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'odt', 'ods', 'odp',
-  ...imageExtensions];
+  ...IMAGE_EXTENSIONS];
 
 export const ALLOWED_TYPES = [
   'application/pdf',
@@ -72,6 +90,10 @@ export class FileService {
     formData.append("type", typeFile);
     formData.append("file", file);
     return this.http.post<FileInfosInterface>(this.url + "/upload", formData);
+  }
+
+  deleteFileByName(fileName: string): Observable<ApiResponseInterface> {
+    return this.http.delete<ApiResponseInterface>(`${this.url}/${fileName}`);
   }
 
 }

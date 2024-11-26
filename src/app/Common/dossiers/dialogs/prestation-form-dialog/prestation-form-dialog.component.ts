@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {listService, my_prescription, Service} from "src/app/models/Utils/constants";
-import {UtilsService} from "src/app/services/utils/utils.service";
 import {PrestationInterface, PrestationStatut} from "src/app/models/prestation.interface";
 import {PrestationService} from "src/app/services/prestation/prestation.service";
 import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface";
@@ -18,7 +17,7 @@ import {
 import {PoleInterface} from "src/app/models/pole.interface";
 import {ProfilService} from "src/app/services/Profil/profil.service";
 import {FileInfosInterface} from "../../../../models/files-infos.interface";
-import {FileService, imageExtensions} from "../../../../services/file/file.service";
+import {FILE_ICONS, FileService, IMAGE_EXTENSIONS} from "../../../../services/file/file.service";
 
 @Component({
   selector: 'app-prestation-form-dialog',
@@ -54,7 +53,6 @@ export class PrestationFormDialogComponent implements OnInit{
   constructor(private modal: NzModalRef,
               private modalService: NzModalService,
               private fb: FormBuilder,
-              private utils: UtilsService,
               private api: PrestationService,
               private dossierMApi: DossierMedicalService,
               private serviceApi: CliniqueServiceService,
@@ -320,14 +318,43 @@ export class PrestationFormDialogComponent implements OnInit{
   }
 
   isImageFile(extension: string): boolean {
-    return imageExtensions.includes(extension.toLowerCase());
+    return IMAGE_EXTENSIONS.includes(extension.toLowerCase());
+  }
+
+  getFileIcon(extension: string): string {
+
+    return FILE_ICONS[extension.toLowerCase()] || FILE_ICONS['default'];
   }
 
   removeFile(file: FileInfosInterface): void {
+    this.fileApi.deleteFileByName(file.name).subscribe({
+      next: (response) => {
+        if (response.reponse) {
+          console.log(`Fichier supprimé : ${file.name}`);
+          this.notify.snackMessage(`Fichier retiré avec succès : ${this.getFileOriginalName(file.name)}`, 2500, "success");
+        } else {
+          this.notify.snackMessage(`Problème lors du retrait du fichier : ${response.message}`, 2500, "warning");
+        }
+      },
+      error: () => {
+        this.notify.snackMessage(`Erreur inconnue est survenue `, 2500, "error");
+      }
+    });
+
+    this.removeFromList(file);
+
+  }
+
+  removeFromList(file: FileInfosInterface): void {
     const index = this.listFileInfos.indexOf(file);
     if (index !== -1) {
       this.listFileInfos.splice(index, 1);
     }
-    console.log(`Fichier supprimé : ${file.name}`);
   }
+
+  getFileOriginalName(name: string, type: 'DETAILED' | 'NOTDETAILED' = 'NOTDETAILED', count?: number) {
+    let start = count || (type === 'NOTDETAILED' ? 4 : 3);
+    return name.split('_').slice(start).join("_");
+  }
+
 }
