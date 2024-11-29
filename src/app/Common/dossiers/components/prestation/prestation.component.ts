@@ -92,6 +92,13 @@ export class PrestationComponent implements OnInit{
           // this.prestationsList = this.paginatedData.content;
         }
 
+      },
+      error: (error) => {
+        if(error.includes('Permission non accord')) {
+          this.notify.snackMessage("Permission non accordée pour cette action", 3500, "error");
+        }
+        console.error('Erreur lors de la récupération des patients', error);
+        // Gérez l'erreur selon vos besoins
       }
     })
   }

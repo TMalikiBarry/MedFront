@@ -55,7 +55,7 @@ export class GeneralHttpInterceptor implements HttpInterceptor {
         this.notify.snackMessage("Connexion expirée, veuillez vous reconnecter", 3500, "warning");
         return throwError( () => "Votre connexion a expiré");
       }
-      this.notify.snackMessage("Permission non accordée pour cette action", 3500, "error");
+     // this.notify.snackMessage("Permission non accordée pour cette action", 3500, "error");
     }
 
 

@@ -12,6 +12,7 @@ import {ActionFormDialogComponent} from "../../dialogs/action-form-dialog/action
 import {ProfilService} from "../../../../services/Profil/profil.service";
 import {FonctionnaliteService} from "../../../../services/fonctionnalite/fonctionnalite.service";
 import {FonctionnaliteInterface} from "../../../../models/fonctionnalite.interface";
+import {NotifService} from "../../../../services/notification/notif.service";
 
 @Component({
   selector: 'app-action',
@@ -34,7 +35,8 @@ export class ActionComponent implements OnInit {
               private router: Router,
               private profilService: ProfilService,
               private fonctionnaliteService: FonctionnaliteService,
-              private actionService: ActionService) {
+              private actionService: ActionService,
+              private notify: NotifService) {
   }
 
   ngOnInit(): void {
@@ -62,6 +64,13 @@ export class ActionComponent implements OnInit {
         next: value => {
           console.log('RECEPTION ACTIONS', value);
           this.paginatedData = value;
+        },
+        error: (error) => {
+          if(error.includes('Permission non accord')) {
+            this.notify.snackMessage("Permission non accordée pour cette action", 3500, "error");
+          }
+          console.error('Erreur lors de la récupération des patients', error);
+          // Gérez l'erreur selon vos besoins
         }
       }
     )
