@@ -14,7 +14,7 @@ import {
 import {NotifService} from "src/app/services/notification/notif.service";
 import {ServiceInterface} from "src/app/models/service.interface";
 import {PoleInterface} from "src/app/models/pole.interface";
-import {ProfilService} from "../../../../services/Profil/profil.service";
+import {ProfilService} from "src/app/services/Profil/profil.service";
 
 @Component({
   selector: 'app-rendez-vous-form-dialog',

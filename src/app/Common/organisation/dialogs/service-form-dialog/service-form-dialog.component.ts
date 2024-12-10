@@ -6,7 +6,7 @@ import {NotifService} from "src/app/services/notification/notif.service";
 import {ServiceInterface} from "src/app/models/service.interface";
 import {CliniqueServiceService} from "src/app/services/service/clinique-service.service";
 import {PoleFormDialogComponent} from "../pole-form-dialog/pole-form-dialog.component";
-import {ProfilService} from "../../../../services/Profil/profil.service";
+import {ProfilService} from "src/app/services/Profil/profil.service";
 
 export function MultipleOfValidator(value: number) {
   return (control: AbstractControl): { [key: string]: any } | null => {

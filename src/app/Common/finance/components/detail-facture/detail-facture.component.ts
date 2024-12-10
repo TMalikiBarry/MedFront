@@ -6,8 +6,8 @@ import {PersonneInterface} from "src/app/models/personne.interface";
 import {PrestationInterface} from "src/app/models/prestation.interface";
 import {jsPDF} from 'jspdf';
 import html2canvas from 'html2canvas';
-import {UtilsService} from "../../../../services/utils/utils.service";
-import {ProfilService} from "../../../../services/Profil/profil.service";
+import {UtilsService} from "src/app/services/utils/utils.service";
+import {ProfilService} from "src/app/services/Profil/profil.service";
 
 /*
 import {

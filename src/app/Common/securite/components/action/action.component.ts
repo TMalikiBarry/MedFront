@@ -9,10 +9,10 @@ import {
   PrestationFormDialogComponent
 } from "../../../dossiers/dialogs/prestation-form-dialog/prestation-form-dialog.component";
 import {ActionFormDialogComponent} from "../../dialogs/action-form-dialog/action-form-dialog.component";
-import {ProfilService} from "../../../../services/Profil/profil.service";
-import {FonctionnaliteService} from "../../../../services/fonctionnalite/fonctionnalite.service";
-import {FonctionnaliteInterface} from "../../../../models/fonctionnalite.interface";
-import {NotifService} from "../../../../services/notification/notif.service";
+import {ProfilService} from "src/app/services/Profil/profil.service";
+import {FonctionnaliteService} from "src/app/services/fonctionnalite/fonctionnalite.service";
+import {FonctionnaliteInterface} from "src/app/models/fonctionnalite.interface";
+import {NotifService} from "src/app/services/notification/notif.service";
 
 @Component({
   selector: 'app-action',

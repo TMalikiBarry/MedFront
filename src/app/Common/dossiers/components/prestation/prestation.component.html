@@ -154,15 +154,18 @@
                  [src]="'assets/from_figma/confirm-no'+(isNotPaid(prestation)?'': '_blocked')+'.svg'" [style.cursor]="isNotPaid(prestation)? 'pointer' : 'not-allowed'"
                  alt="Confirmer ou pas"
                  nz-tooltip width="17">
-            <img *ngIf="hasAction('FACTURER_PRESTATION')" (click)="facturer(prestation)" [nzTooltipTitle]="isNotPaid(prestation)? 'Facturer': 'Pas autorisé'" [src]="'assets/from_figma/facturer'+(isNotPaid(prestation)?'': '_blocked')+'.svg'"
-                 alt="Facturer"
+            <img (click)="facturer(prestation)" *ngIf="hasAction('FACTURER_PRESTATION')"
+                 [nzTooltipTitle]="isNotPaid(prestation)? 'Facturer': 'Pas autorisé'"
+                 [src]="'assets/from_figma/facturer'+(isNotPaid(prestation)?'': '_blocked')+'.svg'"
+                 [style.cursor]="!isPaid(prestation)? 'pointer' : 'not-allowed'" alt="Facturer"
                  nz-tooltip width="17">
 
           </td>
 
           <nz-dropdown-menu #nonPayeFacture="nzDropdownMenu">
             <ul nz-menu>
-              <li *ngIf="hasAction('FACTURER_PRESTATION')"(click)="facturer(prestation)" class="selectedLink" nz-menu-item>
+              <li (click)="facturer(prestation)" *ngIf="hasAction('FACTURER_PRESTATION')" class="selectedLink"
+                  nz-menu-item>
                 <span>Facturer</span>
               </li>
               <li *ngIf="hasAction('VOIR-DETAILS_PRESTATION')" class="selectedLink" nz-menu-item>
@@ -249,7 +252,7 @@
     <li *ngIf="hasAction('CREER_RENDEZVOUS')" class="selectedLink" nz-menu-item>
       <span>Nouveau RDV</span>
     </li>
-    <li *ngIf="hasAction('CREER_PRESTATION')"(click)="addNewPrestation()" class="selectedLink" nz-menu-item>
+    <li (click)="addNewPrestation()" *ngIf="hasAction('CREER_PRESTATION')" class="selectedLink" nz-menu-item>
       <span>Nouvelle prestation</span>
     </li>
   </ul>

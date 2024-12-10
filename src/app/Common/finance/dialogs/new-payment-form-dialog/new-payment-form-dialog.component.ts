@@ -15,7 +15,7 @@ import {
   NouveauPatientComponent
 } from "../../../personnes/dialogs/nouveau-patient-form-dialog/nouveau-patient.component";
 import {DossierMedicalInterface} from "src/app/models/dossier-medical.interface";
-import {ProfilService} from "../../../../services/Profil/profil.service";
+import {ProfilService} from "src/app/services/Profil/profil.service";
 
 @Component({
   selector: 'app-new-payment-form-dialog',

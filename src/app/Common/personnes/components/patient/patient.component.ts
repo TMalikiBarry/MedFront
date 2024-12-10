@@ -14,8 +14,8 @@ import {WeeklyDataStat} from "src/app/models/weekly-data-stat";
 import {UtilsService} from "src/app/services/utils/utils.service";
 import {Page} from "src/app/models/pagination.interface";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
-import {ProfilService} from "../../../../services/Profil/profil.service";
-import {NotifService} from "../../../../services/notification/notif.service";
+import {ProfilService} from "src/app/services/Profil/profil.service";
+import {NotifService} from "src/app/services/notification/notif.service";
 
 @Component({
   selector: 'app-patient',
@@ -375,6 +375,7 @@ export class PatientComponent implements OnInit {
   }
 
   addNewRDV(patient: PatientInterface) {
+    console.log(patient);
   }
 
   handleExtremum(type: 'min' | 'max', event: any) {

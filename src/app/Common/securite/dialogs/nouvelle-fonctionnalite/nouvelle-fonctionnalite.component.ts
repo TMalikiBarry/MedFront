@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzModalRef} from "ng-zorro-antd/modal";
-import {NotifService} from "../../../../services/notification/notif.service";
-import {FonctionnaliteInterface} from "../../../../models/fonctionnalite.interface";
-import {FonctionnaliteService} from "../../../../services/fonctionnalite/fonctionnalite.service";
-import {ModuleInterface} from "../../../../models/module.interface";
-import {ModuleService} from "../../../../services/module/module.service";
+import {NotifService} from "src/app/services/notification/notif.service";
+import {FonctionnaliteInterface} from "src/app/models/fonctionnalite.interface";
+import {FonctionnaliteService} from "src/app/services/fonctionnalite/fonctionnalite.service";
+import {ModuleInterface} from "src/app/models/module.interface";
+import {ModuleService} from "src/app/services/module/module.service";
 
 @Component({
   selector: 'app-nouvelle-fonctionnalite',

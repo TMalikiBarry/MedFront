@@ -1,14 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {PersonneInterface} from "../../../../models/personne.interface";
-import {Page} from "../../../../models/pagination.interface";
+import {Page} from "src/app/models/pagination.interface";
 import {NzModalService} from "ng-zorro-antd/modal";
-import {UtilsService} from "../../../../services/utils/utils.service";
+import {UtilsService} from "src/app/services/utils/utils.service";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
-import {ModuleInterface} from "../../../../models/module.interface";
-import {ModuleService} from "../../../../services/module/module.service";
+import {ModuleInterface} from "src/app/models/module.interface";
+import {ModuleService} from "src/app/services/module/module.service";
 import {NouveauModuleComponent} from "../../dialogs/nouveau-module/nouveau-module.component";
-import {NotifService} from "../../../../services/notification/notif.service";
-import {ProfilService} from "../../../../services/Profil/profil.service";
+import {NotifService} from "src/app/services/notification/notif.service";
+import {ProfilService} from "src/app/services/Profil/profil.service";
 
 
 @Component({

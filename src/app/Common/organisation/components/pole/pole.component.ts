@@ -11,7 +11,7 @@ import {
 } from "../../../dossiers/dialogs/prestation-form-dialog/prestation-form-dialog.component";
 import {PoleFormDialogComponent} from "../../dialogs/pole-form-dialog/pole-form-dialog.component";
 import {Router} from "@angular/router";
-import {ProfilService} from "../../../../services/Profil/profil.service";
+import {ProfilService} from "src/app/services/Profil/profil.service";
 
 @Component({
   selector: 'app-pole',

@@ -16,7 +16,7 @@ import {FacturationComponent} from "../../dialogs/facturation/facturation.compon
 import {NotifService} from "src/app/services/notification/notif.service";
 import * as Chart from "chart.js/auto";
 import {DetailsPrestationComponent} from "../../dialogs/details-prestation/details-prestation.component";
-import {ProfilService} from "../../../../services/Profil/profil.service";
+import {ProfilService} from "src/app/services/Profil/profil.service";
 
 @Component({
   selector: 'app-prestation',

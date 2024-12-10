@@ -6,9 +6,9 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AccesService} from "src/app/services/acces/acces.service";
 import {ProfilInterface, SUPERADMINISTRATEUR} from "src/app/models/profil.interface";
 import {ProfilFormDialogComponent} from "../profil-form-dialog/profil-form-dialog.component";
-import {ProfilService} from "../../../../services/Profil/profil.service";
-import {AuthInterface} from "../../../../models/auth.interface";
-import {StorageService} from "../../../../services/Storage/storage.service";
+import {ProfilService} from "src/app/services/Profil/profil.service";
+import {AuthInterface} from "src/app/models/auth.interface";
+import {StorageService} from "src/app/services/Storage/storage.service";
 
 @Component({
   selector: 'app-acces-form-dialog',

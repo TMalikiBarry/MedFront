@@ -4,7 +4,7 @@ import {NzModalRef} from "ng-zorro-antd/modal";
 
 import {RDVStatus, RendezVousInterface} from "src/app/models/rendez-vous.interface";
 import {PersonneInterface} from "src/app/models/personne.interface";
-import {UtilsService} from "../../../../services/utils/utils.service";
+import {UtilsService} from "src/app/services/utils/utils.service";
 
 @Component({
   selector: 'app-detail-rendez-vous',

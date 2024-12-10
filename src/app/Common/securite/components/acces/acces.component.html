@@ -53,7 +53,8 @@
           <img *ngIf="hasAction('MODIFIER_ACCES')" (click)="update(a)" [nzTooltipTitle]="'Modifier les infos de l\'accès '+ a.login" alt="Modifier"
                nz-tooltip src="assets/from_figma/edit-action.svg" width="17"
                style="cursor: pointer; margin-right: 1rem">
-          <img *ngIf="hasAction('RESET_ACCES')"(click)="resetPassword(a)" [nzTooltipTitle]="'Réinitialiser le mot de passe pour l\'accès ' + a.login"
+            <img (click)="resetPassword(a)" *ngIf="hasAction('RESET_ACCES')"
+                 [nzTooltipTitle]="'Réinitialiser le mot de passe pour l\'accès ' + a.login"
                alt="réinitialisation" nz-tooltip
                src="assets/from_figma/reset-hard.svg" style="cursor:pointer;" width="20">
         </td>

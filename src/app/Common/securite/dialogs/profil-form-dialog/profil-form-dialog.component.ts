@@ -4,7 +4,7 @@ import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
 import {NotifService} from "src/app/services/notification/notif.service";
 import {ProfilInterface} from "src/app/models/profil.interface";
 import {ProfilService} from "src/app/services/Profil/profil.service";
-import {ActionInterface, httpVerbMapping} from "../../../../models/action.interface";
+import {ActionInterface, httpVerbMapping} from "src/app/models/action.interface";
 import {ActionFormDialogComponent} from "../action-form-dialog/action-form-dialog.component";
 
 @Component({

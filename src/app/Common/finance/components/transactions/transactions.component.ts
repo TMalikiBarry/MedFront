@@ -23,8 +23,8 @@ import {
 } from "src/app/models/transaction.interface";
 import {WeeklyTransactionAmountStatInterface} from "src/app/models/weekly-transaction-amount-stat.interface";
 import {UtilsService} from "src/app/services/utils/utils.service";
-import {ProfilService} from "../../../../services/Profil/profil.service";
-import {NotifService} from "../../../../services/notification/notif.service";
+import {ProfilService} from "src/app/services/Profil/profil.service";
+import {NotifService} from "src/app/services/notification/notif.service";
 
 @Component({
   selector: 'app-transactions',
@@ -374,9 +374,6 @@ export class TransactionsComponent implements OnInit {
     })
   }
 
-  voirFacture(paiement: TransactionInterface) {
-
-  }
 
   getStatusInfo(status: TransactionStatus): { color: string; text: string } {
     let color = '#5D6273';

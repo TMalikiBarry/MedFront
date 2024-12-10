@@ -8,9 +8,9 @@ import {UtilsService} from "src/app/services/utils/utils.service";
 import {RendezVousInterface} from "src/app/models/rendez-vous.interface";
 import {DetailRendezVousComponent} from "../../../dossiers/dialogs/detail-rendez-vous/detail-rendez-vous.component";
 import {NzModalService} from "ng-zorro-antd/modal";
-import {PrestationInterface} from "../../../../models/prestation.interface";
+import {PrestationInterface} from "src/app/models/prestation.interface";
 import {DetailsPrestationComponent} from "../../../dossiers/dialogs/details-prestation/details-prestation.component";
-import {ProfilService} from "../../../../services/Profil/profil.service";
+import {ProfilService} from "src/app/services/Profil/profil.service";
 
 
 interface StatusInfo {

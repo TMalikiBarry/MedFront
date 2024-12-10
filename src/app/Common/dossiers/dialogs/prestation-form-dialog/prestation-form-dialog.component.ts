@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {listService, my_prescription, Service} from "src/app/models/Utils/constants";
@@ -16,8 +16,9 @@ import {
 } from "../../../personnes/dialogs/nouveau-patient-form-dialog/nouveau-patient.component";
 import {PoleInterface} from "src/app/models/pole.interface";
 import {ProfilService} from "src/app/services/Profil/profil.service";
-import {FileInfosInterface} from "../../../../models/files-infos.interface";
-import {FILE_ICONS, FileService, IMAGE_EXTENSIONS} from "../../../../services/file/file.service";
+import {CONTEXTFILE, FileInfosInterface, TypeFile} from "src/app/models/files-infos.interface";
+import {FILE_ICONS, FileService, IMAGE_EXTENSIONS} from "src/app/services/file/file.service";
+import {map, Observable, startWith} from "rxjs";
 
 @Component({
   selector: 'app-prestation-form-dialog',
@@ -40,6 +41,7 @@ export class PrestationFormDialogComponent implements OnInit{
   currentFile?: File;
   listFileInfos: FileInfosInterface[] = [];
   listFiles: File [] = [];
+  showFileCntrl$!: Observable<boolean>;
 
   prestationForm: FormGroup = this.fb.group({
     service: ['', Validators.required],
@@ -49,6 +51,8 @@ export class PrestationFormDialogComponent implements OnInit{
     prerequis: '',
     resultat:''
   })
+
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   constructor(private modal: NzModalRef,
               private modalService: NzModalService,
@@ -61,39 +65,11 @@ export class PrestationFormDialogComponent implements OnInit{
               private profilService: ProfilService
               ) {
   }
-  ngOnInit(): void {
 
-    this.listOfService = listService;
-    this.listPrescription = my_prescription;
-    this.loadPatients();
-    const data = this.modal.getConfig().nzData;
-    if (data && data.context && data.context === 'PUT_PRESTATION') {
-      this.prestationToUpdate = data;
-      this.titleForm = 'Modification Prestation'
-      this.formDesc = this.formDesc.replace('ajouter une', 'modifier la');
+  get choosenDossierM(): DossierMedicalInterface {
+    const dossierID = this.prestationForm.controls['dossier'].value as number;
 
-      this.listFileInfos = this.prestationToUpdate.documents ?? [];
-      this.setForm();
-    }
-
-    this.serviceApi.getAllService().subscribe({
-      next: result => {
-        this.myServicesList = result.reponse as ServiceInterface[];
-        /*this.listOfPole = this.myServicesList.map(s => {
-          // return this.listOfPole.some( p => p.id == s.pole?.id) ? s.pole : undefined
-          return s.pole!
-        });*/
-        this.listOfPole = this.myServicesList
-          .map(s => s.pole!) // Créez un tableau de tous les pôles
-          .filter((pole, index, self) =>
-            pole && self.findIndex(p => p.id === pole.id) === index
-          ); // Filtrez pour ne garder que les pôles uniques
-
-      },
-      error: () => {
-        this.modal.close();
-      }
-    })
+    return this.listOfDossierMedical.find(d => d.id === dossierID)!;
   }
 
   loadPatients(patientId?: number) {
@@ -184,6 +160,25 @@ export class PrestationFormDialogComponent implements OnInit{
     document.getElementById('file_uploader')!.click();
   }
 
+  ngOnInit(): void {
+
+    this.listOfService = listService;
+    this.listPrescription = my_prescription;
+    this.loadPatients();
+    const data = this.modal.getConfig().nzData;
+    if (data?.context === 'PUT_PRESTATION') {
+      this.prestationToUpdate = data;
+      this.titleForm = 'Modification Prestation'
+      this.formDesc = this.formDesc.replace('ajouter une', 'modifier la');
+
+      this.listFileInfos = this.prestationToUpdate.documents ?? [];
+      this.setForm();
+    }
+
+    this.initObservableCalls();
+
+  }
+
   getEvent(event: Event): void {
     const input = event.target as HTMLInputElement;
 
@@ -194,6 +189,15 @@ export class PrestationFormDialogComponent implements OnInit{
 
     // Transformez FileList en tableau pour le parcourir
     const files = Array.from(input.files);
+    // ( <HTMLInputElement> event.target).value = '';
+    // ( <HTMLInputElement> event.target).files = null;
+    /*input.value = '';
+    // Forcer Angular à détecter les changements si nécessaire
+    if (!input.files || input.files.length === 0) {
+      input.dispatchEvent(new Event('change'));
+    }
+    input.files = null;*/
+    this.resetFileInput();
 
     files.forEach((file) => {
       console.log('Fichier sélectionné :', file);
@@ -242,7 +246,10 @@ export class PrestationFormDialogComponent implements OnInit{
     }
 
     this.listFiles.forEach((file) => {
-      this.fileApi.save(file).subscribe({
+      const patientFullName = this.getPatientFullName(this.choosenDossierM);
+      this.fileApi.save(file, TypeFile.INFOS, CONTEXTFILE.PRESTATIONDOC,
+        this.generateFileName(file), patientFullName)
+        .subscribe({
         next: (response) => {
           console.log('Fichier uploadé avec succès :', response);
           if (this.listFileInfos.every(f => f.id !== response.id)) {
@@ -290,8 +297,6 @@ export class PrestationFormDialogComponent implements OnInit{
     }
 
     return `${personne!.prenom} ${personne!.nom}`;
-    // Gérer les cas non couverts ou retourner une valeur par défaut
-    // return 'Default Name'
   }
 
 
@@ -357,4 +362,47 @@ export class PrestationFormDialogComponent implements OnInit{
     return name.split('_').slice(start).join("_");
   }
 
+  resetFileInput(): void {
+    // Réinitialisez complètement la valeur de l'élément input
+    this.fileInput.nativeElement.value = '';
+    this.fileInput.nativeElement.files = null;
+  }
+
+  getFileExtension(file: File) {
+    return file.name.toLowerCase().split('.').pop()
+  }
+
+  generateFileName(file: File, type: TypeFile = TypeFile.INFOS, context: CONTEXTFILE = CONTEXTFILE.PRESTATIONDOC) {
+    const timestamp = new Date().toISOString().replace(/[-:.]/g, '_');
+
+    return `${timestamp}_${context}_${type}_DOSSIER-${this.choosenDossierM.id}_${this.getPatientFullName(this.choosenDossierM).replace(/\s+/g, '_')}.${this.getFileExtension(file)}`;
+  }
+
+  private initObservableCalls() {
+
+    this.showFileCntrl$ = this.prestationForm.controls['dossier'].valueChanges.pipe(
+      startWith(this.prestationForm.controls['dossier'].value),
+      map(value => !!value),
+    );
+
+    this.serviceApi.getAllService().subscribe({
+      next: result => {
+        this.myServicesList = result.reponse as ServiceInterface[];
+        /*this.listOfPole = this.myServicesList.map(s => {
+          // return this.listOfPole.some( p => p.id == s.pole?.id) ? s.pole : undefined
+          return s.pole!
+        });*/
+        this.listOfPole = this.myServicesList
+          .map(s => s.pole!) // Créez un tableau de tous les pôles
+          .filter((pole, index, self) =>
+            pole && self.findIndex(p => p.id === pole.id) === index
+          ); // Filtrez pour ne garder que les pôles uniques
+
+      },
+      error: () => {
+        this.modal.close();
+      }
+    })
+
+  }
 }

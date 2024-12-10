@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {AccesService} from "../../../../services/acces/acces.service";
+import {AccesService} from "src/app/services/acces/acces.service";
 import {NzModalService} from "ng-zorro-antd/modal";
-import {UtilsService} from "../../../../services/utils/utils.service";
-import {NotifService} from "../../../../services/notification/notif.service";
-import {Page} from "../../../../models/pagination.interface";
+import {UtilsService} from "src/app/services/utils/utils.service";
+import {NotifService} from "src/app/services/notification/notif.service";
+import {Page} from "src/app/models/pagination.interface";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
 import {AccesFormDialogComponent} from "../../dialogs/acces-form-dialog/acces-form-dialog.component";
-import {AccesInterface} from "../../../../models/acces.interface";
-import {ProfilService} from "../../../../services/Profil/profil.service";
+import {AccesInterface} from "src/app/models/acces.interface";
+import {ProfilService} from "src/app/services/Profil/profil.service";
 
 @Component({
   selector: 'app-acces',

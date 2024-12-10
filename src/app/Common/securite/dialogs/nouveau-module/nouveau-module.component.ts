@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzModalRef} from "ng-zorro-antd/modal";
-import {NotifService} from "../../../../services/notification/notif.service";
-import {ModuleService} from "../../../../services/module/module.service";
-import {ModuleInterface} from "../../../../models/module.interface";
+import {NotifService} from "src/app/services/notification/notif.service";
+import {ModuleService} from "src/app/services/module/module.service";
+import {ModuleInterface} from "src/app/models/module.interface";
 import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
@@ -37,10 +37,12 @@ export class NouveauModuleComponent implements OnInit{
   ngOnInit() {
     try {
       const moduleCode: string = <string>this.modalRef.getConfig().nzData;
-
-      if (moduleCode)
+      if (moduleCode) {
         this.isEditMode =true;
         this.loadModuleForUpdate(moduleCode);
+      }
+
+
     } catch (s) {
       console.error(s)
     }

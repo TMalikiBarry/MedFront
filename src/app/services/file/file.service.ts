@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "src/environments/environment.prod";
 import {Observable} from "rxjs";
-import {FileInfosInterface, TypeFile} from "src/app/models/files-infos.interface";
+import {CONTEXTFILE, FileInfosInterface, TypeFile} from "src/app/models/files-infos.interface";
 import {ApiResponseInterface} from "../../models/api-response.interface";
 
 
@@ -85,15 +85,31 @@ export class FileService {
 
   constructor(private http : HttpClient) { }
 
-  save(file: File, typeFile: TypeFile = TypeFile.INFOS): Observable<FileInfosInterface> {
+  save(file: File, typeFile: TypeFile = TypeFile.INFOS, context: CONTEXTFILE = CONTEXTFILE.PATIENTDOC,
+       fileName?: string, fullNamePatient?: string): Observable<FileInfosInterface> {
     let formData: FormData = new FormData();
     formData.append("type", typeFile);
     formData.append("file", file);
+    formData.append("context", context);
+    if (fileName) {
+
+      formData.append("fileName", fileName);
+    }
+
+    if (fullNamePatient) {
+
+      formData.append("fullNamePatient", fullNamePatient);
+    }
+
     return this.http.post<FileInfosInterface>(this.url + "/upload", formData);
   }
 
   deleteFileByName(fileName: string): Observable<ApiResponseInterface> {
     return this.http.delete<ApiResponseInterface>(`${this.url}/${fileName}`);
+  }
+
+  getSafeFileUrl(url: string): string {
+    return url.replace(environment.fileURL, url);
   }
 
 }

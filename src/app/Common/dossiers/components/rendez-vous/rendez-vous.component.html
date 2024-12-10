@@ -122,7 +122,8 @@
           </nz-badge>
         </td>
         <td class="icon-table some-min-width-10">
-          <img *ngIf="hasAction('VOIR_DETAILS_RENDEZVOUS')"(click)="seeDetails(rdv)" alt="modifier" nz-tooltip nzTooltipTitle="Voir détails"
+          <img (click)="seeDetails(rdv)" *ngIf="hasAction('VOIR_DETAILS_RENDEZVOUS')" alt="modifier" nz-tooltip
+               nzTooltipTitle="Voir détails"
                src="assets/from_figma/see-details-action.svg">
           <!--<img (click)="detailPatient(rdv.patient)" alt="patient" nz-tooltip
                nzTooltipTitle="Voir détails Patient" src="assets/icon/Icone%20user.svg">-->

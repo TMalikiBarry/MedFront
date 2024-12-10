@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { PatientService } from 'src/app/services/patient/patient.service';
-import { PatientInterface } from 'src/app/models/patient.interface';
-import {ProfilService} from "../../../../services/Profil/profil.service";
+import {Component, OnInit} from '@angular/core';
+import {PatientService} from 'src/app/services/patient/patient.service';
+import {PatientInterface} from 'src/app/models/patient.interface';
+import {ProfilService} from "src/app/services/Profil/profil.service";
 
 @Component({
   selector: 'app-dossiers-medicaux',

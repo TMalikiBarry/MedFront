@@ -17,7 +17,7 @@ import {CancelRdvDialogComponent} from "../../dialogs/cancel-rdv-dialog/cancel-r
 import * as Chart from "chart.js/auto";
 import {DetailRendezVousComponent} from "../../dialogs/detail-rendez-vous/detail-rendez-vous.component";
 import {Router} from "@angular/router";
-import {ProfilService} from "../../../../services/Profil/profil.service";
+import {ProfilService} from "src/app/services/Profil/profil.service";
 
 @Component({
   selector: 'app-rendez-vous',

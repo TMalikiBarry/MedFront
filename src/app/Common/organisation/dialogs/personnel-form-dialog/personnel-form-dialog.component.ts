@@ -12,9 +12,9 @@ import {PersonnelService} from "src/app/services/personnel/personnel.service";
 import {PoleInterface} from "src/app/models/pole.interface";
 import {TitreFormDialogComponent} from "../titre-form-dialog/titre-form-dialog.component";
 import {ProfilFormDialogComponent} from "../../../securite/dialogs/profil-form-dialog/profil-form-dialog.component";
-import {ProfilService} from "../../../../services/Profil/profil.service";
-import {AuthInterface} from "../../../../models/auth.interface";
-import {StorageService} from "../../../../services/Storage/storage.service";
+import {ProfilService} from "src/app/services/Profil/profil.service";
+import {AuthInterface} from "src/app/models/auth.interface";
+import {StorageService} from "src/app/services/Storage/storage.service";
 
 @Component({
   selector: 'app-personnel-form-dialog',

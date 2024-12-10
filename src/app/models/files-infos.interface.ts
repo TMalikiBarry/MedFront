@@ -5,6 +5,7 @@ export interface FileInfosInterface {
   uploadingFile?: string; // URL ou chemin du fichier
   typeDoc?: string; // Peut être null ou undefined en TypeScript
   extension?: string; // Extension du fichier (e.g., "pdf", "jpg")
+
 }
 
 export enum TypeFile {
@@ -15,4 +16,9 @@ export enum TypeFile {
   // IMAGE = 'IMAGE',
   // VIDEO = 'VIDEO',
   // OTHER = 'OTHER',
+}
+
+export enum CONTEXTFILE {
+  PATIENTDOC = 'PATIENTDOC',
+  PRESTATIONDOC = 'PRESTATIONDOC',
 }
