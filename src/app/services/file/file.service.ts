@@ -109,7 +109,7 @@ export class FileService {
   }
 
   getSafeFileUrl(url: string): string {
-    return url.replace(environment.fileURL, url);
+    return url.replace(environment.fileURL, this.url);
   }
 
 }

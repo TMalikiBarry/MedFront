@@ -7,12 +7,12 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class FormatNamePipe implements PipeTransform {
 
   transform(value: string | undefined | null, formatType: 'name' | 'username' | 'filename' | 'server_filename',
-            index: 'DETAILED' | 'NOTDETAILED' = 'NOTDETAILED'): string {
+            index: 'DETAILED' | 'NOTDETAILED' = 'DETAILED', startC?: number): string {
     if (typeof value === "undefined" || value === null) {
       return '';
     }
     if (formatType === 'server_filename') {
-      let start = index === 'NOTDETAILED' ? 4 : 3;
+      let start = startC ?? index === 'NOTDETAILED' ? 6 : 3;
       return value.split('_').slice(start).join("_");
     }
     if (formatType === 'filename') {

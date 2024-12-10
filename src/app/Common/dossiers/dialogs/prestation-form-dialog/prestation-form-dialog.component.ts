@@ -60,7 +60,7 @@ export class PrestationFormDialogComponent implements OnInit{
               private api: PrestationService,
               private dossierMApi: DossierMedicalService,
               private serviceApi: CliniqueServiceService,
-              private fileApi: FileService,
+              protected fileApi: FileService,
               private notify: NotifService,
               private profilService: ProfilService
               ) {
@@ -336,7 +336,7 @@ export class PrestationFormDialogComponent implements OnInit{
       next: (response) => {
         if (response.reponse) {
           console.log(`Fichier supprimé : ${file.name}`);
-          this.notify.snackMessage(`Fichier retiré avec succès : ${this.getFileOriginalName(file.name)}`, 2500, "success");
+          this.notify.snackMessage(`Fichier retiré avec succès : ${file.originalName}`, 2500, "success");
         } else {
           this.notify.snackMessage(`Problème lors du retrait du fichier : ${response.message}`, 2500, "warning");
         }
@@ -358,7 +358,7 @@ export class PrestationFormDialogComponent implements OnInit{
   }
 
   getFileOriginalName(name: string, type: 'DETAILED' | 'NOTDETAILED' = 'NOTDETAILED', count?: number) {
-    let start = count || (type === 'NOTDETAILED' ? 4 : 3);
+    let start = count || (type === 'NOTDETAILED' ? 6 : 3);
     return name.split('_').slice(start).join("_");
   }
 
@@ -373,9 +373,10 @@ export class PrestationFormDialogComponent implements OnInit{
   }
 
   generateFileName(file: File, type: TypeFile = TypeFile.INFOS, context: CONTEXTFILE = CONTEXTFILE.PRESTATIONDOC) {
-    const timestamp = new Date().toISOString().replace(/[-:.]/g, '_');
+    const timestamp = new Date().toISOString().replace(/[TZ.]/g, "_");
+    // .replace(/[-:.TZ]/g, '_');
 
-    return `${timestamp}_${context}_${type}_DOSSIER-${this.choosenDossierM.id}_${this.getPatientFullName(this.choosenDossierM).replace(/\s+/g, '_')}.${this.getFileExtension(file)}`;
+    return `${timestamp}${context}_${type}_DOSSIER-${this.choosenDossierM.id}_${this.getPatientFullName(this.choosenDossierM).replace(/\s+/g, '_')}.${this.getFileExtension(file)}`;
   }
 
   private initObservableCalls() {

@@ -3,7 +3,7 @@ import {PersonneInterface} from "src/app/models/personne.interface";
 import {NzModalRef} from "ng-zorro-antd/modal";
 import {PrestationInterface, PrestationStatut} from "src/app/models/prestation.interface";
 import {UtilsService} from "src/app/services/utils/utils.service";
-import {FILE_ICONS, IMAGE_EXTENSIONS} from "src/app/services/file/file.service";
+import {FILE_ICONS, FileService, IMAGE_EXTENSIONS} from "src/app/services/file/file.service";
 
 @Component({
   selector: 'app-details-prestation',
@@ -18,7 +18,7 @@ export class DetailsPrestationComponent implements OnInit {
   medecinPers!: PersonneInterface;
   createurPers!: PersonneInterface;
 
-  constructor(private modal: NzModalRef, protected utils: UtilsService) {
+  constructor(private modal: NzModalRef, protected utils: UtilsService, protected fileApi: FileService) {
   }
 
   ngOnInit(): void {

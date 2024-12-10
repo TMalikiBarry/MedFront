@@ -5,6 +5,8 @@ export interface FileInfosInterface {
   uploadingFile?: string; // URL ou chemin du fichier
   typeDoc?: string; // Peut être null ou undefined en TypeScript
   extension?: string; // Extension du fichier (e.g., "pdf", "jpg")
+  fullNamePatient?: string;
+  originalName?: string;
 
 }
 

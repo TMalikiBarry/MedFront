@@ -87,29 +87,24 @@
     <div *ngIf="data.documents!.length > 0" class="uploaded-files">
       <h4>Fichiers téléchargés</h4>
       <ul>
-        <li *ngFor="let file of data.documents">
+        <li *ngFor="let file of data.documents!">
           <div class="file-preview">
-            <!-- Thumbnail pour les images -->
-            <ng-container *ngIf="isImageFile(file.extension!); else nonImageFile">
-              <img
-                [alt]="file.name"
-                [src]="file.uploadingFile"
-                class="thumbnail"
-              />
-            </ng-container>
+            <!-- Affichage de la vignette ou de l'icône -->
+            <div class="file-thumbnail">
+              <ng-container *ngIf="isImageFile(file.extension!); else nonImageContent">
+                <img [alt]="file.name" [src]="fileApi.getSafeFileUrl(file.uploadingFile!)" class="thumbnail"/>
+              </ng-container>
+              <ng-template #nonImageContent>
+                <i [nzType]="getFileIcon(file.extension!)" class="file-icon" nz-icon></i>
+              </ng-template>
+            </div>
 
-            <!-- Icône et infos pour les fichiers non image -->
-            <ng-template #nonImageFile>
-              <div class="default-preview">
-                <div class="file-icon">
-                  <i [nzType]="getFileIcon(file.extension!)" nz-icon></i>
-                </div>
-                <div class="file-info">
-                  <a [href]="file.uploadingFile" target="_blank">{{ file.name | formatName: 'server_filename' }}</a>
-                  <p>{{ file.extension?.toUpperCase() }}</p>
-                </div>
-              </div>
-            </ng-template>
+            <!-- Infos communes : Nom du fichier et extension -->
+            <div class="file-info">
+              <a [href]="file.uploadingFile" target="_blank">{{ file.name | formatName: 'server_filename' }}</a>
+              <p>{{ file.extension?.toUpperCase() }}</p>
+            </div>
+
           </div>
         </li>
       </ul>

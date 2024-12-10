@@ -111,7 +111,7 @@
             <!-- Affichage de la vignette ou de l'icône -->
             <div class="file-thumbnail">
               <ng-container *ngIf="isImageFile(file.extension!); else nonImageContent">
-                <img [alt]="file.name" [src]="file.uploadingFile" class="thumbnail"/>
+                <img [alt]="file.name" [src]="fileApi.getSafeFileUrl(file.uploadingFile!)" class="thumbnail"/>
               </ng-container>
               <ng-template #nonImageContent>
                 <i [nzType]="getFileIcon(file.extension!)" class="file-icon" nz-icon></i>
