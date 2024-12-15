@@ -1,19 +1,22 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {environment} from "../../../environments/environment.prod";
+import {environment} from "src/environments/environment.prod";
 import {ApiResponseInterface} from "../../models/api-response.interface";
-import {ProfilInterface} from "../../models/profil.interface";
+import {ProfilInterface, SUPERADMINISTRATEUR} from "../../models/profil.interface";
 import {Observable} from "rxjs";
 import {Page} from "../../models/pagination.interface";
 import {ActionInterface} from "../../models/action.interface";
 import {UtilsService} from "../utils/utils.service";
+import {AuthService} from "../authentication/auth.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfilService {
   private actions: ActionInterface[] | undefined;
-  constructor(private http: HttpClient, private utils: UtilsService) { }
+
+  constructor(private http: HttpClient, private utils: UtilsService, private authService: AuthService) {
+  }
   private readonly url = `${environment.apiURL}/profil`;
 
   private readonly urlAction = `${environment.apiURL}/action/allPresent`;
@@ -66,4 +69,9 @@ export class ProfilService {
   setActions(value: ActionInterface[]) {
     this.actions = value;
   }
+
+  isSuperAdmin(): boolean {
+    return this.authService.currentUserValue.personne.acces?.profil.code === SUPERADMINISTRATEUR;
+  }
+
 }

@@ -101,7 +101,8 @@
 
             <!-- Infos communes : Nom du fichier et extension -->
             <div class="file-info">
-              <a [href]="file.uploadingFile" target="_blank">{{ file.name | formatName: 'server_filename' }}</a>
+              <a [href]="fileApi.getSafeFileUrl(file.uploadingFile!)"
+                 target="_blank">{{ file.name | formatName: 'server_filename' }}</a>
               <p>{{ file.extension?.toUpperCase() }}</p>
             </div>
 

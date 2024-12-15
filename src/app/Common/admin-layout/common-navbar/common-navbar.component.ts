@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthInterface} from "src/app/models/auth.interface";
-import {StorageService} from "../../../services/Storage/storage.service";
-import {FonctionnaliteInterface} from "../../../models/fonctionnalite.interface";
-import {ActionInterface} from "../../../models/action.interface";
-import {ModuleDTOInterface} from "../../../models/moduleDTO.interface";
-import {ProfilService} from "../../../services/Profil/profil.service";
+import {StorageService} from "src/app/services/Storage/storage.service";
+import {FonctionnaliteInterface} from "src/app/models/fonctionnalite.interface";
+import {ActionInterface} from "src/app/models/action.interface";
+import {ModuleDTOInterface} from "src/app/models/moduleDTO.interface";
+import {ProfilService} from "src/app/services/Profil/profil.service";
 
 @Component({
   selector: 'app-common-navbar',

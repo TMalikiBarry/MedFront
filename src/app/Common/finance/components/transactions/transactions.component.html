@@ -93,7 +93,7 @@
 
       <div class="transac-moyen-desc">Moyen de Paiement</div>
       <div class="transac-moyen">
-        <nz-select [(ngModel)]="selectedMoyenPayment" nzPlaceHolder="Sélectionnez un moyen de paiement">
+        <nz-select [(ngModel)]="selectedMoyenPayment" nzAllowClear nzPlaceHolder="Sélectionnez un moyen de paiement">
           <nz-option nzLabel="----"></nz-option>
           <nz-option *ngFor="let moyen of moyenPaymentEnum | keyvalue" [nzLabel]="moyen.value"
                      [nzValue]="moyen.key"></nz-option>
@@ -102,7 +102,8 @@
 
       <div class="transac-status-desc">Statut</div>
       <div class="transac-status">
-        <nz-select [(ngModel)]="selectedTransactionStatus" nzPlaceHolder="Sélectionnez un statut de transaction">
+        <nz-select [(ngModel)]="selectedTransactionStatus" nzAllowClear
+                   nzPlaceHolder="Sélectionnez un statut de transaction">
           <nz-option nzLabel="----"></nz-option>
           <nz-option *ngFor="let status of transactionStatusEnum | keyvalue" [nzLabel]="status.value"
                      [nzValue]="status.key"></nz-option>

@@ -30,7 +30,7 @@
     <p class="connect-phrase">{{formDesc}}</p>
     <div class="make-spaceBetween">
       <nz-form-item>
-        <nz-form-control nzErrorTip="Veuillez choisir un service!" nzRequired>
+        <nz-form-control nzErrorTip="Veuillez choisir un service!">
           <p class="input-label">Service</p>
           <nz-select nzAllowClear nzShowSearch nzPlaceHolder="Choissez un service" formControlName="service">
             <nz-option nzLabel="----"></nz-option>
@@ -120,13 +120,14 @@
 
             <!-- Infos communes : Nom du fichier et extension -->
             <div class="file-info">
-              <a [href]="file.uploadingFile" target="_blank">{{ file.name | formatName: 'server_filename' }}</a>
+              <a [href]="fileApi.getSafeFileUrl(file.uploadingFile!)"
+                 target="_blank">{{ file.name | formatName: 'server_filename' }}</a>
               <p>{{ file.extension?.toUpperCase() }}</p>
             </div>
 
             <!-- Bouton de suppression -->
             <button (click)="removeFile(file)" class="button-file" nz-button nzDanger nzType="link">
-              Supprimer
+              Retirer
             </button>
           </div>
         </li>

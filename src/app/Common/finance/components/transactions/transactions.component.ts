@@ -12,7 +12,6 @@ import {NzTableQueryParams} from "ng-zorro-antd/table";
 import {
   PrestationFormDialogComponent
 } from "../../../dossiers/dialogs/prestation-form-dialog/prestation-form-dialog.component";
-import {PersonnelInterface} from "src/app/models/personnel.interface";
 import {TransactionService} from "src/app/services/transaction/transaction.service";
 import * as Chart from "chart.js/auto";
 import {
@@ -267,10 +266,6 @@ export class TransactionsComponent implements OnInit {
     });
   }
 
-  getPatientID(prestation: PrestationInterface): number {
-    return ( prestation.id!*17*1000 + prestation.dossierMedical?.id!*19*10 + prestation.dossierMedical?.patient?.id!)
-  }
-
   getPatientName(dossierMedical: DossierMedicalInterface):string {
     return `${dossierMedical?.patient?.personne.prenom} ${dossierMedical?.patient?.personne.nom}`
   }
@@ -294,39 +289,6 @@ export class TransactionsComponent implements OnInit {
       hour12: false
     });
   }
-
-
-  getAllServicesByPole(pole: PoleInterface): ServiceInterface [] {
-    return this.listOfService.filter(s => s.pole?.id === pole.id);
-  }
-
-  /*  getData(event: any, context: string) {
-      console.log(`MY EVENT ${context}`, event);
-      this.getPrestationsByPage(event);
-    }*/
-  getPersonnelName(personnel: PersonnelInterface | undefined) {
-    const personne = personnel ? personnel.personne : undefined
-    return personne ? `${personne.prenom} ${personne.nom}` : undefined;
-
-  }
-
-  displaySelected(event: any) {
-    console.log(event)
-  }
-
-  export() {
-
-  }
-
-  /*
-    private getAllTransaction() {
-      this.apiTransaction.getAllTransaction().subscribe({
-        next : value => {
-          console.log(value)
-        }
-      })
-    }
-  */
 
   private getCountTransMoyen() {
     this.apiTransaction.getCountTransactionByMoyen().subscribe({
@@ -352,16 +314,6 @@ export class TransactionsComponent implements OnInit {
         this.montantMax = 1000
       this.montantMin = montantDiff <= 0 ? this.montantMax - 500 : this.montantMin;
     }
-  }
-
-
-
-  private getCountPaiementEspece() {
-    this.apiTransaction.getCountTransactionCash().subscribe({
-      next : value => {
-        this.numberStats[1] = value.reponse
-      }
-    })
   }
 
   private getPatientInfos(p: PersonneInterface) {
@@ -401,8 +353,14 @@ export class TransactionsComponent implements OnInit {
 
     return {color, text};
   }
+
   hasAction(codeAction: string): boolean {
+    if (this.profilService.isSuperAdmin()) return true;
     const actions = this.profilService.getActions();
     return actions ? actions.some(action => action.code === codeAction) : false;
+  }
+
+  export() {
+
   }
 }

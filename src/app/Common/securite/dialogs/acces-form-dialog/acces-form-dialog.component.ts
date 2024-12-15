@@ -139,6 +139,7 @@ export class AccesFormDialogComponent {
     this.accesForm.controls['profil'].setValue(this.updatedAcces.profil.id);
   }
   hasAction(codeAction: string): boolean {
+    if (this.profilService.isSuperAdmin()) return true;
     const actions = this.profilService.getActions();
     return actions ? actions.some(action => action.code === codeAction) : false;
   }

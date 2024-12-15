@@ -235,6 +235,7 @@ export class NewPaymentFormDialogComponent {
     return this.myServicesList.filter(s => s.pole?.id === pole.id);
   }
   hasAction(codeAction: string): boolean {
+    if (this.profilService.isSuperAdmin()) return true;
     const actions = this.profilService.getActions();
     return actions ? actions.some(action => action.code === codeAction) : false;
   }

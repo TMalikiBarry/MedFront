@@ -75,6 +75,10 @@ export class AuthentificationComponent {
             if (e && e.status === 401) {
               this.notif.snackMessage('Identifiant ou mot de passe incorrect', 3500, 'error');
             }
+
+            if (e && e.status === 0) {
+              this.notif.snackMessage('Problème de connexion au serveur', 3500, 'error');
+            }
           }
 
         })

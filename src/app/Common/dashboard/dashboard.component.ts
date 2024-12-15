@@ -149,9 +149,19 @@ export class DashboardComponent implements OnInit {
   }
 
   disabledDate = (current: Date): boolean => {
+
+    /*
+        const today = new Date().toISOString().split('T')[0]; // "YYYY-MM-DD"
+        const currentDay = current.toISOString().split('T')[0]; // "YYYY-MM-DD"
+        return currentDay !== today;
+    */
     const today = new Date();
-    // Renvoie true si la date actuelle est postérieure à aujourd'hui
-    return current.getMonth() !== today.getMonth() || current.getFullYear() !== today.getFullYear();
+    // Comparer jour, mois et année
+    return (
+      current.getDate() !== today.getDate() ||
+      current.getMonth() !== today.getMonth() ||
+      current.getFullYear() !== today.getFullYear()
+    );
   };
 
   getDashBoardData() {
@@ -172,6 +182,7 @@ export class DashboardComponent implements OnInit {
     return patient.personne.genre.toLowerCase().startsWith('f') ? 'Femme' : 'Homme';
   }
   hasAction(codeAction: string): boolean {
+    if (this.profilService.isSuperAdmin()) return true;
     const actions = this.profilService.getActions();
     return actions ? actions.some(action => action.code === codeAction) : false;
   }

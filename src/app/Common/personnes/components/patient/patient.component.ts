@@ -70,7 +70,7 @@ export class PatientComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadPatients();
+    // this.loadPatients();
     this.getPatientByPage();
     this.initialiseChartsData();
   }
@@ -174,6 +174,7 @@ export class PatientComponent implements OnInit {
       .subscribe({
       next: response => {
         this.paginatedData = response;
+        this.loadPatients();
 
       },
         error: (error) => {
@@ -392,6 +393,7 @@ export class PatientComponent implements OnInit {
     }
   }
   hasAction(codeAction: string): boolean {
+    if (this.profilService.isSuperAdmin()) return true;
     const actions = this.profilService.getActions();
     return actions ? actions.some(action => action.code === codeAction) : false;
   }

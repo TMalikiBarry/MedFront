@@ -10,9 +10,10 @@
 
       <div class="make-spaceBetween">
         <nz-form-item>
-          <nz-form-control nzErrorTip="Veuillez choisir le patient!">
+          <nz-form-control nzErrorTip="Veuillez choisir le patient!" nzRequired>
             <p class="input-label">Patient</p>
-              <nz-select [nzDropdownRender]="addNewPatientTemplate" nzShowSearch nzPlaceHolder="Choissez un patient" formControlName="patient">
+            <nz-select [nzDropdownRender]="addNewPatientTemplate" formControlName="patient"
+                       nzAllowClear nzPlaceHolder="Choissez un patient" nzShowSearch>
                 <nz-option nzLabel="----"></nz-option>
                 <nz-option
                   *ngFor="let patient of listOfPatient"
@@ -37,7 +38,7 @@
               <nz-option nzLabel="----"></nz-option>
               <nz-option
                 *ngFor="let medecin of listOfMedecin"
-                [nzLabel]="medecin.personne.prenom + medecin.personne.nom" [nzValue]="medecin.id"></nz-option>
+                [nzLabel]="medecin.personne.prenom +' '+ medecin.personne.nom" [nzValue]="medecin.id"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -46,9 +47,10 @@
       <div class="make-spaceBetween">
 
         <nz-form-item>
-          <nz-form-control nzErrorTip="Veuillez choisir un service!">
+          <nz-form-control nzErrorTip="Veuillez choisir un service!" nzRequired>
             <p class="input-label">Service</p>
-            <nz-select formControlName="service" nzAllowClear nzPlaceHolder="Choissez un service" nzShowSearch>
+            <nz-select formControlName="service" nzAllowClear nzPlaceHolder="Choissez un service"
+                       nzShowSearch>
               <nz-option nzLabel="----"></nz-option>
               <nz-option-group *ngFor="let pole of listOfPole" [nzLabel]="pole.nom">
                 <nz-option
@@ -62,7 +64,7 @@
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
             <p class="input-label">Duree</p>
-            <nz-select formControlName="duree" nzPlaceHolder="Choissez la duree" nzShowSearch>
+            <nz-select formControlName="duree" nzAllowClear nzPlaceHolder="Choissez la duree" nzShowSearch>
               <nz-option nzLabel="15 minutes" nzValue="15"></nz-option>
               <nz-option nzLabel="30 minutes" nzValue="30"></nz-option>
               <nz-option nzLabel="45 minutes" nzValue="45"></nz-option>
@@ -74,7 +76,7 @@
 
       <div class="make-spaceBetween">
         <nz-form-item>
-          <nz-form-control>
+          <nz-form-control nzRequired>
             <p class="input-label">Date et Heure du RDV</p>
             <nz-date-picker [nzDisabledDate]="disabledDate" nzPlaceHolder="Choissez la date" nzShowTime
                             nzFormat="dd-MM-YYYY HH:mm:ss" formControlName="dateRv"></nz-date-picker>
@@ -101,7 +103,15 @@
 
   <div *nzModalFooter class="footer-btn">
     <button nz-button class="annuler" (click)="handleCancel()">Annuler</button>
-    <button nz-button (click)="handleOk()" [nzLoading]="isConfirmLoading">{{btnText}}</button>
+    <button (click)="handleOk()"
+            [disabled]="RvForm.invalid"
+            [ngClass]="{'buttonIsDisabled': RvForm.invalid, 'basic-button' : true, 'my-primary-button': RvForm.valid}"
+            [nzLoading]="isConfirmLoading"
+            [nzTooltipTitle]="RvForm.invalid ? 'Veuillez bien remplir le formulaire': 'Enregistrer'" nz-button
+            nz-tooltip>
+      {{ btnText }}
+    </button>
+    <!--    <button nz-button (click)="handleOk()" [nzLoading]="isConfirmLoading">{{btnText}}</button>-->
   </div>
 </div>
 
