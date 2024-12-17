@@ -32,11 +32,12 @@ export class UtilsService {
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
     const m = today.getMonth() - birthDate.getMonth();
+    const d = today.getDate() - birthDate.getDate();
 
     // Si le mois actuel est avant le mois de naissance,
     // ou si c'est le mois de naissance mais que le jour actuel est avant le jour de naissance,
     // soustraire 1 de l'âge
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    if (m < 0 || (m === 0 && d < 0)) {
       age--;
     }
 

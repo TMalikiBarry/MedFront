@@ -20,6 +20,8 @@ export class AccesComponent implements OnInit {
   pageIndex: number = 0;
   pageSize: number = 10;
 
+  firstTime = true;
+
   constructor(private api: AccesService,
               private modalService: NzModalService,
               public utils: UtilsService,
@@ -51,7 +53,8 @@ export class AccesComponent implements OnInit {
     this.pageIndex = params.pageIndex - 1;
     this.pageSize = params.pageSize;
 
-    this.getByPage(this.pageIndex, this.pageSize);
+    if (!this.firstTime) this.getByPage(this.pageIndex, this.pageSize);
+    this.firstTime = false;
   }
 
   /*addNew() {

@@ -53,6 +53,8 @@ export class TransactionsComponent implements OnInit {
   montantMin!: number;
   montantMax!: number;
 
+  firstTime = true;
+
   // prestationsList: PrestationInterface[] = [];
   listOfPole!: PoleInterface[];
   listPrestation!: PrestationInterface[];
@@ -238,7 +240,8 @@ export class TransactionsComponent implements OnInit {
       prenom = this.patientPers.prenom;
       nom = this.patientPers.nom;
     }*/
-    this.filterData()
+    if (!this.firstTime) this.filterData();
+    this.firstTime = false;
   }
 
   filterData() {
@@ -299,7 +302,7 @@ export class TransactionsComponent implements OnInit {
   }
 
   formatPrestation(p: PrestationInterface) {
-    return `${p.id} - ${this.getPatientInfos(p.dossierMedical?.patient?.personne!)} -- ${p.service?.nom}`;
+    return `${p.id} - ${this.getPatientInfos(p.dossierMedical?.patient?.personne!)} -- ${p.service?.nom} - ${p.service?.pole?.nom}`;
   }
 
   handleExtremumMontant(type: 'min' | 'max', event: any) {

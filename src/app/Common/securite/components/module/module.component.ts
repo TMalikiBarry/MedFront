@@ -22,6 +22,8 @@ export class ModuleComponent implements OnInit{
   selectedModuleCode: any;
   paginatedData!: Page<ModuleInterface>;
 
+  firstTime = true;
+
   constructor(private moduleService: ModuleService,
               private modalService: NzModalService,
               public utils: UtilsService,
@@ -63,7 +65,8 @@ export class ModuleComponent implements OnInit{
   filterData() {
     console.log('Données filtrées');
     console.log(this.selectedModuleCode)
-    this.getModuleByPage(this.pageIndex, this.pageSize, this.selectedModuleCode);
+    if (!this.firstTime) this.getModuleByPage(this.pageIndex, this.pageSize, this.selectedModuleCode);
+    this.firstTime = false;
   }
 
   loadModules() {

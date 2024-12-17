@@ -31,7 +31,7 @@
     <div class="make-spaceBetween">
       <nz-form-item>
         <nz-form-control nzErrorTip="Veuillez choisir un service!">
-          <p class="input-label">Service</p>
+          <p class="input-label">Service <sup>*</sup></p>
           <nz-select nzAllowClear nzShowSearch nzPlaceHolder="Choissez un service" formControlName="service">
             <nz-option nzLabel="----"></nz-option>
             <nz-option-group *ngFor="let pole of listOfPole" [nzLabel]="pole.nom">
@@ -45,7 +45,7 @@
       </nz-form-item>
       <nz-form-item>
         <nz-form-control nzErrorTip="Veuillez Choisir un patient">
-          <p class="input-label">Patient</p>
+          <p class="input-label">Patient <sup>*</sup></p>
           <nz-select nzAllowClear nzShowSearch [nzDropdownRender]="addNewPatientTemplate" nzPlaceHolder="Choissez un patient"
                      formControlName="dossier" nzRequired>
             <nz-option nzLabel="----"></nz-option>

@@ -39,6 +39,7 @@ export class PatientComponent implements OnInit {
   private patientsInscrits!: WeeklyDataStat;
   private patientsVenus!: WeeklyDataStat;
   patientPers!: PersonneInterface;
+  firstTime = true;
   /*ageRange = [0, 130];
   marks: NzMarks = {
     5: '5',
@@ -188,10 +189,14 @@ export class PatientComponent implements OnInit {
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
+    console.log("YOOOOOOOYAAAAAAA params ", params);
     this.pageIndex = params.pageIndex - 1;
     this.pageSize = params.pageSize;
 
-    this.filterData();
+    if (!this.firstTime)
+      this.filterData();
+
+    this.firstTime = false;
   }
 
 

@@ -29,6 +29,7 @@ export class ActionComponent implements OnInit {
   fonctionnalites?: FonctionnaliteInterface[];
   actions? : ActionInterface[];
 
+  firstTime = true;
 
   constructor(private api: ActionService,
               private modalService: NzModalService,
@@ -79,7 +80,8 @@ export class ActionComponent implements OnInit {
   onQueryParamsChange(params: NzTableQueryParams): void {
     this.pageIndex = params.pageIndex - 1;
     this.pageSize = params.pageSize;
-    this.getByPage(this.pageIndex, this.pageSize, this.selectedActionCode, this.selectedFonctionnaliteCode);
+    if (this.firstTime) this.getByPage(this.pageIndex, this.pageSize, this.selectedActionCode, this.selectedFonctionnaliteCode);
+    this.firstTime = false;
   }
 
   addNew() {

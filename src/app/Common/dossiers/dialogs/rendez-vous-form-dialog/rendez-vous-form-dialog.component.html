@@ -11,7 +11,7 @@
       <div class="make-spaceBetween">
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez choisir le patient!" nzRequired>
-            <p class="input-label">Patient</p>
+            <p class="input-label">Patient <sup>*</sup></p>
             <nz-select [nzDropdownRender]="addNewPatientTemplate" formControlName="patient"
                        nzAllowClear nzPlaceHolder="Choissez un patient" nzShowSearch>
                 <nz-option nzLabel="----"></nz-option>
@@ -33,7 +33,7 @@
                 </nz-form-item>-->
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez renseigner votre identifiant!">
-            <p class="input-label">Medecins</p>
+            <p class="input-label">Medecins <sup>*</sup></p>
             <nz-select nzShowSearch nzPlaceHolder="Choissez un medecin" formControlName="medecin">
               <nz-option nzLabel="----"></nz-option>
               <nz-option
@@ -48,7 +48,7 @@
 
         <nz-form-item>
           <nz-form-control nzErrorTip="Veuillez choisir un service!" nzRequired>
-            <p class="input-label">Service</p>
+            <p class="input-label">Service <sup>*</sup></p>
             <nz-select formControlName="service" nzAllowClear nzPlaceHolder="Choissez un service"
                        nzShowSearch>
               <nz-option nzLabel="----"></nz-option>
@@ -77,7 +77,7 @@
       <div class="make-spaceBetween">
         <nz-form-item>
           <nz-form-control nzRequired>
-            <p class="input-label">Date et Heure du RDV</p>
+            <p class="input-label">Date et Heure du RDV <sup>*</sup></p>
             <nz-date-picker [nzDisabledDate]="disabledDate" nzPlaceHolder="Choissez la date" nzShowTime
                             nzFormat="dd-MM-YYYY HH:mm:ss" formControlName="dateRv"></nz-date-picker>
           </nz-form-control>

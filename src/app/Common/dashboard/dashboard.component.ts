@@ -7,6 +7,7 @@ import {UtilsService} from "../../services/utils/utils.service";
 import {DashboardDataInterface} from "../../models/dashboard-data.interface";
 import {StorageService} from "../../services/Storage/storage.service";
 import {ProfilService} from "../../services/Profil/profil.service";
+import {RendezVousInterface} from "../../models/rendez-vous.interface";
 
 @Component({
   selector: 'app-dashboard',
@@ -16,7 +17,7 @@ import {ProfilService} from "../../services/Profil/profil.service";
 export class DashboardComponent implements OnInit {
 
   patientList!: PatientInterface [];
-  patientForRDV!: PatientInterface [];
+  rdvOfTheDay!: RendezVousInterface [];
 
   dashboardData!: DashboardDataInterface;
   currentUser?: AuthInterface;
@@ -169,7 +170,8 @@ export class DashboardComponent implements OnInit {
       next: rep => {
         this.dashboardData = rep;
         this.patientList = rep.nouveauxPatients.slice(0, 7);
-        this.patientForRDV = rep.rdvsDuJour.map(rdv => rdv.patient).slice(0, 7);
+        this.rdvOfTheDay = rep.rdvsDuJour.slice(0, 7);
+        // this.rdvOfTheDay = rep.rdvsDuJour.map(rdv => rdv.patient).slice(0, 7);
         this.numberStats[0] = rep.nombrePatients;
         this.numberStats[1] = rep.nombreDocteurs;
         this.numberStats[2] = rep.nombrePoles;

@@ -40,6 +40,7 @@ export class PrestationComponent implements OnInit{
   barGraph: any;
   doughnutGraph: any;
   isLastWeek: boolean = false;
+  firstTime = true;
 
   // prestationsList: PrestationInterface[] = [];
   listOfPole!: PoleInterface[];
@@ -58,7 +59,7 @@ export class PrestationComponent implements OnInit{
     this.getServicesAndPoles();
     this.initialiseCanvasGraphs();
     this.getGraphData();
-    this.countByStatus();
+    // this.countByStatus();
     this.loadPatients();
     this.getPrestationsByPage();
   }
@@ -110,7 +111,10 @@ export class PrestationComponent implements OnInit{
     const currentSort = sort.find(item => item.value !== null);
     const sortField = (currentSort && currentSort.key) || null;
     const sortOrder = (currentSort && currentSort.value) || null;*/
-    this.filterData();
+    if (!this.firstTime) this.filterData();
+
+    this.firstTime = false;
+
   }
 
   filterData(recount?: boolean) {

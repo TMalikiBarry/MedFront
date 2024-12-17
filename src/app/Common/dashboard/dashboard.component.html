@@ -46,7 +46,7 @@
       <div class="avatar-card"><img alt="default avatar" src="assets/from_figma/avatar_default.svg"></div>
       <p class="name-card">{{ patient.personne.prenom |titlecase }} {{ patient.personne.nom | uppercase }}</p>
       <div class="details-card">
-        {{ getGenre(patient) }}, {{ utils.getAge(patient.personne.datenaissance!) }} ans &nbsp;&nbsp;
+        {{ getGenre(patient) }}, {{ patient.personne.datenaissance! | formatAge }} &nbsp;&nbsp;
         <img alt="calendrier" src="assets/from_figma/calendar_xsmall.svg"> {{ patient.dateCreation! | timeAgo }},&nbsp;
         {{ patient.dateCreation! | date: "HH'h'mm" }}
       </div>
@@ -68,13 +68,17 @@
                      [nzMode]="'month'"></nz-calendar>
       </div>
       <div [ngStyle]="{ width: '53%', height: '20rem', overflowX: 'auto'}">
-        <div *ngFor="let patient of patientList" class="new-patient-card add-border">
+        <div *ngFor="let rdv of rdvOfTheDay" class="new-patient-card add-border">
           <div class="avatar-card"><img alt="default avatar" src="assets/from_figma/avatar_default.svg"></div>
-          <p class="name-card">{{ patient.personne.prenom |titlecase }} {{ patient.personne.nom | uppercase }}</p>
+          <p
+            class="name-card">{{ rdv.patient.personne.prenom |titlecase }} {{ rdv.patient.personne.nom | uppercase }}</p>
           <div class="details-card">
-            {{ getGenre(patient) }}, {{ utils.getAge(patient.personne.datenaissance!) }} ans &nbsp;&nbsp;
-            <img alt="calendrier" src="assets/from_figma/calendar_xsmall.svg"> {{ patient.dateCreation! | timeAgo }},&nbsp;
-            {{ patient.dateCreation! | date: "HH'h'mm" }}
+            <img alt="calendrier" src="assets/from_figma/calendar_xsmall.svg"> {{ rdv.dateRv! | date: "HH'h'mm" }},&nbsp;&nbsp;&nbsp;
+            <img alt="calendrier"
+                 src="assets/from_figma/medecin.svg">{{ rdv.personnel.titre?.libelle || '' }} {{ utils.getPrenom(rdv.personnel.personne) | titlecase }} {{ utils.getNom(rdv.personnel.personne) | uppercase }}
+            ,&nbsp;&nbsp;&nbsp;
+            <p><img alt="calendrier" src="assets/from_figma/whereTo.svg"> {{ rdv.service.nom }}<span
+              class="service-pole">{{ ' - (' + rdv.service.pole?.nom + ')' }}</span></p>
           </div>
         </div>
       </div>

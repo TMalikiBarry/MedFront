@@ -29,6 +29,8 @@ export class ProfilComponent implements OnInit{
 
   isSuperAdmin: boolean = false;
 
+  firstTime = true;
+
   constructor(private profilService: ProfilService,
               private modalService: NzModalService,
               private storage: StorageService,
@@ -70,7 +72,8 @@ export class ProfilComponent implements OnInit{
     this.pageIndex = params.pageIndex - 1;
     this.pageSize = params.pageSize;
 
-    this.filterData();
+    if (this.firstTime) this.filterData();
+    this.firstTime = false;
   }
 
   filterData() {

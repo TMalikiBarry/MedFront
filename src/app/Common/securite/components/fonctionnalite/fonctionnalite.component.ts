@@ -28,6 +28,8 @@ export class FonctionnaliteComponent implements OnInit{
   selectedModuleCode: any;
   modules!: ModuleInterface[];
 
+  firstTime = true;
+
   constructor(private fonctionnaliteService: FonctionnaliteService,
               private modalService: NzModalService,
               public utils: UtilsService,
@@ -62,7 +64,8 @@ export class FonctionnaliteComponent implements OnInit{
   onQueryParamsChange(params: NzTableQueryParams): void {
     this.pageIndex = params.pageIndex - 1;
     this.pageSize = params.pageSize;
-    this.filterData();
+    if (!this.firstTime) this.filterData();
+    this.firstTime = false;
   }
 
 

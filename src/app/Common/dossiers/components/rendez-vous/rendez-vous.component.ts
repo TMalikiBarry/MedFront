@@ -72,6 +72,8 @@ export class RendezVousComponent implements OnInit {
     }
   }
 
+  firstTi = true;
+
   constructor(private modalService: NzModalService,
               private api: RendezVousService,
               private notification: NotifService,
@@ -143,7 +145,8 @@ export class RendezVousComponent implements OnInit {
     const sortField = (currentSort && currentSort.key) || null;
     const sortOrder = (currentSort && currentSort.value) || null;*/
 
-    this.filtre();
+    if (!this.firstTi) this.filtre();
+    this.firstTi = false;
   }
 
   filtre() {
