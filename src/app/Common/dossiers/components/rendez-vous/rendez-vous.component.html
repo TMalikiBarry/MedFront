@@ -24,7 +24,7 @@
       </button>
     </div>-->
   <div class="statsLayout">
-    <div *ngFor="let stat of numberStats; let i = index" class="myCardStats">
+    <div *ngFor="let stat of numberStats; let i = index" class="myCardStats width22">
       <div class="logoStats"><img [src]="'assets/from_figma/rdv'+svgList[i]+'.svg'" alt="stats" width="35"></div>
 
       <div class="numberStats"><p [ngStyle]="{color: colorStats[i]}">{{ stat }}</p></div>

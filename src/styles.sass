@@ -85,6 +85,7 @@ body, html
 
 
 .legende
+  margin-inline: 1rem
   margin-bottom: 2rem
 
   nz-badge:not(:first-of-type)
@@ -289,7 +290,7 @@ body, html
   border: 0.8px solid #EAECF0
   background-color: white
   display: grid
-  grid-template-columns: repeat(4, 4rem)
+  grid-template-columns: repeat(4, 3.35rem)
   grid-template-rows: repeat(2, 2rem)
   grid-column-gap: 5px
 
@@ -306,6 +307,7 @@ body, html
     p
       font-family: 'Inter', sans-serif
       font-size: 1rem
+      word-break: break-word
       font-weight: 600
       color: #5D6273
 
@@ -423,8 +425,8 @@ body, html
   min-width: 10rem
 
 
-.some-min-width-5
-  min-width: 5rem
+.width22
+  max-width: max(22%, 12rem)
 
 .some-min-width-12
   min-width: 13.5rem
@@ -509,3 +511,7 @@ sup
 
 .ant-modal-content, .ant-modal-header
   border-radius: .8rem
+
+
+.ant-menu-submenu-title:hover
+  color: #84BE38 !important

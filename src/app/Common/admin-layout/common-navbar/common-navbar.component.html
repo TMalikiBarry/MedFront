@@ -327,7 +327,7 @@
           <div class="module-title" [ngClass]="{'selected-module': isRouteActive(module), 'module-tag': !isRouteActive(module) }">
             <img
               [src]="getIconPathModule(module)"
-               class="module_logo" width="16.5">
+              alt="m_logo" class="module_logo" width="16.5">
             <span>{{ module.description }}</span>
           </div>
         </ng-template>
@@ -335,7 +335,7 @@
         <ul>
           <li *ngFor="let fonctionnalite of module.fonctionnalites" nz-menu-item>
             <a [routerLink]="getRouterLink(fonctionnalite)" class="selectedLink">
-              <img [src]="getIconPath(fonctionnalite)">
+              <img [src]="getIconPath(fonctionnalite)" alt="f_logo">
               <span>{{ fonctionnalite.description }}</span>
             </a>
           </li>
