@@ -90,7 +90,7 @@ export class RendezVousFormDialogComponent implements OnInit {
   disabledDate = (current: Date): boolean => {
     const today = new Date();
     // Renvoie true si la date actuelle est antérieure à aujourd'hui
-    return current.getTime() <= today.getTime();
+    return current.getTime() < (today.getTime() - 24 * 3600 * 1000);
   };
 
   handleCancel() {

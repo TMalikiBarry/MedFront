@@ -63,7 +63,8 @@
       </span>
     </div>
     <div class="make-spaceBetween">
-      <div [ngStyle]="{ width: '45%', height: '90%', border: '1px solid #d9d9d9', borderRadius: '8px' }">
+      <div
+        [ngStyle]="{ maxWidth: 'max(45%, 17.5rem)', height: '90%', border: '1px solid #d9d9d9', borderRadius: '8px' }">
         <nz-calendar [nzDisabledDate]="disabledDate" [nzFullscreen]="false"
                      [nzMode]="'month'"></nz-calendar>
       </div>
